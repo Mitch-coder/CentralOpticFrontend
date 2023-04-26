@@ -21,13 +21,8 @@ export class DashboardComponent {
   constructor(private dataService:MyDataServices){}
 
   ngOnInit(): void{
-<<<<<<< HEAD
-      this.myData$ = this.dataService
-     .getData()
-=======
      this.myData$ = this.dataService
      .getData('cliente')
->>>>>>> 10aa17d296d941248c998c3f9b0f336d3fc2c91c
      .pipe(tap((data) =>(this.myData = data)))
 
      this.setTableColumns();
