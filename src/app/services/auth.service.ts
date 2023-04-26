@@ -8,7 +8,6 @@ export class AuthService {
 
   constructor() {}
 
-
   setLoggedIn(value: boolean): void {
     this.isLoggedIn = value;
   }
