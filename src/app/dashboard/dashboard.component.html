@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+ <mat-toolbar color="primary">
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
       <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home" ></mat-icon>
     </button>
@@ -16,18 +16,21 @@
     <mat-sidenav-content>
       <div class="example-content">
         <h1>Lista de clientes actuales</h1>
-        {{ myData| json }}
-        <ul>
+        <section>
+          <app-table [data]="myData$" [columns]="tableColumns"></app-table>
+        </section>
+        <!-- <ul>
           <li *ngFor="let item of myData$ | async">
             <h2>Cédula:{{ item.cedula }}</h2><br>
             <h4>Nombres: {{ item.nombres }}</h4><br>
             <h4>Apellidos:   {{ item.apellidos }}</h4><br>
             <h4>Dirección:   {{ item.direccion }}</h4><br>
           </li>
-        </ul>
-<!---Esto es temporal solo para mostrar los datos-->
-        <router-outlet></router-outlet>
+        </ul> -->
+<!--Esto es temporal solo para mostrar los datos-->
+         <router-outlet></router-outlet>
       </div>
     </mat-sidenav-content>
-  </mat-sidenav-container>
-  
+  </mat-sidenav-container>  
+
+

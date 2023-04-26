@@ -17,7 +17,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatListModule } from  '@angular/material/list';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { TableModule } from './modules/table/table.module';
+import {  MatTableModule } from "@angular/material/table";
 
 
 @NgModule({
@@ -38,7 +39,9 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     MatIconModule,
     MatToolbarModule,
     MatSidenavModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTableModule,
+    TableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
