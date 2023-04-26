@@ -16,7 +16,7 @@ export class DashboardComponent {
 
   ngOnInit(): void{
      this.myData$ = this.dataService
-     .getData()
+     .getData('cliente')
      .pipe(tap((data) =>(this.myData = data)))
   }
 
