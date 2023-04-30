@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, Input, OnInit } from '@angular/core';
+import { MyDataServices } from 'src/app/services/mydata.services';
+import { tap } from 'rxjs';
 import { TableColumn } from '../../models/table-column';
+
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -9,15 +10,13 @@ import { TableColumn } from '../../models/table-column';
 })
 export class TableComponent implements OnInit, AfterViewInit  {
 
-  dataSource: MatTableDataSource<Array<any>> = new MatTableDataSource();
-  tableDisplayColumns: string[] = [];
-  tableColumns: TableColumn[] = [];
+  dataSource:any = []
+  tableDisplayColumns:String[]=[];
+  tableColumns: TableColumn[] = []
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  @Input() set data(data: Array<any>) {
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.paginator = this.paginator;
+  @Input() set data(data:any){
+      this.dataSource = data;
   }
   
   @Input() set columns(columns:TableColumn[]){
