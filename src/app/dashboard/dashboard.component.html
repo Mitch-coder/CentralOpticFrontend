@@ -17,7 +17,7 @@
       <div class="example-content">
         <h1>Lista de clientes actuales</h1>
         <section>
-          <app-table [data]="myData$" [columns]="tableColumns"></app-table>
+          <app-table (selectItemsCell)="item=$event" [data]="myData$" [columns]="tableColumns"></app-table>
         </section>
         <!-- <ul>
           <li *ngFor="let item of myData$ | async">
@@ -33,4 +33,4 @@
     </mat-sidenav-content>
   </mat-sidenav-container>  
 
-
+{{item | json}}

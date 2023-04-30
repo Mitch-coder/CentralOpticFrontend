@@ -37,5 +37,6 @@ export class DashboardComponent {
     ]
   }
 
+  item:any;
 
 }
