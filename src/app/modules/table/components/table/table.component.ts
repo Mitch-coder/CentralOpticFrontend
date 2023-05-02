@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MyDataServices } from 'src/app/services/mydata.services';
 import { tap } from 'rxjs';
 import { TableColumn } from '../../models/table-column';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-table',
@@ -10,13 +12,19 @@ import { TableColumn } from '../../models/table-column';
 })
 export class TableComponent implements OnInit, AfterViewInit  {
 
-  dataSource:any = []
+  dataSource = new MatTableDataSource<any>
   tableDisplayColumns:String[]=[];
   tableColumns: TableColumn[] = []
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  //Comentario de Jurgen: Pongan la columna de Idcliente tambien
 
   @Input() set data(data:any){
-      this.dataSource = data;
+    data.pipe(
+      tap((data: any[]) => {
+        this.dataSource.data = data; 
+      })
+    ).subscribe();
   }
   
   @Input() set columns(columns:TableColumn[]){

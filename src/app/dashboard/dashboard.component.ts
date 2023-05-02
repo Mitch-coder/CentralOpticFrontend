@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MyDataServices } from '../services/mydata.services';
-import { HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs';
 import { TableColumn } from '../modules/table/models/table-column';
 
@@ -30,6 +29,7 @@ export class DashboardComponent {
 
   setTableColumns(){
     this.tableColumns=[
+      {label:'IdCliente', def:'IdCliente', dataKey:'codCliente'},
       {label:'Cedula', def:'Cedula', dataKey:'cedula'},
       {label:'Nombre', def:'Nombre', dataKey:'nombres'},
       {label:'Apellido', def:'Apellido', dataKey:'apellidos'},

@@ -19,13 +19,23 @@ import { MatListModule } from  '@angular/material/list';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TableModule } from './modules/table/table.module';
 import {  MatTableModule } from "@angular/material/table";
+import { EmpleadoComponent } from './pages/empleado/empleado.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { BodyComponent } from './body/body.component';
+import { ProductoComponent } from './pages/producto/producto.component';
+import { FacturaComponent } from './pages/factura/factura.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    EmpleadoComponent,
+    SidenavComponent,
+    BodyComponent,
+    ProductoComponent,
+    FacturaComponent
   ],
   imports: [
     BrowserModule,
