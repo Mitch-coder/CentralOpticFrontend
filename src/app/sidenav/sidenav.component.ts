@@ -29,6 +29,7 @@ export class SidenavComponent implements OnInit {
 
   closeSidenav():void{
     this.collapsed =false;
+    this.onToggleSideNav.emit({collapsed:this.collapsed , screenwhitdh: this.screenWidth})
   }
 
 }

@@ -17,7 +17,15 @@ export const navbarData=[
         routeLink:'factura',
         icon: 'fa-solid fa-file-invoice-dollar',
         label:'Factura'
+    },{
+        routeLink:'examen-vista',
+        icon: 'fa-regular fa-eye',
+        label:'Examen Vista'
+    },{
+        routeLink:'pago',
+        icon: 'fa-solid fa-money-bill-1-wave',
+        label:'Pago'
     }
 ];
 
-//
+// <i class="fa-solid fa-money-bill-1-wave"></i>

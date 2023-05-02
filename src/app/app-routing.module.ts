@@ -8,6 +8,8 @@ import { UserGuardGuard } from './guards/user-guard.guard';
 import { EmpleadoComponent } from './pages/empleado/empleado.component';
 import { ProductoComponent } from './pages/producto/producto.component';
 import { FacturaComponent } from './pages/factura/factura.component';
+import { ExamenVistaComponent } from './pages/examen-vista/examen-vista.component';
+import { PagoComponent } from './pages/pago/pago.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -25,9 +27,19 @@ const routes: Routes = [
     path:'producto',
     component: ProductoComponent,
     canActivate:[UserGuardGuard]
-  },{
+  },
+  {
     path:'factura',
     component: FacturaComponent,
+    canActivate:[UserGuardGuard]
+  },
+  {
+    path:'examen-vista',
+    component: ExamenVistaComponent,
+    canActivate:[UserGuardGuard]
+  },{
+    path:'pago',
+    component: PagoComponent,
     canActivate:[UserGuardGuard]
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },

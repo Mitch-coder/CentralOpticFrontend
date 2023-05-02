@@ -24,6 +24,8 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 import { BodyComponent } from './body/body.component';
 import { ProductoComponent } from './pages/producto/producto.component';
 import { FacturaComponent } from './pages/factura/factura.component';
+import { ExamenVistaComponent } from './pages/examen-vista/examen-vista.component';
+import { PagoComponent } from './pages/pago/pago.component';
 
 
 @NgModule({
@@ -35,7 +37,9 @@ import { FacturaComponent } from './pages/factura/factura.component';
     SidenavComponent,
     BodyComponent,
     ProductoComponent,
-    FacturaComponent
+    FacturaComponent,
+    ExamenVistaComponent,
+    PagoComponent
   ],
   imports: [
     BrowserModule,
