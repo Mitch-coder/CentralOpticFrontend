@@ -26,6 +26,7 @@ import { ProductoComponent } from './pages/producto/producto.component';
 import { FacturaComponent } from './pages/factura/factura.component';
 import { ExamenVistaComponent } from './pages/examen-vista/examen-vista.component';
 import { PagoComponent } from './pages/pago/pago.component';
+import { DetalleFacturaComponent } from './pages/detalle-factura/detalle-factura.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { PagoComponent } from './pages/pago/pago.component';
     ProductoComponent,
     FacturaComponent,
     ExamenVistaComponent,
-    PagoComponent
+    PagoComponent,
+    DetalleFacturaComponent
   ],
   imports: [
     BrowserModule,

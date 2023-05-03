@@ -22,3 +22,25 @@ export class BodyComponent {
     return styleClass;
   }
 }
+
+
+/*
+  Cliente --hecho
+  ExamenVista --hecho
+  Empleado --hecho
+  Factura --hecho
+  Pago --hecho
+
+  DetalleFactura
+  Producto
+  Registro bodega
+
+  Bodega -mitch
+  Proveedor -mitch
+  Proveedor_Producto
+  Laboratorio -mitch
+  OrdenPedido -mitch
+  Entrega -mitch
+  
+  OrdenPedido_Entrega
+*/
