@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 interface SideNavToggle{
   screenwhitdh:number;
@@ -16,6 +16,7 @@ export class AppComponent {
   isSidaNavCollapsed = false;
   screenWidth = 0;
 
+ 
   constructor(private router: Router ) {
     
     

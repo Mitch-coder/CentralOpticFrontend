@@ -30,7 +30,7 @@ import { DetalleFacturaComponent } from './pages/detalle-factura/detalle-factura
 import { RegistroBodegaComponent } from './pages/registro-bodega/registro-bodega.component';
 import { OrdenPedidoEntregaComponent } from './pages/orden-pedido-entrega/orden-pedido-entrega.component';
 import { ProveedorProductoComponent } from './pages/proveedor-producto/proveedor-producto.component';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -63,7 +63,8 @@ import { ProveedorProductoComponent } from './pages/proveedor-producto/proveedor
     MatSidenavModule,
     HttpClientModule,
     MatTableModule,
-    TableModule
+    TableModule,
+    ScrollingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
