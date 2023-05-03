@@ -27,6 +27,9 @@ import { FacturaComponent } from './pages/factura/factura.component';
 import { ExamenVistaComponent } from './pages/examen-vista/examen-vista.component';
 import { PagoComponent } from './pages/pago/pago.component';
 import { DetalleFacturaComponent } from './pages/detalle-factura/detalle-factura.component';
+import { RegistroBodegaComponent } from './pages/registro-bodega/registro-bodega.component';
+import { OrdenPedidoEntregaComponent } from './pages/orden-pedido-entrega/orden-pedido-entrega.component';
+import { ProveedorProductoComponent } from './pages/proveedor-producto/proveedor-producto.component';
 
 
 @NgModule({
@@ -41,7 +44,10 @@ import { DetalleFacturaComponent } from './pages/detalle-factura/detalle-factura
     FacturaComponent,
     ExamenVistaComponent,
     PagoComponent,
-    DetalleFacturaComponent
+    DetalleFacturaComponent,
+    RegistroBodegaComponent,
+    OrdenPedidoEntregaComponent,
+    ProveedorProductoComponent
   ],
   imports: [
     BrowserModule,

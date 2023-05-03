@@ -25,7 +25,23 @@ export const navbarData=[
         routeLink:'pago',
         icon: 'fa-solid fa-money-bill-1-wave',
         label:'Pago'
+    },{
+        routeLink:'detalle-factura',
+        icon: 'fa-solid fa-receipt',
+        label:'Detalle Factura'
+    },{
+        routeLink:'registro-bodega',
+        icon: 'fa-solid fa-warehouse',
+        label:'Registro Bodega'
+    },{
+        routeLink:'orden-pedido-entrega',
+        icon: 'fa-solid fa-file-signature',
+        label:'Orden Pedido Entrega'
+    },{
+        routeLink:'proveedor-producto',
+        icon: 'fa-solid fa-truck-ramp-box',
+        label:'Proveedor Producto'
     }
 ];
 
-// <i class="fa-solid fa-money-bill-1-wave"></i>
+// <i class="fa-solid fa-truck-ramp-couch"></i>

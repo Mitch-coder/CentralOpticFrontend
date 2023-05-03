@@ -10,6 +10,10 @@ import { ProductoComponent } from './pages/producto/producto.component';
 import { FacturaComponent } from './pages/factura/factura.component';
 import { ExamenVistaComponent } from './pages/examen-vista/examen-vista.component';
 import { PagoComponent } from './pages/pago/pago.component';
+import { DetalleFacturaComponent } from './pages/detalle-factura/detalle-factura.component';
+import { RegistroBodegaComponent } from './pages/registro-bodega/registro-bodega.component';
+import { OrdenPedidoEntregaComponent } from './pages/orden-pedido-entrega/orden-pedido-entrega.component';
+import { ProveedorProductoComponent } from './pages/proveedor-producto/proveedor-producto.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -40,6 +44,26 @@ const routes: Routes = [
   },{
     path:'pago',
     component: PagoComponent,
+    canActivate:[UserGuardGuard]
+  },
+  {
+    path:'detalle-factura',
+    component: DetalleFacturaComponent,
+    canActivate:[UserGuardGuard]
+  },
+  {
+    path:'registro-bodega',
+    component: RegistroBodegaComponent,
+    canActivate:[UserGuardGuard]
+  },
+  {
+    path:'orden-pedido-entrega',
+    component: OrdenPedidoEntregaComponent,
+    canActivate:[UserGuardGuard]
+  },
+  {
+    path:'proveedor-producto',
+    component: ProveedorProductoComponent,
     canActivate:[UserGuardGuard]
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },

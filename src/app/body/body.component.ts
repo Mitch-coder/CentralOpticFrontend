@@ -31,16 +31,16 @@ export class BodyComponent {
   Factura --hecho
   Pago --hecho
 
-  DetalleFactura
-  Producto
-  Registro bodega
+  DetalleFactura --hecho
+  Producto --hecho
+  Registro bodega --hecho
+  Proveedor_Producto
 
   Bodega -mitch
   Proveedor -mitch
-  Proveedor_Producto
   Laboratorio -mitch
   OrdenPedido -mitch
   Entrega -mitch
   
-  OrdenPedido_Entrega
+  OrdenPedido_Entrega --hecho
 */
