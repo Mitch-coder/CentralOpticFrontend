@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { MyDataServices } from '../services/mydata.services';
-import { tap } from 'rxjs';
-import { TableColumn } from '../modules/table/models/table-column';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,34 +7,17 @@ import { TableColumn } from '../modules/table/models/table-column';
   styleUrls: ['./dashboard.component.css']
 })
 
-
 export class DashboardComponent {
   
-  myData:any ;
-  myData$:any;
-
-  tableColumns: TableColumn[] =[]
+  Nombre:string = "";
 
   constructor(private dataService:MyDataServices){}
 
   ngOnInit(): void{
-     this.myData$ = this.dataService
-     .getData('cliente')
-     .pipe(tap((data) =>(this.myData = data)))
-
-     this.setTableColumns();
+    this.dataService
+     .getData('acceso').subscribe((data:any) =>{
+      this.Nombre = data.nombres + ' ' +  data.apellidos;
+      }
+     );
   }
-
-  setTableColumns(){
-    this.tableColumns=[
-      {label:'IdCliente', def:'IdCliente', dataKey:'codCliente'},
-      {label:'Cedula', def:'Cedula', dataKey:'cedula'},
-      {label:'Nombre', def:'Nombre', dataKey:'nombres'},
-      {label:'Apellido', def:'Apellido', dataKey:'apellidos'},
-      {label:'Direccion', def:'Direccion', dataKey:'direccion'}
-    ]
-  }
-
-  item:any;
-
 }

@@ -9,10 +9,10 @@
         <form (ngSubmit)="onSubmit()" name="loginForm" [formGroup]="loginForm">
             <div class="email-input">
                 <mat-form-field class="full-width" appearance="outline">
-                    <mat-label>Correo</mat-label>
+                    <mat-label>Usuario</mat-label>
                     <input formControlName="email" matInput required name="email" [(ngModel)]="email"/>
                     <mat-error *ngIf="!loginForm.controls['email'].valid">
-                        El correo es requerido
+                        El usuario es requerido
                       </mat-error>
                 </mat-form-field>
             </div>
