@@ -14,6 +14,7 @@ import { DetalleFacturaComponent } from './pages/detalle-factura/detalle-factura
 import { RegistroBodegaComponent } from './pages/registro-bodega/registro-bodega.component';
 import { OrdenPedidoEntregaComponent } from './pages/orden-pedido-entrega/orden-pedido-entrega.component';
 import { ProveedorProductoComponent } from './pages/proveedor-producto/proveedor-producto.component';
+import { ClienteComponent } from './pages/cliente/cliente.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -21,6 +22,11 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [UserGuardGuard] 
+  },
+  { 
+    path: 'cliente',
+    component: ClienteComponent, 
+    canActivate:[UserGuardGuard] 
   },
   { 
     path: 'empleado',

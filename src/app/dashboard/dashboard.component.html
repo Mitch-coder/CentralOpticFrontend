@@ -8,22 +8,44 @@
   
   
 
-  <mat-sidenav-container class="example-container">
-    <!-- <mat-sidenav #sidenav mode="side" opened class="sidenav-container">
-      <mat-nav-list>
-        <a mat-list-item >Clientes</a>
-        <a mat-list-item>Inventario</a>
-        <a mat-list-item>Bodega</a>
-      </mat-nav-list>
-    </mat-sidenav> -->
-    <mat-sidenav-content>
-      <div class="example-content">
-        <h1>Lista de clientes actuales</h1>
-        <section>
-          <app-table [data]="myData$" [columns]="tableColumns"></app-table>
-        </section>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>  
+  <div class="card">
+    <div class="card-body">
+        <form [formGroup]="formUser" (ngSubmit)="procesar()">
+            <div class="mb-2">
+                <label class="form-label">
+                    Nombre
+                </label>
+                <input type="text" formControlName="name" class="form-control" placeholder="Por ingrese su nombre">
+
+                <div class="alert alert-danger mt-1" [hidden]="name.valid|| name.pristine">
+                    El nombre es bligatorio
+                </div>
+
+            </div>
+            <div class="mb-2">
+                <label class="form-label">
+                    Email
+                </label>
+                <input type="email" formControlName="email" class="form-control" placeholder="Por ingrese su email">
+
+                <div class="alert alert-danger mt-1"
+                [hidden]="result('email').valid || result('email').pristine">
+                    <span *ngIf="email.errors?.['required']">
+                        El Emain es obligatorio
+                    </span>
+                    <span *ngIf="email.errors?.['email']">
+                        El Emain debe ser valido
+                    </span>
+                </div>
+
+            </div>
+
+            <button class="btn btn-primary" [disabled]="formUser.invalid">
+                Enviar
+            </button>
+
+        </form>
+    </div>
+</div>
 
 
