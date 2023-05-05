@@ -1,1 +1,37 @@
-<p>form works!</p>
+<div class="card">
+    <div class="card-body">
+        <!-- (ngSubmit)="procesar" -->
+        <form [formGroup]="form" >
+            
+            <div *ngFor="let fr of formVal">
+                <div class="mb-2" #input *ngIf="formItemsType(fr.type); else select">
+                    <label class="form-label">
+                        {{fr.label}}
+                    </label>
+                    <input [type]="fr.type" [formControlName]="fr.formControlName" class="form-control"
+                        [placeholder]="fr.placeholder">
+    
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGet(fr.formControlName).valid || formGet(fr.formControlName).pristine">
+                        {{fr.alert}}
+                    </div>
+                </div>
+                <ng-template #select>
+                    <div class="mb-2" >
+                        <mat-label class="form-label">
+                            {{fr.label}}
+                        </mat-label>
+                        <mat-select [formControlName]="fr.formControlName">
+                            <mat-option *ngFor="let option of fr.option" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </ng-template>
+            </div>
+            <button class="btn btn-primary" [disabled]="form.invalid">
+                Enviar
+            </button>
+        </form>
+    </div>
+</div>

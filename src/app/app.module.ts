@@ -32,6 +32,7 @@ import { OrdenPedidoEntregaComponent } from './pages/orden-pedido-entrega/orden-
 import { ProveedorProductoComponent } from './pages/proveedor-producto/proveedor-producto.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ClienteComponent } from './pages/cliente/cliente.component';
+import {FormModule} from './modules/form/form.module'
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { ClienteComponent } from './pages/cliente/cliente.component';
     HttpClientModule,
     MatTableModule,
     TableModule,
-    ScrollingModule
+    ScrollingModule,
+    FormModule
   ],
   providers: [],
   bootstrap: [AppComponent]
