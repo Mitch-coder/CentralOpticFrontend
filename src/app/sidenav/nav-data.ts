@@ -1,8 +1,13 @@
 import { Router } from '@angular/router';
 export const navbarData=[
     {
+        routeLink: 'dashboard',
+        icon: 'fa-solid fa-house',
+        label: 'Inicio'
+    },
+    {
         routeLink: 'cliente',
-        icon: 'fa-solid fa-users',
+        icon: 'fa-solid fa-house',
         label: 'Cliente'
     },
     {

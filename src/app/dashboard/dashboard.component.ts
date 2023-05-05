@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder,FormControl, FormGroup, Validators } from '@angular/forms';
+import { MyDataServices } from '../services/mydata.services';
+import { tap } from 'rxjs';
+import { TableColumn } from '../modules/table/models/table-column';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,41 +9,30 @@ import { FormBuilder,FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./dashboard.component.css']
 })
 
-
 export class DashboardComponent {
   
-  constructor(private fb: FormBuilder){
+  myData:any ;
+  myData$:any;
 
+  tableColumns: TableColumn[] =[]
+
+  constructor(private dataService:MyDataServices){}
+
+  ngOnInit(): void{
+     this.myData$ = this.dataService
+     .getData('cliente')
+     .pipe(tap((data) =>(this.myData = data)))
+
+     this.setTableColumns();
   }
 
-  f = {
-    'name':['',Validators.required],
-    'email':['',[Validators.required,Validators.email]]
+  setTableColumns(){
+    this.tableColumns=[
+      {label:'IdCliente', def:'IdCliente', dataKey:'codCliente'},
+      {label:'Cedula', def:'Cedula', dataKey:'cedula'},
+      {label:'Nombre', def:'Nombre', dataKey:'nombres'},
+      {label:'Apellido', def:'Apellido', dataKey:'apellidos'},
+      {label:'Direccion', def:'Direccion', dataKey:'direccion'}
+    ]
   }
-
-  formUser = this.fb.group(this.f);
-  
-  result(d:string ){
-    return this.formUser.get(d) as FormControl;
-  }
-
-  get name(){
-    return this.formUser.get('name') as FormControl;
-  }
-
-  get email(){
-    return this.formUser.get('email') as FormControl;
-  }
-
-  // formUser = new FormGroup({
-  //   'name': new FormControl('',Validators.required),
-  //   'email': new FormControl('',[Validators.required,Validators.email])
-  // });
-  
-  procesar(){
-    console.log(this.formUser.value)
-  }
-
-  item:any;
-
 }
