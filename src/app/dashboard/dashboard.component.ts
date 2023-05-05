@@ -11,28 +11,15 @@ import { TableColumn } from '../modules/table/models/table-column';
 
 export class DashboardComponent {
   
-  myData:any ;
-  myData$:any;
-
-  tableColumns: TableColumn[] =[]
+  Nombre:string = "";
 
   constructor(private dataService:MyDataServices){}
 
   ngOnInit(): void{
-     this.myData$ = this.dataService
-     .getData('cliente')
-     .pipe(tap((data) =>(this.myData = data)))
-
-     this.setTableColumns();
-  }
-
-  setTableColumns(){
-    this.tableColumns=[
-      {label:'IdCliente', def:'IdCliente', dataKey:'codCliente'},
-      {label:'Cedula', def:'Cedula', dataKey:'cedula'},
-      {label:'Nombre', def:'Nombre', dataKey:'nombres'},
-      {label:'Apellido', def:'Apellido', dataKey:'apellidos'},
-      {label:'Direccion', def:'Direccion', dataKey:'direccion'}
-    ]
+    this.dataService
+     .getData('acceso').subscribe((data:any) =>{
+      this.Nombre = data.nombres + ' ' +  data.apellidos;
+      }
+     );
   }
 }

@@ -7,7 +7,7 @@ export const navbarData=[
     },
     {
         routeLink: 'cliente',
-        icon: 'fa-solid fa-house',
+        icon: 'fa-regular fa-circle-user',
         label: 'Cliente'
     },
     {
@@ -49,4 +49,4 @@ export const navbarData=[
     }
 ];
 
-// <i class="fa-solid fa-truck-ramp-couch"></i>
+// <i class="fa-regular fa-circle-user"></i>
