@@ -32,7 +32,8 @@ import { OrdenPedidoEntregaComponent } from './pages/orden-pedido-entrega/orden-
 import { ProveedorProductoComponent } from './pages/proveedor-producto/proveedor-producto.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ClienteComponent } from './pages/cliente/cliente.component';
-import {FormModule} from './modules/form/form.module'
+import {FormModule} from './modules/form/form.module';
+import { SublevelMenuComponent } from './sidenav/sublevel-menu.component'
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import {FormModule} from './modules/form/form.module'
     RegistroBodegaComponent,
     OrdenPedidoEntregaComponent,
     ProveedorProductoComponent,
-    ClienteComponent
+    ClienteComponent,
+    SublevelMenuComponent
   ],
   imports: [
     BrowserModule,

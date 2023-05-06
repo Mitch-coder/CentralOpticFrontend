@@ -1,5 +1,7 @@
 import { Router } from '@angular/router';
-export const navbarData=[
+import { INavbarData } from './helper';
+
+export const navbarData:INavbarData[]=[
     {
         routeLink: 'dashboard',
         icon: 'fa-solid fa-house',
@@ -8,7 +10,14 @@ export const navbarData=[
     {
         routeLink: 'cliente',
         icon: 'fa-regular fa-circle-user',
-        label: 'Cliente'
+        label: 'Cliente',
+        items:[
+            {
+                routeLink: 'cliente/contacto',
+                // icon: 'fa-regular fa-circle-user',
+                label: 'Contacto Cliente'
+            }
+        ]
     },
     {
         routeLink: 'empleado',

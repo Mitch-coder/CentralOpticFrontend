@@ -1,8 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-interface SideNavToggle{
-  screenwhitdh:number;
-  collapsed:boolean;
+interface SideNavToggle {
+  screenWidth: number;
+  collapsed: boolean;
 }
 
 @Component({
@@ -32,7 +32,7 @@ export class AppComponent {
   
   onToggleSideNav(data:SideNavToggle):void{
     this.isSidaNavCollapsed = data.collapsed
-    this.screenWidth = data.screenwhitdh
+    this.screenWidth = data.screenWidth
   }
 
   
