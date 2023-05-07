@@ -25,7 +25,8 @@ const routes: Routes = [
   },
   { 
     path: 'cliente',
-    component: ClienteComponent, 
+    loadChildren:() => import('./pages/cliente/cliente.module').then(m => m.ClienteModule),
+    // component: ClienteComponent, 
     canActivate:[UserGuardGuard] 
   },
   { 

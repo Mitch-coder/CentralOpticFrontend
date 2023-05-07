@@ -20,7 +20,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
             *ngIf="item.items && item.items.length > 0"
             [ngClass]="getActiveClass(item)"
           >
-            <i class="sublevel-link-icon fa fa-circle"></i>
+            <i class="sublevel-link-icon fa fa-circle" [ngClass]="item.icon ? 'item.icon' : ''"]></i>
             <span class="sublevel-link-text" @fadeInOut 
                 *ngIf="collapsed">{{item.label}}</span>
             <i *ngIf="item.items && collapsed" class="menu-collapse-icon"
@@ -33,7 +33,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
             routerLinkActive="active-sublevel"
             [routerLinkActiveOptions]="{exact: true}"
           >
-            <i class="sublevel-link-icon fa fa-circle"></i>
+            <i [ngClass]="item.icon ? item.icon : 'sublevel-link-icon fa fa-circle'"></i>
             <span class="sublevel-link-text" @fadeInOut 
                *ngIf="collapsed">{{item.label}}</span>
           </a>

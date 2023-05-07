@@ -31,7 +31,6 @@ import { RegistroBodegaComponent } from './pages/registro-bodega/registro-bodega
 import { OrdenPedidoEntregaComponent } from './pages/orden-pedido-entrega/orden-pedido-entrega.component';
 import { ProveedorProductoComponent } from './pages/proveedor-producto/proveedor-producto.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { ClienteComponent } from './pages/cliente/cliente.component';
 import {FormModule} from './modules/form/form.module';
 import { SublevelMenuComponent } from './sidenav/sublevel-menu.component'
 
@@ -52,7 +51,6 @@ import { SublevelMenuComponent } from './sidenav/sublevel-menu.component'
     RegistroBodegaComponent,
     OrdenPedidoEntregaComponent,
     ProveedorProductoComponent,
-    ClienteComponent,
     SublevelMenuComponent
   ],
   imports: [

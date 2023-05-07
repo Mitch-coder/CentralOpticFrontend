@@ -13,8 +13,13 @@ export const navbarData:INavbarData[]=[
         label: 'Cliente',
         items:[
             {
-                routeLink: 'cliente/contacto',
-                // icon: 'fa-regular fa-circle-user',
+                routeLink: 'cliente/info',
+                icon: 'fa-regular fa-address-card', 
+                label: 'Informacion Cliente'
+            },
+            {
+                routeLink: 'cliente/contacto-cliente',
+                icon: 'fa-solid fa-mobile-screen-button',
                 label: 'Contacto Cliente'
             }
         ]
