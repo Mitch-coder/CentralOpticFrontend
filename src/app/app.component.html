@@ -1,8 +1,9 @@
+<app-sidenav *ngIf="onNavDesative()" (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
+    
+<app-header 
+[collapsed]="isSidaNavCollapsed"
+[screenWidth]="screenWidth"></app-header>
 
-<div *ngIf="onNavDesative() == true" >
-    <app-sidenav 
-    (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
-</div>
 <app-body 
     [collapsed]="isSidaNavCollapsed"
     [screenWidth]="screenWidth"
