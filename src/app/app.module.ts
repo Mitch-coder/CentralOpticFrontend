@@ -34,7 +34,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import {FormModule} from './modules/form/form.module';
 import { SublevelMenuComponent } from './sidenav/sublevel-menu.component';
 import { HeaderComponent } from './header/header.component'
-
+import { OverlayModule } from '@angular/cdk/overlay';
+import {CdkMenuModule} from '@angular/cdk/menu'
 
 @NgModule({
   declarations: [
@@ -71,7 +72,9 @@ import { HeaderComponent } from './header/header.component'
     MatTableModule,
     TableModule,
     ScrollingModule,
-    FormModule
+    FormModule,
+    OverlayModule,
+    CdkMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

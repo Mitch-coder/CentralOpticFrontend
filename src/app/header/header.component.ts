@@ -1,4 +1,6 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import {HeaderData} from './header-data'
+
 
 @Component({
   selector: 'app-header',
@@ -8,17 +10,40 @@ import { Component, HostListener, Input, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit{
   
   canShowSearchAsOverlay = false
+  btnClick = 'left';
 
   @Input() collapsed = false;
   @Input() screenWidth = 0;
+
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     this.checkCanShowSearchAsOverlay(window.innerWidth);
   }
+
+  constructor(){}
   
   ngOnInit(){
     this.checkCanShowSearchAsOverlay(window.innerWidth);
+  }
+
+  getEventBtnClick(){
+    if(this.btnClick == 'left'){
+      HeaderData.eventBtnClick = true;
+    }else{
+      HeaderData.eventBtnClick = false;
+    }
+  }
+
+  getBtnClick(name:string):string{
+    this.getEventBtnClick()
+    if(name==this.btnClick)
+      return 'active'
+    return 'no-active'
+  }
+
+  setBtnClick(name:string):void{
+    this.btnClick= name;
   }
 
 

@@ -2,31 +2,32 @@
     <div class="head-content">
         <div class="head-content-left">
             <div class="search-container">
-                <div class="normal-search">
+                <div  *ngIf="!canShowSearchAsOverlay" class="normal-search">
                     <input type="search"
                     class="search" name="" id=""
                     placeholder="Search...">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                </div>
+                <div *ngIf="canShowSearchAsOverlay">
+                    <button 
+                    [cdkMenuTriggerFor]="searchOverlay"
+                    class="search-menu-btn ripple">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    </button>
                 </div>
             </div>
         </div>
         <div class="head-content-right">
             <div class="head-menu">
                 <div class="head-menu-item btn-group">
-                    <!-- <button class="head-menu-item-btn ripple">
-                        A
-                    </button>
-                    <button class="head-menu-item-btn ripple">
-                        B
-                    </button>
-                    <button class="head-menu-item-btn ripple">
-                        C
-                    </button> -->
-                    <!-- <div class="btn-group head-menu-item-btn" role="group" aria-label="Basic example"> -->
-                        <button type="button" class="btn btn-secondary head-menu-item-btn">Informacion</button>
-                        <button type="button" class="btn btn-secondary head-menu-item-btn">Agregar</button>
-                    <!-- </div> -->
-                      
+                        <button type="button" 
+                            [ngClass]="getBtnClick('left')"
+                            class="head-btn head-btn-left btn-secondary head-menu-item-btn"
+                            (click)="setBtnClick('left')">Tablas</button>
+                        <button type="button" 
+                            [ngClass]="getBtnClick('rigth')"
+                            class="head-btn head-btn-rigth btn-secondary head-menu-item-btn"
+                            (click)="setBtnClick('rigth')">Form</button>
                 </div>
 
                 <div class="head-user-avatar-container">
@@ -40,3 +41,12 @@
         </div>
     </div>
 </div>
+
+<ng-template #searchOverlay>
+    <div class="overlay overlay-search overlay-fall" cdkMenu>
+        <input type="search" class="search" placeholder="Search...">
+        <button class="search-btn">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        </button>
+    </div>
+</ng-template>

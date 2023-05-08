@@ -8,20 +8,23 @@
                     <label class="form-label">
                         {{fr.label}}
                     </label>
-                    <input [type]="fr.type" [formControlName]="fr.formControlName" class="form-control"
+                    <input [type]="fr.type" [formControlName]="fr.formControlName" class="form-control form-input"
                         [placeholder]="fr.placeholder">
-    
+                    <i class=" fa-solid fa-feather form-input-icon"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGet(fr.formControlName).valid || formGet(fr.formControlName).pristine">
                         {{fr.alert}}
                     </div>
+                    
+    
+                    
                 </div>
                 <ng-template #select>
                     <div class="mb-2" >
                         <mat-label class="form-label">
                             {{fr.label}}
                         </mat-label>
-                        <mat-select [formControlName]="fr.formControlName">
+                        <mat-select [formControlName]="fr.formControlName" class="form-control form-control-lg">
                             <mat-option *ngFor="let option of fr.option" [value]="option">
                                 {{option}}
                             </mat-option>

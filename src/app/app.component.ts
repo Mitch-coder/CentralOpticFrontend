@@ -10,8 +10,9 @@ interface SideNavToggle {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'centralOptic';
+
 
   isSidaNavCollapsed = false;
   screenWidth = 0;
@@ -20,7 +21,10 @@ export class AppComponent {
   constructor(private router: Router ) {
     
     
-   }
+  }
+  ngOnInit(): void {
+    
+  }
 
   onNavDesative():boolean{
     let desative:boolean = true

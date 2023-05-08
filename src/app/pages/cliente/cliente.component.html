@@ -2,10 +2,10 @@
     <mat-sidenav-content>
       <div class="example-content">
         <h1>Lista de clientes actuales</h1>
-        <section>
+        <section *ngIf="getEventBtnClickHeader()">
           <app-table [data]="myData$" [columns]="tableColumns"></app-table>
         </section>
-        <section>
+        <section *ngIf="!getEventBtnClickHeader()">
           <app-form [FormD]="form"></app-form>
         </section>
       </div>
