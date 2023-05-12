@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TableComponent } from './components/table/table.component';
 import {  MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule} from '@angular/material/paginator'
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 
@@ -15,7 +16,8 @@ import { MatPaginatorModule} from '@angular/material/paginator'
   imports: [
     CommonModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatCheckboxModule
   ],
   exports:[TableComponent]
 })

@@ -36,13 +36,13 @@ import { SublevelMenuComponent } from './sidenav/sublevel-menu.component';
 import { HeaderComponent } from './header/header.component'
 import { OverlayModule } from '@angular/cdk/overlay';
 import {CdkMenuModule} from '@angular/cdk/menu'
-
+import {FormsModule} from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    EmpleadoComponent,
     SidenavComponent,
     BodyComponent,
     ProductoComponent,
@@ -74,7 +74,9 @@ import {CdkMenuModule} from '@angular/cdk/menu'
     ScrollingModule,
     FormModule,
     OverlayModule,
-    CdkMenuModule
+    CdkMenuModule,
+    FormsModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

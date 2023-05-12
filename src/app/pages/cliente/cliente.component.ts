@@ -1,21 +1,29 @@
 import { Component, Input } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { tap } from 'rxjs';
-import { HeaderData } from 'src/app/header/header-data';
+import { HeaderData, HeaderSearch } from 'src/app/header/header-data';
 import { FormData } from 'src/app/modules/form/components/form/form-data';
 import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
 
+
+interface Cliente{
+  codCliente:number;
+  cedula:string;
+  nombres:string;
+  apellidos:string;
+  direccion:string;
+}
+
 @Component({
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',
-  styleUrls: ['./cliente.component.css']
+  styleUrls: ['./cliente.component.css'],
+  providers: [HeaderSearch]
 })
 export class ClienteComponent {
   myData:any ;
   myData$:any;
-
-  // @Input()  eventBtnClick = false;
 
   tableColumns: TableColumn[] =[]
 
@@ -56,8 +64,8 @@ export class ClienteComponent {
   ngOnInit(): void{
      this.myData$ = this.dataService
      .getData('cliente')
-     .pipe(tap((data) =>(this.myData = data)))
-
+     .pipe(tap((data:Cliente[]) =>(this.myData = data)))
+     
      this.setTableColumns();
   }
 
@@ -74,4 +82,25 @@ export class ClienteComponent {
   getEventBtnClickHeader(){
     return HeaderData.eventBtnClick;
   }
+
+  // getHeaderText(){
+  //   console.log(HeaderData.headerText)
+  //   return true
+  // }
+
+  // setDataTable(data:any){
+  //   if(HeaderData.headerText !== ''){
+  //     return data.filter((e: { nombre: any; }) => e.nombre == HeaderData.headerText)
+  //   }
+  //   return data;
+  // }
+
+  // applyFilter() {
+  //   if(HeaderData.headerText){
+  //     const filterValue = (HeaderData.headerText.target as HTMLInputElement).value;
+  //     this.myData$.filter = filterValue.trim().toLowerCase();
+  //     return this.myData$
+  //   }
+  //   return this.myData$
+  // }
 }

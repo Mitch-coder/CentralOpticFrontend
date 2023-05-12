@@ -3,7 +3,8 @@
       <div class="example-content">
         <h1>Lista de clientes actuales</h1>
         <section *ngIf="getEventBtnClickHeader()">
-          <app-table [data]="myData$" [columns]="tableColumns"></app-table>
+          <app-table [data]="myData$" [columns]="tableColumns" ></app-table>
+          <!-- {{getHeaderText()}} -->
         </section>
         <section *ngIf="!getEventBtnClickHeader()">
           <app-form [FormD]="form"></app-form>

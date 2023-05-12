@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { ClienteRoutingModule } from './cliente-routing.module';
 import { ClienteComponent } from './cliente.component';
-import { Routes } from '@angular/router';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { TableModule } from '../../modules/table/table.module';
 import { FormModule } from '../../modules/form/form.module';

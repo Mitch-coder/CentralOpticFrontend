@@ -31,7 +31,7 @@ const routes: Routes = [
   },
   { 
     path: 'empleado',
-    component: EmpleadoComponent, 
+    loadChildren:() => import('./pages/empleado/empleado.module').then(m => m.EmpleadoModule),
     canActivate:[UserGuardGuard] 
   },
   {

@@ -1,1 +1,16 @@
-<p>contacto-cliente works!</p>
+<mat-sidenav-container class="example-container">
+    <mat-sidenav-content>
+      <div class="example-content">
+        <h1>Lista de contactos de clientes</h1>
+        <section *ngIf="getEventBtnClickHeader()">
+          <app-table [data]="myData$" [columns]="tableColumns"></app-table>
+        </section>
+        <section *ngIf="!getEventBtnClickHeader()">
+          <app-form [FormD]="formTelefonoCliente"></app-form>
+        </section>
+        <section *ngIf="!getEventBtnClickHeader()">
+          <app-form [FormD]="formCorreoCliente"></app-form>
+        </section>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>  

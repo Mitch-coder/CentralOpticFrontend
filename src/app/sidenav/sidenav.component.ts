@@ -80,4 +80,10 @@ export class SidenavComponent implements OnInit {
     }
   }
 
+  navSublevelMenu(collapse:boolean):string{
+    if(!collapse)
+      return 'sidenav-sublevel-collapsep';
+    return '';
+  }
+
 }

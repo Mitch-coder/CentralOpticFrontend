@@ -27,7 +27,19 @@ export const navbarData:INavbarData[]=[
     {
         routeLink: 'empleado',
         icon: 'fa-solid fa-user-tie',
-        label: 'Empleado'
+        label: 'Empleado',
+        items:[
+            {
+                routeLink: 'empleado/info',
+                icon: 'fa-regular fa-address-card', 
+                label: 'Informacion Empleado'
+            },
+            {
+                routeLink: 'empleado/contacto-empleado',
+                icon: 'fa-solid fa-mobile-screen-button',
+                label: 'Contacto Empleado'
+            }
+        ]
     },{
         routeLink: 'producto',
         icon: 'fa-solid fa-tags',

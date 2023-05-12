@@ -17,7 +17,7 @@ export interface FormData{
     type: string;
     placeholder: string;
     alert:string;
-    icon: string;
+    icon?: string;
     formControlName: string;
     formValidators: {};
     class?:string;

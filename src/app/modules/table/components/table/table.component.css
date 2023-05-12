@@ -1,0 +1,6 @@
+.mat-mdc-row:hover .mat-mdc-cell {
+    border-color: currentColor;
+    background: #c297fa;
+    cursor: pointer;
+  }
+  

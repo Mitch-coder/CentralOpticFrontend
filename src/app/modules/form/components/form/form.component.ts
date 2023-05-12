@@ -36,6 +36,8 @@ export class FormComponent {
 
   @Output() formData:EventEmitter<any>;
 
-
+  getFormData(){
+    console.log(this.form.value);
+  }
 
 }

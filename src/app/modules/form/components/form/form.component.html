@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
         <!-- (ngSubmit)="procesar" -->
-        <form [formGroup]="form" >
+        <form [formGroup]="form" (ngSubmit)="getFormData()">
             
             <div *ngFor="let fr of formVal">
                 <div class="mb-2" #input *ngIf="formItemsType(fr.type); else select">

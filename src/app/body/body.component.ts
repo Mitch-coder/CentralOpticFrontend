@@ -17,7 +17,7 @@ export class BodyComponent {
   
   getBodyClass(): string{
     let styleClass = '';
-    if(this.screenWidth == 0 && this.router.url=='/login'){
+    if(this.screenWidth == 0 && (this.router.url=='/login' || this.router.url=='/dashboard')){
       styleClass='body-full'
     }
     else if(this.collapsed && this.screenWidth > 834){
@@ -52,3 +52,6 @@ export class BodyComponent {
   
   OrdenPedido_Entrega --hecho
 */
+
+
+

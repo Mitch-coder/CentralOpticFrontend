@@ -192,7 +192,7 @@
 
 .overlay{
     background: #fff;
-    margin-top: 10px;
+    left: 100%;
     box-shadow: 0 1rem 3rem rgb(0, 0, 0/18%);
     border-radius: 0.25rem;
 }
