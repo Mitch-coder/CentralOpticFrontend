@@ -38,6 +38,12 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import {CdkMenuModule} from '@angular/cdk/menu'
 import {FormsModule} from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { BodegaComponent } from './pages/bodega/bodega.component';
+import { ProveedorComponent } from './pages/proveedor/proveedor.component';
+import { LaboratorioComponent } from './pages/laboratorio/laboratorio.component';
+import { EntregaComponent } from './pages/entrega/entrega.component';
+import { OrdenPedidoComponent } from './pages/orden-pedido/orden-pedido.component'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +60,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     OrdenPedidoEntregaComponent,
     ProveedorProductoComponent,
     SublevelMenuComponent,
-    HeaderComponent
+    HeaderComponent,
+    BodegaComponent,
+    ProveedorComponent,
+    LaboratorioComponent,
+    EntregaComponent,
+    OrdenPedidoComponent
   ],
   imports: [
     BrowserModule,

@@ -72,6 +72,31 @@ export const navbarData:INavbarData[]=[
         routeLink:'proveedor-producto',
         icon: 'fa-solid fa-truck-ramp-box',
         label:'Proveedor Producto'
+    },
+    {
+        routeLink:'bodega',
+        icon: 'fa-solid fa-store',
+        label:'Bodega'
+    },
+    {
+        routeLink:'proveedor',
+        icon: 'fa-solid fa-address-card',
+        label:'Proveedor'
+    },
+    {
+        routeLink:'laboratorio',
+        icon: 'fa-solid fa-flask-vial',
+        label:'Laboratorio'
+    } ,
+    {
+        routeLink:'entrega',
+        icon: 'fa-solid fa-person-carry-box',
+        label:'Entrega'
+    },
+    {
+        routeLink:'orden-pedido',
+        icon: 'fa-regular fa-send-backward',
+        label:'Orden Pedido'
     }
 ];
 
