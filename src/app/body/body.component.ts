@@ -42,13 +42,21 @@ export class BodyComponent {
   DetalleFactura --hecho
   Producto --hecho
   Registro bodega --hecho
-  Proveedor_Producto
+  Proveedor_Producto --hecho
 
-  Bodega -mitch
-  Proveedor -mitch
-  Laboratorio -mitch
-  OrdenPedido -mitch
-  Entrega -mitch
+ 
   
   OrdenPedido_Entrega --hecho
+*/
+
+/*
+ Bodega -mitch    
+ //Bodega Model
+ 
+  Proveedor -mitch
+
+  Laboratorio -mitch
+  OrdenPedido -mitch //Orden pedido no seria lo mismo que orden pedido entrega
+
+  Entrega -mitch
 */

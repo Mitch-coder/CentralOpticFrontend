@@ -35,7 +35,12 @@ import {FormModule} from './modules/form/form.module';
 import { SublevelMenuComponent } from './sidenav/sublevel-menu.component';
 import { HeaderComponent } from './header/header.component'
 import { OverlayModule } from '@angular/cdk/overlay';
-import {CdkMenuModule} from '@angular/cdk/menu'
+import {CdkMenuModule} from '@angular/cdk/menu';
+import { BodegaComponent } from './pages/bodega/bodega.component';
+import { ProveedorComponent } from './pages/proveedor/proveedor.component';
+import { LaboratorioComponent } from './pages/laboratorio/laboratorio.component';
+import { EntregaComponent } from './pages/entrega/entrega.component';
+import { OrdenPedidoComponent } from './pages/orden-pedido/orden-pedido.component'
 
 @NgModule({
   declarations: [
@@ -54,7 +59,12 @@ import {CdkMenuModule} from '@angular/cdk/menu'
     OrdenPedidoEntregaComponent,
     ProveedorProductoComponent,
     SublevelMenuComponent,
-    HeaderComponent
+    HeaderComponent,
+    BodegaComponent,
+    ProveedorComponent,
+    LaboratorioComponent,
+    EntregaComponent,
+    OrdenPedidoComponent
   ],
   imports: [
     BrowserModule,

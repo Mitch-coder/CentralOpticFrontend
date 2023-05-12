@@ -61,6 +61,7 @@ export class FacturaComponent {
   constructor(private dataService:MyDataServices){}
 
   ngOnInit(): void{
+    //Buscar lo del forkjoin
 
     this.myData$ = forkJoin(
       this.dataService.getData('factura'),
@@ -79,8 +80,15 @@ export class FacturaComponent {
         let detalleFactura:DetalleFactura[] = data[5];
 
         factura.forEach(element => {
-          let subTotal = (detalleFactura[element.numFactura -1].cantidad 
-            * detalleFactura[element.numFactura - 1].precioUni)
+          let val= detalleFactura.filter(e => e.numFactura == element.numFactura)
+          
+          // [0,1,2,3,4]
+          // [1,2,3,4,5]
+
+          let subTotal = val[0].cantidad * val[0].precioUni
+
+          // let subTotal = (detalleFactura[element.numFactura -1].cantidad 
+          //   * detalleFactura[element.numFactura - 1].precioUni)
 
           this.myData.push(
             {
