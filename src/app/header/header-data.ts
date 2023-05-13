@@ -14,6 +14,24 @@ export class HeaderSearch {
  
 //   isOpen:any = true; 
  
+// static miVariable: string = "Valor inicial";
+static observadores: ((valor: Event) => void)[] = [];
+
+static notificar() {
+  console.log(HeaderData.headerText)
+  HeaderSearch.observadores.forEach((observador) =>
+    observador(HeaderData.headerText)
+  );
+}
+
+static setMiVariable(nuevoValor: Event) {
+  HeaderData.headerText = nuevoValor;
+  HeaderSearch.notificar();
+}
+
+
+
+
   @Output() change: EventEmitter<any> = new EventEmitter();
  
   

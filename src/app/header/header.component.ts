@@ -93,8 +93,11 @@ export class HeaderComponent implements OnInit{
   getHeaderText(text:Event){
     // console.log(text)
     // this.headerSearch.setHeaderText(text)
-    this.headerSearch.toggle(text)
+    // this.headerSearch.toggle(text)
     // HeaderData.headerText =text
+
+    HeaderSearch.setMiVariable(text)
+
   }
 
 

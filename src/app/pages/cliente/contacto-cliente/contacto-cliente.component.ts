@@ -30,6 +30,7 @@ interface Data{
   codCliente:number;
   cedula:string;
   nombre:string;
+  apellido:string;
   telefono:string[];
   correo:string[];
 }
@@ -42,11 +43,14 @@ interface Data{
 export class ContactoClienteComponent {
   myData: Data[] = [];
   myData$:any;
+  dataUpdate:any = undefined;
 
   tableColumns: TableColumn[] =[]
 
   formTelefonoCliente:FormData[]=[]
   formCorreoCliente:FormData[]=[]
+
+  formClientUpdate:FormData[] = []
 
 
 
@@ -82,18 +86,23 @@ export class ContactoClienteComponent {
             {
               codCliente:element.codCliente,
               cedula:element.cedula,
-              nombre:(element.nombres + element.apellidos),
+              nombre:(element.nombres + ' ' + element.apellidos),
+              apellido:element.apellidos,
               telefono:tel,
               correo:cor
             }
           )
         })
 
+        // console.log(this.myData[0].nombre.replace(this.myData[0].apellido,''))
+
         this.setFormTelefonoCliente(this.myData);
         this.setFormCorreoCliente(this.myData)
 
         return this.myData
       })
+
+
     )
 
     
@@ -176,5 +185,68 @@ export class ContactoClienteComponent {
       formValidators:{'correoCliente':['',[Validators.required,Validators.email]]}
     }]
   
+  }
+
+  setFormUpdate(data:Data){
+    return [{
+      label:'Nombre',
+      type:'text',
+      placeholder:'Nuevo nombre del cliente',
+      alert:'El Nombre no puede estar vacio',
+      icon:'',
+      formControlName:'NameUpdate',
+      formValidators:{'NameUpdate':['',[Validators.required]]},
+      value:data.nombre.replace(data.apellido,'')
+    },
+    {
+      label:'Apellido',
+      type:'text',
+      placeholder:'Nuevo apellido del cliente',
+      alert:'El apellido no puede estar vacio',
+      icon:'',
+      formControlName:'LastNameUpdate',
+      formValidators:{'LastNameUpdate':['',[Validators.required]]},
+      value:data.apellido
+    },
+    {
+      label:'Telefonos',
+      type:'tel',
+      placeholder:'Telefono 1',
+      alert:'El telefono no puede estar vacio',
+      icon:'',
+      formControlName:'TelUpdate1',
+      formValidators:{'TelUpdate1':['',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]]},
+      value:data.telefono[0]
+    },
+    {
+      label:'',
+      type:'tel',
+      placeholder:'Telefono 2',
+      alert:'El telefono no es valido',
+      icon:'',
+      formControlName:'TelUpdate2',
+      formValidators:{'TelUpdate2':['',[Validators.minLength(8),Validators.maxLength(8)]]},
+      value: data.telefono.length > 1? data.telefono[1] : undefined
+    },
+    {
+      label:'Correos',
+      type:'email',
+      placeholder:'correo 1',
+      alert:'El correo no puede estar vacio',
+      icon:'',
+      formControlName:'EmailUpdate1',
+      formValidators:{'EmailUpdate1':['',[Validators.required,Validators.email]]},
+      value:data.correo[0]
+    },
+    {
+      label:'',
+      type:'email',
+      placeholder:'Correo 2',
+      alert:'El correo no puede estar vacio',
+      icon:'',
+      formControlName:'EmailUpdate2',
+      formValidators:{'EmailUpdate2':['',[Validators.email]]},
+      value:data.correo.length > 1? data.correo[1] : undefined
+    }]
   }
 }

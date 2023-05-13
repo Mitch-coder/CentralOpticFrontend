@@ -4,3 +4,26 @@
     cursor: pointer;
   }
   
+.class-btn-action{
+  width: calc(100%);
+  display: inline-block;
+  text-align: right;
+  /* align-items: flex-end; */
+  /* justify-content: space-between; */
+}
+  
+.btnUpdate{
+    margin: 0.3rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.active {
+  background-color: #3da1ff;
+
+  .menu-collapse-icon,
+  .sidenav-link-icon,
+  .sidenav-link-text {
+      color: #000000;
+  }
+}

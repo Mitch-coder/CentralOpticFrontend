@@ -22,4 +22,5 @@ export interface FormData{
     formValidators: {};
     class?:string;
     option?:string[];
+    value?:string;
 }

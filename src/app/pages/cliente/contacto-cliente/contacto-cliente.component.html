@@ -1,9 +1,12 @@
-<mat-sidenav-container class="example-container">
+  <mat-sidenav-container class="example-container">
     <mat-sidenav-content>
       <div class="example-content">
         <h1>Lista de contactos de clientes</h1>
         <section *ngIf="getEventBtnClickHeader()">
-          <app-table [data]="myData$" [columns]="tableColumns"></app-table>
+          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="dataUpdate=$event"></app-table>
+          <section *ngIf="dataUpdate">
+            <app-form [FormD]="setFormUpdate(dataUpdate)"></app-form>
+          </section>
         </section>
         <section *ngIf="!getEventBtnClickHeader()">
           <app-form [FormD]="formTelefonoCliente"></app-form>
@@ -14,3 +17,4 @@
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>  
+ 

@@ -44,6 +44,7 @@
   <tr mat-row 
     *matRowDef="let row; 
     columns: tableDisplayColumns"
+    [ngClass]="getActiveClass(row)"
     (click)="selectItem(row)"></tr>
     
   </table>
@@ -52,6 +53,28 @@
                  showFirstLastButtons
                  aria-label="Select page of periodic elements">
   </mat-paginator>
+
+  <div class="class-btn-action">
+    <button 
+      mat-fab 
+      extended 
+      class="btnUpdate btn-primary"
+      [disabled]="btnClickItemRow"
+      (click)="btnClickUpdate()">
+      <i class="fa-solid fa-pen-to-square"></i>
+      Actualizar
+    </button>
+
+    <button 
+      mat-fab 
+      extended 
+      [disabled]="btnClickItemRow"
+      class="btnUpdate btn-danger"
+      (click)="btnClickUpdate()">
+      <i class="fa-solid fa-trash-can"></i>
+      Eliminar
+    </button>
+  </div>
 
   <!-- {{applyFilter()}} -->
   <!-- {{dataSource.data | json}} -->

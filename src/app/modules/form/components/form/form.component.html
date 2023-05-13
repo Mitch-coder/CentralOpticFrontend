@@ -9,15 +9,12 @@
                         {{fr.label}}
                     </label>
                     <input [type]="fr.type" [formControlName]="fr.formControlName" class="form-control form-input"
-                        [placeholder]="fr.placeholder">
+                        [placeholder]="fr.placeholder" [(ngModel)]="fr.value">
                     <i class=" fa-solid fa-feather form-input-icon"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGet(fr.formControlName).valid || formGet(fr.formControlName).pristine">
                         {{fr.alert}}
                     </div>
-                    
-    
-                    
                 </div>
                 <ng-template #select>
                     <div class="mb-2" >

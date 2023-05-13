@@ -19,6 +19,9 @@ export class TableComponent implements OnInit, AfterViewInit  {
   tableDisplayColumns:String[]=[];
   tableColumns: TableColumn[] = []
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  dataUpdate:any = {}
+  btnClickItemRow:boolean = true;
   
   selection = new SelectionModel<any>(true, []);
 
@@ -53,28 +56,16 @@ export class TableComponent implements OnInit, AfterViewInit  {
   }
   ngOnInit(): void {
 
-    // segun un ejemplo que vi eso deberia notificar cada ves que ocurra un cambio
-    // en la clase 
-    // this.headerSearch.change.subscribe(event =>{  
-    //   console.log(event)
-    //   this.applyFilter(event)
-    // })
-
-    // esto inicializa el filtro cada ves que el componente se vuelve a cargar
-    this.applyFilter(HeaderData.headerText)
-
-    
-
+    HeaderSearch.observadores.push(
+      this.applyFilter.bind(this)
+    )
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
-  selectItem(item:any){
-    console.log(item)
-    // this.selectItemsCell.emit(item);
-  }
+  
    
   getTypeData(data:any):boolean{
     if (typeof data === "object") {
@@ -132,4 +123,25 @@ export class TableComponent implements OnInit, AfterViewInit  {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  getActiveClass(active: any): string {
+    return active == this.dataUpdate? 'active' : ''; 
+  }
+
+  selectItem(item:any){
+    if(item == this.dataUpdate){
+      this.btnClickItemRow = true;
+      this.dataUpdate = undefined
+      return
+    }
+    this.btnClickItemRow = false;
+    this.dataUpdate=item
+    // this.selectItemsCell.emit(item);
+  }
+
+  btnClickUpdate(){
+    console.log(this.dataUpdate)
+    this.selectItemsCell.emit(this.dataUpdate);
+  }
+  
 }
