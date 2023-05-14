@@ -44,7 +44,7 @@ export class ContactoClienteComponent {
   myData: Data[] = [];
   myData$:any;
   dataUpdate:any = undefined;
-
+ 
   tableColumns: TableColumn[] =[]
 
   formTelefonoCliente:FormData[]=[]
@@ -119,6 +119,8 @@ export class ContactoClienteComponent {
   }
 
   getEventBtnClickHeader(){
+    // if(!HeaderData.headerText)
+      // this.dataUpdate = undefined
     return HeaderData.eventBtnClick;
   }
 
@@ -127,9 +129,10 @@ export class ContactoClienteComponent {
 
     for(let d of data){
       if(d.telefono.length !== 2){
-        client.push(d.cedula + " " + d.nombre)
+        client.push('Cedula: '+d.cedula + "  Cliente: " + d.nombre)
       }
     }
+    //  <i class="fa-solid fa-key"></i> <i class=""></i><i class=""></i>
 
     this.formTelefonoCliente = [{
       label:'Seleccione el Cliente',
@@ -188,65 +191,68 @@ export class ContactoClienteComponent {
   }
 
   setFormUpdate(data:Data){
-    return [{
-      label:'Nombre',
-      type:'text',
-      placeholder:'Nuevo nombre del cliente',
-      alert:'El Nombre no puede estar vacio',
-      icon:'',
-      formControlName:'NameUpdate',
-      formValidators:{'NameUpdate':['',[Validators.required]]},
-      value:data.nombre.replace(data.apellido,'')
-    },
-    {
-      label:'Apellido',
-      type:'text',
-      placeholder:'Nuevo apellido del cliente',
-      alert:'El apellido no puede estar vacio',
-      icon:'',
-      formControlName:'LastNameUpdate',
-      formValidators:{'LastNameUpdate':['',[Validators.required]]},
-      value:data.apellido
-    },
-    {
-      label:'Telefonos',
-      type:'tel',
-      placeholder:'Telefono 1',
-      alert:'El telefono no puede estar vacio',
-      icon:'',
-      formControlName:'TelUpdate1',
-      formValidators:{'TelUpdate1':['',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]]},
-      value:data.telefono[0]
-    },
-    {
-      label:'',
-      type:'tel',
-      placeholder:'Telefono 2',
-      alert:'El telefono no es valido',
-      icon:'',
-      formControlName:'TelUpdate2',
-      formValidators:{'TelUpdate2':['',[Validators.minLength(8),Validators.maxLength(8)]]},
-      value: data.telefono.length > 1? data.telefono[1] : undefined
-    },
-    {
-      label:'Correos',
-      type:'email',
-      placeholder:'correo 1',
-      alert:'El correo no puede estar vacio',
-      icon:'',
-      formControlName:'EmailUpdate1',
-      formValidators:{'EmailUpdate1':['',[Validators.required,Validators.email]]},
-      value:data.correo[0]
-    },
-    {
-      label:'',
-      type:'email',
-      placeholder:'Correo 2',
-      alert:'El correo no puede estar vacio',
-      icon:'',
-      formControlName:'EmailUpdate2',
-      formValidators:{'EmailUpdate2':['',[Validators.email]]},
-      value:data.correo.length > 1? data.correo[1] : undefined
-    }]
+    this.dataUpdate = data
+    if(this.dataUpdate){
+      this.formClientUpdate = [{
+        label:'Nombre',
+        type:'text',
+        placeholder:'Nuevo nombre del cliente',
+        alert:'El Nombre no puede estar vacio',
+        icon:'',
+        formControlName:'NameUpdate',
+        formValidators:{'NameUpdate':['',[Validators.required]]},
+        value:data.nombre.replace(data.apellido,'')
+      },
+      {
+        label:'Apellido',
+        type:'text',
+        placeholder:'Nuevo apellido del cliente',
+        alert:'El apellido no puede estar vacio',
+        icon:'',
+        formControlName:'LastNameUpdate',
+        formValidators:{'LastNameUpdate':['',[Validators.required]]},
+        value:data.apellido
+      },
+      {
+        label:'Telefonos',
+        type:'tel',
+        placeholder:'Telefono 1',
+        alert:'El telefono no puede estar vacio',
+        icon:'',
+        formControlName:'TelUpdate1',
+        formValidators:{'TelUpdate1':['',[Validators.required,Validators.minLength(8),Validators.maxLength(8)]]},
+        value:data.telefono[0]
+      },
+      {
+        label:'',
+        type:'tel',
+        placeholder:'Telefono 2',
+        alert:'El telefono no es valido',
+        icon:'',
+        formControlName:'TelUpdate2',
+        formValidators:{'TelUpdate2':['',[Validators.minLength(8),Validators.maxLength(8)]]},
+        value: data.telefono.length > 1? data.telefono[1] : undefined
+      },
+      {
+        label:'Correos',
+        type:'email',
+        placeholder:'correo 1',
+        alert:'El correo no puede estar vacio',
+        icon:'',
+        formControlName:'EmailUpdate1',
+        formValidators:{'EmailUpdate1':['',[Validators.required,Validators.email]]},
+        value:data.correo[0]
+      },
+      {
+        label:'',
+        type:'email',
+        placeholder:'Correo 2',
+        alert:'El correo no puede estar vacio',
+        icon:'',
+        formControlName:'EmailUpdate2',
+        formValidators:{'EmailUpdate2':['',[Validators.email]]},
+        value:data.correo.length > 1? data.correo[1] : undefined
+      }]
+    }
   }
 }

@@ -132,6 +132,7 @@ export class TableComponent implements OnInit, AfterViewInit  {
     if(item == this.dataUpdate){
       this.btnClickItemRow = true;
       this.dataUpdate = undefined
+      this.selectItemsCell.emit(this.dataUpdate);
       return
     }
     this.btnClickItemRow = false;

@@ -3,9 +3,9 @@
       <div class="example-content">
         <h1>Lista de contactos de clientes</h1>
         <section *ngIf="getEventBtnClickHeader()">
-          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="dataUpdate=$event"></app-table>
+          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
           <section *ngIf="dataUpdate">
-            <app-form [FormD]="setFormUpdate(dataUpdate)"></app-form>
+            <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formClientUpdate"></app-form>
           </section>
         </section>
         <section *ngIf="!getEventBtnClickHeader()">

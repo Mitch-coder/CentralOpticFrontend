@@ -24,3 +24,12 @@ export interface FormData{
     option?:string[];
     value?:string;
 }
+
+// export interface FormSelectData{
+//     idIcon : string;
+//     id : String;
+//     idValue : string;
+//     nameIcon : string;
+//     name : string;
+//     nameValue : string
+// }

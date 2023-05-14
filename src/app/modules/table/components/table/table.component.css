@@ -1,6 +1,7 @@
 .mat-mdc-row:hover .mat-mdc-cell {
-    border-color: currentColor;
-    background: #c297fa;
+    /* border-color: currentColor; */
+    border-color: #000;
+    background: rgb(217, 170, 247, 0.7);
     cursor: pointer;
   }
   
@@ -19,7 +20,7 @@
 }
 
 .active {
-  background-color: #3da1ff;
+  background-color: #c26cf8;
 
   .menu-collapse-icon,
   .sidenav-link-icon,
