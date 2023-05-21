@@ -27,12 +27,18 @@ export class AppComponent implements OnInit{
   }
 
   onNavDesative():boolean{
-    let desative:boolean = true
     if(this.router.url=='/login'){
-      desative = false;
+      return false
     }
-    return desative
+    return true
   } 
+
+  onHeaderDesactive():boolean{
+    if(this.router.url=='/login' || this.router.url=='/dashboard'){
+      return false
+    }
+    return true
+  }
   
   onToggleSideNav(data:SideNavToggle):void{
     this.isSidaNavCollapsed = data.collapsed

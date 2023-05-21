@@ -98,11 +98,13 @@
                         cursor: pointer;
                         border: 1px solid transparent ;
                         outline: 0;
-                        color: #495057;
+                        /* color: #495057; */
                     }
                     
                     .head-menu-item-btn:hover{
-                        background-color: #7245d3;
+                        background-color: rgb(149, 45, 212);
+                        /* background-color: #7245d3; */
+                        color: #fff;
                     }
                 }
 
@@ -119,6 +121,7 @@
                         border-radius: 10px;
                         box-shadow: 0 0 15px rgb(53, 35, 35/15%);
                         cursor: pointer;
+                        font-style: bold;
                     }
 
                     .circle-indicador{
@@ -173,7 +176,7 @@
 
 @keyframes btn-active{
     0%{
-        box-shadow: 0 0 0 0 rgba(26, 104, 206, 0.6);
+        box-shadow: 0 0 0 0 rgba(149, 45, 212, 0.6);
     }
 
     100%{
@@ -182,17 +185,19 @@
 }
 
 .active{
-    background: #7245d3;
+    background: #b135ff;
+    color: #fff;
     animation: btn-active 2s infinite;
 }
 
 .no-active{
     background: #eff2f3;
+    color: #495057;
 }
 
 .overlay{
     background: #fff;
-    margin-top: 10px;
+    left: 100%;
     box-shadow: 0 1rem 3rem rgb(0, 0, 0/18%);
     border-radius: 0.25rem;
 }

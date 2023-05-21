@@ -17,9 +17,19 @@ export interface FormData{
     type: string;
     placeholder: string;
     alert:string;
-    icon: string;
+    icon?: string;
     formControlName: string;
     formValidators: {};
     class?:string;
     option?:string[];
+    value?:string;
 }
+
+// export interface FormSelectData{
+//     idIcon : string;
+//     id : String;
+//     idValue : string;
+//     nameIcon : string;
+//     name : string;
+//     nameValue : string
+// }

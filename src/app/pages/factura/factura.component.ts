@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
-import { map, mergeMap, tap } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs';
 import { forkJoin } from 'rxjs';
 
 interface Factura{
@@ -85,8 +85,15 @@ export class FacturaComponent {
           // [0,1,2,3,4]
           // [1,2,3,4,5]
 
-          let subTotal = val[0].cantidad * val[0].precioUni
+          let subTotal = 0
+            
+          try {
+            subTotal = val[0].cantidad * val[0].precioUni
+          } catch (error) {
+            subTotal = 0
+          }
 
+          
           // let subTotal = (detalleFactura[element.numFactura -1].cantidad 
           //   * detalleFactura[element.numFactura - 1].precioUni)
 

@@ -101,16 +101,15 @@
 }
 
 .sidenav-nav-link:hover {
-    background-color: #fff;
+    background-color: #696262;
     color: #000;
-
     .menu-collapse-icon {
         color: #000;
     }
 }
 
 .active {
-    background-color: #7245d3;
+    background-color: #3da1ff;
 
     .menu-collapse-icon,
     .sidenav-link-icon,
@@ -207,3 +206,15 @@
     scrollbar-width: thin;
     scrollbar-color: #556268 transparent;
 }
+
+.fa-circle{
+    font-size: 8px;
+}
+
+/* .overlay{
+    position: absolute;
+    width: 100%;
+    background: #fff;
+    left: 100%;
+    text-align: center;
+} */

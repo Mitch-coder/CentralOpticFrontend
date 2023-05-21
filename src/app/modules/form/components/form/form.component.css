@@ -35,3 +35,19 @@
     align-items: center;
     justify-content: space-between; */
 }
+
+
+.container-select{
+    width: calc(100%);
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    
+    .content-key{
+        font-size: 16px;
+        .icon-select-key{
+            color: rgb( 0, 247, 0);
+        }
+    }
+    
+}

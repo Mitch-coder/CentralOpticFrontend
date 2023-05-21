@@ -35,7 +35,9 @@ import {FormModule} from './modules/form/form.module';
 import { SublevelMenuComponent } from './sidenav/sublevel-menu.component';
 import { HeaderComponent } from './header/header.component'
 import { OverlayModule } from '@angular/cdk/overlay';
-import {CdkMenuModule} from '@angular/cdk/menu';
+import {CdkMenuModule} from '@angular/cdk/menu'
+import {FormsModule} from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BodegaComponent } from './pages/bodega/bodega.component';
 import { ProveedorComponent } from './pages/proveedor/proveedor.component';
 import { LaboratorioComponent } from './pages/laboratorio/laboratorio.component';
@@ -47,7 +49,6 @@ import { OrdenPedidoComponent } from './pages/orden-pedido/orden-pedido.componen
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    EmpleadoComponent,
     SidenavComponent,
     BodyComponent,
     ProductoComponent,
@@ -84,7 +85,9 @@ import { OrdenPedidoComponent } from './pages/orden-pedido/orden-pedido.componen
     ScrollingModule,
     FormModule,
     OverlayModule,
-    CdkMenuModule
+    CdkMenuModule,
+    FormsModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

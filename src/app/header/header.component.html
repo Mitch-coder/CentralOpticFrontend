@@ -1,12 +1,18 @@
 <div class="head" [ngClass]="getHeadClass()">
     <div class="head-content">
         <div class="head-content-left">
-            <div class="search-container">
+            <div class="search-container" *ngIf="getEventBtnClick()">
                 <div  *ngIf="!canShowSearchAsOverlay" class="normal-search">
-                    <input type="search"
-                    class="search" name="" id=""
-                    placeholder="Search...">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    
+                    <input 
+                        matInput
+                        [(ngModel)]="headerText"
+                        (keyup)="getHeaderText($event)"
+                        type="search"
+                        class="search" name="" id=""
+                        placeholder="Search...">
+                    <i class="fa-solid fa-magnifying-glass search-icon" ></i>
+ 
                 </div>
                 <div *ngIf="canShowSearchAsOverlay">
                     <button 
@@ -17,16 +23,17 @@
                 </div>
             </div>
         </div>
+
         <div class="head-content-right">
             <div class="head-menu">
                 <div class="head-menu-item btn-group">
                         <button type="button" 
-                            [ngClass]="getBtnClick('left')"
                             class="head-btn head-btn-left btn-secondary head-menu-item-btn"
+                            [ngClass]="getBtnClick('left')"
                             (click)="setBtnClick('left')">Tablas</button>
                         <button type="button" 
-                            [ngClass]="getBtnClick('rigth')"
                             class="head-btn head-btn-rigth btn-secondary head-menu-item-btn"
+                            [ngClass]="getBtnClick('rigth')"
                             (click)="setBtnClick('rigth')">Form</button>
                 </div>
 
