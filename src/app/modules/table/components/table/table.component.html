@@ -58,7 +58,8 @@
     <button 
       mat-fab 
       extended 
-      class="btnUpdate btn-primary"
+      class="btnUpdate"
+      [ngClass]="btnClickItemRow?'btn-primary-disable':'btn-primary'"
       [disabled]="btnClickItemRow"
       (click)="btnClickUpdate()">
       <i class="fa-solid fa-pen-to-square"></i>
@@ -69,7 +70,8 @@
       mat-fab 
       extended 
       [disabled]="btnClickItemRow"
-      class="btnUpdate btn-danger"
+      class="btnUpdate"
+      [ngClass]="btnClickItemRow?'btn-danger-disable':'btn-danger'"
       (click)="btnClickUpdate()">
       <i class="fa-solid fa-trash-can"></i>
       Eliminar

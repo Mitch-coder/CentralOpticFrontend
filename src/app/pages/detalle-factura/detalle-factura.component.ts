@@ -89,11 +89,11 @@ export class DetalleFacturaComponent {
 
   setTableColumns(){
     this.tableColumns=[
-      {label:'NumFactura', def:'numFactura', dataKey:'numFactura'},
-      {label:'NombreProducto', def:'nombreProductp', dataKey:'nombreProducto'},
-      {label:'DescripcionProducto', def:'descripProducto', dataKey:'descripProducto'},
+      {label:'Numero Factura', def:'numFactura', dataKey:'numFactura'},
+      {label:'Nombre Producto', def:'nombreProductp', dataKey:'nombreProducto'},
+      {label:'Descripcion Producto', def:'descripProducto', dataKey:'descripProducto'},
       {label:'Cantidad', def:'cantidad', dataKey:'cantidad'},
-      {label:'PrecioUni', def:'precioUni', dataKey:'precioUni'},
+      {label:'Precio Unitario', def:'precioUni', dataKey:'precioUni'},
       {label:'Precio Total', def:'subTotal', dataKey:'subTotal'}
     ]
   }

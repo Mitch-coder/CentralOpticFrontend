@@ -27,7 +27,7 @@ export class PagoComponent {
   myData$:any;
 
   tableColumns: TableColumn[] =[]
-
+  opcionesFormato: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit'};
   constructor(private dataService:MyDataServices){}
 
   ngOnInit(): void{
@@ -40,14 +40,19 @@ export class PagoComponent {
         let pago:Pago[] = data[0];
         let fechaPago: FechaPago[] = data[1];
         
+        // opcionesFormato: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit'};
+        
         pago.forEach(element =>{
-          let date= fechaPago.filter(e => e.idFechaPago == element.idFechaPago);
+          let fecha= fechaPago.filter(e => e.idFechaPago == element.idFechaPago);
+
+          let date:Date = new Date(fecha[0].fechaPago)
+          const formatoFecha = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
 
           this.myData.push(
             {idPago:element.idPago,
-             fechaPago:date[0].fechaPago,
+             fechaPago:formatoFecha,
              monto:element.monto,
-             tipoPago:element.tipoPago
+             tipoPago:element.tipoPago? 'Credito' : 'Contado'
             })
         })
         return this.myData
@@ -60,10 +65,10 @@ export class PagoComponent {
 
   setTableColumns(){
     this.tableColumns=[
-      {label:'IdPago', def:'idPago', dataKey:'idPago'},
-      {label:'FechaPago', def:'fechaPago', dataKey:'fechaPago'},
+      {label:'Identificador', def:'idPago', dataKey:'idPago'},
+      {label:'Fecha Pago', def:'fechaPago', dataKey:'fechaPago'},
       {label:'Monto', def:'monto', dataKey:'monto'},
-      {label:'TipoPago', def:'tipoPago', dataKey:'tipoPago'}
+      {label:'Tipo de Pago', def:'tipoPago', dataKey:'tipoPago'}
     ]
   }
 }

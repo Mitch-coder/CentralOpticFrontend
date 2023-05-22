@@ -1,5 +1,8 @@
 <div class="card">
     <div class="card-body">
+        <h1>
+            {{title}}
+        </h1>
         <!-- (ngSubmit)="procesar" -->
         <form [formGroup]="form" (ngSubmit)="getFormData()">
             
@@ -9,8 +12,8 @@
                         {{fr.label}}
                     </label>
                     <input [type]="fr.type" [formControlName]="fr.formControlName" class="form-control form-input"
-                        [placeholder]="fr.placeholder" [(ngModel)]="fr.value">
-                    <i class=" fa-solid fa-feather form-input-icon"></i>
+                        [placeholder]="fr.placeholder" [(ngModel)]="fr.value" >
+                    <i class="form-input-icon" [ngClass]="fr.icon?fr.icon:'fa-solid fa-feather'"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGet(fr.formControlName).valid || (formGet(fr.formControlName).pristine)">
                         {{fr.alert}}
@@ -21,19 +24,12 @@
                         <mat-label class="form-label">
                             {{fr.label}}
                         </mat-label>
-                        <mat-select [formControlName]="fr.formControlName" class="form-control form-control-lg">
+                        <mat-select 
+                             [formControlName]="fr.formControlName" 
+                             class="form-control form-control-lg"
+                             matNativeControl>
                             <mat-option *ngFor="let option of fr.option" [value]="option">
                                 {{option}}
-                                <!-- <div *ngIf="setVisualSelect(option)" class="container-select">
-                                    <div class="content-key">
-                                        <i [ngClass]="visualSelect[0]" class="icon-select-key"></i>
-                                        <p class="text-select-key">{{visualSelect[1]}}</p>
-                                    </div>
-                                    <p class="text-select-key-value">{{visualSelect[2]}}</p>
-                                    <i [ngClass]="visualSelect[3]" class="icon-select-data"></i>
-                                    <p class="text-select-data">{{visualSelect[4]}}</p>
-                                    <p class="text-select-data-value">{{visualSelect[5]}}</p>
-                                </div> -->
                             </mat-option>
                         </mat-select>
                     </div>

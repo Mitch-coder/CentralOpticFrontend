@@ -28,3 +28,13 @@
       color: #000000;
   }
 }
+
+.btn-danger-disable{
+  color: #fff;
+  background: rgb(187, 45, 59,0.5);
+}
+
+.btn-primary-disable{
+  color: #fff;
+  background: rgb(11, 94, 215,0.6);
+}

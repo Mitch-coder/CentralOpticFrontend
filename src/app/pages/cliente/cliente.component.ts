@@ -15,6 +15,14 @@ interface Cliente{
   direccion:string;
 }
 
+interface Data{
+  codCliente:number;
+  cedula:string;
+  nombre:string;
+  apellido:string;
+  direccion:string;
+}
+
 @Component({
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',
@@ -24,10 +32,21 @@ interface Cliente{
 export class ClienteComponent {
   myData:any ;
   myData$:any;
+  dataUpdate:any = undefined;
 
   tableColumns: TableColumn[] =[]
+  formClientUpdate:FormData[] = []
 
   form:FormData[]=[{
+    label:'Cedula',
+    type:'text',
+    placeholder:'Ingrese la cedula del cliente',
+    alert:'La cedula es obligatorio',
+    icon:'',
+    formControlName:'cedula',
+    formValidators:{'cedula':['',[Validators.required]]}
+  },
+  {
     label:'Nombre',
     type:'text',
     placeholder:'Ingrese el nombre del cliente',
@@ -46,15 +65,13 @@ export class ClienteComponent {
     formValidators:{'apellido':['',[Validators.required]]}
   },
   {
-    label:'select 1',
-    type:'select',
-    placeholder:'seleccione una opcion',
-    alert:'',
+    label:'Dirección',
+    type:'text',
+    placeholder:'Ingrese la dirección del cliente',
+    alert:'La dirección es obligatorio',
     icon:'',
-    formControlName:'select',
-    formValidators:{'select':['',[Validators.required]]},
-    class:'',
-    option:['option 1','option 2','option 3']
+    formControlName:'direccion',
+    formValidators:{'direccion':['',[Validators.required]]}
   }]
 
   constructor(private dataService:MyDataServices){
@@ -71,7 +88,7 @@ export class ClienteComponent {
 
   setTableColumns(){
     this.tableColumns=[
-      {label:'IdCliente', def:'IdCliente', dataKey:'codCliente'},
+      {label:'Identificador', def:'IdCliente', dataKey:'codCliente'},
       {label:'Cedula', def:'Cedula', dataKey:'cedula'},
       {label:'Nombre', def:'Nombre', dataKey:'nombres'},
       {label:'Apellido', def:'Apellido', dataKey:'apellidos'},
@@ -83,24 +100,42 @@ export class ClienteComponent {
     return HeaderData.eventBtnClick;
   }
 
-  // getHeaderText(){
-  //   console.log(HeaderData.headerText)
-  //   return true
-  // }
-
-  // setDataTable(data:any){
-  //   if(HeaderData.headerText !== ''){
-  //     return data.filter((e: { nombre: any; }) => e.nombre == HeaderData.headerText)
-  //   }
-  //   return data;
-  // }
-
-  // applyFilter() {
-  //   if(HeaderData.headerText){
-  //     const filterValue = (HeaderData.headerText.target as HTMLInputElement).value;
-  //     this.myData$.filter = filterValue.trim().toLowerCase();
-  //     return this.myData$
-  //   }
-  //   return this.myData$
-  // }
+  setFormUpdate(data:Cliente){
+    this.dataUpdate = data
+    if(this.dataUpdate){
+      this.formClientUpdate = [{
+        label:'Nombre',
+        type:'text',
+        placeholder:'Nuevo nombre del cliente',
+        alert:'El Nombre no puede estar vacio',
+        icon:'',
+        formControlName:'NameUpdate',
+        formValidators:{'NameUpdate':[data.nombres,[Validators.required]]},
+        value:data.nombres
+      },
+      {
+        label:'Apellido',
+        type:'text',
+        placeholder:'Nuevo apellido del cliente',
+        alert:'El apellido no puede estar vacio',
+        icon:'',
+        formControlName:'LastNameUpdate',
+        formValidators:{'LastNameUpdate':[data.apellidos,[Validators.required]]},
+        value:data.apellidos
+      }]
+      
+      this.formClientUpdate.push(
+        {
+          label:'Dirección',
+          type:'text',
+          placeholder:'Nueva dirección del cliete',
+          alert:'La dirección no puede estar vacio',
+          icon:'',
+          formControlName:'direccion',
+          formValidators:{'direccion':[data.direccion,[data.direccion?Validators.required:Validators.nullValidator]]},
+          value:data.direccion
+        }
+      )
+    }
+  }
 }

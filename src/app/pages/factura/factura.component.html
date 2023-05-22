@@ -7,5 +7,56 @@
         </section>
       </div>
     </mat-sidenav-content>
-  </mat-sidenav-container>  
+</mat-sidenav-container>  
 
+<!-- <section>
+  <div class="card">
+    <div class="card-body">
+        (ngSubmit)="procesar"
+        <form [formGroup]="form">
+           
+          <div class="content-select">
+            <div class="mb-2 container-select" #input>
+              <mat-label class="form-label">
+                Empleado
+              </mat-label>
+              <mat-select 
+                formControlName="marca" 
+                class="form-control form-control-lg">
+                  <mat-option *ngFor="let option of Marcas" [value]="option.marca">
+                      {{option.marca}}
+                  </mat-option>
+              </mat-select>
+            </div>  
+            <button 
+                mat-fab
+                extended 
+                class="btn-add btn-primary">
+                  <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+          
+          
+           
+          <div class="mb-2" #input>
+              <label class="form-label">
+                  Nombre del producto
+              </label>
+              <input type="text" formControlName="nombre" class="form-control form-input"
+                  placeholder="Ingrese el nombre del producto" [(ngModel)]="nombreProducto" >
+              <i class=" fa-solid fa-feather form-input-icon"></i>
+              <div class="alert alert-danger mt-1"
+                  [hidden]="formGet('nombre').valid || (formGet('nombre').pristine)">
+                  Ingrese el nombre del producto
+              </div>
+          </div>
+
+                 
+
+          <button class="btn btn-primary" #btnEnviar [disabled]="form.invalid">
+            Actualizar
+          </button>
+        </form>
+    </div>
+  </div>
+</section> -->

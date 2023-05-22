@@ -28,6 +28,7 @@ export class OrdenPedidoEntregaComponent {
   myData$:any;
 
   tableColumns: TableColumn[] =[]
+  opcionesFormato: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit'};
 
   constructor(private dataService:MyDataServices){}
 
@@ -43,12 +44,14 @@ export class OrdenPedidoEntregaComponent {
 
         ordenPedidoEntrega.forEach( element =>{
           let ent = entrega.filter(e => e.codEntrega == element.codEntrega);
-
+          
+          let date:Date = new Date(ent[0].fechaEntrega)
+          const formatoFecha = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
           this.myData.push(
             {
               numOrden:element.numOrden,
               codEntrega:ent[0].codEntrega,
-              fechaEntrega:ent[0].fechaEntrega
+              fechaEntrega:formatoFecha
             }
           )
         })
@@ -61,9 +64,9 @@ export class OrdenPedidoEntregaComponent {
 
   setTableColumns(){
     this.tableColumns=[
-      {label:'NumOrden', def:'numOrden', dataKey:'numOrden'},
-      {label:'CodEntrega', def:'codEntrega', dataKey:'codEntrega'},
-      {label:'FechaEntrega', def:'fechaEntrega', dataKey:'fechaEntrega'}
+      {label:'Numero de Orden', def:'numOrden', dataKey:'numOrden'},
+      {label:'Codido Entrega', def:'codEntrega', dataKey:'codEntrega'},
+      {label:'Fecha Entrega', def:'fechaEntrega', dataKey:'fechaEntrega'}
     ]
   }
 }

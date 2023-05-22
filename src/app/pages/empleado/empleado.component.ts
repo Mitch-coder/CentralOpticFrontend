@@ -33,10 +33,14 @@ export class EmpleadoComponent {
   
   setTableColumns(){
     this.tableColumns=[
-      {label:'IdEmpleado', def:'NumEmpleado', dataKey:'numEmpleado'},
+      {label:'Identificador', def:'NumEmpleado', dataKey:'numEmpleado'},
       {label:'Nombre', def:'nombres', dataKey:'nombres'},
       {label:'Apellido', def:'apellidos', dataKey:'apellidos'},
       {label:'Direccion', def:'direccion', dataKey:'direccion'}
     ]
   }
+
+
+
+  
 }

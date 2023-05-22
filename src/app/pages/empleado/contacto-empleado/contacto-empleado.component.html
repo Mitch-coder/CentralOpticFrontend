@@ -1,1 +1,19 @@
-<p>contacto-empleado works!</p>
+<mat-sidenav-container class="example-container">
+    <mat-sidenav-content>
+      <div class="example-content">
+        <h1>Lista de contactos de Empleado</h1>
+        <section *ngIf="getEventBtnClickHeader()">
+          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
+          <section *ngIf="dataUpdate">
+            <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formEmpleadoUpdate"></app-form>
+          </section>
+        </section>
+        <section *ngIf="!getEventBtnClickHeader()">
+          <app-form [FormD]="formTelefonoEmpleado"></app-form>
+        </section>
+        <section *ngIf="!getEventBtnClickHeader()">
+          <app-form [FormD]="formCorreoEmpleado"></app-form>
+        </section>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>  

@@ -6,5 +6,30 @@
           <app-table [data]="myData$" [columns]="tableColumns"></app-table>
         </section>
       </div>
+      <button class="btn btn-primary" (click)="openDialogWithTemplate(template2)">
+        button
+      </button>
     </mat-sidenav-content>
-  </mat-sidenav-container>  
+      
+</mat-sidenav-container>  
+
+
+
+
+<ng-template #template2>
+  <h1 mat-dialog-title>Dialog With Template 2</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="formGroup">
+      <mat-form-field>
+        <input matInput placeholder="name" formControlName="name" />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="lastname" formControlName="lastname" />
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onSave()">Save</button>
+    <button mat-button mat-dialog-close>Close</button>
+  </div>
+</ng-template>

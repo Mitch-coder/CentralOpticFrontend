@@ -3,8 +3,10 @@
       <div class="example-content">
         <h1>Lista de clientes actuales</h1>
         <section *ngIf="getEventBtnClickHeader()">
-          <app-table [data]="myData$" [columns]="tableColumns" ></app-table>
-          <!-- {{getHeaderText()}} -->
+          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
+          <section *ngIf="dataUpdate">
+            <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formClientUpdate"></app-form>
+          </section>
         </section>
         <section *ngIf="!getEventBtnClickHeader()">
           <app-form [FormD]="form"></app-form>

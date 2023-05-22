@@ -2,8 +2,14 @@
     <mat-sidenav-content>
       <div class="example-content">
         <h1>Lista de proveedores</h1>
-        <section>
-          <app-table [data]="myData$" [columns]="tableColumns"></app-table>
+        <section *ngIf="getEventBtnClickHeader()">
+          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
+          <section *ngIf="dataUpdate">
+            <app-form [Title]="'Actualia proveedor - '+ dataUpdate.idProveedor" [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formUpdate"></app-form>
+          </section>
+        </section>
+        <section *ngIf="!getEventBtnClickHeader()">
+          <app-form [Title]="'Crear nuevo Proveedor'" [FormD]="formCreate"></app-form>
         </section>
       </div>
     </mat-sidenav-content>

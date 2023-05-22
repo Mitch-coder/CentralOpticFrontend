@@ -81,10 +81,10 @@ export class RegistroBodegaComponent {
 
   setTableColumns(){
     this.tableColumns=[
-      {label:'IdRegistroBodega', def:'idRegistroBodega', dataKey:'idRegistroBodega'},
+      {label:'Identificador', def:'idRegistroBodega', dataKey:'idRegistroBodega'},
       {label:'Bodega', def:'bodega', dataKey:'bodega'},
-      {label:'NombreProducto', def:'nombreProductp', dataKey:'nombreProducto'},
-      {label:'DescripcionProducto', def:'descripProducto', dataKey:'descripProducto'},
+      {label:'Nombre Producto', def:'nombreProductp', dataKey:'nombreProducto'},
+      {label:'Descripcion Producto', def:'descripProducto', dataKey:'descripProducto'},
       {label:'Cantidad', def:'cantidad', dataKey:'cantidad'}
     ]
   }

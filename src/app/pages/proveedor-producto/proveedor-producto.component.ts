@@ -49,6 +49,7 @@ export class ProveedorProductoComponent {
   myData$:any;
 
   tableColumns: TableColumn[] =[]
+  opcionesFormato: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit'};
 
   constructor(private dataService:MyDataServices){}
 
@@ -69,10 +70,13 @@ export class ProveedorProductoComponent {
         let proveedor:Proveedor[] = data[4];
 
         proveedorProducto.forEach(element =>{
-          let fechaObt = fechaObtencion.filter(e => e.idFechaObtencion == element.idFechaObtencion);
+          let fecha = fechaObtencion.filter(e => e.idFechaObtencion == element.idFechaObtencion);
           let product = producto.filter(e => e.codProducto == element.codProducto);
           let nameProduct = nombreProducto.filter(e => e.idNombreProducto == product[0].idNombreProducto);
           let prov = proveedor.filter(e => e.idProveedor == element.idProveedor);
+ 
+          let date:Date = new Date(fecha[0].fechaObtencion)
+          const formatoFecha = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
 
           this.myData.push(
             {
@@ -80,7 +84,7 @@ export class ProveedorProductoComponent {
               nombreProveedor:prov[0].nombre,
               nombreProducto:nameProduct[0].nombreProducto,
               descripProducto:product[0].descripcion,
-              fechaObtencion:fechaObt[0].fechaObtencion,
+              fechaObtencion:formatoFecha,
               cantidad:element.cantidad,
               costo:element.costo
             }
@@ -96,10 +100,10 @@ export class ProveedorProductoComponent {
   setTableColumns(){
     this.tableColumns=[
       {label:'ID', def:'id', dataKey:'id'},
-      {label:'NombreProveedor', def:'nombreProveedor', dataKey:'nombreProveedor'},
-      {label:'NombreProducto', def:'nombreProducto', dataKey:'nombreProducto'},
-      {label:'DescripProducto', def:'descripProducto', dataKey:'descripProducto'},
-      {label:'FechaObtencion', def:'fechaObtencion', dataKey:'fechaObtencion'},
+      {label:'Nombre Proveedor', def:'nombreProveedor', dataKey:'nombreProveedor'},
+      {label:'Nombre Producto', def:'nombreProducto', dataKey:'nombreProducto'},
+      {label:'Descripción Producto', def:'descripProducto', dataKey:'descripProducto'},
+      {label:'Fecha Obtención', def:'fechaObtencion', dataKey:'fechaObtencion'},
       {label:'Cantidad', def:'cantidad', dataKey:'cantidad'},
       {label:'Costo', def:'costo', dataKey:'costo'}
     ]

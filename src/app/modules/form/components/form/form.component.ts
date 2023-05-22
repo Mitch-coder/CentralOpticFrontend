@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output , ViewChild, ElementRef, AfterViewInit} from '@angular/core';
 import {  FormBuilder,FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormData } from './form-data';
+import { FormData, FormDataVal } from './form-data';
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -12,7 +12,9 @@ export class FormComponent implements AfterViewInit {
   btnName:string = 'Enviar'
   formVal:FormData[] = [];
   form : FormGroup = this.formBuilder.group({});
-  visualSelect : string[] = []
+  visualSelect : string[] = [] 
+  title: string = ''
+
 
   @ViewChild('selectVisual') myDiv!: ElementRef;
   
@@ -21,8 +23,6 @@ export class FormComponent implements AfterViewInit {
     this.formData = new EventEmitter();
     
   }
-
-
 
   @ViewChild('btnEnviar') boton!: ElementRef;
   ngAfterViewInit() {
@@ -39,11 +39,15 @@ export class FormComponent implements AfterViewInit {
     form_data.forEach(element =>{
       val.push(element.formValidators);
     })
+
     this.form = this.formBuilder.group(Object.assign({}, ...val));
   }
 
   @Input() set BtnName(name:string){
     this.btnName = name
+  }
+  @Input() set Title(title:string){
+    this.title = title
   }
 
   formGet(formName:string){
@@ -59,15 +63,28 @@ export class FormComponent implements AfterViewInit {
   @Output() formData:EventEmitter<any>;
 
   getFormData(){
-    console.log(this.form.value);
+    
+    this.formData.emit(this.form.value)
   }
 
   getValitadorts(){
     return this.form.invalid
   }
 
-  setVisualSelect(select:string){
-    this.visualSelect = select.split('$')
-    return true
+  setVisualSelect(select:FormData){
+    this.visualSelect.push(select.option?select.option[0]:'')
+    return this.visualSelect
+  }
+
+  getValueText(fr:FormData){
+    return fr.value
+  }
+
+  getVisual(option:any){
+    console.log(option)
+    if(typeof option === 'string'){
+      return option
+    }
+    return option.value
   }
 }

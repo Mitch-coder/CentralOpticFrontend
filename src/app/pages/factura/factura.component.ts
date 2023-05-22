@@ -3,6 +3,8 @@ import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
 import { catchError, map, mergeMap, tap } from 'rxjs';
 import { forkJoin } from 'rxjs';
+import { FormGroup, Validators } from '@angular/forms';
+import { HeaderData } from 'src/app/header/header-data';
 
 interface Factura{
   numFactura:number;
@@ -16,12 +18,12 @@ interface Factura{
 
 interface EstadoFactura{
   idEstadoFactura:number;
-  estadoFactura:number;
+  estadoFactura:string;
 }
 
 interface FechaFactura{
   idFechaFactura:number;
-  fechaEmision:number;
+  fechaEmision:Date;
 }
 
 interface Empleado{
@@ -47,6 +49,18 @@ interface DetalleFactura{
   precioUni:number;
 }
 
+interface Data{
+  numFactuta:number;
+  estadoFactura: string;
+  fecha:Date;
+  empleado:string;
+  cliente:string;
+  subTotal:number;
+  impuesto:number;
+  descuento:number;
+  total:number;
+}
+
 @Component({
   selector: 'app-factura',
   templateUrl: './factura.component.html',
@@ -57,6 +71,18 @@ export class FacturaComponent {
   myData$:any;
 
   tableColumns: TableColumn[] =[]
+  opcionesFormato: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit'};
+
+  factura:Factura[] = []
+  estadoFactura:EstadoFactura[] = []
+  fechaFactura:FechaFactura[] = []
+  empleado:Empleado[] = []
+  cliente:Cliente[] = []
+  detalleFactura:DetalleFactura[] = []
+
+  form!: FormGroup;
+  dataUpdate: any = undefined;
+  formBuilder: any;
 
   constructor(private dataService:MyDataServices){}
 
@@ -72,19 +98,16 @@ export class FacturaComponent {
       this.dataService.getData('detallefactura'),
     ).pipe(
       map((data:any[])=>{
-        let factura:Factura[]= data[0];
-        let estadoFactura:EstadoFactura[] = data[1];
-        let fechaFactura:FechaFactura[] = data[2];
-        let empleado:Empleado[] = data[3];
-        let cliente:Cliente[] = data[4];
-        let detalleFactura:DetalleFactura[] = data[5];
+        this.factura= data[0];
+        this.estadoFactura = data[1];
+        this.fechaFactura = data[2];
+        this.empleado = data[3];
+        this.cliente = data[4];
+        this.detalleFactura = data[5];
 
-        factura.forEach(element => {
-          let val= detalleFactura.filter(e => e.numFactura == element.numFactura)
-          
-          // [0,1,2,3,4]
-          // [1,2,3,4,5]
-
+        this.factura.forEach(element => {
+          let val= this.detalleFactura.filter(e => e.numFactura == element.numFactura)
+          let fecha= this.fechaFactura.filter(e => e.idFechaFactura == element.idFechaFactura)
           let subTotal = 0
             
           try {
@@ -93,17 +116,15 @@ export class FacturaComponent {
             subTotal = 0
           }
 
-          
-          // let subTotal = (detalleFactura[element.numFactura -1].cantidad 
-          //   * detalleFactura[element.numFactura - 1].precioUni)
-
+          let date:Date = new Date(fecha[0].fechaEmision)
+          const formatoFecha = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
           this.myData.push(
             {
               numFactura:element.numFactura,
-              estadoFactura:estadoFactura[element.idEstadoFactura - 1].estadoFactura,
-              fechaFactura:fechaFactura[element.idFechaFactura - 1].fechaEmision,
-              empleado:empleado[element.numEmpleado - 1].nombres,
-              cliente:cliente[element.codCliente - 1].nombres,
+              estadoFactura:this.estadoFactura[element.idEstadoFactura - 1].estadoFactura,
+              fechaFactura:formatoFecha,
+              empleado:this.empleado[element.numEmpleado - 1].nombres,
+              cliente:this.cliente[element.codCliente - 1].nombres,
               subTotal:subTotal,
               impuesto:element.impuestos,
               descuento:element.descuento,
@@ -121,15 +142,34 @@ export class FacturaComponent {
 
   setTableColumns(){
     this.tableColumns=[
-      {label:'NumFactura', def:'numFactura', dataKey:'numFactura'},
-      {label:'EstadoFactura', def:'estadoFactura', dataKey:'estadoFactura'},
-      {label:'FechaFactura', def:'fechaFactura', dataKey:'fechaFactura'},
+      {label:'Numero Factura', def:'numFactura', dataKey:'numFactura'},
+      {label:'Estado Factura', def:'estadoFactura', dataKey:'estadoFactura'},
+      {label:'Fecha Factura', def:'fechaFactura', dataKey:'fechaFactura'},
       {label:'Empleado', def:'empleado', dataKey:'empleado'},
       {label:'Cliente', def:'cliente', dataKey:'cliente'},
-      {label:'SubTotal', def:'subTotal', dataKey:'subTotal'},
+      {label:'Sub Total', def:'subTotal', dataKey:'subTotal'},
       {label:'Impuesto', def:'impuesto', dataKey:'impuesto'},
       {label:'Descuento', def:'descuento', dataKey:'descuento'},
       {label:'Total', def:'total', dataKey:'total'},
     ]
   }
+
+  getEventBtnClickHeader(){
+    if(!HeaderData.eventBtnClick)
+      this.dataUpdate = undefined
+    return HeaderData.eventBtnClick;
+  }
+
+  initCreate(){
+    this.form = this.formBuilder.group(
+      {
+        'Empleado':['',Validators.required],
+        'Cliente':['',Validators.required],
+        'precioActual':['',Validators.required],
+        'estadoProducto':['',Validators.required]
+      }
+      
+    );  
+  }
+
 }

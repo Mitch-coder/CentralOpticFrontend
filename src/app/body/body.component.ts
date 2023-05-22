@@ -17,14 +17,14 @@ export class BodyComponent {
   
   getBodyClass(): string{
     let styleClass = '';
-    if(this.screenWidth == 0 && (this.router.url=='/login' || this.router.url=='/dashboard')){
+    if(this.screenWidth == 0 && (this.router.url=='/login')){
       styleClass='body-full'
-    }
-    else if(this.collapsed && this.screenWidth > 834){
-      styleClass= 'body-trimmed';
+    }else if(this.collapsed && this.screenWidth > 834){
+      styleClass= 'body-trimmed'
     }else if(!this.collapsed && this.screenWidth<= 835 && this.screenWidth > 0){
-      styleClass = 'body-md-screen'
+      styleClass = 'body-md-screen' 
     }
+    styleClass = styleClass + ' ' + (this.router.url=='/dashboard'?'body-semi-full':'');
     return styleClass;
   }
 
@@ -52,11 +52,8 @@ export class BodyComponent {
 /*
  Bodega -mitch    
  //Bodega Model
- 
   Proveedor -mitch
-
   Laboratorio -mitch
   OrdenPedido -mitch //Orden pedido no seria lo mismo que orden pedido entrega
-
   Entrega -mitch
 */
