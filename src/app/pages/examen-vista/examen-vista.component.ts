@@ -11,10 +11,16 @@ import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/modules/dialog/components/dialog/dialog.component';
 
-import * as _moment from 'moment';
-import {default as _rollupMoment} from 'moment';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+// import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
-const moment = _rollupMoment || _moment;
+import * as moment from 'moment';
+import {default as _rollupMoment} from 'moment';
+import { DateAdapter } from '@angular/material/core';
+
+
+
+// const moment = _rollupMoment || _moment;
 
 interface ExamenVista {
   numExamen: number;
@@ -59,7 +65,22 @@ export function timeValidator(control: FormControl): { [key: string]: boolean } 
 @Component({
   selector: 'app-examen-vista',
   templateUrl: './examen-vista.component.html',
-  styleUrls: ['./examen-vista.component.css']
+  styleUrls: ['./examen-vista.component.css'],
+  providers: [
+    // { provide: DateAdapter, useClass: MomentDateAdapter },
+    // { provide: MAT_DATE_FORMATS, useValue: {
+    //     parse: {
+    //       dateInput: 'LL',
+    //     },
+    //     display: {
+    //       dateInput: 'LL',
+    //       monthYearLabel: 'MMM YYYY',
+    //       dateA11yLabel: 'LL',
+    //       monthYearA11yLabel: 'MMMM YYYY',
+    //     },
+    //   },
+    // },
+  ],
 })
 export class ExamenVistaComponent {
   myData: any[] = [];
@@ -69,6 +90,7 @@ export class ExamenVistaComponent {
 
   opcionesFormato: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit' };
   selectedDate: Date = new Date();
+  formattedDate: string = ''
   // datePattern = /^(0[1-9]|1\d|2\d|3[01])-(0[1-9]|1[0-2])-\d{4}$/;
   maxDate= new Date()
 
@@ -153,9 +175,9 @@ export class ExamenVistaComponent {
     /*private datePipe: DatePipe*/) { }
 
 
-  onDateChange(event: any) {
-    this.FechaExamen = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(new Date(this.FechaExamen) );
-  }
+  // onDateChange(event: any) {
+  //   this.FechaExamen = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(new Date(this.FechaExamen) );
+  // }
 
   ngOnInit(): void {
 
@@ -245,7 +267,6 @@ export class ExamenVistaComponent {
     if (data) {
       let f = data.fechaExamen
       console.log(moment(f))
-      console.log(new Date(f.toString()))
       let c = this.cliente.filter(f => data.cliente == f.nombres)
       this.Cliente=c[0]
       // this.FechaExamen =data.fechaExamen.toISOString();
@@ -256,7 +277,7 @@ export class ExamenVistaComponent {
       this.formCreate = this.formBuilder.group(
         {
           'cliente': [this.Cliente, Validators.required],
-          'fechaExamen': [moment([2023,5,5]).date, [Validators.required,timeValidator]],
+          'fechaExamen': [this.formattedDate, [Validators.required]],
           'ojoIzquierdo': [this.OjoIzquierdo, Validators.required],
           'ojoDerecho': [this.OjoDerecho, Validators.required],
           'descripLenteIzq': [this.DescripLenteIzq, Validators.required],
@@ -289,7 +310,12 @@ export class ExamenVistaComponent {
     this.matDialogRef.close();
   }
 
-  formatDate(date: Date): string {
-    return date.toString()
+  formatDate(date: Date) {
+    this.formattedDate =  new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
+  }
+
+  onDateSelected(event: any) {
+    console.log(new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(event.value))
+    return new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(event.value);
   }
 }

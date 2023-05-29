@@ -54,6 +54,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { HelpComponent } from './pages/help/help.component';
 // import { MatMomentDateModule } from '@angular/material-moment-adapter';
 // import moment from 'moment';
+import { MomentModule } from 'ngx-moment';
 
 // import {moment} from 'moment/moment';
 
@@ -105,7 +106,8 @@ import { HelpComponent } from './pages/help/help.component';
     MatSelectModule,
     MatDialogModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MomentModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -74,9 +74,12 @@
                 placeholder="Fecha de creacion" 
                 formControlName="fechaExamen"
                 [max]="maxDate"
-                [value]="formatDate(selectedDate)"> 
-              <mat-hint class="form-control-picker-hint">DD de MM de YYYY</mat-hint>
-              <mat-datepicker  #picker></mat-datepicker>
+                [(ngModel)]="selectedDate" 
+                (ngModelChange)="formatDate($event)"
+                (dateInput)="onDateSelected($event)">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="false"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
             </div>
             <!-- <mat-datepicker-toggle [for]="picker"  matIconSuffix class="btn-control-picker"></mat-datepicker-toggle> -->
             
