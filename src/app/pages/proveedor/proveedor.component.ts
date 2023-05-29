@@ -86,37 +86,39 @@ export class ProveedorComponent {
     return HeaderData.eventBtnClick;
   }
 
-  setFormUpdate(data:Data){
+  setFormUpdate(data: Data) {
     this.dataUpdate = data;
-    this.formUpdate = [{
-      label: 'Nombre',
-      type: 'text',
-      placeholder: 'Ingrese el nombre del proveedor',
-      alert: 'El nombre es obligatorio',
-      icon: '',
-      formControlName: 'nombre',
-      formValidators: { 'nombre': [data.nombre, [Validators.required]] },
-      value: data.nombre
-    },
-    {
-      label: 'Propietario',
-      type: 'text',
-      placeholder: 'Ingrese el propietario',
-      alert: 'El propietario es obligatorio',
-      icon: 'fa-solid fa-user-lock',
-      formControlName: 'propietario',
-      formValidators: { 'propietario': [data.propietario, [Validators.required]] },
-      value: data.propietario
-    },
-    {
-      label: 'Dirección',
-      type: 'text',
-      placeholder: 'Ingrese la dirección',
-      alert: 'La dirección es obligatorio',
-      icon: 'fa-solid fa-map-location-dot',
-      formControlName: 'direccion',
-      formValidators: { 'direccion': [data.direccion, [Validators.required]] },
-      value: data.direccion
-    }]
+    if (data) {
+      this.formUpdate = [{
+        label: 'Nombre',
+        type: 'text',
+        placeholder: 'Ingrese el nombre del proveedor',
+        alert: 'El nombre es obligatorio',
+        icon: '',
+        formControlName: 'nombre',
+        formValidators: { 'nombre': [data.nombre, [Validators.required]] },
+        value: data.nombre
+      },
+      {
+        label: 'Propietario',
+        type: 'text',
+        placeholder: 'Ingrese el propietario',
+        alert: 'El propietario es obligatorio',
+        icon: 'fa-solid fa-user-lock',
+        formControlName: 'propietario',
+        formValidators: { 'propietario': [data.propietario, [Validators.required]] },
+        value: data.propietario
+      },
+      {
+        label: 'Dirección',
+        type: 'text',
+        placeholder: 'Ingrese la dirección',
+        alert: 'La dirección es obligatorio',
+        icon: 'fa-solid fa-map-location-dot',
+        formControlName: 'direccion',
+        formValidators: { 'direccion': [data.direccion, [Validators.required]] },
+        value: data.direccion
+      }]
+    }
   }
 }

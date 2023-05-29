@@ -232,3 +232,57 @@
         border-radius: 0.25rem;
     }
 }
+
+.overlay-user{
+    margin-top: 0.4rem;
+    border-radius: 0.4rem;
+    box-shadow: 0px 0px 10px 0 rgb(118, 127, 134);
+    .ul{
+        padding: 0.5rem 0;
+        list-style: none;
+        width: 10 rem;
+        .li{
+            padding: 0.35rem 1.2rem;
+            font-size: 14px;
+            font-weight: 400;
+            color: #495057;
+            cursor: pointer;
+            .icon{
+                margin-right: 0.6rem ;
+
+            }
+            .span:hover{
+                color: #495057;
+            }
+
+            .default-icon:before {
+                content: "\f007"; /* Icono inicial */
+                color: #7245d3;
+            }
+            .fas {
+  font-size: 1.5rem;
+}
+
+.fa-star:before {
+  content: "\f005";
+}
+
+.fa-heart:before {
+  content: "\f004";
+}
+        }
+        .li:hover{
+            background: #eff2f3;
+            .hover-icon:before {
+                content: "\f006"; /* Icono al pasar el mouse */
+                color: #699dfa;
+            }
+        }
+
+    }
+}
+
+
+
+
+

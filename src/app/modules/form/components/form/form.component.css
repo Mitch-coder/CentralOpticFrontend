@@ -17,7 +17,7 @@
         padding-right: 1.25rem;
         background-color: #f0f0f0;
         box-shadow: none;
-        border-radius: 0.4rem 1rem 1rem 0.4rem;
+        border-radius: 0.4rem 0.6rem 0.6rem 0.4rem;
         outline: 0;
     }
 
@@ -48,6 +48,10 @@
         .icon-select-key{
             color: rgb( 0, 247, 0);
         }
-    }
-    
+    }   
+}
+
+.btn-form{
+    float: right;   
+    margin-right: 0.2rem;
 }

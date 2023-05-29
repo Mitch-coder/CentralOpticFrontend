@@ -1,0 +1,20 @@
+<mat-sidenav-container class="example-container">
+    <mat-sidenav-content>
+        <div class="example-content">
+            <section *ngIf="getEventBtnClickHeader()">
+                <h1>Lista de contactos de proveedor</h1>
+                <app-table [data]="myData$" [columns]="tableColumns"
+                    (selectItemsCell)="setFormUpdate($event)"></app-table>
+                <section *ngIf="dataUpdate">
+                    <app-form [Title]="'Actualizar Contactos de proveedor'"  [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formClientUpdate"></app-form>
+                </section>
+            </section>
+            <section *ngIf="!getEventBtnClickHeader()">
+                <app-form [Title]="'Agregar telefono proveedor'"  [FormD]="formTelefonoCliente"></app-form>
+            </section>
+            <section *ngIf="!getEventBtnClickHeader()">
+                <app-form [Title]="'Agregar correo proveedor'"  [FormD]="formCorreoCliente"></app-form>
+            </section>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

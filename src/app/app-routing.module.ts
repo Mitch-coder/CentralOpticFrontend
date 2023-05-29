@@ -20,6 +20,7 @@ import { ProveedorComponent } from './pages/proveedor/proveedor.component';
 import { LaboratorioComponent } from './pages/laboratorio/laboratorio.component';
 import { EntregaComponent } from './pages/entrega/entrega.component';
 import { OrdenPedidoComponent } from './pages/orden-pedido/orden-pedido.component';
+import { HelpComponent } from './pages/help/help.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -84,8 +85,9 @@ const routes: Routes = [
     canActivate:[UserGuardGuard]
   },
   {
-    path:'proveedor',
-    component: ProveedorComponent,
+    path:'provedor',
+    loadChildren:() => import('./pages/proveedor/proveedor.module').then(m => m.ProveedorModule),
+    // component: ProveedorComponent,
     canActivate:[UserGuardGuard]
   },
   {
@@ -102,6 +104,11 @@ const routes: Routes = [
     path:'orden-pedido',
     component: OrdenPedidoComponent,
     canActivate:[UserGuardGuard]
+  },
+  { 
+    path: 'ayuda',
+    component: HelpComponent,
+    canActivate: [UserGuardGuard] 
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login', pathMatch: 'full' }

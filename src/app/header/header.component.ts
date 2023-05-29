@@ -1,7 +1,11 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { HeaderData, HeaderSearch } from './header-data';
 import { FormBuilder,FormControl, FormGroup, Validators } from '@angular/forms';
+import { userItems } from './header-dummy-data';
+// import { CdkMenuTrigger } from '@angular/cdk/overlay';
+import { MatMenuTrigger } from '@angular/material/menu';
 
+import { CdkMenuTrigger } from '@angular/cdk/menu';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -9,6 +13,11 @@ import { FormBuilder,FormControl, FormGroup, Validators } from '@angular/forms';
   providers: [HeaderSearch]
 })
 export class HeaderComponent implements OnInit{
+
+
+  userItems = userItems;
+  iconClassLogout:string = 'fa-solid fa-door-closed';
+
   
   // Esta variable se utiliza para hacer la animacion de la barra de buscar 
   canShowSearchAsOverlay = false
@@ -102,6 +111,39 @@ export class HeaderComponent implements OnInit{
 
 
 
+
   
+  changeIcon(event: MouseEvent) {
+    this.iconClassLogout = 'fa-solid fa-door-open hover-icon';
+    console.log(this.iconClassLogout)
+  }
+
+  resetIcon(event: MouseEvent) {
+    this.iconClassLogout = 'fa-solid fa-door-closed default-icon';
+    console.log(this.iconClassLogout)
+  }
+
+  isMouseOver: boolean = false;
+
+  changeIcon1(mouseOver: boolean) {
+    this.isMouseOver = mouseOver;
+  }
+  
+
+  //sobreposiciones de botones y solo usa el ngIf para controlar cual se muestrs
+
+
+  @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
+  isMenuOpen: boolean = false;
+
+  onMenuOpened() {
+    this.isMenuOpen = true;
+    // Realiza acciones o lógica adicional cuando el menú se abre
+  }
+
+  onMenuClosed() {
+    this.isMenuOpen = false;
+    // Realiza acciones o lógica adicional cuando el menú se cierra
+  }
 
 }

@@ -20,6 +20,12 @@
                         formControlName="marca" 
                         class="form-control form-control-lg"
                         [(value)]="marca">
+                          <mat-select-trigger>
+                            <!-- <i [ngClass]="estadoProducto.value == 'Inactivo'? 'fa-regular fa-circle-xmark text-danger':'fa-regular fa-square-check text-success'"></i> -->
+                            <i class="fa-regular fa-bookmark select-icon"></i>
+                            {{marca}}
+                          </mat-select-trigger>
+                        
                           <mat-option *ngFor="let option of Marcas" [value]="option.marca">
                               {{option.marca}}
                           </mat-option>
@@ -28,7 +34,8 @@
                     <button 
                         mat-fab
                         extended 
-                        class="btn-add btn-primary">
+                        class="btn-add btn-primary"
+                        (click)="openDialogWithTemplate(formmarca)">
                           <i class="fa-solid fa-plus"></i>
                     </button>
                   </div>
@@ -41,7 +48,7 @@
                       </label>
                       <input type="text" formControlName="nombre" class="form-control form-input"
                           placeholder="Ingrese el nombre del producto" [(ngModel)]="nombreProducto" >
-                      <i class=" fa-solid fa-feather form-input-icon"></i>
+                      <i class="fa-solid fa-file-signature form-input-icon"></i>
                       <div class="alert alert-danger mt-1"
                           [hidden]="formGet('nombre').valid || (formGet('nombre').pristine)">
                           Ingrese el nombre del producto
@@ -54,7 +61,8 @@
                     </label>
                     <input type="number" formControlName="precioActual" class="form-control form-input"
                         placeholder="Ingrese el precio actual del producto" [(ngModel)]="precioActual" >
-                    <i class=" fa-solid fa-feather form-input-icon"></i>
+                    <i class="fa-solid fa-money-bills form-input-icon"></i>
+                    
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGet('nombre').valid || (formGet('nombre').pristine)">
                         Ingrese el precio unitario de producto
@@ -68,15 +76,23 @@
                   <mat-select 
                     formControlName="estadoProducto" 
                     class="form-control form-control-lg"
-                    [(value)]="estadoProducto">
-                      <mat-option *ngFor="let option of EstadoProducto" [value]="option">
-                          {{option}}
+                    [(ngModel)]="estadoProducto.value"
+                    >
+                      <mat-select-trigger>
+                        <!-- <i [ngClass]="estadoProducto.value == 'Inactivo'? 'fa-regular fa-circle-xmark text-danger':'fa-regular fa-square-check text-success'"></i> -->
+                        <i class="fa-solid fa-caret-right select-icon"></i>
+                        {{estadoProducto.value}}
+                      </mat-select-trigger>
+
+                      <mat-option *ngFor="let option of EstadoProducto" [value]="option.value">
+                          <i [class]="option.icon"></i>
+                          {{option.value}}
                       </mat-option>
                   </mat-select>
                 </div>
                 
         
-                  <button class="btn btn-primary" #btnEnviar [disabled]="form.invalid">
+                  <button class="btn btn-primary btn-form-product" #btnEnviar [disabled]="form.invalid">
                     Actualizar
                   </button>
                 </form>
@@ -93,3 +109,8 @@
 </mat-sidenav-container> 
 
 
+<ng-template #formmarca>
+  <div class="template-container">
+    <app-form [Title]="'Nueva Marca'" [FormD]="formMarcas" (formData)="onSave($event)"></app-form>
+  </div>
+</ng-template>

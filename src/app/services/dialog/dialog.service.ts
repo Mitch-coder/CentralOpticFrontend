@@ -11,6 +11,6 @@ export class DialogService {
   constructor(private matDialog: MatDialog) { }
 
   openDialogWithTemplate(data: DialogTamplateData) {
-    return this.matDialog.open(DialogComponent, { data });
+    return this.matDialog.open(DialogComponent, { data, width:'calc(45%)' });
   }
 }

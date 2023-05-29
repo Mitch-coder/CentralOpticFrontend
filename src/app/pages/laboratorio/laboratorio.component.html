@@ -1,35 +1,20 @@
 <mat-sidenav-container class="example-container">
     <mat-sidenav-content>
       <div class="example-content">
-        <h1>Lista de laboratorios</h1>
-        <section>
-          <app-table [data]="myData$" [columns]="tableColumns"></app-table>
+        <section *ngIf="getEventBtnClickHeader()">
+          <h1>Lista de laboratorios</h1>
+          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
+        </section>
+        <section *ngIf="dataUpdate">
+          <app-form [Title]="'Actualizar Laboratorio - '+ dataUpdate.idLaboratorio" [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formUpdate"></app-form>
         </section>
       </div>
-      <button class="btn btn-primary" (click)="openDialogWithTemplate(template2)">
-        button
-      </button>
+      <section *ngIf="!getEventBtnClickHeader()">
+        <app-form [Title]="'Nuevo Laboratorio'" [FormD]="formCreate"></app-form>
+      </section>
+      
     </mat-sidenav-content>
       
 </mat-sidenav-container>  
 
 
-
-
-<ng-template #template2>
-  <h1 mat-dialog-title>Dialog With Template 2</h1>
-  <div mat-dialog-content>
-    <form [formGroup]="formGroup">
-      <mat-form-field>
-        <input matInput placeholder="name" formControlName="name" />
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="lastname" formControlName="lastname" />
-      </mat-form-field>
-    </form>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="onSave()">Save</button>
-    <button mat-button mat-dialog-close>Close</button>
-  </div>
-</ng-template>

@@ -39,6 +39,24 @@ interface Proveedor{
   propietario:string;
 }
 
+interface Data{
+  id:number;
+  nombreProveedor:string;
+  nombreProducto:string;
+  descripProducto:string;
+  fechaObtencion:Date;
+  cantidad:number;
+  costo:number;
+}
+
+
+// id:element.idProveedor_Producto,
+// nombreProveedor:prov[0].nombre,
+// nombreProducto:nameProduct[0].nombreProducto,
+// descripProducto:product[0].descripcion,
+// fechaObtencion:formatoFecha,
+// cantidad:element.cantidad,
+// costo:element.costo
 @Component({
   selector: 'app-proveedor-producto',
   templateUrl: './proveedor-producto.component.html',

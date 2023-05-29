@@ -85,6 +85,13 @@ export class FormComponent implements AfterViewInit {
     if(typeof option === 'string'){
       return option
     }
-    return option.value
+    return option as FormDataVal
+  }
+
+  getVisualValitars(option:any){
+    if(typeof option === 'string'){
+      return true
+    }
+    return false
   }
 }

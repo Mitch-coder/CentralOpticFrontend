@@ -79,9 +79,21 @@ export const navbarData:INavbarData[]=[
         label:'Bodega'
     },
     {
-        routeLink:'proveedor',
+        routeLink:'provedor',
         icon: 'fa-solid fa-address-card',
-        label:'Proveedor'
+        label:'Proveedor',
+        items:[
+            {
+                routeLink: 'provedor/info',
+                icon: 'fa-regular fa-address-card', 
+                label: 'Informacion Proveedor'
+            },
+            {
+                routeLink: 'provedor/contacto-proveedor',
+                icon: 'fa-solid fa-mobile-screen-button',
+                label: 'Contacto Proveedor'
+            }
+        ]
     },
     {
         routeLink:'laboratorio',

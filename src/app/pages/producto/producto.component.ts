@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
 import { map, mergeMap, tap } from 'rxjs';
@@ -6,6 +6,9 @@ import { forkJoin } from 'rxjs';
 import { HeaderData } from 'src/app/header/header-data';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormData } from 'src/app/modules/form/components/form/form-data';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { DialogComponent } from 'src/app/modules/dialog/components/dialog/dialog.component';
 
 interface Product{
   codProducto:number;
@@ -35,6 +38,17 @@ interface Data{
   estadoProducto:string;
 }
 
+interface EstadoProducto{
+  value:string;
+  icon:string
+}
+
+interface Proveedor {
+  idProveedor: number;
+  nombre: string;
+  propietario: string;
+  direccion: string;
+}
 
 
 @Component({
@@ -51,58 +65,104 @@ export class ProductoComponent {
   // formulario actualizar
   Marcas:Marca[] = []
   NombresProductos: NombreProducto[] = []
-  EstadoProducto: string[] = [ 'Activo' , 'Inactivo' ]
+  EstadoProducto:EstadoProducto[] = [ 
+    {value:'Activo', icon:'fa-regular fa-square-check text-success'} , 
+    {value:'Inactivo',icon:'fa-regular fa-circle-xmark text-danger'} ]
+
+  // <i class=""></i>
 
   marca:string = ''
   nombreProducto:string = ''
-  estadoProducto:string = ''
+  estadoProducto:EstadoProducto = {value:'Activo', icon:'fa-regular fa-square-check text-success'} 
   precioActual:number = 0
 
+  //Proveedor
+  Proveedor:Proveedor[] = []
+  proveedorSelect:string[] = [] 
+  marcaSelect:string[] = []
+
+
+  private matDialogRef!: MatDialogRef<DialogComponent>;
+    
 
   form!: FormGroup;
-  
-  formProducto:FormData[]=[{
-    label:'Cedula',
-    type:'text',
-    placeholder:'Ingrese la cedula del cliente',
-    alert:'La cedula es obligatorio',
-    icon:'',
-    formControlName:'cedula',
-    formValidators:{'cedula':['',[Validators.required]]}
-  },
-  {
-    label:'Nombre',
-    type:'text',
-    placeholder:'Ingrese el nombre del cliente',
-    alert:'El nombre es obligatorio',
-    icon:'',
-    formControlName:'name',
-    formValidators:{'name':['',[Validators.required]]}
-  },
-  {
-    label:'Apellido',
-    type:'text',
-    placeholder:'Ingrese el apellido del cliente',
-    alert:'El apellido es obligatorio',
-    icon:'',
-    formControlName:'apellido',
-    formValidators:{'apellido':['',[Validators.required]]}
-  },
-  {
-    label:'Dirección',
-    type:'text',
-    placeholder:'Ingrese la dirección del cliente',
-    alert:'La dirección es obligatorio',
-    icon:'',
-    formControlName:'direccion',
-    formValidators:{'direccion':['',[Validators.required]]}
-  }]
 
+  formMarcas:FormData[] = [
+  {
+    label:'Nombre de la Marca',
+    type:'text',
+    placeholder:'Ingrese la nueva Marca del producto',
+    alert:'La Marca es obligatorio',
+    icon:'',
+    formControlName:'marca',
+    formValidators:{'marca':['',[Validators.required]]}
+  }]
+  
+
+  formProducto:FormData[]=[{
+    label:'Nombre del producto',
+    type:'text',
+    placeholder:'Ingrese el nombre del producto',
+    alert:'El nombre es obligatorio',
+    icon:'fa-solid fa-pencil',
+    formControlName:'nombre',
+    formValidators:{'nombre':['',[Validators.required]]}
+  },
+  {
+    label:'Proveedor',
+    type:'select',
+    placeholder:'',
+    alert:'El proveedor es obligatorio',
+    icon:'',
+    formControlName:'proveedor',
+    formValidators:{'proveedor':['',[Validators.required]]},
+    option:this.proveedorSelect
+  },
+  {
+    label:'Marcas',
+    type:'select',
+    placeholder:'',
+    alert:'La marca es obligatorio',
+    icon:'',
+    formControlName:'marca',
+    formValidators:{'marca':['',[Validators.required]]},
+    option:this.marcaSelect
+  },
+  {
+    label:'Cantidad',
+    type:'number',
+    placeholder:'Ingrese la cantidad de productos',
+    alert:'La Cantidad de productos es obligatoria',
+    icon:'fa-solid fa-arrow-up-9-1',
+    formControlName:'cantidad',
+    formValidators:{'cantidad':['',[Validators.required]]}
+  },
+  {
+    label:'Precio',
+    type:'number',
+    placeholder:'Ingrese el precio de los productos',
+    alert:'El precio de los productos es obligatoria',
+    icon:'fa-solid fa-coins',
+    formControlName:'precio',
+    formValidators:{'precio':['',[Validators.required]]}
+  },
+  {
+    label:'Estado del producto',
+    type:'select',
+    placeholder:'',
+    alert:'el estado producto es obligatorio',
+    icon:'',
+    formControlName:'estadoProducto',
+    formValidators:{'estadoProducto':['Activo',[Validators.required]]},
+    option:['Activo', 'Inactivo']
+  }]
 
   formProductoUpdate:FormData[] = []
   tableColumns: TableColumn[] =[]
 
-  constructor(private dataService:MyDataServices, private formBuilder:FormBuilder){}
+  constructor(private dataService:MyDataServices, 
+    private formBuilder:FormBuilder,
+    private dialogService: DialogService){}
 
   ngOnInit(): void{
 
@@ -110,11 +170,22 @@ export class ProductoComponent {
       this.dataService.getData('nombreProducto'),
       this.dataService.getData('marca'),
       this.dataService.getData('producto'),
+      this.dataService.getData('proveedor'),
     ).pipe(
       map((data:any[])=>{
         this.NombresProductos = data[0]
         this.Marcas= data[1]
         let producto:Product[] = data[2]
+        this.Proveedor = data[3];
+
+
+        this.Proveedor.forEach(d => {
+          this.proveedorSelect.push('Nombre: '+d.nombre + '  |  ' +' Propietario: '+ d.propietario);
+        })
+
+        this.Marcas.forEach(d=>{
+          this.marcaSelect.push(d.marca);
+        })
         
          producto.forEach(element => {
 
@@ -156,7 +227,8 @@ export class ProductoComponent {
 
     if(data){
       this.marca = data.marca;
-      this.estadoProducto = data.estadoProducto;
+      let t = this.EstadoProducto.filter(f => f.value == data.estadoProducto)
+      this.estadoProducto = {value: t[0].value, icon: t[0].icon}
       this.nombreProducto = data.nombre;
       this.precioActual = data.precioActual;
       
@@ -170,13 +242,36 @@ export class ProductoComponent {
         
       );  
     }
-    
-    
-  
   }
 
   formGet(fr:string){
     return this.form.get(fr) as FormControl;
   }
 
+  onChangeOption(option: string) {
+    console.log(option)
+    let c = this.EstadoProducto.filter(p => p.icon == option)
+    this.estadoProducto = c[0]
+  }
+
+  openDialogWithTemplate(template: TemplateRef<any>) {
+    // console.log('entra')
+    this.matDialogRef = this.dialogService.openDialogWithTemplate({
+      template, 
+    });
+
+    this.matDialogRef.afterClosed().subscribe((res) => {
+      console.log('Dialog With Template Close', res);
+    });
+  }
+
+  onSave(marca:any) {
+    this.Marcas.push({idMarca:-1,marca:marca.marca})
+    this.marca = marca.marca
+    this.matDialogRef.close();
+  }
+
+
 }
+
+

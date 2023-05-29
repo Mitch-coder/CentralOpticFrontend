@@ -142,7 +142,7 @@ export class TableComponent implements OnInit, AfterViewInit  {
   }
 
   btnClickUpdate(){
-    console.log(this.dataUpdate)
+    // console.log(this.dataUpdate)
     this.selectItemsCell.emit(this.dataUpdate);
   }
   

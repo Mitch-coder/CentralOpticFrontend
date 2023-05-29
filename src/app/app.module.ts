@@ -51,8 +51,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 //datapicker
 import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { HelpComponent } from './pages/help/help.component';
 // import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import moment from 'moment';
+// import moment from 'moment';
+
+// import {moment} from 'moment/moment';
 
 @NgModule({
   declarations: [
@@ -72,11 +75,11 @@ import moment from 'moment';
     SublevelMenuComponent,
     HeaderComponent,
     BodegaComponent,
-    ProveedorComponent,
     LaboratorioComponent,
     EntregaComponent,
     OrdenPedidoComponent,
-    DialogComponent
+    DialogComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule,

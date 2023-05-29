@@ -16,6 +16,8 @@ export interface FormData{
 export interface FormDataVal{
     id:number;
     value:string;
+    icon?:string;
+    class?:string;
 }
 
 // export interface FormSelectData{

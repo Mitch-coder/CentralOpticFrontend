@@ -1,4 +1,5 @@
 import { Component, TemplateRef } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
 import { elementAt, map, mergeMap, tap } from 'rxjs';
@@ -10,6 +11,10 @@ import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/modules/dialog/components/dialog/dialog.component';
 
+import * as _moment from 'moment';
+import {default as _rollupMoment} from 'moment';
+
+const moment = _rollupMoment || _moment;
 
 interface ExamenVista {
   numExamen: number;
@@ -43,6 +48,14 @@ interface Data {
   descripLenteDer: string;
 }
 
+export function timeValidator(control: FormControl): { [key: string]: boolean } | null {
+  const opcionesFormato: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit' };
+  const valid = new Intl.DateTimeFormat('es-ES', opcionesFormato).format(new Date);
+
+  return valid ? null : { invalidTime: true };
+}
+
+
 @Component({
   selector: 'app-examen-vista',
   templateUrl: './examen-vista.component.html',
@@ -55,6 +68,7 @@ export class ExamenVistaComponent {
   tableColumns: TableColumn[] = []
 
   opcionesFormato: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit' };
+  selectedDate: Date = new Date();
   // datePattern = /^(0[1-9]|1\d|2\d|3[01])-(0[1-9]|1[0-2])-\d{4}$/;
   maxDate= new Date()
 
@@ -63,8 +77,15 @@ export class ExamenVistaComponent {
 
   selectedValue: string = '';
 
-  Cliente: string = ''
-  FechaExamen = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(new Date);
+  Cliente: Cliente = {
+    codCliente: -1,
+    cedula: '',
+    nombres: '',
+    apellidos: '',
+    direccion: ''
+  }
+
+  FechaExamen:string = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(new Date);
   OjoIzquierdo: number = 0;
   OjoDerecho: number = 0;
   DescripLenteIzq: string = '';
@@ -73,7 +94,7 @@ export class ExamenVistaComponent {
   formCreate: FormGroup = this.formBuilder.group(
     {
       'cliente': [this.Cliente, Validators.required],
-      'fechaExamen': [this.FechaExamen, [Validators.required]],
+      'fechaExamen': [moment([2017, 0, 1]), [Validators.required]],
       'ojoIzquierdo': [this.OjoIzquierdo, Validators.required],
       'ojoDerecho': [this.OjoDerecho, Validators.required],
       'descripLenteIzq': [this.DescripLenteIzq, Validators.required],
@@ -82,8 +103,9 @@ export class ExamenVistaComponent {
   );
 
   dataUpdate: any = undefined
-  formUpdate: FormData[] = []
-  form!: FormGroup;
+  formUpdate: any;
+
+  form!: FormGroup
 
   //cliente
   private matDialogRef!: MatDialogRef<DialogComponent>;
@@ -95,7 +117,7 @@ export class ExamenVistaComponent {
     alert: 'La cedula es obligatorio',
     icon: '',
     formControlName: 'cedula',
-    formValidators: { 'cedula': ['', [Validators.required]] }
+    formValidators: { 'cedula': [this.Cliente.cedula, [Validators.required]] }
   },
   {
     label: 'Nombre',
@@ -104,7 +126,7 @@ export class ExamenVistaComponent {
     alert: 'El nombre es obligatorio',
     icon: '',
     formControlName: 'nombres',
-    formValidators: { 'nombres': ['', [Validators.required]] }
+    formValidators: { 'nombres': [this.Cliente.nombres, [Validators.required]] }
   },
   {
     label: 'Apellido',
@@ -113,7 +135,7 @@ export class ExamenVistaComponent {
     alert: 'El apellido es obligatorio',
     icon: '',
     formControlName: 'apellidos',
-    formValidators: { 'apellidos': ['', [Validators.required]] }
+    formValidators: { 'apellidos': [this.Cliente.apellidos, [Validators.required]] }
   },
   {
     label: 'Dirección',
@@ -122,12 +144,13 @@ export class ExamenVistaComponent {
     alert: 'La dirección es obligatorio',
     icon: '',
     formControlName: 'direccion',
-    formValidators: { 'direccion': ['', [Validators.required]] }
+    formValidators: { 'direccion': [this.Cliente.direccion, [Validators.required]] }
   }]
 
   constructor(private dataService: MyDataServices,
     private formBuilder: FormBuilder,
-    private dialogService: DialogService) { }
+    private dialogService: DialogService,
+    /*private datePipe: DatePipe*/) { }
 
 
   onDateChange(event: any) {
@@ -146,14 +169,14 @@ export class ExamenVistaComponent {
         this.fechaExamen = data[1];
         this.cliente = data[2];
 
-        console.log(this.cliente)
+        // console.log(this.cliente)
 
         examenVista.forEach(element => {
           let client = this.cliente.filter(e => e.codCliente == element.codCliente)
           let fecha = this.fechaExamen.filter(e => e.idFechaExamen == element.idFechaExamen)
 
           let date: Date = new Date(fecha[0].fechaExamen)
-          let formatoFecha = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
+          let formatoFecha:string = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
           this.myData.push({
             numExamen: element.numExamen,
             cliente: client[0].nombres,
@@ -171,6 +194,12 @@ export class ExamenVistaComponent {
     this.setTableColumns();
   }
 
+  // Método para formatear la fecha personalizada
+  private formatCustomDate(date: Date): string {
+    const formatter = new Intl.DateTimeFormat('es', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    return formatter.format(date);
+  }
+
   setTableColumns() {
     this.tableColumns = [
       { label: 'Numero Examen', def: 'numExamen', dataKey: 'numExamen' },
@@ -184,8 +213,28 @@ export class ExamenVistaComponent {
   }
 
   getEventBtnClickHeader() {
-    if (!HeaderData.eventBtnClick)
+    if (!HeaderData.eventBtnClick){
       this.dataUpdate = undefined
+      this.Cliente = {
+        codCliente: -1,
+        cedula: '',
+        nombres: '',
+        apellidos: '',
+        direccion: ''
+      }
+
+      this.formCreate = this.formBuilder.group(
+        {
+          'cliente': ['', Validators.required],
+          'fechaExamen': ['', [Validators.required]],
+          'ojoIzquierdo': ['', Validators.required],
+          'ojoDerecho': ['', Validators.required],
+          'descripLenteIzq': ['', Validators.required],
+          'descripLenteDer': ['', Validators.required]
+        }
+      );
+    
+    }
     return HeaderData.eventBtnClick;
   }
 
@@ -194,18 +243,38 @@ export class ExamenVistaComponent {
     this.dataUpdate = data
 
     if (data) {
-
+      let f = data.fechaExamen
+      console.log(moment(f))
+      console.log(new Date(f.toString()))
+      let c = this.cliente.filter(f => data.cliente == f.nombres)
+      this.Cliente=c[0]
+      // this.FechaExamen =data.fechaExamen.toISOString();
+      this.OjoIzquierdo = data.ojoIzquierdo;
+      this.OjoDerecho = data.ojoDerecho;
+      this.DescripLenteIzq = data.descripLenteIzq;
+      this.DescripLenteDer = data.descripLenteDer;
+      this.formCreate = this.formBuilder.group(
+        {
+          'cliente': [this.Cliente, Validators.required],
+          'fechaExamen': [moment([2023,5,5]).date, [Validators.required,timeValidator]],
+          'ojoIzquierdo': [this.OjoIzquierdo, Validators.required],
+          'ojoDerecho': [this.OjoDerecho, Validators.required],
+          'descripLenteIzq': [this.DescripLenteIzq, Validators.required],
+          'descripLenteDer': [this.DescripLenteDer, Validators.required]
+        }
+      );
     }
   }
 
   formGet(fr: string) {
+    // console.log(this.formCreate.get(fr) as FormControl)
     return this.formCreate.get(fr) as FormControl;
   }
 
   // dialogo reutilizable
   openDialogWithTemplate(template: TemplateRef<any>) {
     this.matDialogRef = this.dialogService.openDialogWithTemplate({
-      template,
+      template, 
     });
 
     this.matDialogRef.afterClosed().subscribe((res) => {
@@ -214,18 +283,13 @@ export class ExamenVistaComponent {
   }
 
   onSave(client: Cliente) {
-    console.log(client)
-    let c: Cliente = {
-      codCliente: 30,
-      cedula: client.cedula,
-      nombres: client.nombres,
-      apellidos: client.apellidos,
-      direccion: client.direccion
-    }
-    this.cliente.push(c)
-    this.Cliente = c.nombres;
+    this.cliente.push(client)
+    this.Cliente = client;
 
-    console.log(this.Cliente)
     this.matDialogRef.close();
+  }
+
+  formatDate(date: Date): string {
+    return date.toString()
   }
 }

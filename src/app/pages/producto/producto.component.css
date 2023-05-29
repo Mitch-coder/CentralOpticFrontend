@@ -17,7 +17,7 @@
         padding-right: 1.25rem;
         background-color: #f0f0f0;
         box-shadow: none;
-        border-radius: 0.4rem 1rem 1rem 0.4rem;
+        border-radius: 0.4rem 0.6rem 0.6rem 0.4rem;
         outline: 0;
     }
 
@@ -68,3 +68,40 @@
     }
 }
 
+.btn-form-product{
+    float: right;
+    margin-right: 0.2rem;
+}
+
+.select-icon{
+    margin-right: 0.6rem;
+    color: #8e8e92;
+}
+
+mat-select:focus {
+    .select-icon{
+        animation: tambaleo 0.4s;
+        animation-fill-mode: forwards;
+    }
+}
+
+@keyframes tambaleo {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  20% {
+    transform: rotateZ(-10deg);
+  }
+  40% {
+    transform: rotateZ(10deg);
+  }
+  60% {
+    transform: rotateZ(-10deg);
+  }
+  80% {
+    transform: rotateZ(10deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
