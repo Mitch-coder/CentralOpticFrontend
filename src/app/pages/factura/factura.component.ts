@@ -109,11 +109,18 @@ export class FacturaComponent {
           let val= this.detalleFactura.filter(e => e.numFactura == element.numFactura)
           let fecha= this.fechaFactura.filter(e => e.idFechaFactura == element.idFechaFactura)
           let subTotal = 0
+          let cliente:string = "indefinido" 
             
           try {
             subTotal = val[0].cantidad * val[0].precioUni
           } catch (error) {
             subTotal = 0
+          }
+
+          try {
+            cliente = this.cliente[element.codCliente - 1].nombres
+          } catch (error) {
+            cliente = "Indefinido" 
           }
 
           let date:Date = new Date(fecha[0].fechaEmision)
@@ -124,7 +131,7 @@ export class FacturaComponent {
               estadoFactura:this.estadoFactura[element.idEstadoFactura - 1].estadoFactura,
               fechaFactura:formatoFecha,
               empleado:this.empleado[element.numEmpleado - 1].nombres,
-              cliente:this.cliente[element.codCliente - 1].nombres,
+              cliente:cliente,
               subTotal:subTotal,
               impuesto:element.impuestos,
               descuento:element.descuento,
