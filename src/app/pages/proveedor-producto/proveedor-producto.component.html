@@ -1,10 +1,165 @@
 <mat-sidenav-container class="example-container">
-    <mat-sidenav-content>
-      <div class="example-content">
-        <h1>Lista de Proveedor-Productos actuales</h1>
-        <section>
-          <app-table [data]="myData$" [columns]="tableColumns"></app-table>
+  <mat-sidenav-content>
+    <div class="example-content">
+      <h1>Lista de Proveedor-Productos actuales</h1>
+      <section *ngIf="getEventBtnClickHeader()">
+        <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
+        <section *ngIf="dataUpdate">
+          <ng-container *ngTemplateOutlet="form">
+          </ng-container>
         </section>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>  
+      </section>
+      <section>
+        <ng-container *ngIf="getEventBtnClickHeader();else form">
+        </ng-container>
+      </section>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+
+<ng-template #form>
+  <div class="card">
+    <div class="card-body">
+      <!-- (ngSubmit)="procesar" -->
+      <form [formGroup]="formCreate">
+
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <mat-label class="form-label">
+              Proveedor
+            </mat-label>
+            <mat-select formControlName="proveedor" class="form-control form-control-lg" [(ngModel)]="Proveedor">
+
+              <mat-select-trigger class="select-content">
+                <div class="select-content-id">
+                  <i class="fa-regular fa-id-badge select-icon select-email"></i>
+                </div>
+                {{Proveedor.propietario}}
+                <div class="select-content-name">
+                  <i class="fa-solid fa-shop select-icon select-user"></i>
+                  {{Proveedor.nombre}}
+                </div>
+
+              </mat-select-trigger>
+
+              <mat-option *ngFor="let option of proveedorList" [value]="option" class="select-content">
+                <i class="fa-regular fa-id-badge select-icon select-email"></i>
+                <!-- <i class=""></i>-->
+                {{option.propietario}}
+                <i class="fa-solid fa-shop select-icon select-user"></i>
+                {{option.nombre}}
+              </mat-option>
+            </mat-select>
+          </div>
+          <!-- <button mat-fab extended class="btn-add btn-primary" >
+            <i class="fa-solid fa-user-plus"></i>
+          </button> -->
+        </div>
+
+
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <mat-label class="form-label">
+              Productos
+            </mat-label>
+            <mat-select formControlName="producto" class="form-control form-control-lg" [(ngModel)]="ProductoV">
+
+              <mat-select-trigger class="select-content">
+                <div class="select-content-id">
+                  <i class="fa-solid fa-tag select-icon select-email"></i>
+                </div>
+                {{ProductoV.codProducto}}
+                <div class="select-content-name">
+                  <i class="fa-solid fa-box select-icon select-brow"></i>
+                  {{ProductoV.NombreProducto}}
+                  <i class="fa-solid fa-circle-dollar-to-slot select-user"></i>
+                  {{ProductoV.precioActual}}
+                </div>
+
+              </mat-select-trigger>
+
+              <mat-option *ngFor="let option of productoListV" [value]="option" class="select-content">
+                <i class="fa-solid fa-tag select-icon select-email"></i>
+                <!-- <i class=""></i>-->
+                {{option.codProducto}}
+                <i class="fa-solid fa-box select-icon select-brow"></i>
+                {{option.NombreProducto}}
+                <i class="fa-solid fa-circle-dollar-to-slot select-user"></i>
+                {{option.precioActual}}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+
+
+
+
+        <div class="container-picker" *ngIf="!inputFormDataPitcker">
+          <div class="mb-2 content-picker">
+            <mat-label>Fecha de creacion</mat-label>
+            <input type="text" [matDatepicker]="picker" class="form-control-picker" placeholder="Fecha de creacion"
+              formControlName="fechaObtencion" [max]="maxDate" [(ngModel)]="formattedDate" [readonly]="true">
+
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="false"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </div>
+          <!-- <mat-datepicker-toggle [for]="picker"  matIconSuffix class="btn-control-picker"></mat-datepicker-toggle> -->
+          <button mat-fab extended (click)="picker.open()" class="btn-control-picker">
+            <i class="fa-solid fa-calendar-day"></i>
+          </button>
+        </div>
+
+
+        <div class="container-picker" *ngIf="inputFormDataPitcker">
+          <div class="mb-2 content-picker">
+            <mat-label>Fecha de creacion</mat-label>
+            <input type="text" class="form-control-picker"
+              placeholder="Fecha de creacion" formControlName="fechaObtencion" [(ngModel)]="formattedDate"
+              [readonly]="true">
+
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="false"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </div>
+          <!-- <mat-datepicker-toggle [for]="picker"  matIconSuffix class="btn-control-picker"></mat-datepicker-toggle> -->
+          <button mat-fab extended (click)="picker.open()" class="btn-control-picker" disabled="false">
+            <i class="fa-solid fa-calendar-day"></i>
+          </button>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Cantidad de productos
+          </label>
+          <input type="number" formControlName="cantidad" class="form-control form-input"
+            placeholder="Ingrese la cantidad de productos" [(ngModel)]="cantidad">
+          <i class="fa-solid fa-arrows-to-eye form-input-icon"></i>
+          <div class="alert 1alert-danger mt-1" [hidden]="formGet('cantidad').valid || (formGet('cantidad').pristine)">
+            Ingrese la cantidad de productos
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Costo de los productos
+          </label>
+          <input type="number" formControlName="costo" class="form-control form-input"
+            placeholder="Ingrese el costo de los productos" [(ngModel)]="costo">
+          <!-- <i class="fa-solid fa-cubes"></i>-->
+          <i class="fa-solid fa-circle-dollar-to-slot form-input-icon"></i>
+          <div class="alert alert-danger mt-1" [hidden]="formGet('costo').valid || (formGet('costo').pristine)">
+            Ingrese el costo de los productos
+          </div>
+        </div>
+
+        <button class="btn btn-primary" #btnEnviar [disabled]="formCreate.invalid">
+          Actualizar
+        </button>
+      </form>
+    </div>
+  </div>
+</ng-template>

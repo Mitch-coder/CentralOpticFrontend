@@ -50,11 +50,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 //datapicker
 import { MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { HelpComponent } from './pages/help/help.component';
 // import { MatMomentDateModule } from '@angular/material-moment-adapter';
 // import moment from 'moment';
 import { MomentModule } from 'ngx-moment';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 // import {moment} from 'moment/moment';
 
@@ -109,7 +110,25 @@ import { MomentModule } from 'ngx-moment';
     MatNativeDateModule,
     MomentModule
   ],
-  providers: [],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: {
+        parse: {
+          dateInput: 'LL',
+        },
+        display: {
+          // year: 'numeric',
+          // month: 'long',
+          // day: '2-digit'
+          dateInput: 'DD [de] MMMM [de] YYYY',
+          monthYearLabel: 'YYYY',
+          dateA11yLabel: 'LL',
+          monthYearA11yLabel: 'YYYY',
+        },
+      },
+    },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
