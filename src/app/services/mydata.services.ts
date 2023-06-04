@@ -36,14 +36,15 @@ export class MyDataServices {
       })
     };
 
-    try {
-      this.http.post('https://localhost:7210/centralopticapi/' + endpoint, body, httpOptions);
-      // console.log( this.http.post('https://localhost:7210/centralopticapi/' + endpoint, body, httpOptions))
-      console.log("Insertado con exito");
-    }
-    catch (error) {
-      console.log("Error al insertar los datos");
-    }
+    this.http.post('https://localhost:7210/centralopticapi/'+endpoint, body, httpOptions)
+    .subscribe(
+      response => {
+        console.log('Insertado con éxito');
+      },
+      error => {
+        console.log('Error al insertar los datos:', error);
+      }
+    );
   }
 
   /* En el Json que se le pasa a body, o al objeto que se le pasa como parametro body No tiene que ir el identificador ya que en este caso solo se le pasa como parametro*/
@@ -59,13 +60,16 @@ export class MyDataServices {
       })
     };
 
-    try {
-      this.http.put('https://localhost:7210/centralopticapi/' + endpoint + '/' + Id, body, httpOptions)
-      console.log("Actualizado con exito");
-    }
-    catch (error) {
-      console.log("Error al actualizar los datos");
-    }
+
+    this.http.put('https://localhost:7210/centralopticapi/' + endpoint + '/' + Id, body, httpOptions)
+    .subscribe(
+      response => {
+        console.log('Insertado con éxito');
+      },
+      error => {
+        console.log('Error al insertar los datos:', error);
+      }
+    );
   }
 
 }
