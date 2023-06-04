@@ -141,6 +141,7 @@ export class ClienteComponent {
 
   setDataUpdateDB(data:Data){
     // data.codCliente = this.dataUpdate.codCliente
+    console.log(data)
     this.dataService.updateData('cliente',data,this.dataUpdate.codCliente)
   }
 
