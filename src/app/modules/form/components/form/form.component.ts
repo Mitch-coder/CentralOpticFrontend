@@ -63,7 +63,6 @@ export class FormComponent implements AfterViewInit {
   @Output() formData:EventEmitter<any>;
 
   getFormData(){
-    
     this.formData.emit(this.form.value)
   }
 

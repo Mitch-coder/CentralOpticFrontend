@@ -16,10 +16,10 @@ interface Cliente{
 }
 
 interface Data{
-  codCliente:number;
+  // codCliente:number;
   cedula:string;
-  nombre:string;
-  apellido:string;
+  nombres:string;
+  apellidos:string;
   direccion:string;
 }
 
@@ -43,8 +43,8 @@ export class ClienteComponent {
     placeholder:'Ingrese la cedula del cliente',
     alert:'La cedula es obligatorio',
     icon:'',
-    formControlName:'cedula',
-    formValidators:{'cedula':['',[Validators.required]]}
+    formControlName:'Cedula',
+    formValidators:{'Cedula':['',[Validators.required]]}
   },
   {
     label:'Nombre',
@@ -52,8 +52,8 @@ export class ClienteComponent {
     placeholder:'Ingrese el nombre del cliente',
     alert:'El nombre es obligatorio',
     icon:'',
-    formControlName:'name',
-    formValidators:{'name':['',[Validators.required]]}
+    formControlName:'Nombres',
+    formValidators:{'Nombres':['',[Validators.required]]}
   },
   {
     label:'Apellido',
@@ -61,8 +61,8 @@ export class ClienteComponent {
     placeholder:'Ingrese el apellido del cliente',
     alert:'El apellido es obligatorio',
     icon:'',
-    formControlName:'apellido',
-    formValidators:{'apellido':['',[Validators.required]]}
+    formControlName:'Apellidos',
+    formValidators:{'Apellidos':['',[Validators.required]]}
   },
   {
     label:'Dirección',
@@ -70,8 +70,8 @@ export class ClienteComponent {
     placeholder:'Ingrese la dirección del cliente',
     alert:'La dirección es obligatorio',
     icon:'',
-    formControlName:'direccion',
-    formValidators:{'direccion':['',[Validators.required]]}
+    formControlName:'Direccion',
+    formValidators:{'Direccion':['',[Validators.required]]}
   }]
 
   constructor(private dataService:MyDataServices){
@@ -109,8 +109,8 @@ export class ClienteComponent {
         placeholder:'Nuevo nombre del cliente',
         alert:'El Nombre no puede estar vacio',
         icon:'',
-        formControlName:'NameUpdate',
-        formValidators:{'NameUpdate':[data.nombres,[Validators.required]]},
+        formControlName:'nombres',
+        formValidators:{'nombres':[data.nombres,[Validators.required]]},
         value:data.nombres
       },
       {
@@ -119,8 +119,8 @@ export class ClienteComponent {
         placeholder:'Nuevo apellido del cliente',
         alert:'El apellido no puede estar vacio',
         icon:'',
-        formControlName:'LastNameUpdate',
-        formValidators:{'LastNameUpdate':[data.apellidos,[Validators.required]]},
+        formControlName:'apellidos',
+        formValidators:{'apellidos':[data.apellidos,[Validators.required]]},
         value:data.apellidos
       }]
       
@@ -137,5 +137,15 @@ export class ClienteComponent {
         }
       )
     }
+  }
+
+  setDataUpdateDB(data:Data){
+    // data.codCliente = this.dataUpdate.codCliente
+    this.dataService.updateData('cliente',data,this.dataUpdate.codCliente)
+  }
+
+  setDataCreateDB(data:Data){
+    console.log(data)
+    this.dataService.postData('cliente',data)
   }
 }
