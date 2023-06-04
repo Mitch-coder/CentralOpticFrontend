@@ -38,6 +38,7 @@ export class MyDataServices {
 
     try {
       this.http.post('https://localhost:7210/centralopticapi/' + endpoint, body, httpOptions);
+      // console.log( this.http.post('https://localhost:7210/centralopticapi/' + endpoint, body, httpOptions))
       console.log("Insertado con exito");
     }
     catch (error) {

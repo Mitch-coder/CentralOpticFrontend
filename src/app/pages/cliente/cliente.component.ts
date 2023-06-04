@@ -43,8 +43,8 @@ export class ClienteComponent {
     placeholder:'Ingrese la cedula del cliente',
     alert:'La cedula es obligatorio',
     icon:'',
-    formControlName:'Cedula',
-    formValidators:{'Cedula':['',[Validators.required]]}
+    formControlName:'cedula',
+    formValidators:{'cedula':['',[Validators.required]]}
   },
   {
     label:'Nombre',
@@ -52,8 +52,8 @@ export class ClienteComponent {
     placeholder:'Ingrese el nombre del cliente',
     alert:'El nombre es obligatorio',
     icon:'',
-    formControlName:'Nombres',
-    formValidators:{'Nombres':['',[Validators.required]]}
+    formControlName:'nombres',
+    formValidators:{'nombres':['',[Validators.required]]}
   },
   {
     label:'Apellido',
@@ -61,8 +61,8 @@ export class ClienteComponent {
     placeholder:'Ingrese el apellido del cliente',
     alert:'El apellido es obligatorio',
     icon:'',
-    formControlName:'Apellidos',
-    formValidators:{'Apellidos':['',[Validators.required]]}
+    formControlName:'apellidos',
+    formValidators:{'apellidos':['',[Validators.required]]}
   },
   {
     label:'Dirección',
@@ -70,8 +70,8 @@ export class ClienteComponent {
     placeholder:'Ingrese la dirección del cliente',
     alert:'La dirección es obligatorio',
     icon:'',
-    formControlName:'Direccion',
-    formValidators:{'Direccion':['',[Validators.required]]}
+    formControlName:'direccion',
+    formValidators:{'direccion':['',[Validators.required]]}
   }]
 
   constructor(private dataService:MyDataServices){
