@@ -62,14 +62,14 @@
     <div class="overlay overlay-user overlay-fall" cdkMenu >
         <ul class="ul">
             <li class="li">
-                <a routerLink="/ayuda">
+                <a class="a" routerLink="/ayuda">
                     <i class="icon fa-solid fa-circle-info" ></i>
                     <span>Ayuda</span>
                 </a>
             </li>
             <li class="li">
-                <a (mouseenter)="changeIcon1(false)" (mouseleave)="changeIcon1(true)">
-                    <i class="icon" [ngClass]="iconClassLogout" *ngIf="isMouseOver"></i>
+                <a>
+                    <i class="icon" [ngClass]="iconClassLogout"></i>
                     <span>Cerrar sesión</span>
                 </a>
             </li>

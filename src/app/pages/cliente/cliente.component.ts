@@ -43,8 +43,8 @@ export class ClienteComponent {
     placeholder:'Ingrese la cedula del cliente',
     alert:'La cedula es obligatorio',
     icon:'',
-    formControlName:'Cedula',
-    formValidators:{'Cedula':['',[Validators.required]]}
+    formControlName:'cedula',
+    formValidators:{'cedula':['',[Validators.required]]}
   },
   {
     label:'Nombre',
@@ -52,8 +52,8 @@ export class ClienteComponent {
     placeholder:'Ingrese el nombre del cliente',
     alert:'El nombre es obligatorio',
     icon:'',
-    formControlName:'Nombres',
-    formValidators:{'Nombres':['',[Validators.required]]}
+    formControlName:'nombres',
+    formValidators:{'nombres':['',[Validators.required]]}
   },
   {
     label:'Apellido',
@@ -61,8 +61,8 @@ export class ClienteComponent {
     placeholder:'Ingrese el apellido del cliente',
     alert:'El apellido es obligatorio',
     icon:'',
-    formControlName:'Apellidos',
-    formValidators:{'Apellidos':['',[Validators.required]]}
+    formControlName:'apellidos',
+    formValidators:{'apellidos':['',[Validators.required]]}
   },
   {
     label:'Dirección',
@@ -70,8 +70,8 @@ export class ClienteComponent {
     placeholder:'Ingrese la dirección del cliente',
     alert:'La dirección es obligatorio',
     icon:'',
-    formControlName:'Direccion',
-    formValidators:{'Direccion':['',[Validators.required]]}
+    formControlName:'direccion',
+    formValidators:{'direccion':['',[Validators.required]]}
   }]
 
   constructor(private dataService:MyDataServices){
@@ -84,6 +84,12 @@ export class ClienteComponent {
      .pipe(tap((data:Cliente[]) =>(this.myData = data)))
      
      this.setTableColumns();
+  }
+
+  initDataTable(){
+    this.myData$ = this.dataService
+     .getData('cliente')
+     .pipe(tap((data:Cliente[]) =>(this.myData = data)))
   }
 
   setTableColumns(){
@@ -140,9 +146,21 @@ export class ClienteComponent {
   }
 
   setDataUpdateDB(data:Data){
-    // data.codCliente = this.dataUpdate.codCliente
-    console.log(data)
-    this.dataService.updateData('cliente',data,this.dataUpdate.codCliente)
+    console.log('')
+    if(data.nombres !== this.dataUpdate.nombres 
+        || data.apellidos !== this.dataUpdate.apellidos
+        || data.direccion !== this.dataUpdate.direccion){
+      let dataDB = {
+        codCliente:this.dataUpdate.codCliente,
+        cedula:this.dataUpdate.cedula,
+        nombres:data.nombres,
+        apellidos:data.apellidos,
+        direccion:data.direccion
+      }
+      this.dataService.updateData('cliente',dataDB,this.dataUpdate.codCliente)
+      this.initDataTable();
+      this.dataUpdate = undefined
+    }
   }
 
   setDataCreateDB(data:Data){
