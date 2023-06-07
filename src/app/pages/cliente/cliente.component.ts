@@ -146,6 +146,7 @@ export class ClienteComponent {
   }
 
   setDataUpdateDB(data:Data){
+    console.log('')
     if(data.nombres !== this.dataUpdate.nombres 
         || data.apellidos !== this.dataUpdate.apellidos
         || data.direccion !== this.dataUpdate.direccion){

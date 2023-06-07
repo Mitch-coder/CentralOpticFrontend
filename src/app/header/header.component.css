@@ -251,6 +251,12 @@
                 margin-right: 0.6rem ;
 
             }
+
+            .a{
+                border-style: none;
+                color: #495057;
+                text-decoration: none;
+            }
             .span:hover{
                 color: #495057;
             }

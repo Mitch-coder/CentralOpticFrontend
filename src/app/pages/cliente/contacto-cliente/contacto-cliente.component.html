@@ -5,14 +5,14 @@
         <section *ngIf="getEventBtnClickHeader()">
           <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
           <section *ngIf="dataUpdate">
-            <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formClientUpdate"></app-form>
-          </section>
+            <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formClientUpdate" (formData)="dataUpdateDB($event)"></app-form>
+          </section> 
         </section>
         <section *ngIf="!getEventBtnClickHeader()">
-          <app-form [FormD]="formTelefonoCliente"></app-form>
+          <app-form [FormD]="formTelefonoCliente" (formData)="dataCreateTelefonoBD($event)"></app-form>
         </section>
         <section *ngIf="!getEventBtnClickHeader()">
-          <app-form [FormD]="formCorreoCliente"></app-form>
+          <app-form [FormD]="formCorreoCliente" (formData)="dataCreateCorreoBD($event)"></app-form>
         </section>
       </div>
     </mat-sidenav-content>
