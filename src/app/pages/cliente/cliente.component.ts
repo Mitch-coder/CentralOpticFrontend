@@ -157,10 +157,12 @@ export class ClienteComponent {
         apellidos:data.apellidos,
         direccion:data.direccion
       }
+      
       this.dataService.updateData('cliente',dataDB,this.dataUpdate.codCliente)
-      this.initDataTable();
-      this.dataUpdate = undefined
     }
+    this.dataUpdate = undefined
+    this.initDataTable();
+
   }
 
   setDataCreateDB(data:Data){
