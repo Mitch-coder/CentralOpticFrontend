@@ -86,6 +86,12 @@ export class ClienteComponent {
      this.setTableColumns();
   }
 
+  initDataTable(){
+    this.myData$ = this.dataService
+     .getData('cliente')
+     .pipe(tap((data:Cliente[]) =>(this.myData = data)))
+  }
+
   setTableColumns(){
     this.tableColumns=[
       {label:'Identificador', def:'IdCliente', dataKey:'codCliente'},
@@ -140,9 +146,20 @@ export class ClienteComponent {
   }
 
   setDataUpdateDB(data:Data){
-    // data.codCliente = this.dataUpdate.codCliente
-    console.log(data)
-    this.dataService.updateData('cliente',data,this.dataUpdate.codCliente)
+    if(data.nombres !== this.dataUpdate.nombres 
+        || data.apellidos !== this.dataUpdate.apellidos
+        || data.direccion !== this.dataUpdate.direccion){
+      let dataDB = {
+        codCliente:this.dataUpdate.codCliente,
+        cedula:this.dataUpdate.cedula,
+        nombres:data.nombres,
+        apellidos:data.apellidos,
+        direccion:data.direccion
+      }
+      this.dataService.updateData('cliente',dataDB,this.dataUpdate.codCliente)
+      this.initDataTable();
+      this.dataUpdate = undefined
+    }
   }
 
   setDataCreateDB(data:Data){
