@@ -79,24 +79,25 @@ export class OrdenPedidoComponent {
         let empleado:Empleado[] = data[4];
 
 
-        ordenpedido.forEach(element => {
-          let estadopedidoF = estadopedido.filter(e=>e.idEstadoPedido == element.idEstadoPedido)
-          let fechapedidoF = fechapedido.filter(e=>e.idFechaPedido == element.idFechaPedido)
-          let laboratorioF = laboratorio.filter(e=>e.idLaboratorio == element.idLaboratorio)
-          let empleadoF = empleado.filter(e=>e.numEmpleado == element.numEmpleado)
+        this.myData = ordenpedido.map(element => {
+          const estadoPedido = estadopedido.find(e => e.idEstadoPedido== element.idEstadoPedido)?.estadoPedido;
+          const fechaPedidoF = fechapedido.find(e => e.idFechaPedido == element.idFechaPedido)?.fechaPedido;
+          const laboratorioF = laboratorio.find(e => e.idLaboratorio == element.idLaboratorio)?.nombre;
+          const empleadorF = empleado.find(e => e.numEmpleado == element.numEmpleado)?.nombres;
 
-          this.myData.push({
+          return {
             //Aqui se tiene que especificar los elementos a mostrar 
             numOrden:element.numOrden,
             numExamen:element.numExamen,
             descripcion:element.descripcion,
             costo:element.costo,
             codProducto:element.codProducto,
-            estadopedido:estadopedidoF[0].estadoPedido,
-            fechapedido:fechapedidoF[0].fechaPedido,
-            laboratorio:laboratorioF[0].nombre,
-            empleado:empleadoF[0].nombres,
-          })
+            // estadopedido:estadopedidoF[0].estadoPedido,
+            estadopedido:estadoPedido,
+            fechapedido:fechaPedidoF,
+            laboratorio:laboratorioF,
+            empleado:empleadorF,
+          }
         })
         console.log(this.myData)
         return this.myData;
