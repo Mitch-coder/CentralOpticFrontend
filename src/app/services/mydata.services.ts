@@ -25,7 +25,7 @@ export class MyDataServices {
 
   /* En el Json que se le pasa a body, o al objeto que se le pasa como parametro body No tiene que ir el identificador*/
 
-  postData(endpoint: string, body: any) {
+  postData(endpoint: string, body: any, funcion?:Function) {
     const bearerToken: string = this.cookieService.get('token');
     localStorage.setItem('access_token', bearerToken);
 
@@ -39,6 +39,8 @@ export class MyDataServices {
     this.http.post('https://localhost:7210/centralopticapi/'+endpoint, body, httpOptions)
     .subscribe(
       response => {
+        if(funcion)
+          funcion();
         console.log('Insertado con éxito');
       },
       error => {
@@ -49,7 +51,7 @@ export class MyDataServices {
 
   /* En el Json que se le pasa a body, o al objeto que se le pasa como parametro body No tiene que ir el identificador ya que en este caso solo se le pasa como parametro*/
 
-  updateData(endpoint: string, body: any, Id: number) {
+  updateData(endpoint: string, body: any, Id: number , funcion?:any) {
     const bearerToken: string = this.cookieService.get('token');
     localStorage.setItem('access_token', bearerToken);
 
@@ -64,6 +66,9 @@ export class MyDataServices {
     this.http.put('https://localhost:7210/centralopticapi/' + endpoint + '/' + Id, body, httpOptions)
     .subscribe(
       response => {
+        if(funcion){
+          funcion()
+        }
         console.log('Insertado con éxito');
       },
       error => {

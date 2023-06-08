@@ -146,7 +146,8 @@ export class ClienteComponent {
   }
 
   setDataUpdateDB(data:Data){
-    console.log('')
+    // console.log('')
+    this.initDataTable()
     if(data.nombres !== this.dataUpdate.nombres 
         || data.apellidos !== this.dataUpdate.apellidos
         || data.direccion !== this.dataUpdate.direccion){
@@ -158,7 +159,7 @@ export class ClienteComponent {
         direccion:data.direccion
       }
       this.dataService.updateData('cliente',dataDB,this.dataUpdate.codCliente)
-      this.initDataTable();
+      
       this.dataUpdate = undefined
     }
   }
@@ -167,4 +168,5 @@ export class ClienteComponent {
     console.log(data)
     this.dataService.postData('cliente',data)
   }
+  
 }

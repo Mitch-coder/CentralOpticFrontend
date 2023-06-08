@@ -5,10 +5,6 @@ import {  MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule} from '@angular/material/paginator'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
-
-
-
-
 @NgModule({
   declarations: [
     TableComponent
