@@ -1,40 +1,46 @@
 .mat-mdc-row:hover .mat-mdc-cell {
-    /* border-color: currentColor; */
-    border-color: #000;
-    background: rgb(217, 170, 247, 0.7);
-    cursor: pointer;
-  }
+  /* border-color: currentColor; */
+  border-color: #000;
+  background: rgb(217, 170, 247, 0.7);
+  /* color: #ffffff; */
+  cursor: pointer;
   
-.class-btn-action{
+}
+
+.class-btn-action {
   width: calc(100%);
   display: inline-block;
   text-align: right;
   /* align-items: flex-end; */
   /* justify-content: space-between; */
 }
-  
-.btnUpdate{
-    margin: 0.3rem;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
+
+.btnUpdate {
+  margin: 0.3rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
 
 .active {
   background-color: #c26cf8;
 
-  .menu-collapse-icon,
+  .mat-mdc-cell{
+    color: #fff;
+  }
+  /* .menu-collapse-icon,
   .sidenav-link-icon,
   .sidenav-link-text {
-      color: #000000;
-  }
+      color: #ffffff;
+  } */
 }
 
-.btn-danger-disable{
+
+.btn-danger-disable {
   color: #fff;
-  background: rgb(187, 45, 59,0.5);
+  background: rgb(187, 45, 59, 0.5);
 }
 
-.btn-primary-disable{
+.btn-primary-disable {
   color: #fff;
-  background: rgb(11, 94, 215,0.6);
+  background: rgb(11, 94, 215, 0.6);
 }
