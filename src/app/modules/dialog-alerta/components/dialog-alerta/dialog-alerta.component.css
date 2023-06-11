@@ -1,0 +1,51 @@
+.container {
+    width: 100%;
+    /* height: 15rem; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .img-accepted {
+        margin: 2rem 0 2rem 0;
+    }
+
+    .content-button {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        .btn-accepted {
+            background: rgb(100, 91, 199);
+            border-color: rgb(91, 107, 199);
+            /* width: 8rem; */
+            margin: 0 0 2rem 0;
+            color: #ffff;
+            font-size: 18px;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+        }
+    }
+
+
+}
+
+.clock-animation {
+    opacity: 0;
+    /* Inicialmente, la imagen está oculta */
+    animation: clock-appear 1s ease-in-out forwards;
+    /* Aplica la animación al aparecer */
+}
+
+@keyframes clock-appear {
+    0% {
+        opacity: 0;
+        transform: rotate(0deg) scale(0.2);
+        filter: brightness(200%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: rotate(360deg) scale(1);
+        filter: brightness(100%);
+    }
+}

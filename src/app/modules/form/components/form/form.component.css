@@ -55,3 +55,18 @@
     float: right;   
     margin-right: 0.2rem;
 }
+
+.container-header{
+    display: flex;
+    flex-direction: row;    
+    justify-content: space-between;
+    .btnUpdate {
+        margin: 0 0.3rem 0.3rem 0.3rem;
+        padding: 0 0.5rem;
+        border-radius: 0.5rem;
+    }
+    .title{
+        width: calc(100%-6rem);
+    }
+}
+

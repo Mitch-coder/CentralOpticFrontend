@@ -10,6 +10,7 @@ import { DialogAlertaComponent } from './components/dialog-alerta/dialog-alerta.
   ],
   imports: [
     CommonModule
-  ]
+  ],
+  exports:[DialogAlertaComponent]
 })
 export class DialogAlertaModule { }

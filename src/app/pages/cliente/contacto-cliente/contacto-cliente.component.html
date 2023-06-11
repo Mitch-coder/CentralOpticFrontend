@@ -1,20 +1,268 @@
-  <mat-sidenav-container class="example-container">
-    <mat-sidenav-content>
-      <div class="example-content">
-        <h1>Lista de contactos de clientes</h1>
-        <section *ngIf="getEventBtnClickHeader()">
+<mat-sidenav-container class="example-container">
+  <mat-sidenav-content>
+    <div class="example-content">
+      <section [ngClass]="getEventBtnClickHeader()?'':'val'" *ngIf="valTable">
+        <section *ngIf="!dataUpdate" [ngClass]="getEventBtnClickHeader()?'':'val'">
+          <h1>Lista de contactos de clientes</h1>
           <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
-          <section *ngIf="dataUpdate">
-            <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formClientUpdate" (formData)="dataUpdateDB($event)"></app-form>
-          </section> 
         </section>
-        <section *ngIf="!getEventBtnClickHeader()">
-          <app-form [FormD]="formTelefonoCliente" (formData)="dataCreateTelefonoBD($event)"></app-form>
+        <section *ngIf="dataUpdate">
+          <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formClientUpdate"
+            (formData)="loadDataConfirmationUpdate($event)" [Title]="'Actualizar informacion del cliente'"
+            (btnCancel)="eventCancelFormUpdate($event)" [BtnCancel]="true"></app-form>
         </section>
-        <section *ngIf="!getEventBtnClickHeader()">
-          <app-form [FormD]="formCorreoCliente" (formData)="dataCreateCorreoBD($event)"></app-form>
-        </section>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>  
- 
+      </section>
+      <section *ngIf="!getEventBtnClickHeader()">
+        <ng-container *ngTemplateOutlet="phone"></ng-container>
+        <ng-container *ngTemplateOutlet="email"></ng-container>
+
+      </section>
+      
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+
+
+<!-- Formulario de crear contacto Cliente -->
+
+<ng-template #phone>
+  <div class="card">
+    <div class="card-body">
+      <h1>Agregar el telefono cliente</h1>
+      <form [formGroup]="formCreatePhone">
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione el cliente *
+            </label>
+            <input type="text" formControlName="cliente" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="clientePhone.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <!-- <i class="fa-solid fa-arrows-to-eye "></i> -->
+            <i class="fa-regular fa-circle-user form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetPhone('cliente').valid || (formGetPhone('cliente').pristine)">
+              Seleccione un cliente
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="btnClickPhone(tablePhone)">
+            <!-- <i class="fa-solid fa-user-plus"></i> -->
+            <i class="fa-solid fa-person-chalkboard"></i>
+          </button>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Ingrese el telefono del cliente *
+          </label>
+          <input type="number" formControlName="telefono" class="form-control form-input"
+            placeholder="Ingrese el telefono del cliente"> <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-mobile-screen  form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetPhone('telefono').valid || (formGetPhone('telefono').pristine)">
+            Ingrese el telefono del cliente
+          </div>
+        </div>
+        <button class="btn btn-primary" #btnEnviar [disabled]="formCreatePhone.invalid"
+          (click)="loadDataConfirmationPhone(formCreatePhone)">
+          Guardar
+        </button>
+      </form>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #email>
+  <div class="card">
+    <div class="card-body">
+      <h1>Agregar correo del cliente</h1>
+      <form [formGroup]="formCreateEmail">
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione el cliente *
+            </label>
+            <input type="text" formControlName="cliente" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="clienteEmail.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-regular fa-circle-user form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetEmail('cliente').valid || (formGetEmail('cliente').pristine)">
+              Seleccione un cliente
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="btnClickEmail(tableEmail)">
+            <!-- <i class="fa-solid fa-user-plus"></i> -->
+            <i class="fa-solid fa-person-chalkboard"></i>
+          </button>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Ingrese el correo del cliente *
+          </label>
+          <input type="email" formControlName="correo" class="form-control form-input"
+            placeholder="Ingrese el telefono del cliente"> <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-regular fa-envelope form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetEmail('correo').valid || (formGetEmail('correo').pristine)">
+            Ingrese el correo del cliente
+          </div>
+        </div>
+        <button class="btn btn-primary" #btnEnviar [disabled]="formCreateEmail.invalid"
+          (click)="loadDataConfirmationEmail(formCreateEmail)">
+          Guardar
+        </button>
+      </form>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #tablePhone>
+  <app-table-simple [data]="ClientePhoneList" [columns]="tableColumnsCliente"
+    (selectItemsCell)="resultDataTablePhone($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+<ng-template #tableEmail>
+  <app-table-simple [data]="ClienteEmailList" [columns]="tableColumnsCliente"
+    (selectItemsCell)="resultDataTableEmail($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+<!-- <ng-template #form>
+  <div class="card">
+    <div class="card-body">
+      <form [formGroup]="formCreate">
+
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <mat-label class="form-label">
+              Clientes
+            </mat-label>
+            <mat-select formControlName="cliente" class="form-control form-control-lg" [(ngModel)]="Cliente">
+
+              <mat-select-trigger class="select-content">
+                <div class="select-content-id">
+                  <i class="fa-solid fa-id-card select-icon select-email"></i>
+                </div>
+                {{Cliente.cedula}}
+                <div class="select-content-name">
+                  <i class="fa-regular fa-user select-icon select-user"></i>
+                  {{Cliente.nombres}}
+                </div>
+
+              </mat-select-trigger>
+
+              <mat-option *ngFor="let option of cliente" [value]="option" class="select-content">
+                <i class="fa-solid fa-id-card select-icon select-email"></i>
+                {{option.cedula}}
+                <i class="fa-regular fa-user select-icon select-user"></i>
+                {{option.nombres}}
+              </mat-option>
+            </mat-select>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(formcliente)">
+            <i class="fa-solid fa-user-plus"></i>
+          </button>
+        </div>
+
+        <div class="container-picker" *ngIf="!inputFormDataPitcker">
+          <div class="mb-2 content-picker">
+            <mat-label>Fecha de creacion</mat-label>
+            <input type="text" [matDatepicker]="picker" class="form-control-picker"
+              placeholder="Fecha de creacion" formControlName="fechaExamen" [max]="maxDate" [(ngModel)]="formattedDate"
+              [readonly]="true">
+
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="false"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </div>
+          <button mat-fab extended (click)="picker.open()" class="btn-control-picker">
+            <i class="fa-solid fa-calendar-day"></i>
+          </button>
+        </div>
+
+
+        <div class="container-picker" *ngIf="inputFormDataPitcker">
+          <div class="mb-2 content-picker">
+            <mat-label>Fecha de creacion</mat-label>
+            <input type="text" class="form-control-picker"
+              placeholder="Fecha de creacion" formControlName="fechaExamen" [(ngModel)]="formattedDate"
+              [readonly]="true">
+
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="false"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </div>
+          <button mat-fab extended (click)="picker.open()" class="btn-control-picker" disabled="false">
+            <i class="fa-solid fa-calendar-day"></i>
+          </button>
+        </div>
+
+
+
+
+
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Medida del ojo izquierdo
+          </label>
+          <input type="number" formControlName="ojoIzquierdo" class="form-control form-input"
+            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="OjoIzquierdo">
+          <i class="fa-solid fa-arrows-to-eye form-input-icon"></i>
+          <div class="alert 1alert-danger mt-1"
+            [hidden]="formGet('ojoIzquierdo').valid || (formGet('ojoIzquierdo').pristine)">
+            Ingrese la medida del ojo izquierdo
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Medida del ojo derecho
+          </label>
+          <input type="number" formControlName="ojoDerecho" class="form-control form-input"
+            placeholder="Ingrese la medida del ojo derecho" [(ngModel)]="OjoDerecho">
+          <i class="fa-solid fa-arrows-to-eye form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGet('ojoDerecho').valid || (formGet('ojoDerecho').pristine)">
+            Ingrese la medida del ojo derecho
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Descripción del lente izquierdo
+          </label>
+          <input type="text" formControlName="descripLenteIzq" class="form-control form-input"
+            placeholder="Ingrese la descripcion del lente izquierdo" [(ngModel)]="DescripLenteIzq">
+          <i class="fa-solid fa-glasses form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGet('descripLenteIzq').valid || (formGet('descripLenteIzq').pristine)">
+            Descripción del lente izquierdo
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Descripción del lente derecho
+          </label>
+          <input type="text" formControlName="descripLenteDer" class="form-control form-input"
+            placeholder="Ingrese la descripcion del lente derecho" [(ngModel)]="DescripLenteDer">
+          <i class="fa-solid fa-glasses form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGet('descripLenteDer').valid || (formGet('descripLenteDer').pristine)">
+            Descripción del lente derecho
+          </div>
+        </div>
+
+
+        <button class="btn btn-primary" #btnEnviar [disabled]="formCreate.invalid">
+          Actualizar
+        </button>
+      </form>
+    </div>
+  </div>
+</ng-template> -->

@@ -1,0 +1,32 @@
+<!-- aceptado -->
+
+<button mat-fab 
+            extended 
+            class="btnUpdate btn-primar"
+            (click)="openMyAccepted()"
+            style="width: 150px; height: 150px;">
+            abrir
+</button>
+
+<ng-template #accepted>
+    <div class="container">
+        <div class="clock-animation">
+            <img src="../../../../../assets/images/cheque.png" 
+            alt="Central Optic logo" 
+            class="img-accepted">
+        </div>
+        
+        <h1> Todo bien!</h1>
+        <h3> Los datos se han guardado correctamente</h3>
+        <div class="content-button">
+            <button mat-fab 
+            extended 
+            class="btn-accepted btn-primar"
+            (click)="closeDialogTemplate()">
+                OK!
+            </button>
+            <!-- <button></button> -->
+        </div>
+    </div>
+</ng-template>
+

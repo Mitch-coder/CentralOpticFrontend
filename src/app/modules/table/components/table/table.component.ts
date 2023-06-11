@@ -129,7 +129,7 @@ export class TableComponent implements OnInit, AfterViewInit  {
   }
 
   selectItem(item:any){
-    this.selectItemsCell.emit(undefined);
+    this.selectItemsCell.emit(undefined); 
     if(item == this.dataUpdate){
       this.btnClickItemRow = true;
       this.dataUpdate = undefined

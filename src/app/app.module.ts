@@ -46,6 +46,7 @@ import { OrdenPedidoComponent } from './pages/orden-pedido/orden-pedido.componen
 import { MatSelectModule } from '@angular/material/select';
 import { DialogComponent } from './modules/dialog/components/dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DialogAlertaModule } from './modules/dialog-alerta/dialog-alerta.module'
 
 
 //datapicker
@@ -108,7 +109,8 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MomentModule
+    MomentModule,
+    DialogAlertaModule
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter },

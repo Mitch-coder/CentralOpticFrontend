@@ -1,19 +1,27 @@
 <mat-sidenav-container class="example-container">
     <mat-sidenav-content>
       <div class="example-content">
-        <h1>Lista de clientes actuales</h1>
         <section *ngIf="getEventBtnClickHeader()">
-          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
+          <section *ngIf="!dataUpdate">
+            <h1>Lista de clientes actuales</h1>
+            <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
+          </section>
           <section *ngIf="dataUpdate">
             <app-form 
-            (formData)="setDataUpdateDB($event)"
+            [Title]="'Actualizar datos del usuario'"
+            [BtnCancel]="true"
+            (formData)="confirmeUpdateData($event)"
             [BtnName]="'Actualizar'"
             *ngIf="dataUpdate" 
-            [FormD]="formClientUpdate" ></app-form>
+            [FormD]="formClientUpdate"
+            (btnCancel)="eventCancelFormUpdate()"></app-form>
           </section>
         </section>
         <section *ngIf="!getEventBtnClickHeader()">
-          <app-form (formData)="setDataCreateDB($event)" [FormD]="form"></app-form>
+          <app-form [Title]="'Crear usuario'" 
+            (formData)="confirmeCreateData($event)"
+            [FormD]="form"
+            ></app-form>
         </section>
       </div>
     </mat-sidenav-content>

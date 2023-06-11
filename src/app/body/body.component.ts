@@ -31,6 +31,18 @@ export class BodyComponent {
   
 }
 
+/*
+  1-agregar la funcionalidad de busqueda por medio de una tabla
+  2-agregar y correccion de los formularios 
+  3-implementar el guardar y actualizar, con sus mensages de confirmacion y movilizacion de a otras tablas
+  4-implementar mensajes de error
+  5-implementar una opcion de configuracion (stock minimo, stock maximo, y lo que se me ocurra)
+  6-crear tabla configuracion 
+  7-implementar graficos
+  8-atajos en la pantalla de inicio
+  9-nuevas ideas (abajo)
+*/
+
 
 /*
   Cliente --hecho

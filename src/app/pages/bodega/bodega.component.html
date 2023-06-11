@@ -1,16 +1,23 @@
 <mat-sidenav-container class="example-container">
-    <mat-sidenav-content>
-      <div class="example-content">
-        <section *ngIf="getEventBtnClickHeader()">
+  <mat-sidenav-content>
+    <div class="example-content">
+      <section *ngIf="getEventBtnClickHeader()">
+        <section *ngIf="!dataUpdate">
           <h1>Lista de bodega</h1>
           <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
         </section>
         <section *ngIf="dataUpdate">
-          <app-form [Title]="'Actualizar Bodega - '+ dataUpdate.idBodega" [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formUpdate"></app-form>
+          <app-form [Title]="'Actualizar Bodega - '+ dataUpdate.idBodega" [BtnName]="'Actualizar'" *ngIf="dataUpdate"
+            [FormD]="formUpdate" (btnCancel)="eventCancelFormUpdate($event)" [BtnCancel]="true"
+            (formData)="loadDataConfirmationUpdate($event)"></app-form>
         </section>
-      </div>
-      <section *ngIf="!getEventBtnClickHeader()">
-        <app-form [Title]="'Nueva Bodega'" [FormD]="formCreate"></app-form>
       </section>
-    </mat-sidenav-content>
-  </mat-sidenav-container>  
+    </div>
+    <section *ngIf="!getEventBtnClickHeader()">
+      <app-form [Title]="'Nueva Bodega'" [FormD]="formCreate"
+      (formData)="loadDataConfirmationCreate($event)"></app-form>
+    </section>
+
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
