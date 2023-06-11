@@ -182,28 +182,36 @@ export class BodegaComponent {
         correo: data.correo
       }
 
-      if (this.dataService.updateData('bodega', dataDB, this.dataUpdate.idBodega)) {
-        Swal.fire({
-          title: 'Exito!',
-          text: 'La informacion a sido guardada',
-          icon: 'success',
-          confirmButtonText: 'OK!',
-        }
-        ).then((result) => {
+      this.dataService.updateData('bodega', dataDB, this.dataUpdate.idBodega)
+      .then(success => {
 
-          if (result.isConfirmed) {
-            // this.initDataTable();
-            this.dataUpdate=undefined
+        if(success){
+
+          Swal.fire({
+            title: 'Exito!',
+            text: 'La informacion a sido guardada',
+            icon: 'success',
+            confirmButtonText: 'OK!',
           }
-        })
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Ups...',
-          text: 'Algo salió mal!',
-          footer: '<a href="">¿Por qué tengo este problema??</a>'
-        })
-      }
+          ).then((result) => {
+  
+            if (result.isConfirmed) {
+              // this.initDataTable();
+              this.dataUpdate=undefined
+            }
+          })
+
+        }
+        else{
+          Swal.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Algo salió mal!',
+            footer: '<a href="">¿Por qué tengo este problema??</a>'
+          })
+        }
+      })
+      
     }
     this.dataUpdate = undefined
     // this.initDataTable();
@@ -236,28 +244,37 @@ export class BodegaComponent {
   setDataCreateDB(form: any) {
     let data = form
     console.log(data)
-    if (this.dataService.postData('bodega', data)) {
-      Swal.fire({
-        title: 'Exito!',
-        text: 'La informacion a sido guardada',
-        icon: 'success',
-        confirmButtonText: 'OK!',
-      }
-      ).then((result) => {
+    this.dataService.postData('bodega', data)
+    .then(success => {
 
-        if (result.isConfirmed) {
-          // this.initDataTable()
+      if(success){
+
+        Swal.fire({
+          title: 'Exito!',
+          text: 'La informacion a sido guardada',
+          icon: 'success',
+          confirmButtonText: 'OK!',
         }
-      })
+        ).then((result) => {
+  
+          if (result.isConfirmed) {
+            // this.initDataTable()
+          }
+        })
 
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Ups...',
-        text: 'Algo salió mal!',
-        footer: '<a href="">¿Por qué tengo este problema??</a>'
-      })
-    }
+      }
+      else{
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Ups...',
+          text: 'Algo salió mal!',
+          footer: '<a href="">¿Por qué tengo este problema??</a>'
+        })
+
+      }
+
+    })
   }
 
   loadDataConfirmationCreate(data: any) {

@@ -683,32 +683,46 @@ export class ContactoClienteComponent implements OnInit {
     // console.log(telefono)
 
 
-    if (this.dataService.postData('telefonocliente', telefono)) {
-      this.swalWithBootstrapButtons.fire(
-        'Exito!',
-        'La informacion a sido guardada',
-        'success'
-      )
+    this.dataService.postData('telefonocliente', telefono)
+    .then( success => {
 
-      this.clientePhone = {
-        codCliente: 0,
-        cedula: '',
-        nombres: '',
-        apellidos: '',
-        direccion: ''
+      if(success){
+
+        this.swalWithBootstrapButtons.fire(
+          'Exito!',
+          'La informacion a sido guardada',
+          'success'
+        )
+  
+        this.clientePhone = {
+          codCliente: 0,
+          cedula: '',
+          nombres: '',
+          apellidos: '',
+          direccion: ''
+        }
+  
+        this.phone = ''
+        this.valTable = true
+        this.initial()
+
+
+      }
+      else{
+
+        this.swalWithBootstrapButtons.fire({
+          icon: 'error',
+          title: 'Ups...',
+          text: 'Algo salió mal!',
+          footer: '<a href="">¿Por qué tengo este problema??</a>'
+        })
+
+
       }
 
-      this.phone = ''
-      this.valTable = true
-      this.initial()
-    } else {
-      this.swalWithBootstrapButtons.fire({
-        icon: 'error',
-        title: 'Ups...',
-        text: 'Algo salió mal!',
-        footer: '<a href="">¿Por qué tengo este problema??</a>'
-      })
-    }
+
+    })
+    
   }
 
   loadDataConfirmationEmail(data: FormGroup) {
@@ -749,31 +763,41 @@ export class ContactoClienteComponent implements OnInit {
       telefono: data.telefono
     }
 
-    if (this.dataService.postData('correocliente', contact)) {
-      this.swalWithBootstrapButtons.fire(
-        'Exito!',
-        'La informacion a sido guardada',
-        'success'
-      )
-      this.clienteEmail = {
-        codCliente: 0,
-        cedula: '',
-        nombres: '',
-        apellidos: '',
-        direccion: ''
-      }
+    this.dataService.postData('correocliente', contact)
+    .then( success => {
 
-      this.email = ''
-      this.valTable = true
-      this.initial()
-    } else {
-      this.swalWithBootstrapButtons.fire({
-        icon: 'error',
-        title: 'Ups...',
-        text: 'Algo salió mal!',
-        footer: '<a href="">¿Por qué tengo este problema??</a>'
-      })
-    }
+      if(success){
+
+        this.swalWithBootstrapButtons.fire(
+          'Exito!',
+          'La informacion a sido guardada',
+          'success'
+        )
+        this.clienteEmail = {
+          codCliente: 0,
+          cedula: '',
+          nombres: '',
+          apellidos: '',
+          direccion: ''
+        }
+  
+        this.email = ''
+        this.valTable = true
+        this.initial()
+
+      }
+      else{
+
+        this.swalWithBootstrapButtons.fire({
+          icon: 'error',
+          title: 'Ups...',
+          text: 'Algo salió mal!',
+          footer: '<a href="">¿Por qué tengo este problema??</a>'
+        })
+
+      }
+      
+    })
   }
 
 }

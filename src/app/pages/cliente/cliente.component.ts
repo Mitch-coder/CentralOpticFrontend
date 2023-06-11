@@ -192,35 +192,44 @@ export class ClienteComponent {
         direccion: data.direccion
       }
 
-      if (this.dataService.updateData('cliente', dataDB, this.dataUpdate.codCliente)) {
-        Swal.fire({
-          title: 'Exito!',
-          text: 'La informacion a sido guardada',
-          icon: 'success',
-          confirmButtonText: 'OK!',
-        }
-        ).then((result) => {
+      this.dataService.updateData('cliente', dataDB, this.dataUpdate.codCliente)
+        .then(success => {
 
-          if (result.isConfirmed) {
-            this.initDataTable();
-            this.dataUpdate=undefined
+          if (success) {
+
+            Swal.fire({
+              title: 'Exito!',
+              text: 'La informacion a sido guardada',
+              icon: 'success',
+              confirmButtonText: 'OK!',
+            }
+            ).then((result) => {
+
+              if (result.isConfirmed) {
+                this.initDataTable();
+                this.dataUpdate = undefined
+              }
+            })
+
+          }
+          else {
+
+            Swal.fire({
+              icon: 'error',
+              title: 'Ups...',
+              text: 'Algo salió mal!',
+              footer: '<a href="">¿Por qué tengo este problema??</a>'
+            })
+
           }
         })
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Ups...',
-          text: 'Algo salió mal!',
-          footer: '<a href="">¿Por qué tengo este problema??</a>'
-        })
-      }
     }
-
 
     this.dataUpdate = undefined
     this.initDataTable();
 
   }
+
 
   sendDataContactClient(parametro: any) {
     const navigationExtras: NavigationExtras = {
@@ -236,56 +245,67 @@ export class ClienteComponent {
   setDataCreateDB(form: FormGroup) {
     let data = form.value
     console.log(data)
-    if (this.dataService.postData('cliente', data)) {
-      Swal.fire({
-        title: 'Exito!',
-        text: 'La informacion a sido guardada',
-        icon: 'success',
-        confirmButtonText: 'OK!',
-      }
-      ).then((result) => {
+    
+    
+    this.dataService.postData('cliente', data)
+    .then(success => {
 
-        if (result.isConfirmed) {
-          this.initDataTable()
+      if (success) {
 
-          Swal.fire({
-            title: 'Confirmar',
-            text: '¿Desea agregar un contacto al nuevo cliente?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Agregar',
-            cancelButtonText: 'Despues',
-            reverseButtons: true
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // this.setDataUpdateDB(data.value)
-              // let cliente = this.myData.filter(e => e.cedula === data.cedula)
-              // console.log(cliente[0])
-              // let parametro = {
-              //   cliente: data,
-              //   formCreate: false
-              // }
-
-              this.sendDataContactClient(data)
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-              Swal.fire(
-                'Cancelado',
-                'Todo bien :)',
-                'error'
-              )
-            }
-          });
+        Swal.fire({
+          title: 'Exito!',
+          text: 'La informacion a sido guardada',
+          icon: 'success',
+          confirmButtonText: 'OK!',
         }
-      })
+        ).then((result) => {
+  
+          if (result.isConfirmed) {
+            this.initDataTable()
+  
+            Swal.fire({
+              title: 'Confirmar',
+              text: '¿Desea agregar un contacto al nuevo cliente?',
+              icon: 'question',
+              showCancelButton: true,
+              confirmButtonText: 'Agregar',
+              cancelButtonText: 'Despues',
+              reverseButtons: true
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // this.setDataUpdateDB(data.value)
+                // let cliente = this.myData.filter(e => e.cedula === data.cedula)
+                // console.log(cliente[0])
+                // let parametro = {
+                //   cliente: data,
+                //   formCreate: false
+                // }
+  
+                this.sendDataContactClient(data)
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire(
+                  'Cancelado',
+                  'Todo bien :)',
+                  'error'
+                )
+              }
+            });
+          }
+        })
 
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Ups...',
-        text: 'Algo salió mal!',
-        footer: '<a href="">¿Por qué tengo este problema??</a>'
-      })
-    }
+      }
+      else{
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Ups...',
+          text: 'Algo salió mal!',
+          footer: '<a href="">¿Por qué tengo este problema??</a>'
+        })
+
+      }
+
+    })
   }
 
 

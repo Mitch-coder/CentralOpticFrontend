@@ -25,40 +25,38 @@ export class MyDataServices {
 
   /* En el Json que se le pasa a body, o al objeto que se le pasa como parametro body No tiene que ir el identificador*/
 
-  postData(endpoint: string, body: any) {
+  postData(endpoint: string, body: any): Promise<boolean> {
     const bearerToken: string = this.cookieService.get('token');
     localStorage.setItem('access_token', bearerToken);
 
-    let result = true
     //This is the authentication about
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': 'Bearer ' + localStorage.getItem('access_token')
       })
     };
-
-    this.http.post('https://localhost:7210/centralopticapi/'+endpoint, body, httpOptions)
-    .subscribe(
-      response => {
-        console.log('Insertado con éxito');
-      },
-      error => {
-        console.log('Error al insertar los datos:', error);
-        result = false
-      }
-    );
-
-    return result
+    return new Promise<boolean>((resolve, reject) => {
+      this.http.post('https://localhost:7210/centralopticapi/' + endpoint, body, httpOptions)
+        .subscribe(
+          response => {
+            console.log('Insertado con éxito');
+            resolve(true);
+          },
+          error => {
+            console.log('Error al insertar los datos:', error);
+            resolve(false);
+          }
+        );
+    });
   }
 
   /* En el Json que se le pasa a body, o al objeto que se le pasa como parametro body No tiene que ir el identificador ya que en este caso solo se le pasa como parametro*/
 
-  updateData(endpoint: string, body: any, Id: number) {
+  updateData(endpoint: string, body: any, Id: number): Promise<boolean> {
 
     // const success = true
     const bearerToken: string = this.cookieService.get('token');
     localStorage.setItem('access_token', bearerToken);
-    let result = true
     //This is the authentication about
     const httpOptions = {
       headers: new HttpHeaders({
@@ -66,19 +64,19 @@ export class MyDataServices {
       })
     };
 
-
+    return new Promise<boolean>((resolve, reject) => {
     this.http.put('https://localhost:7210/centralopticapi/' + endpoint + '/' + Id, body, httpOptions)
-    .subscribe(
-      response => {
-        
-        console.log('Insertado con éxito');
-      },
-      error => {
-        console.log('Error al insertar los datos:', error);
-        result = false
-      }
-    );
-    return result
+      .subscribe(
+        response => {
+          console.log('Insertado con éxito');
+          resolve(true);
+        },
+        error => {
+          console.log('Error al insertar los datos:', error);
+          resolve(false);
+        }
+      );
+    });
   }
-
+  
 }
