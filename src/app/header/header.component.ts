@@ -1,5 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { HeaderData, HeaderSearch } from './header-data';
+import { CookieService } from 'ngx-cookie-service';
 import { FormBuilder,FormControl, FormGroup, Validators } from '@angular/forms';
 import { userItems } from './header-dummy-data';
 // import { CdkMenuTrigger } from '@angular/cdk/overlay';
@@ -39,7 +40,7 @@ export class HeaderComponent implements OnInit{
   }
 
 
-  constructor(private headerSearch : HeaderSearch){
+  constructor(private headerSearch : HeaderSearch, private cookieService: CookieService){
     
   }
   
@@ -144,6 +145,14 @@ export class HeaderComponent implements OnInit{
   onMenuClosed() {
     this.isMenuOpen = false;
     // Realiza acciones o lógica adicional cuando el menú se cierra
+  }
+
+
+  //Cerrar la sesion de la aplicacion
+
+  OnclickLogout(){
+    this.cookieService.delete('token');
+    
   }
 
 }

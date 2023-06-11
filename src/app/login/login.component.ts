@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from '../services/api.service';
+import Swal from 'sweetalert2';
 
 interface Acceso {
   nombreUsuario: string,
@@ -73,7 +74,11 @@ export class LoginComponent implements OnInit{
 
     }, (error) => { 
       // console.log(error)
-      alert('Usuario y/o contraseña incorrectos');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Error al ingresar los datos'
+      })
     //   console.log('Email:', this.email);
     //   console.log('Password:', this.password);
     })
