@@ -659,8 +659,8 @@ export class EntregaComponent {
     this.dataService.postData('entrega', entrega).then((success) => {
       if (success) {
         // console.log(success)
-
-        let dataV = this.entregaList.length + 2
+        const numeros = this.entregaList.map(objeto => objeto.codEntrega);
+        let dataV = Math.max(...numeros) + 1
 
         console.log(dataV)
         let ordenPedidoEntrega = {
