@@ -716,13 +716,8 @@ export class ContactoClienteComponent implements OnInit {
           text: 'Algo salió mal!',
           footer: '<a href="">¿Por qué tengo este problema??</a>'
         })
-
-
       }
-
-
     })
-    
   }
 
   loadDataConfirmationEmail(data: FormGroup) {

@@ -102,14 +102,14 @@ export const navbarData:INavbarData[]=[
     } ,
     {
         routeLink:'entrega',
-        icon: 'fa-solid fa-person-carry-box',
+        icon: 'fa-solid fa-truck',
         label:'Entrega'
     },
     {
         routeLink:'orden-pedido',
-        icon: 'fa-regular fa-send-backward',
+        icon: 'fa-regular fa-paste',
         label:'Orden Pedido'
     }
 ];
 
-// <i class="fa-regular fa-circle-user"></i>
+// <i class="fa-regular fa-paste"></i>

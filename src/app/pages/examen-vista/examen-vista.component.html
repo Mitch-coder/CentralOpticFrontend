@@ -3,14 +3,14 @@
     <div class="example-content">
       <h1>Lista de Examenes de la vista actuales</h1>
       <section *ngIf="getEventBtnClickHeader()">
-        <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
+        <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="getTableDataUpdate($event)"></app-table>
         <section *ngIf="dataUpdate">
           <ng-container *ngTemplateOutlet="form">
           </ng-container>
         </section>
       </section>
-      <section>
-        <ng-container *ngIf="getEventBtnClickHeader();else form">
+      <section *ngIf="!getEventBtnClickHeader()">
+        <ng-container *ngTemplateOutlet="formCreate">
         </ng-container>
       </section>
     </div>
@@ -22,103 +22,72 @@
 <ng-template #form>
   <div class="card">
     <div class="card-body">
-      <!-- (ngSubmit)="procesar" -->
-      <form [formGroup]="formCreate">
+      <div class="container-header">
+        <h1 class="title">
+          Actualizar informacion de la entrega
+        </h1>
+        <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
+          Cerrar
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form [formGroup]="formUpdateData">
 
         <div class="content-select">
           <div class="mb-2 container-select" #input>
-            <mat-label class="form-label">
-              Clientes
-            </mat-label>
-            <mat-select formControlName="cliente" class="form-control form-control-lg" [(ngModel)]="Cliente">
-
-              <mat-select-trigger class="select-content">
-                <div class="select-content-id">
-                  <i class="fa-solid fa-id-card select-icon select-email"></i>
-                </div>
-                {{Cliente.cedula}}
-                <div class="select-content-name">
-                  <i class="fa-regular fa-user select-icon select-user"></i>
-                  {{Cliente.nombres}}
-                </div>
-
-              </mat-select-trigger>
-
-              <mat-option *ngFor="let option of cliente" [value]="option" class="select-content">
-                <i class="fa-solid fa-id-card select-icon select-email"></i>
-                {{option.cedula}}
-                <i class="fa-regular fa-user select-icon select-user"></i>
-                {{option.nombres}}
-              </mat-option>
-            </mat-select>
+            <label class="form-label">
+              Seleccione la orden del pedido *
+            </label>
+            <input type="text" formControlName="cliente" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="Cliente.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-regular fa-circle-user form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataUpdate('cliente').valid || (formGetDataUpdate('cliente').pristine)">
+              Seleccione un cliente
+            </div>
           </div>
-          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(formcliente)">
-            <i class="fa-solid fa-user-plus"></i>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableUpdateAuxiliar)">
+            <i class="fa-regular fa-hand-pointer"></i>
           </button>
+          
         </div>
 
-        <div class="container-picker" *ngIf="!inputFormDataPitcker">
-          <div class="mb-2 content-picker">
-            <mat-label>Fecha de creacion</mat-label>
-            <input type="text" [matDatepicker]="picker" class="form-control-picker"
-              placeholder="Fecha de creacion" formControlName="fechaExamen" [max]="maxDate" [(ngModel)]="formattedDate"
-              [readonly]="true">
-
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="false"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Fecha del Examen
+          </label>
+          <input type="text" formControlName="fechaExamen" class="form-control form-input"
+            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="FechaExamen.fechaExamen">
+          <i class="fa-solid fa-calendar-days form-input-icon"></i>
+          <div class="alert 1alert-danger mt-1"
+            [hidden]="formGetDataUpdate('fechaExamen').valid || (formGetDataUpdate('fechaExamen').pristine)">
+            Ingrese la fecha del examen
           </div>
-          <!-- <mat-datepicker-toggle [for]="picker"  matIconSuffix class="btn-control-picker"></mat-datepicker-toggle> -->
-          <button mat-fab extended (click)="picker.open()" class="btn-control-picker">
-            <i class="fa-solid fa-calendar-day"></i>
-          </button>
         </div>
-
-
-        <div class="container-picker" *ngIf="inputFormDataPitcker">
-          <div class="mb-2 content-picker">
-            <mat-label>Fecha de creacion</mat-label>
-            <input type="text" class="form-control-picker"
-              placeholder="Fecha de creacion" formControlName="fechaExamen" [(ngModel)]="formattedDate"
-              [readonly]="true">
-
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="false"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </div>
-          <!-- <mat-datepicker-toggle [for]="picker"  matIconSuffix class="btn-control-picker"></mat-datepicker-toggle> -->
-          <button mat-fab extended (click)="picker.open()" class="btn-control-picker" disabled="false">
-            <i class="fa-solid fa-calendar-day"></i>
-          </button>
-        </div>
-
-
-
-
-
 
         <div class="mb-2" #input>
           <label class="form-label">
             Medida del ojo izquierdo
           </label>
-          <input type="number" formControlName="ojoIzquierdo" class="form-control form-input"
-            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="OjoIzquierdo">
+          <input type="number" formControlName="ojoIzq" class="form-control form-input"
+            placeholder="Ingrese la medida del ojo derecho" [(ngModel)]="ExamenVista.ojoIzquierdo">
           <i class="fa-solid fa-arrows-to-eye form-input-icon"></i>
-          <div class="alert 1alert-danger mt-1"
-            [hidden]="formGet('ojoIzquierdo').valid || (formGet('ojoIzquierdo').pristine)">
-            Ingrese la medida del ojo izquierdo
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataUpdate('ojoIzq').valid || (formGetDataUpdate('ojoIzq').pristine)">
+            Ingrese la medida del ojo derecho
           </div>
         </div>
-
+        
         <div class="mb-2" #input>
           <label class="form-label">
             Medida del ojo derecho
           </label>
-          <input type="number" formControlName="ojoDerecho" class="form-control form-input"
-            placeholder="Ingrese la medida del ojo derecho" [(ngModel)]="OjoDerecho">
+          <input type="number" formControlName="ojoDer" class="form-control form-input"
+            placeholder="Ingrese la medida del ojo derecho" [(ngModel)]="ExamenVista.ojoDerecho">
           <i class="fa-solid fa-arrows-to-eye form-input-icon"></i>
           <div class="alert alert-danger mt-1"
-            [hidden]="formGet('ojoDerecho').valid || (formGet('ojoDerecho').pristine)">
+            [hidden]="formGetDataUpdate('ojoDer').valid || (formGetDataUpdate('ojoDer').pristine)">
             Ingrese la medida del ojo derecho
           </div>
         </div>
@@ -127,11 +96,11 @@
           <label class="form-label">
             Descripción del lente izquierdo
           </label>
-          <input type="text" formControlName="descripLenteIzq" class="form-control form-input"
-            placeholder="Ingrese la descripcion del lente izquierdo" [(ngModel)]="DescripLenteIzq">
+          <input type="text" formControlName="descLenteIzq" class="form-control form-input"
+            placeholder="Ingrese la descripcion del lente izquierdo" [(ngModel)]="ExamenVista.descripLenteIzq">
           <i class="fa-solid fa-glasses form-input-icon"></i>
           <div class="alert alert-danger mt-1"
-            [hidden]="formGet('descripLenteIzq').valid || (formGet('descripLenteIzq').pristine)">
+            [hidden]="formGetDataUpdate('descLenteIzq').valid || (formGetDataUpdate('descLenteIzq').pristine)">
             Descripción del lente izquierdo
           </div>
         </div>
@@ -140,17 +109,17 @@
           <label class="form-label">
             Descripción del lente derecho
           </label>
-          <input type="text" formControlName="descripLenteDer" class="form-control form-input"
-            placeholder="Ingrese la descripcion del lente derecho" [(ngModel)]="DescripLenteDer">
+          <input type="text" formControlName="descLenteDer" class="form-control form-input"
+            placeholder="Ingrese la descripcion del lente derecho" [(ngModel)]="ExamenVista.descripLenteDer">
           <i class="fa-solid fa-glasses form-input-icon"></i>
           <div class="alert alert-danger mt-1"
-            [hidden]="formGet('descripLenteDer').valid || (formGet('descripLenteDer').pristine)">
+            [hidden]="formGetDataUpdate('descLenteDer').valid || (formGetDataUpdate('descLenteDer').pristine)">
             Descripción del lente derecho
           </div>
         </div>
 
 
-        <button class="btn btn-primary" #btnEnviar [disabled]="formCreate.invalid">
+        <button class="btn btn-primary" #btnEnviar [disabled]="formUpdateData.invalid" (click)="loadConfirmationDataUpdate()">
           Actualizar
         </button>
       </form>
@@ -162,4 +131,127 @@
   <div class="template-container">
     <app-form [Title]="'Nuevo Cliente'" [FormD]="formClient" (formData)="onSave($event)"></app-form>
   </div>
+</ng-template>
+
+<ng-template #tableUpdateAuxiliar>
+  <app-table-simple [data]="clienteList" [columns]="tableColumnCliente"
+    (selectItemsCell)="resultTableUpdateList($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+
+<ng-template #formCreate>
+  <div class="card">
+    <div class="card-body">
+      <div class="container-header">
+        <h1 class="title">
+          Actualizar informacion de la entrega
+        </h1>
+      </div>
+
+      <form [formGroup]="formCreateData">
+
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione la orden del pedido *
+            </label>
+            <input type="text" formControlName="cliente" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="Cliente.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-regular fa-circle-user form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('cliente').valid || (formGetDataCreate('cliente').pristine)">
+              Seleccione un cliente
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableUpdateAuxiliar)">
+            <i class="fa-regular fa-hand-pointer"></i>
+          </button>
+          <button mat-fab extended class="btn-add btn-success" (click)="openDialogWithTemplate(formcliente)">
+            <i class="fa-solid fa-person-circle-plus"></i>
+          </button>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Fecha del Examen
+          </label>
+          <input type="text" formControlName="fechaExamen" class="form-control form-input"
+            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="FechaExamen.fechaExamen">
+          <i class="fa-solid fa-calendar-days form-input-icon"></i>
+          <div class="alert 1alert-danger mt-1"
+            [hidden]="formGetDataCreate('fechaExamen').valid || (formGetDataCreate('fechaExamen').pristine)">
+            Ingrese la fecha del examen
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Medida del ojo izquierdo
+          </label>
+          <input type="number" formControlName="ojoIzq" class="form-control form-input"
+            placeholder="Ingrese la medida del ojo derecho" [(ngModel)]="ExamenVista.ojoIzquierdo">
+          <i class="fa-solid fa-arrows-to-eye form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('ojoIzq').valid || (formGetDataCreate('ojoIzq').pristine)">
+            Ingrese la medida del ojo derecho
+          </div>
+        </div>
+        
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Medida del ojo derecho
+          </label>
+          <input type="number" formControlName="ojoDer" class="form-control form-input"
+            placeholder="Ingrese la medida del ojo derecho" [(ngModel)]="ExamenVista.ojoDerecho">
+          <i class="fa-solid fa-arrows-to-eye form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('ojoDer').valid || (formGetDataCreate('ojoDer').pristine)">
+            Ingrese la medida del ojo derecho
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Descripción del lente izquierdo
+          </label>
+          <input type="text" formControlName="descLenteIzq" class="form-control form-input"
+            placeholder="Ingrese la descripcion del lente izquierdo" [(ngModel)]="ExamenVista.descripLenteIzq">
+          <i class="fa-solid fa-glasses form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('descLenteIzq').valid || (formGetDataCreate('descLenteIzq').pristine)">
+            Descripción del lente izquierdo
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Descripción del lente derecho
+          </label>
+          <input type="text" formControlName="descLenteDer" class="form-control form-input"
+            placeholder="Ingrese la descripcion del lente derecho" [(ngModel)]="ExamenVista.descripLenteDer">
+          <i class="fa-solid fa-glasses form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('descLenteDer').valid || (formGetDataCreate('descLenteDer').pristine)">
+            Descripción del lente derecho
+          </div>
+        </div>
+
+
+        <button class="btn btn-primary" #btnEnviar [disabled]="formCreateData.invalid" (click)="loadConfirmationDataCreate()">
+          Actualizar
+        </button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #formcliente>
+  <div class="template-container">
+    <app-form [Title]="'Nuevo Cliente'" [FormD]="formClient" (formData)="onSave($event)"></app-form>
+  </div>
+</ng-template>
+
+<ng-template #tableUpdateAuxiliar>
+  <app-table-simple [data]="clienteList" [columns]="tableColumnCliente"
+    (selectItemsCell)="resultTableUpdateList($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
 </ng-template>

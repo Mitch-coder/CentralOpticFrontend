@@ -1,10 +1,217 @@
 <mat-sidenav-container class="example-container">
-    <mat-sidenav-content>
-      <div class="example-content">
-        <h1>Lista de entregas</h1>
-        <section>
-          <app-table [data]="myData$" [columns]="tableColumns"></app-table>
+  <mat-sidenav-content>
+    <div class="example-content">
+      <section *ngIf="getEventBtnClickHeader()">
+        <section *ngIf="!dataUpdate">
+          <h1>Lista de entregas</h1>
+          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="getDataUpdate($event)"></app-table>
         </section>
+        <section *ngIf="dataUpdate">
+          <ng-container *ngTemplateOutlet="formUpdate"></ng-container>
+        </section>
+      </section>
+      <section *ngIf="!getEventBtnClickHeader()">
+        <ng-container *ngTemplateOutlet="formCreate"></ng-container>
+      </section>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #formUpdate>
+  <div class="container-auxiliar">
+    <div class="container-header">
+      <p class="content-text">
+        Ayuda! <br>
+        Si se confundio guardando en que entrega pertenece a cada un pedido pulse el boton
+        Se le abrira un cuadrado de dialogo para que seleccione el pedido al que quiere cambiar
+        el estado de entrega
+      </p>
+      <button mat-fab extended class="btnAuxiliar btn-danger" (click)="openDialogWithTemplate(tableUpdate)">
+        <!-- <i class="fa-solid fa-xmark"></i> -->
+        <i class="fa-solid fa-sliders"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="container-header">
+        <h1 class="title">
+          Actualizar informacion de la entrega
+        </h1>
+        <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
+          Cerrar
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>  
+      <form [formGroup]="formUpdateData">
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione la orden del pedido *
+            </label>
+            <input type="text" formControlName="ordenPedido" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-regular fa-circle-user form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataUpdate('ordenPedido').valid || (formGetDataUpdate('ordenPedido').pristine)">
+              Seleccione un cliente
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableUpdateAuxiliar)">
+            <i class="fa-regular fa-hand-pointer"></i>
+          </button>
+        </div>
+
+        <div class="mb-2">
+          <mat-label class="form-label">
+            Ingrese el estado del producto *
+          </mat-label>
+          <mat-select formControlName="estado" class="form-control form-control-lg" matNativeControl
+            [(ngModel)]="EstadoEntrega">
+            <mat-option *ngFor="let option of estadoEntregaList" [value]="option">
+              {{option.estadoEntrega}}
+            </mat-option>
+          </mat-select>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Ingrese la descripcion de la entrega *
+          </label>
+          <input type="text" formControlName="descripcion" class="form-control form-input"
+            placeholder="Ingrese la descripcion del producto" [(ngModel)]="Entrega.descripcion">
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-pencil form-input-icon"></i>
+          <!-- <i class="fa-regular fa-envelope form-input-icon"></i> -->
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataUpdate('descripcion').valid || (formGetDataUpdate('descripcion').pristine)">
+            Ingrese el correo del cliente
+          </div>
+        </div>
+        <button class="btn btn-primary" #btnEnviar [disabled]="formUpdateData.invalid"
+          (click)="loadConfirmationDataUpdate()">
+          Guardar
+        </button>
+      </form>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #tableUpdateAuxiliar>
+  <app-table-simple [data]="myDataTableDialog" [columns]="myColumnTableDialog"
+    (selectItemsCell)="resultTableUpdateList($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+<ng-template #tableUpdate>
+  <span>Seleccione el Pedido que desee cambiar</span>
+  <app-table-simple [data]="myDataTableAuxiliar" [columns]="myColumnTableAuxiliar"
+    (selectItemsCell)="loadConfirmationDataAuxiliar($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+
+
+
+<ng-template #formCreate>
+  <div class="card">
+    <div class="card-body">
+      <div class="container-header">
+        <h1 class="title">
+          Agregar informacion de la entrega
+        </h1>
+        <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelUpdate()">
+          Cerrar
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <form [formGroup]="formUpdateCreate">
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione la orden del pedido *
+            </label>
+            <input type="text" formControlName="ordenPedido" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-regular fa-circle-user form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('ordenPedido').valid || (formGetDataCreate('ordenPedido').pristine)">
+              Seleccione un cliente
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableCreateAuxiliar)">
+            <i class="fa-regular fa-hand-pointer"></i>
+          </button>
+        </div>
+
+        <div class="content-data-orden-pedido" *ngIf="valDataContent()">
+          <div class="content-data">
+            <span class="data">
+              <i class="fa-regular fa-user"></i>
+              <p class="tilte-data">
+                Empleado:
+              </p>
+              {{Empleado.nombres}}</span>
+            <span class="data">
+              <i class="fa-solid fa-shop"></i>
+              <p class="tilte-data">
+                Laboratorio:
+              </p>
+              {{Laboratio.nombre}}</span>
+          </div>
+
+          <div class="content-data">
+            <span class="data">
+              <i class="fa-solid fa-calendar-days"></i>
+              <p class="tilte-data">
+                Fecha del pedido:
+              </p>
+              {{FechaPedido.fechaPedido}}</span>
+            <span class="data">
+              <i class="fa-solid fa-pencil"></i>
+              <p class="tilte-data">
+                Descripcion:
+              </p>
+              {{OrdenPedido.descripcion}}</span>
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <mat-label class="form-label">
+            Ingrese el estado del producto *
+          </mat-label>
+          <mat-select formControlName="estado" class="form-control form-control-lg" matNativeControl
+            [(ngModel)]="EstadoEntrega">
+            <mat-option *ngFor="let option of estadoEntregaList" [value]="option">
+              {{option.estadoEntrega}}
+            </mat-option>
+          </mat-select>
+        </div>
+
+        <div class="" #input>
+          <label class="form-label">
+            Ingrese la descripcion de la entrega *
+          </label>
+          <input type="text" formControlName="descripcion" class="form-control form-input"
+            placeholder="Ingrese la descripcion del producto" [(ngModel)]="Entrega.descripcion">
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-pencil form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('descripcion').valid || (formGetDataCreate('descripcion').pristine)">
+            Ingrese el correo del cliente
+          </div>
+        </div>
+        <button class="btn btn-primary" #btnEnviar [disabled]="formUpdateCreate.invalid"
+          (click)="loadConfirmationDataCreate()">
+          Guardar
+        </button>
+      </form>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #tableCreateAuxiliar>
+  <app-table-simple [data]="myDataTableDialogCreate" [columns]="myColumnTableDialogCreate"
+    (selectItemsCell)="getInfoTableDialogCreate($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>

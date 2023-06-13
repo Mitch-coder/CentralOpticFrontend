@@ -10,18 +10,7 @@ import { FormData } from 'src/app/modules/form/components/form/form-data';
 import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/modules/dialog/components/dialog/dialog.component';
-
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
-
-import * as moment from 'moment';
-import {default as _rollupMoment} from 'moment';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MAT_NATIVE_DATE_FORMATS, MatDateFormats } from '@angular/material/core';
-
-
-
-
-// const moment = _rollupMoment || _moment;
+import Swal from 'sweetalert2';
 
 interface ExamenVista {
   numExamen: number;
@@ -55,19 +44,6 @@ interface Data {
   descripLenteDer: string;
 }
 
-export const GRI_DATE_FORMATS: MatDateFormats = {
-  ...MAT_NATIVE_DATE_FORMATS,
-  display: {
-    ...MAT_NATIVE_DATE_FORMATS.display,
-    dateInput: {
-      year: 'numeric',
-      month: 'long', 
-      day: '2-digit'
-    } as Intl.DateTimeFormatOptions,
-  }
-};
-
-
 @Component({
   selector: 'app-examen-vista',
   templateUrl: './examen-vista.component.html',
@@ -75,9 +51,9 @@ export const GRI_DATE_FORMATS: MatDateFormats = {
   providers:/*[
     { provide: MAT_DATE_FORMATS, useValue: GRI_DATE_FORMATS },
   ] */
-  [
-    
-  ],
+    [
+
+    ],
 })
 export class ExamenVistaComponent {
   myData: any[] = [];
@@ -89,35 +65,35 @@ export class ExamenVistaComponent {
   selectedDate: Date = new Date();
   formattedDate: string = '00 de 00 de 0000'
   // datePattern = /^(0[1-9]|1\d|2\d|3[01])-(0[1-9]|1[0-2])-\d{4}$/;
-  maxDate= new Date()
+  maxDate = new Date()
 
   fechaExamen: FechaExamen[] = []
-  cliente: Cliente[] = []
+  // cliente: Cliente[] = []
 
   selectedValue: string = '';
 
-  Cliente: Cliente = {
-    codCliente: 1,
-    cedula: '',
-    nombres: '',
-    apellidos: '',
-    direccion: ''
-  }
+  // Cliente: Cliente = {
+  //   codCliente: 1,
+  //   cedula: '',
+  //   nombres: '',
+  //   apellidos: '',
+  //   direccion: ''
+  // }
 
-  FechaExamen:string = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(new Date);
+  // FechaExamen:string = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(new Date);
   OjoIzquierdo: number = 0;
   OjoDerecho: number = 0;
   DescripLenteIzq: string = '';
   DescripLenteDer: string = '';
 
-  formCreate: FormGroup= this.formBuilder.group(
+  formCreate: FormGroup = this.formBuilder.group(
     {
-      'cliente': [this.Cliente, Validators.required],
-      'fechaExamen': [this.formattedDate, ],
-      'ojoIzquierdo': [this.OjoIzquierdo, Validators.required],
-      'ojoDerecho': [this.OjoDerecho, Validators.required],
-      'descripLenteIzq': [this.DescripLenteIzq, Validators.required],
-      'descripLenteDer': [this.DescripLenteDer, Validators.required]
+      // 'cliente': [this.Cliente, Validators.required],
+      // 'fechaExamen': [this.formattedDate, ],
+      // 'ojoIzquierdo': [this.OjoIzquierdo, Validators.required],
+      // 'ojoDerecho': [this.OjoDerecho, Validators.required],
+      // 'descripLenteIzq': [this.DescripLenteIzq, Validators.required],
+      // 'descripLenteDer': [this.DescripLenteDer, Validators.required]
     }
   );
 
@@ -131,42 +107,7 @@ export class ExamenVistaComponent {
   //cliente
   private matDialogRef!: MatDialogRef<DialogComponent>;
 
-  formClient: FormData[] = [{
-    label: 'Cedula',
-    type: 'text',
-    placeholder: 'Ingrese la cedula del cliente',
-    alert: 'La cedula es obligatorio',
-    icon: '',
-    formControlName: 'cedula',
-    formValidators: { 'cedula': [this.Cliente.cedula, [Validators.required]] }
-  },
-  {
-    label: 'Nombre',
-    type: 'text',
-    placeholder: 'Ingrese el nombre del cliente',
-    alert: 'El nombre es obligatorio',
-    icon: '',
-    formControlName: 'nombres',
-    formValidators: { 'nombres': [this.Cliente.nombres, [Validators.required]] }
-  },
-  {
-    label: 'Apellido',
-    type: 'text',
-    placeholder: 'Ingrese el apellido del cliente',
-    alert: 'El apellido es obligatorio',
-    icon: '',
-    formControlName: 'apellidos',
-    formValidators: { 'apellidos': [this.Cliente.apellidos, [Validators.required]] }
-  },
-  {
-    label: 'Dirección',
-    type: 'text',
-    placeholder: 'Ingrese la dirección del cliente',
-    alert: 'La dirección es obligatorio',
-    icon: '',
-    formControlName: 'direccion',
-    formValidators: { 'direccion': [this.Cliente.direccion, [Validators.required]] }
-  }]
+  
 
   constructor(private dataService: MyDataServices,
     private formBuilder: FormBuilder,
@@ -177,8 +118,78 @@ export class ExamenVistaComponent {
   // onDateChange(event: any) {
   //   this.FechaExamen = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(new Date(this.FechaExamen) );
   // }
+  examenVistaList: ExamenVista[] = []
+  fechaExamenList: FechaExamen[] = []
+  clienteList: Cliente[] = []
+
+  ExamenVista: ExamenVista = {
+    numExamen: 0,
+    codCliente: 0,
+    idFechaExamen: 0,
+    ojoIzquierdo: 0,
+    ojoDerecho: 0,
+    descripLenteIzq: '',
+    descripLenteDer: ''
+  }
+
+  FechaExamen: FechaExamen = {
+    idFechaExamen: 0,
+    fechaExamen: ''
+  }
+
+  Cliente: Cliente = {
+    codCliente: 0,
+    cedula: '',
+    nombres: '',
+    apellidos: '',
+    direccion: ''
+  }
+
+  formClient: FormData[] = [
+    {
+      label: 'Cedula',
+      type: 'text',
+      placeholder: 'Ingrese la cedula del cliente',
+      alert: 'La cedula es obligatorio',
+      icon: '',
+      formControlName: 'cedula',
+      formValidators: { 'cedula': [this.Cliente.cedula, [Validators.required]] }
+    },
+    {
+      label: 'Nombre',
+      type: 'text',
+      placeholder: 'Ingrese el nombre del cliente',
+      alert: 'El nombre es obligatorio',
+      icon: '',
+      formControlName: 'nombres',
+      formValidators: { 'nombres': [this.Cliente.nombres, [Validators.required]] }
+    },
+    {
+      label: 'Apellido',
+      type: 'text',
+      placeholder: 'Ingrese el apellido del cliente',
+      alert: 'El apellido es obligatorio',
+      icon: '',
+      formControlName: 'apellidos',
+      formValidators: { 'apellidos': [this.Cliente.apellidos, [Validators.required]] }
+    },
+    {
+      label: 'Dirección',
+      type: 'text',
+      placeholder: 'Ingrese la dirección del cliente',
+      alert: 'La dirección es obligatorio',
+      icon: '',
+      formControlName: 'direccion',
+      formValidators: { 'direccion': [this.Cliente.direccion, [Validators.required]] }
+    }
+  ]
 
   ngOnInit(): void {
+
+    // let fechaExamen ={
+    //   FechaExamen : new Date("Mon Jun 12 2023 00:00:00 GMT-0700")
+    // }
+    // this.dataService.postData('fechaexamen',fechaExamen)
 
     this.myData$ = forkJoin(
       this.dataService.getData('examenvista'),
@@ -186,18 +197,20 @@ export class ExamenVistaComponent {
       this.dataService.getData('cliente')
     ).pipe(
       map((data: any[]) => {
-        let examenVista: ExamenVista[] = data[0];
-        this.fechaExamen = data[1];
-        this.cliente = data[2];
+        this.examenVistaList = data[0];
+        this.fechaExamenList = data[1];
+        this.clienteList = data[2];
+        this.myData = []
 
+        console.log(this.fechaExamenList)
         // console.log(this.cliente)
 
-        examenVista.forEach(element => {
-          let client = this.cliente.filter(e => e.codCliente == element.codCliente)
-          let fecha = this.fechaExamen.filter(e => e.idFechaExamen == element.idFechaExamen)
+        this.examenVistaList.forEach(element => {
+          let client = this.clienteList.filter(e => e.codCliente == element.codCliente)
+          let fecha = this.fechaExamenList.filter(e => e.idFechaExamen == element.idFechaExamen)
 
           let date: Date = new Date(fecha[0].fechaExamen)
-          let formatoFecha:string = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
+          let formatoFecha: string = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
           this.myData.push({
             numExamen: element.numExamen,
             cliente: client[0].nombres,
@@ -234,8 +247,10 @@ export class ExamenVistaComponent {
   }
 
   getEventBtnClickHeader() {
-    if (!HeaderData.eventBtnClick){
+    if (!HeaderData.eventBtnClick) {
       this.dataUpdate = undefined
+      // this.setResetData()
+      this.setDataCreate()
       // this.Cliente = {
       //   codCliente: 0,
       //   cedula: '',
@@ -243,12 +258,12 @@ export class ExamenVistaComponent {
       //   apellidos: '',
       //   direccion: ''
       // }
-      this.formattedDate = new Intl.DateTimeFormat('es', this.opcionesFormato).format(new Date());
-      this.OjoIzquierdo = 0.0;
-      this.OjoDerecho = 0.0;
-      this.DescripLenteIzq = '';
-      this.DescripLenteDer = '';  
-        
+      // this.formattedDate = new Intl.DateTimeFormat('es', this.opcionesFormato).format(new Date());
+      // this.OjoIzquierdo = 0.0;
+      // this.OjoDerecho = 0.0;
+      // this.DescripLenteIzq = '';
+      // this.DescripLenteDer = '';
+
     }
     this.inputFormDataPitcker = !this.inputFormDataPitcker;
     return HeaderData.eventBtnClick;
@@ -261,8 +276,8 @@ export class ExamenVistaComponent {
     if (data) {
       let f = data.fechaExamen
       // console.log(moment(f))
-      let c = this.cliente.filter(f => data.cliente == f.nombres)
-      this.Cliente=c[0]
+      // let c = this.cliente.filter(f => data.cliente == f.nombres)
+      // this.Cliente = c[0]
       // const fechaNormal = moment(data.fechaExamen, 'DD [de] MMMM [de] YYYY').toDate();
       // this.formatDate(fechaNormal)
       // console.log(data.fechaExamen)
@@ -292,7 +307,7 @@ export class ExamenVistaComponent {
   // dialogo reutilizable
   openDialogWithTemplate(template: TemplateRef<any>) {
     this.matDialogRef = this.dialogService.openDialogWithTemplate({
-      template, 
+      template,
     });
 
     this.matDialogRef.afterClosed().subscribe((res) => {
@@ -300,9 +315,14 @@ export class ExamenVistaComponent {
     });
   }
 
-  onSave(client: Cliente) {
-    this.cliente.push(client)
-    this.Cliente = client;
+  onSave(client: FormGroup) {
+    // this.cliente.push(client)
+    // this.Cliente = client;
+    
+
+    this.Cliente = client.value
+
+    console.log(this.Cliente)
 
     this.matDialogRef.close();
   }
@@ -316,4 +336,334 @@ export class ExamenVistaComponent {
     // console.log(new Intl.DateTimeFormat('es', this.opcionesFormato).format(event.value))
     // return new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(event.value);
   }
+
+  /*-----------------------------------------------------------------------------------------*/
+  // data update
+
+  tableColumnCliente = [
+    { label: 'Identificador', def: 'IdCliente', dataKey: 'codCliente' },
+    { label: 'Cedula', def: 'Cedula', dataKey: 'cedula' },
+    { label: 'Nombre', def: 'Nombre', dataKey: 'nombres' },
+    { label: 'Apellido', def: 'Apellido', dataKey: 'apellidos' },
+    { label: 'Direccion', def: 'Direccion', dataKey: 'direccion' }
+  ]
+
+  formUpdateData: FormGroup = this.formBuilder.group(
+    {
+      'cliente': [, Validators.required],
+      'fechaExamen': [, Validators.required],
+      'ojoIzq': [, Validators.required],
+      'ojoDer': [, Validators.required],
+      'descLenteIzq': [, Validators.required],
+      'descLenteDer': [, Validators.required]
+    }
+  )
+
+  getTableDataUpdate(data: any) {
+    this.dataUpdate = data
+    if (data) {
+      let examenVista = this.examenVistaList.find(e => e.numExamen == data.numExamen)
+      let cliente = this.clienteList.find(e => e.codCliente == examenVista?.codCliente)
+      let fechaExamen = this.fechaExamenList.find(e => e.idFechaExamen == examenVista?.idFechaExamen)
+
+      if (examenVista && cliente && fechaExamen) {
+        this.ExamenVista = examenVista
+        this.Cliente = cliente
+        this.FechaExamen = fechaExamen
+      }
+    }
+
+  }
+
+  loadConfirmationDataUpdate() {
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea guardar la informacion?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.saveDataUpdate()
+        // this.formUpdateData.reset()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen asalvo:)',
+          'error'
+        )
+      }
+    });
+  }
+
+  saveDataUpdate() {
+    let fecha = this.fechaExamenList.find(e => e.idFechaExamen == this.FechaExamen.idFechaExamen)
+
+    let id: number = 0
+    if (fecha) {
+      id = fecha.idFechaExamen
+    } else {
+      let f = {
+        fechaExamen: new Date()
+      }
+
+      this.dataService.postData('fechaexamen', f).then((success) => {
+        if (success) {
+          id = this.fechaExamenList.length + 2
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Algo salió mal!',
+            footer: '<a href="">¿Por qué tengo este problema??</a>'
+          })
+
+          return
+        }
+      })
+    }
+
+
+    let data = {
+      codCliente: this.Cliente.codCliente,
+      idFechaExamen: id,
+      ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+      ojoDerecho: this.ExamenVista.ojoDerecho,
+      descripLenteIzq: this.DescripLenteIzq,
+      descripLenteDer: this.DescripLenteDer,
+      numExamen: this.ExamenVista.numExamen
+    }
+
+    this.dataService.updateData('examenvista', data, this.ExamenVista.numExamen).then((success) => {
+      if (success) {
+        Swal.fire(
+          'Exito!',
+          'La informacion a sido actualizado con exito',
+          'success'
+        )
+        this.setResetData()
+        //aaqui reiniciar los datos
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Ups...',
+          text: 'Algo salió mal!',
+          footer: '<a href="">¿Por qué tengo este problema??</a>'
+        })
+      }
+    })
+
+  }
+
+
+
+  cancelFormUpdate() {
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea cerrar el formulario?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Cerrar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.dataUpdate = undefined
+        this.setResetData()
+        // this.resetData()
+        // this.formUpdateData.reset()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen asalvo:)',
+          'error'
+        )
+      }
+    });
+
+  }
+
+  formGetDataUpdate(fr: string) {
+    return this.formUpdateData.get(fr) as FormControl;
+  }
+
+  resultTableUpdateList(data: any) {
+    this.Cliente = data
+
+    this.cancelDialogResult()
+  }
+
+  cancelDialogResult() {
+    this.matDialogRef.close()
+  }
+
+  /*---------------------------------------------------------------------------------*/
+  // crear data
+
+
+  formCreateData: FormGroup = this.formBuilder.group(
+    {
+      'cliente': ['', Validators.required],
+      'fechaExamen': ['', Validators.required],
+      'ojoIzq': ['', Validators.required],
+      'ojoDer': ['', Validators.required],
+      'descLenteIzq': ['', Validators.required],
+      'descLenteDer': ['', Validators.required]
+    }
+  )
+
+  setDataCreate(){
+    this.FechaExamen ={
+      idFechaExamen: 0,
+      fechaExamen: new Intl.DateTimeFormat('es', this.opcionesFormato).format(new Date())
+    }
+  }
+  
+  formGetDataCreate(fr: string) {
+    return this.formCreateData.get(fr) as FormControl;
+  }
+
+  setResetData(){
+
+    this.dataUpdate = undefined
+
+    this.ExamenVista = {
+      numExamen: 0,
+      codCliente: 0,
+      idFechaExamen: 0,
+      ojoIzquierdo: 0,
+      ojoDerecho: 0,
+      descripLenteIzq: '',
+      descripLenteDer: ''
+    }
+  
+    this.FechaExamen = {
+      idFechaExamen: 0,
+      fechaExamen: ''
+    }
+  
+    this.Cliente = {
+      codCliente: 0,
+      cedula: '',
+      nombres: '',
+      apellidos: '',
+      direccion: ''
+    }
+  }
+
+  loadConfirmationDataCreate() {
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea guardar la informacion?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.saveDataCreate()
+        // this.formUpdateData.reset()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen asalvo:)',
+          'error'
+        )
+      }
+    });
+  }
+
+  saveDataCreate(){
+    let cliente = this.clienteList.find(e => e.codCliente == this.Cliente.codCliente)
+
+    let fecha = this.fechaExamenList.find(e => e.fechaExamen == (new Date()).toString())
+
+    let tamano = -1
+    if(!fecha){
+      tamano = this.fechaExamenList.length + 2
+
+      let fechaExamen ={
+        FechaExamen : new Date()
+      }
+      this.dataService.postData('fechaexamen',fechaExamen)
+    }
+
+
+    if(cliente){
+      let examenVista = {
+        codCliente: this.Cliente.codCliente,
+        idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
+        ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+        ojoDerecho: this.ExamenVista.ojoDerecho,
+        descripLenteIzq: this.ExamenVista.descripLenteIzq,
+        descripLenteDer: this.ExamenVista.descripLenteDer
+      }
+
+      this.dataService.postData('examenvista', examenVista).then((success)=>{
+        if(success){
+          Swal.fire(
+            'Exito!',
+            'La informacion a sido actualizado con exito',
+            'success'
+          )
+          this.setResetData()
+          this.formCreateData.reset()
+        }else{
+          Swal.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Algo salió mal!',
+            footer: '<a href="">¿Por qué tengo este problema??</a>'
+          })
+        }
+      })
+    }else{
+      let c = {
+        cedula: this.Cliente.cedula,
+        nombres: this.Cliente.nombres,
+        apellidos: this.Cliente.apellidos,
+        direccion: this.Cliente.direccion
+      }
+      this.dataService.postData('cliente',c).then((success) => {
+        if(success){
+          let tamC = this.clienteList.length + 2
+          let examenVista = {
+            codCliente: tamC,
+            idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
+            ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+            ojoDerecho: this.ExamenVista.ojoDerecho,
+            descripLenteIzq: this.ExamenVista.descripLenteIzq,
+            descripLenteDer: this.ExamenVista.descripLenteDer
+          }
+          this.dataService.postData('examenvista',examenVista).then((success) => {
+            if(success){
+              Swal.fire(
+                'Exito!',
+                'La informacion a sido actualizado con exito',
+                'success'
+              )
+              this.setResetData()
+              this.formCreateData.reset()
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Ups...',
+                text: 'Algo salió mal!',
+                footer: '<a href="">¿Por qué tengo este problema??</a>'
+              })
+            }
+          })
+        }
+      })
+    }
+  }
+
+  
+
+
+
+
 }
