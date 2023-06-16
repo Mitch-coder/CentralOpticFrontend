@@ -60,6 +60,11 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 // import {moment} from 'moment/moment';
 
+
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+// import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -110,7 +115,9 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
     MatDatepickerModule,
     MatNativeDateModule,
     MomentModule,
-    DialogAlertaModule
+    DialogAlertaModule,
+    MatAutocompleteModule,
+    MatFormFieldModule
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter },

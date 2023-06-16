@@ -1,11 +1,237 @@
 <mat-sidenav-container class="example-container">
-    <mat-sidenav-content>
-      <div class="example-content">
-        <h1>Lista de OrdenPedido</h1>
+  <mat-sidenav-content>
+    <div class="example-content">
+      <section [ngClass]="!dataTableValidators?'':'val'" *ngIf="getEventBtnClickHeader() && !dataTableValidators">
         <section>
-          <app-table [data]="myData$" [columns]="tableColumns"></app-table>
+          <h1>Lista de OrdenPedido</h1>
+          <app-table [data]="myData$" [columns]="tableColumns"
+            (selectItemsCell)="getDataUpdateDialog($event,formUpdate)"></app-table>
         </section>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>  
+      </section>
+      <section *ngIf="!getEventBtnClickHeader()">
+        <ng-container *ngTemplateOutlet="formCreate"></ng-container>
+      </section>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
+
+
+
+
+
+<ng-template #formCreate>
+  <div class="card">
+    <div class="card-body">
+      <div class="container-header">
+        <h1 class="title">
+          Agregar informacion de la entrega
+        </h1>
+      </div>
+      <form [formGroup]="formDataCreate">
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione el empleado *
+            </label>
+            <input type="text" formControlName="empleado" class="form-control form-input"
+              placeholder="Seleccione el empleado" [(ngModel)]="Empleado.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-regular fa-user form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('empleado').valid || (formGetDataCreate('empleado').pristine)">
+              Seleccione un empleado
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableEmpleado)">
+            <i class="fa-regular fa-hand-pointer"></i>
+          </button>
+        </div>
+
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione el examen *
+            </label>
+            <input type="text" formControlName="examenVista" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="ExamenVista.numExamen">
+            <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-solid fa-eye form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('examenVista').valid || (formGetDataCreate('examenVista').pristine)">
+              Seleccione el examen de la vista
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableExamenVista)">
+            <i class="fa-regular fa-eye"></i>
+          </button>
+        </div>
+
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione el Laboratorio *
+            </label>
+            <input type="text" formControlName="laboratorio" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="Laboratorio.idLaboratorio">
+            <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-solid fa-flask-vial form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('laboratorio').valid || (formGetDataCreate('laboratorio').pristine)">
+              Seleccione un laboratorio
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableLaboratorio)">
+            <i class="fa-solid fa-flask"></i>
+          </button>
+        </div>
+
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione el Producto *
+            </label>
+            <input type="text" formControlName="producto" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="Producto.codProducto"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-solid fa-box-archive form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('producto').valid || (formGetDataCreate('producto').pristine)">
+              Seleccione un producto
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableProducto)">
+            <i class="fa-solid fa-box-open"></i>
+          </button>
+        </div>
+
+        <!-- <div class="mb-2">
+          <mat-label class="form-label">
+            Estado del pedido *
+          </mat-label>
+          <mat-select formControlName="estadoPedido" class="form-control form-control-lg" matNativeControl
+            [(ngModel)]="EstadoPedido" [(value)]="EstadoPedido">
+            <mat-option *ngFor="let option of estadoPedidoList" [value]="option">
+              {{option.estadoPedido}}
+            </mat-option>
+          </mat-select>
+        </div> -->
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Estado Producto
+          </label>
+          <input type="text" formControlName="estadoPedido" class="form-control form-input"
+            placeholder="Fecha del pedido" [(ngModel)]="EstadoPedido.estadoPedido" readonly>
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-pencil form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('estadoPedido').valid || (formGetDataCreate('estadoPedido').pristine)">
+            Estado Producto
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Fecha del Pedido
+          </label>
+          <input type="text" formControlName="fechaPedido" class="form-control form-input"
+            placeholder="Fecha del pedido" [(ngModel)]="FechaPedido.fechaPedido" readonly>
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-calendar-days form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('fechaPedido').valid || (formGetDataCreate('fechaPedido').pristine)">
+            Ingrese la descripcion de la entrega
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Ingrese el costo del pedido *
+          </label>
+          <input type="number" formControlName="costo" class="form-control form-input"
+            placeholder="Ingrese el costo del pedido" [(ngModel)]="OrdenPedido.costo">
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-circle-dollar-to-slot form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('costo').valid || (formGetDataCreate('costo').pristine)">
+            Ingrese el costo del pedido
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Ingrese la descripción del pedido *
+          </label>
+          <input type="text" formControlName="descripcion" class="form-control form-input"
+            placeholder="Ingrese la descripcion del pedido" [(ngModel)]="OrdenPedido.costo">
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-pencil form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('descripcion').valid || (formGetDataCreate('descripcion').pristine)">
+            Ingrese la descripción del pedido
+          </div>
+        </div>
+
+        <button class="btn btn-primary" #btnEnviar [disabled]="formDataCreate.invalid"
+          (click)="loadConfirmationDataCreate()">
+          Guardar
+        </button>
+      </form>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #tableLaboratorio>
+  <app-table-simple [data]="laboratorioList" [columns]="tableColumnsLaboratorio"
+    (selectItemsCell)="resultDataTableLaboratorio($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+<ng-template #tableExamenVista>
+  <app-table-simple [data]="tableDataExamenVista" [columns]="tableColumnsExamenVista"
+    (selectItemsCell)="resultDataTableExamenVista($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+<ng-template #tableEmpleado>
+  <app-table-simple [data]="empleadoList" [columns]="tableColumnsEmpleado"
+    (selectItemsCell)="resultDataTableEmpleado($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+<ng-template #tableProducto>
+  <app-table-simple [data]="tableDataProducto" [columns]="tableColumnsProducto"
+    (selectItemsCell)="resultDataTableProducto($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+<ng-template #formUpdate>
+  <div class="mb-2">
+
+    <div class="card">
+      <div class="card-body">
+        <div class="container-header">
+          <h1 class="title">
+            Agregar informacion de la entrega
+          </h1>
+        </div>
+        <form [formGroup]="formDataUpdateDialog">
+          <!-- <mat-form-field> -->
+          <div class="mb-2">
+            <mat-label class="form-label">
+              Actualizar el estado del pedido
+            </mat-label>
+            <mat-select formControlName="estadoPedido" class="form-control form-control-lg" [(ngModel)]="EstadoPedido"
+              [(value)]="EstadoPedido">
+              <mat-option *ngFor="let option of estadoPedidoList" [value]="option">
+                {{option.estadoPedido}}
+              </mat-option>
+            </mat-select>
+          </div>
+          <!-- </mat-form-field> -->
+          <button class="btn btn-primary" #btnEnviar [disabled]="formDataUpdateDialog.invalid"
+            (click)="loadConfirmationDataCreate()">
+            Guardar
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</ng-template>

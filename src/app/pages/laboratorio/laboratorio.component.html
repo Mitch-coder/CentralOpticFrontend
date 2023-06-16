@@ -2,15 +2,26 @@
     <mat-sidenav-content>
       <div class="example-content">
         <section *ngIf="getEventBtnClickHeader()">
-          <h1>Lista de laboratorios</h1>
-          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
-        </section>
-        <section *ngIf="dataUpdate">
-          <app-form [Title]="'Actualizar Laboratorio - '+ dataUpdate.idLaboratorio" [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formUpdate"></app-form>
+          <section *ngIf="!dataUpdate">
+            <h1>Lista de laboratorios</h1>
+            <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
+          </section>
+          <section *ngIf="dataUpdate">
+            <app-form [Title]="'Actualizar Laboratorio - '+ dataUpdate.nombre"
+              [BtnName]="'Actualizar'"
+              *ngIf="dataUpdate" 
+              [FormD]="formUpdate"
+              [BtnCancel]="true"
+              (btnCancel)="eventCancelFormUpdate()"
+              (formData)="loadConfirmationDataUpdate($event)"></app-form>
+          </section>
         </section>
       </div>
       <section *ngIf="!getEventBtnClickHeader()">
-        <app-form [Title]="'Nuevo Laboratorio'" [FormD]="formCreate"></app-form>
+        <app-form 
+          [Title]="'Nuevo Laboratorio'"
+          [FormD]="formCreate"
+          (formData)="loadConfirmationDataCreate($event)"></app-form>
       </section>
       
     </mat-sidenav-content>

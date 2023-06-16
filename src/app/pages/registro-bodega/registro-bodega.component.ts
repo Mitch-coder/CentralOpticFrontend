@@ -59,6 +59,8 @@ export class RegistroBodegaComponent {
         let producto:Producto[] = data[2];
         let nombreProducto:NombreProducto[]= data[3];
 
+        console.log(data[0])
+
         resgitroBodega.forEach(element => {
           let product = producto.filter(e => e.codProducto ==element.codProducto);
           let nameProduct = nombreProducto.filter(e => e.idNombreProducto == product[0].idNombreProducto);

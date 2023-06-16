@@ -11,6 +11,7 @@ import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/modules/dialog/components/dialog/dialog.component';
 import Swal from 'sweetalert2';
+import { NavigationExtras, Router } from '@angular/router';
 
 interface ExamenVista {
   numExamen: number;
@@ -112,6 +113,7 @@ export class ExamenVistaComponent {
   constructor(private dataService: MyDataServices,
     private formBuilder: FormBuilder,
     private dialogService: DialogService,
+    private router: Router
     /*private datePipe: DatePipe*/) { }
 
 
@@ -185,11 +187,15 @@ export class ExamenVistaComponent {
   ]
 
   ngOnInit(): void {
+    let fecha = new Date();
+    fecha.setHours(0,0,0,0)
+    console.log(fecha)
 
     // let fechaExamen ={
-    //   FechaExamen : new Date("Mon Jun 12 2023 00:00:00 GMT-0700")
+    //   FechaExamen : fecha
     // }
     // this.dataService.postData('fechaexamen',fechaExamen)
+
 
     this.myData$ = forkJoin(
       this.dataService.getData('examenvista'),
@@ -203,6 +209,9 @@ export class ExamenVistaComponent {
         this.myData = []
 
         console.log(this.fechaExamenList)
+        let fec = new Date(this.fechaExamenList[20].fechaExamen)
+        console.log( fec.toString() == fecha.toString())
+
         // console.log(this.cliente)
 
         this.examenVistaList.forEach(element => {
@@ -224,6 +233,7 @@ export class ExamenVistaComponent {
         return this.myData;
       })
     )
+
 
     this.setTableColumns();
   }
@@ -401,38 +411,38 @@ export class ExamenVistaComponent {
   saveDataUpdate() {
     let fecha = this.fechaExamenList.find(e => e.idFechaExamen == this.FechaExamen.idFechaExamen)
 
-    let id: number = 0
-    if (fecha) {
-      id = fecha.idFechaExamen
-    } else {
-      let f = {
-        fechaExamen: new Date()
-      }
+    // let id: number = 0
+    // if (fecha) {
+    //   id = fecha.idFechaExamen
+    // } else {
+    //   let f = {
+    //     fechaExamen: new Date()
+    //   }
 
-      this.dataService.postData('fechaexamen', f).then((success) => {
-        if (success) {
-          id = this.fechaExamenList.length + 2
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Ups...',
-            text: 'Algo salió mal!',
-            footer: '<a href="">¿Por qué tengo este problema??</a>'
-          })
+    //   this.dataService.postData('fechaexamen', f).then((success) => {
+    //     if (success) {
+    //       id = this.fechaExamenList.length + 2
+    //     } else {
+    //       Swal.fire({
+    //         icon: 'error',
+    //         title: 'Ups...',
+    //         text: 'Algo salió mal!',
+    //         footer: '<a href="">¿Por qué tengo este problema??</a>'
+    //       })
 
-          return
-        }
-      })
-    }
+    //       return
+    //     }
+    //   })
+    // }
 
 
     let data = {
       codCliente: this.Cliente.codCliente,
-      idFechaExamen: id,
+      idFechaExamen: this.ExamenVista.idFechaExamen,
       ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
       ojoDerecho: this.ExamenVista.ojoDerecho,
-      descripLenteIzq: this.DescripLenteIzq,
-      descripLenteDer: this.DescripLenteDer,
+      descripLenteIzq: this.ExamenVista.descripLenteIzq,
+      descripLenteDer: this.ExamenVista.descripLenteDer,
       numExamen: this.ExamenVista.numExamen
     }
 
@@ -579,20 +589,28 @@ export class ExamenVistaComponent {
   saveDataCreate(){
     let cliente = this.clienteList.find(e => e.codCliente == this.Cliente.codCliente)
 
-    let fecha = this.fechaExamenList.find(e => e.fechaExamen == (new Date()).toString())
+    let fecha1 = new Date();
+    fecha1.setHours(0,0,0,0)
+
+    let fecha = this.fechaExamenList.find(e => new Date(e.fechaExamen).toString() == fecha1.toString())
 
     let tamano = -1
     if(!fecha){
-      tamano = this.fechaExamenList.length + 2
+      console.log('nueva fecha')
+      const numeros = this.fechaExamenList.map(objeto => objeto.idFechaExamen);
+      let dataV = Math.max(...numeros) + 1
+      // tamano = this.fechaExamenList.length + 2
 
       let fechaExamen ={
-        FechaExamen : new Date()
+        FechaExamen : fecha1
       }
       this.dataService.postData('fechaexamen',fechaExamen)
     }
 
 
     if(cliente){
+
+      console.log('cliente viejo')
       let examenVista = {
         codCliente: this.Cliente.codCliente,
         idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
@@ -609,8 +627,52 @@ export class ExamenVistaComponent {
             'La informacion a sido actualizado con exito',
             'success'
           )
+          
+
+          Swal.fire({
+            title: 'Confirmar',
+            text: '¿Desea agendar un peido?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Agendar',
+            cancelButtonText: 'Despues',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // this.setDataUpdateDB(data.value)
+              // let cliente = this.myData.filter(e => e.cedula === data.cedula)
+              // console.log(cliente[0])
+              // let parametro = {
+              //   cliente: data,
+              //   formCreate: false
+              // }
+
+              const numeros = this.examenVistaList.map(objeto => objeto.numExamen);
+              let dataV = Math.max(...numeros) + 1
+
+              let examenVista = {
+                numExamen: dataV,
+                codCliente: this.Cliente.codCliente,
+                idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
+                ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+                ojoDerecho: this.ExamenVista.ojoDerecho,
+                descripLenteIzq: this.ExamenVista.descripLenteIzq,
+                descripLenteDer: this.ExamenVista.descripLenteDer
+              }
+
+              this.sendDataOrdenPedido(examenVista)
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              Swal.fire(
+                'Cancelado',
+                'Todo bien :)',
+                'error'
+              )
+            }
+          });
+
           this.setResetData()
           this.formCreateData.reset()
+
         }else{
           Swal.fire({
             icon: 'error',
@@ -621,6 +683,8 @@ export class ExamenVistaComponent {
         }
       })
     }else{
+      console.log('cliente nuevo')
+
       let c = {
         cedula: this.Cliente.cedula,
         nombres: this.Cliente.nombres,
@@ -629,9 +693,11 @@ export class ExamenVistaComponent {
       }
       this.dataService.postData('cliente',c).then((success) => {
         if(success){
-          let tamC = this.clienteList.length + 2
+          const numeros = this.clienteList.map(objeto => objeto.codCliente);
+          let dataV = Math.max(...numeros) + 1
+          // let tamC = this.clienteList.length + 2
           let examenVista = {
-            codCliente: tamC,
+            codCliente: dataV,
             idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
             ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
             ojoDerecho: this.ExamenVista.ojoDerecho,
@@ -645,6 +711,48 @@ export class ExamenVistaComponent {
                 'La informacion a sido actualizado con exito',
                 'success'
               )
+
+              Swal.fire({
+                title: 'Confirmar',
+                text: '¿Desea agendar un peido?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Agendar',
+                cancelButtonText: 'Despues',
+                reverseButtons: true
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // this.setDataUpdateDB(data.value)
+                  // let cliente = this.myData.filter(e => e.cedula === data.cedula)
+                  // console.log(cliente[0])
+                  // let parametro = {
+                  //   cliente: data,
+                  //   formCreate: false
+                  // }
+    
+                  const numeros = this.examenVistaList.map(objeto => objeto.numExamen);
+                  let dataV = Math.max(...numeros) + 1
+    
+                  let examenVista = {
+                    numExamen: dataV,
+                    codCliente: this.Cliente.codCliente,
+                    idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
+                    ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+                    ojoDerecho: this.ExamenVista.ojoDerecho,
+                    descripLenteIzq: this.ExamenVista.descripLenteIzq,
+                    descripLenteDer: this.ExamenVista.descripLenteDer
+                  }
+    
+                  this.sendDataOrdenPedido(examenVista)
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                  Swal.fire(
+                    'Cancelado',
+                    'Todo bien :)',
+                    'error'
+                  )
+                }
+              });
+
               this.setResetData()
               this.formCreateData.reset()
             }else{
@@ -663,6 +771,15 @@ export class ExamenVistaComponent {
 
   
 
+  sendDataOrdenPedido(parametro: any) {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        objeto: parametro
+      }
+    };
+
+    this.router.navigate(['orden-pedido'], navigationExtras)
+  }
 
 
 

@@ -3,8 +3,9 @@ import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
 import { tap } from 'rxjs';
 import { FormData } from 'src/app/modules/form/components/form/form-data';
-import { Validators } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { HeaderData } from 'src/app/header/header-data';
+import Swal from 'sweetalert2';
 
 
 interface Data {
@@ -141,6 +142,137 @@ export class LaboratorioComponent {
         value: data.telefono
       }]
     }
+  }
+
+  loadConfirmationDataUpdate(data:FormGroup) {
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que deseas guardar los datos?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.saveDataUpdate(data.value)
+        // data.reset()
+        
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen a salvo :)',
+          'error'
+        )
+      }
+    });
+  }
+
+  saveDataUpdate(data:any){
+    let laboratorio:Data = {
+      idLaboratorio: this.dataUpdate.idLaboratorio,
+      nombre: data.nombre,
+      telefono: data.telefono,
+      direccion: data.direccion,
+      correo: data.correo
+    }
+
+    this.dataService.updateData('laboratorio',laboratorio,this.dataUpdate.idLaboratorio).then((success)=>{
+      if(success){
+        Swal.fire(
+          'Exito!',
+          'La informacion a sido actualizado con exito',
+          'success'
+        )
+        this.dataUpdate = undefined
+        // this.resetData()
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Ups...',
+          text: 'Algo salió mal!',
+          footer: '<a href="">¿Por qué tengo este problema??</a>'
+        })
+      }
+    })
+  }
+
+  eventCancelFormUpdate() {
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea cerrar el formulario, se perderan todos los datos que haya actualizado?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Cerrar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.dataUpdate = undefined
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen a salvo :)',
+          'error'
+        )
+      }
+    });
+  }
+
+  loadConfirmationDataCreate(data:FormGroup) {
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que deseas guardar los datos?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.saveDataCreate(data)
+        // data.reset()
+        
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen a salvo :)',
+          'error'
+        )
+      }
+    });
+  }
+
+  saveDataCreate(data:FormGroup){
+    let dataV = data.value
+
+    let laboratorio= {
+      // idLaboratorio: this.dataUpdate.idLaboratorio,
+      nombre: dataV.nombre,
+      telefono: dataV.telefono,
+      direccion: dataV.direccion,
+      correo: dataV.correo
+    }
+
+    this.dataService.postData('laboratorio',laboratorio).then((success)=>{
+      if(success){
+        Swal.fire(
+          'Exito!',
+          'La informacion a sido actualizado con exito',
+          'success'
+        )
+        // this.dataUpdate = undefined
+        data.reset()
+        // this.resetData()
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Ups...',
+          text: 'Algo salió mal!',
+          footer: '<a href="">¿Por qué tengo este problema??</a>'
+        })
+      }
+    })
   }
 
 }

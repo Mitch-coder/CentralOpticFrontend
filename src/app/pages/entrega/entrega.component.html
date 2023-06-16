@@ -120,10 +120,6 @@
         <h1 class="title">
           Agregar informacion de la entrega
         </h1>
-        <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelUpdate()">
-          Cerrar
-          <i class="fa-solid fa-xmark"></i>
-        </button>
       </div>
       <form [formGroup]="formUpdateCreate">
         <div class="content-select">
@@ -198,7 +194,7 @@
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('descripcion').valid || (formGetDataCreate('descripcion').pristine)">
-            Ingrese el correo del cliente
+            Ingrese la descripcion de la entrega
           </div>
         </div>
         <button class="btn btn-primary" #btnEnviar [disabled]="formUpdateCreate.invalid"

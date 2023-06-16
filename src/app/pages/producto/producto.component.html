@@ -1,108 +1,20 @@
 <mat-sidenav-container class="example-container">
   <mat-sidenav-content>
     <div class="example-content">
-      <h1>Lista de productos actuales</h1>
       <section *ngIf="getEventBtnClickHeader()">
-        <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
-        
-        <section *ngIf="dataUpdate">
-          <div class="card">
-            <div class="card-body">
-                <!-- (ngSubmit)="procesar" -->
-                <form [formGroup]="form">
-                   
-                  <div class="content-select">
-                    <div class="mb-2 container-select" #input>
-                      <mat-label class="form-label">
-                        Marca
-                      </mat-label>
-                      <mat-select 
-                        formControlName="marca" 
-                        class="form-control form-control-lg"
-                        [(value)]="marca">
-                          <mat-select-trigger>
-                            <!-- <i [ngClass]="estadoProducto.value == 'Inactivo'? 'fa-regular fa-circle-xmark text-danger':'fa-regular fa-square-check text-success'"></i> -->
-                            <i class="fa-regular fa-bookmark select-icon"></i>
-                            {{marca}}
-                          </mat-select-trigger>
-                        
-                          <mat-option *ngFor="let option of Marcas" [value]="option.marca">
-                              {{option.marca}}
-                          </mat-option>
-                      </mat-select>
-                    </div>  
-                    <button 
-                        mat-fab
-                        extended 
-                        class="btn-add btn-primary"
-                        (click)="openDialogWithTemplate(formmarca)">
-                          <i class="fa-solid fa-plus"></i>
-                    </button>
-                  </div>
-                  
-                  
-                   
-                  <div class="mb-2" #input>
-                      <label class="form-label">
-                          Nombre del producto
-                      </label>
-                      <input type="text" formControlName="nombre" class="form-control form-input"
-                          placeholder="Ingrese el nombre del producto" [(ngModel)]="nombreProducto" >
-                      <i class="fa-solid fa-file-signature form-input-icon"></i>
-                      <div class="alert alert-danger mt-1"
-                          [hidden]="formGet('nombre').valid || (formGet('nombre').pristine)">
-                          Ingrese el nombre del producto
-                      </div>
-                  </div>
-        
-                  <div class="mb-2" #input>
-                    <label class="form-label">
-                        Precio unitario
-                    </label>
-                    <input type="number" formControlName="precioActual" class="form-control form-input"
-                        placeholder="Ingrese el precio actual del producto" [(ngModel)]="precioActual" >
-                    <i class="fa-solid fa-money-bills form-input-icon"></i>
-                    
-                    <div class="alert alert-danger mt-1"
-                        [hidden]="formGet('nombre').valid || (formGet('nombre').pristine)">
-                        Ingrese el precio unitario de producto
-                    </div>
-                </div>
-        
-                <div class="mb-2" #input>
-                  <mat-label class="form-label">
-                    Estado del producto
-                  </mat-label>
-                  <mat-select 
-                    formControlName="estadoProducto" 
-                    class="form-control form-control-lg"
-                    [(ngModel)]="estadoProducto.value"
-                    >
-                      <mat-select-trigger>
-                        <!-- <i [ngClass]="estadoProducto.value == 'Inactivo'? 'fa-regular fa-circle-xmark text-danger':'fa-regular fa-square-check text-success'"></i> -->
-                        <i class="fa-solid fa-caret-right select-icon"></i>
-                        {{estadoProducto.value}}
-                      </mat-select-trigger>
 
-                      <mat-option *ngFor="let option of EstadoProducto" [value]="option.value">
-                          <i [class]="option.icon"></i>
-                          {{option.value}}
-                      </mat-option>
-                  </mat-select>
-                </div>
-                
-        
-                  <button class="btn btn-primary btn-form-product" #btnEnviar [disabled]="form.invalid">
-                    Actualizar
-                  </button>
-                </form>
-            </div>
-          </div>
-        
+        <section *ngIf="!dataUpdate">
+          <h1>Lista de productos actuales</h1>
+          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="getDataUpdate($event)"></app-table>
+        </section>
+
+        <section *ngIf="dataUpdate">
+         <ng-container *ngTemplateOutlet="formUpdate"></ng-container>
         </section>
       </section>
       <section *ngIf="!getEventBtnClickHeader()">
-        <app-form [FormD]="formProducto"></app-form>
+        <!-- <app-form [FormD]="formProducto"></app-form> -->
+        <ng-container *ngTemplateOutlet="formCreate"></ng-container>
       </section>
     </div>
   </mat-sidenav-content>
@@ -111,6 +23,325 @@
 
 <ng-template #formmarca>
   <div class="template-container">
-    <app-form [Title]="'Nueva Marca'" [FormD]="formMarcas" (formData)="onSave($event)"></app-form>
+    <!-- <app-form [Title]="'Nueva Marca'" [FormD]="formMarcas" (formData)="onSave($event)"></app-form> -->
+  </div>
+</ng-template>
+
+<ng-template #formCreate>
+  <div class="card">
+    <div class="card-body">
+      <div class="container-header">
+        <h1 class="title">
+          Agregar informacion del nuevo producto
+        </h1>
+      </div>
+      <form [formGroup]="formCreateData">
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione la bodega *
+            </label>
+            <input type="text" formControlName="bodega" class="form-control form-input"
+              placeholder="Seleccione la bodega" [(ngModel)]="Bodega.nombre"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-solid fa-store form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('bodega').valid || (formGetDataCreate('bodega').pristine)">
+              Seleccione una bodega
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableBodega)">
+            <!-- <i class="fa-regular fa-hand-pointer"></i> -->
+            <i class="fa-solid fa-store"></i>
+          </button>
+        </div>
+
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione El proveedor *
+            </label>
+            <input type="text" formControlName="proveedor" class="form-control form-input"
+              placeholder="Seleccione el proveedor" [(ngModel)]="Proveedor.nombre">
+            <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-solid fa-address-card form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('proveedor').valid || (formGetDataCreate('proveedor').pristine)">
+              Seleccione un proveedor
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableProveedor)">
+            <i class="fa-solid fa-address-card"></i>
+          </button>
+        </div>
+
+        
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Fecha de obtencion del producto
+          </label>
+          <input type="text" formControlName="fechaObtencion" class="form-control form-input"
+            placeholder="Fecha de obtencion" [(ngModel)]="FechaObtencion.fechaObtencion" readonly>
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-calendar-days form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('fechaObtencion').valid || (formGetDataCreate('fechaObtencion').pristine)">
+            Ingrese la Fecha del producto
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Nombre del producto *
+          </label>
+          <input type="text" formControlName="nombreProducto" class="form-control form-input"
+            placeholder="ingrese el nombre del producto" [(ngModel)]="NombreProducto.nombreProducto" [matAutocomplete]="autoNombre">
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-pencil form-input-icon"></i>
+          <mat-autocomplete #autoNombre="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptionsNombreProducto | async" [value]="option.nombreProducto">
+              {{option.nombreProducto}}
+            </mat-option>
+          </mat-autocomplete>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('nombreProducto').valid || (formGetDataCreate('nombreProducto').pristine)">
+            Ingrese el nombre del producto
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Marca del producto *
+          </label>
+          <input type="text" formControlName="marca" class="form-control form-input"
+            placeholder="Ingrese la marca del producto" [(ngModel)]="Marca.marca" [matAutocomplete]="autoMarca">
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-pencil form-input-icon"></i>
+          <mat-autocomplete #autoMarca="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptionsMarca | async" [value]="option.marca">
+              {{option.marca}}
+            </mat-option>
+          </mat-autocomplete>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('marca').valid || (formGetDataCreate('marca').pristine)">
+            Ingrese el nombre del producto
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Ingrese la descripción del producto *
+          </label>
+          <input type="text" formControlName="descripcion" class="form-control form-input"
+            placeholder="Ingrese la descripcion del producto" [(ngModel)]="Producto.descripcion">
+          <i class="fa-solid fa-pencil form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('descripcion').valid || (formGetDataCreate('descripcion').pristine)">
+            Ingrese la descripción del descripcion
+          </div>
+        </div>
+
+        <!-- <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione el Laboratorio *
+            </label>
+            <input type="text" formControlName="laboratorio" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="Laboratorio.idLaboratorio">
+            <i class="fa-solid fa-flask-vial form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('laboratorio').valid || (formGetDataCreate('laboratorio').pristine)">
+              Seleccione un laboratorio
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableLaboratorio)">
+            <i class="fa-solid fa-flask"></i>
+          </button>
+        </div> -->
+
+        <!-- <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione el Producto *
+            </label>
+            <input type="text" formControlName="producto" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="Producto.codProducto">
+            <i class="fa-solid fa-box-archive form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('producto').valid || (formGetDataCreate('producto').pristine)">
+              Seleccione un producto
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableProducto)">
+            <i class="fa-solid fa-box-open"></i>
+          </button>
+        </div> -->
+
+        <!-- <div class="mb-2">
+          <mat-label class="form-label">
+            Estado del pedido *
+          </mat-label>
+          <mat-select formControlName="estadoPedido" class="form-control form-control-lg" matNativeControl
+            [(ngModel)]="EstadoPedido" [(value)]="EstadoPedido">
+            <mat-option *ngFor="let option of estadoPedidoList" [value]="option">
+              {{option.estadoPedido}}
+            </mat-option>
+          </mat-select>
+        </div> -->
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Ingrese la cantidad de productos
+          </label>
+          <input type="number" formControlName="cantidad" class="form-control form-input"
+            placeholder="Ingrese la cantidad del producto" [(ngModel)]="ProveedorProducto.cantidad">
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-pencil form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('cantidad').valid || (formGetDataCreate('cantidad').pristine)">
+            Estado Producto
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Ingrese el costo del producto *
+          </label>
+          <input type="number" formControlName="costo" class="form-control form-input"
+            placeholder="Ingrese el costo del producto" [(ngModel)]="ProveedorProducto.costo">
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-circle-dollar-to-slot form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('costo').valid || (formGetDataCreate('costo').pristine)">
+            Ingrese el costo del producto
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Ingrese el precio del producto *
+          </label>
+          <input type="number" formControlName="precio" class="form-control form-input"
+            placeholder="Ingrese el precio del producto" [(ngModel)]="Producto.precioActual">
+          <i class="fa-solid fa-circle-dollar-to-slot form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('precio').valid || (formGetDataCreate('precio').pristine)">
+            Ingrese el precio del producto
+          </div>
+        </div>
+        <button class="btn btn-primary" #btnEnviar [disabled]="formCreateData.invalid"
+          (click)="loadConfirmationDataCreate()">
+          Guardar
+        </button>
+      </form>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #tableProveedor>
+  <app-table-simple [data]="proveedorList" [columns]="formColumnsTableProveedor"
+    (selectItemsCell)="getDataTableProveedor($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+<ng-template #tableBodega>
+  <app-table-simple [data]="bodegaList" [columns]="formColumnsTableBodega"
+    (selectItemsCell)="getDataTableBodega($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+
+<ng-template #formUpdate>
+  <div class="card">
+    <div class="card-body">
+      <div class="container-header">
+        <h1 class="title">
+          Actualizar informacion del producto
+        </h1>
+        <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
+          Cerrar
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <form [formGroup]="formUpdateData">
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Nombre del producto *
+          </label>
+          <input type="text" formControlName="nombreProducto" class="form-control form-input"
+            placeholder="ingrese el nombre del producto" [(ngModel)]="NombreProducto.nombreProducto" [matAutocomplete]="autoNombre">
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-pencil form-input-icon"></i>
+          <mat-autocomplete #autoNombre="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptionsNombreProducto | async" [value]="option.nombreProducto">
+              {{option.nombreProducto}}
+            </mat-option>
+          </mat-autocomplete>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('nombreProducto').valid || (formGetDataCreate('nombreProducto').pristine)">
+            Ingrese el nombre del producto
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Marca del producto *
+          </label>
+          <input type="text" formControlName="marca" class="form-control form-input"
+            placeholder="Ingrese la marca del producto" [(ngModel)]="Marca.marca" [matAutocomplete]="autoMarca">
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-pencil form-input-icon"></i>
+          <mat-autocomplete #autoMarca="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptionsMarca | async" [value]="option.marca">
+              {{option.marca}}
+            </mat-option>
+          </mat-autocomplete>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('marca').valid || (formGetDataCreate('marca').pristine)">
+            Ingrese el nombre del producto
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Ingrese la descripción del producto *
+          </label>
+          <input type="text" formControlName="descripcion" class="form-control form-input"
+            placeholder="Ingrese la descripcion del producto" [(ngModel)]="Producto.descripcion">
+          <i class="fa-solid fa-pencil form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('descripcion').valid || (formGetDataCreate('descripcion').pristine)">
+            Ingrese la descripción del descripcion
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Ingrese el precio del producto *
+          </label>
+          <input type="number" formControlName="precio" class="form-control form-input"
+            placeholder="Ingrese el precio del producto" [(ngModel)]="Producto.precioActual">
+          <i class="fa-solid fa-circle-dollar-to-slot form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('precio').valid || (formGetDataCreate('precio').pristine)">
+            Ingrese el precio del producto
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <mat-label class="form-label">
+            Ingrese el estado del producto *
+          </mat-label>
+          <mat-select formControlName="estado" class="form-control form-control-lg" matNativeControl
+            [(ngModel)]="Producto.estadoProducto">
+            <mat-option *ngFor="let option of estado" [value]="option.valor" >
+              {{option.label}}
+            </mat-option>
+          </mat-select>
+        </div>
+
+        <button class="btn btn-primary" #btnEnviar [disabled]="formUpdateData.invalid" (click)="loadConfirmationDataUpdate()">
+          Actualizar
+        </button>
+      </form>
+    </div>
   </div>
 </ng-template>
