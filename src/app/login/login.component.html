@@ -1,39 +1,50 @@
 <mat-card class="main-container">
-    <mat-card-content >
-      
+    <mat-card-content>
+
         <img mat-card-image src="../../assets/images/logo.svg" alt="Central Optic logo">
         <div class="header">
             <h1><strong>Central Optic</strong></h1>
         </div>
 
-        <form (ngSubmit)="onSubmit()" name="loginForm" [formGroup]="loginForm">
+        <form name="loginForm" [formGroup]="loginForm">
             <div class="email-input">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Usuario</mat-label>
-                    <input formControlName="email" matInput required name="email" [(ngModel)]="email"/>
+                    <input formControlName="email" matInput required name="email" [(ngModel)]="email" />
                     <mat-error *ngIf="!loginForm.controls['email'].valid">
                         El usuario es requerido
-                      </mat-error>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div>
+
+                <span class="aLink">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Contraseña</mat-label>
+                    <input formControlName="password" matInput [type]=" hide ? 'password' : 'text'" required
+                        name="password" [(ngModel)]="password" />
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
+                        [attr.aria-pressed]="hide">
+                        <mat-icon>
+                            {{hide ? 'visibility_off' : 'visibility'}}
+                        </mat-icon>
+                    </button>
+                    <mat-error *ngIf="!loginForm.controls['password'].valid">
+                        La contraseña es requerida
+                    </mat-error>
                 </mat-form-field>
             </div>
             
-            <div>
-                <span class="aLink">Recuperar contraseña</span>
-                <mat-form-field class="full-width" appearance="outline">
-                    <mat-label>Contraseña</mat-label>
-                    <input formControlName="password" matInput [type]=" hide ? 'password' : 'text'" required  name="password" [(ngModel)]="password"/>
-                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
-                    [attr.aria-pressed]="hide">
-                    <mat-icon>
-                        {{hide ? 'visibility_off' : 'visibility'}}
-                    </mat-icon>
-                </button> 
-                <mat-error *ngIf="!loginForm.controls['password'].valid">
-                    La contraseña es requerida
-                  </mat-error>
-                </mat-form-field>
-            </div>
-            <button mat-flat-button color="primary" type="submit">Iniciar sesión</button>
+            <form (ngSubmit)="onSubmit()">
+                <button mat-flat-button color="primary" type="submit">Iniciar sesión</button>
+            </form>
+
         </form>
     </mat-card-content>
 </mat-card>

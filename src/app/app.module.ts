@@ -19,6 +19,7 @@ import { MatListModule } from  '@angular/material/list';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TableModule } from './modules/table/table.module';
 import {  MatTableModule } from "@angular/material/table";
+import { MatSortModule } from '@angular/material/sort';
 import { EmpleadoComponent } from './pages/empleado/empleado.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { BodyComponent } from './body/body.component';
@@ -57,11 +58,19 @@ import { HelpComponent } from './pages/help/help.component';
 // import moment from 'moment';
 import { MomentModule } from 'ngx-moment';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { NgChartsModule } from 'ng2-charts';
+import { BarChartComponent } from './modules/graph/components/bar-chart/bar-chart.component';
+import { LineChartComponent } from './modules/graph/components/line-chart/line-chart.component';
+import { DoughnutChartComponent } from './modules/graph/components/doughnut-chart/doughnut-chart.component';
+import { PieChartComponent } from './modules/graph/components/pie-chart/pie-chart.component';
+import { PolarAreaChartComponent } from './modules/graph/components/polar-area-chart/polar-area-chart.component';
+
 
 // import {moment} from 'moment/moment';
 
 @NgModule({
   declarations: [
+    
     AppComponent,
     LoginComponent,
     DashboardComponent,
@@ -82,9 +91,15 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
     EntregaComponent,
     OrdenPedidoComponent,
     DialogComponent,
-    HelpComponent
+    HelpComponent,
+    BarChartComponent,
+    LineChartComponent,
+    DoughnutChartComponent,
+    PieChartComponent,
+    PolarAreaChartComponent
   ],
   imports: [
+    NgChartsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -110,7 +125,8 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
     MatDatepickerModule,
     MatNativeDateModule,
     MomentModule,
-    DialogAlertaModule
+    DialogAlertaModule,
+    MatSortModule
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter },

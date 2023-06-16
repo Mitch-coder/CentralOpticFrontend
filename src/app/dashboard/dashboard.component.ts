@@ -5,6 +5,9 @@ import { TableColumn } from '../modules/table/models/table-column';
 import { DialogAlertaComponent } from '../modules/dialog-alerta/components/dialog-alerta/dialog-alerta.component';
 import Swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
+import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
+import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 
 
 @Component({
