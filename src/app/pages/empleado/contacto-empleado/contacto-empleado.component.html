@@ -1,19 +1,230 @@
 <mat-sidenav-container class="example-container">
-    <mat-sidenav-content>
-      <div class="example-content">
-        <h1>Lista de contactos de Empleado</h1>
-        <section *ngIf="getEventBtnClickHeader()">
-          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
-          <section *ngIf="dataUpdate">
-            <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formEmpleadoUpdate"></app-form>
-          </section>
+  <mat-sidenav-content>
+    <div class="example-content">
+      <section [ngClass]="!dataTableValidators?'':'val'" *ngIf="getEventBtnClickHeader() && !dataTableValidators">
+        <section *ngIf="!dataUpdate" >
+          <h1>Lista de contactos de Empleado</h1>
+          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="resultDataTable($event)"></app-table>
         </section>
-        <section *ngIf="!getEventBtnClickHeader()">
-          <app-form [FormD]="formTelefonoEmpleado"></app-form>
+        <section *ngIf="dataUpdate">
+          <ng-container *ngTemplateOutlet="formUpdate"></ng-container>
+          <!-- <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formEmpleadoUpdate"></app-form> -->
         </section>
-        <section *ngIf="!getEventBtnClickHeader()">
-          <app-form [FormD]="formCorreoEmpleado"></app-form>
-        </section>
+      </section>
+      <section *ngIf="!getEventBtnClickHeader()">
+        <ng-container *ngTemplateOutlet="email"></ng-container>
+        <ng-container *ngTemplateOutlet="phone"></ng-container>
+      </section>
+      <!-- <section *ngIf="!getEventBtnClickHeader()">
+        <app-form [FormD]="formTelefonoEmpleado"></app-form>
+      </section>
+      <section *ngIf="!getEventBtnClickHeader()">
+        <app-form [FormD]="formCorreoEmpleado"></app-form>
+      </section> -->
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+
+<ng-template #formUpdate>
+  <div class="card">
+    <div class="card-body">
+      <div class="container-header">
+        <h1 class="title">
+          Actualizar informacion de la entrega
+        </h1>
+        <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
+          Cerrar
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>  
+      <form [formGroup]="formDataUpdate">
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Nombre del empleado*
+          </label>
+          <input type="text" formControlName="nombres" class="form-control form-input"
+            placeholder="Ingrese el nombre del empleado" [(ngModel)]="Empleado.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-regular fa-envelope form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataUpdate('nombres').valid || (formGetDataUpdate('nombres').pristine)">
+            El nombre es obligatorio
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Apellido del empleado *
+          </label>
+          <input type="text" formControlName="apellidos" class="form-control form-input"
+            placeholder="Ingrese el apellidos del empleado" [(ngModel)]="Empleado.apellidos"> <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-regular fa-envelope form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataUpdate('apellidos').valid || (formGetDataUpdate('apellidos').pristine)">
+            El apellido es obligatorio
+          </div>
+        </div>
+
+        <div class="mb-2" #input *ngIf="TelefonoEmpleado1.idTelefonoEmpleado!==0">
+          <label class="form-label">
+            Telefono 1 del Empleado *
+          </label>
+          <input type="text" formControlName="telefono1" class="form-control form-input"
+            placeholder="Ingrese el telefono del empleado" [(ngModel)]="TelefonoEmpleado1.telefono"> <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-regular fa-envelope form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataUpdate('telefono1').valid || (formGetDataUpdate('telefono1').pristine)">
+            El telefono es obligatorio
+          </div>
+        </div>
+
+        <div class="mb-2" #input *ngIf="TelefonoEmpleado2.idTelefonoEmpleado!==0">
+          <label class="form-label">
+            Telefono 2 del Empleado *
+          </label>
+          <input type="text" formControlName="telefono2" class="form-control form-input"
+            placeholder="Ingrese el telefono del empleado" [(ngModel)]="TelefonoEmpleado2.telefono"> <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-regular fa-envelope form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataUpdate('telefono2').valid || (formGetDataUpdate('telefono2').pristine)">
+            El telefono es obligatorio
+          </div>
+        </div>
+
+        <div class="mb-2" #input *ngIf="CorreoEmpleado1.idCorreoEmpleado !==0">
+          <label class="form-label">
+            El correo del empleado *
+          </label>
+          <input type="email" formControlName="correo1" class="form-control form-input"
+            placeholder="Ingrese el telefono del cliente" [(ngModel)]="CorreoEmpleado1.correo"> <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-regular fa-envelope form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataUpdate('correo1').valid || (formGetDataUpdate('correo1').pristine)">
+            El correo es obligatorio
+          </div>
+        </div>
+
+        <div class="mb-2" #input *ngIf="CorreoEmpleado2.idCorreoEmpleado !==0">
+          <label class="form-label">
+            El correo del empleado *
+          </label>
+          <input type="email" formControlName="correo2" class="form-control form-input"
+            placeholder="Ingrese el telefono del cliente" [(ngModel)]="CorreoEmpleado2.correo"> <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-regular fa-envelope form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataUpdate('correo2').valid || (formGetDataUpdate('correo2').pristine)">
+            El correo es obligatorio
+          </div>
+        </div>
+        <button class="btn btn-primary" #btnEnviar [disabled]="formDataUpdate.invalid"
+          (click)="loadConfirmationDataUpdate()">
+          Guardar
+        </button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #email>
+  <div class="card">
+    <div class="card-body">
+      <h1>Agregar correo del empleado</h1>
+      <form [formGroup]="formCreateCorreo">
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Empleado *
+            </label>
+            <input type="text" formControlName="empleado" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="EmpleadoCorreo.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-regular fa-circle-user form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreateCorreo('empleado').valid || (formGetDataCreateCorreo('empleado').pristine)">
+              Seleccione un cliente
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableEmail)">
+            <i class="fa-solid fa-person-chalkboard"></i>
+          </button>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Correo Electronico *
+          </label>
+          <input type="email" formControlName="correo" class="form-control form-input"
+            placeholder="Ingrese el telefono del cliente" [(ngModel)]="CorreoEmpleado1.correo"> <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-regular fa-envelope form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreateCorreo('correo').valid || (formGetDataCreateCorreo('correo').pristine)">
+            Ingrese el correo del cliente
+          </div>
+        </div>
+        <button class="btn btn-primary" #btnEnviar [disabled]="formCreateCorreo.invalid"
+          (click)="loadConfirmationDataCreateCorreo()">
+          Guardar
+        </button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+
+
+<ng-template #phone>
+  <div class="card">
+    <div class="card-body">
+      <h1>Agregar telefono del empleado</h1>
+      <form [formGroup]="formCreateTelefono">
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Empleado *
+            </label>
+            <input type="text" formControlName="empleado" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="EmpleadoTelefono.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-regular fa-circle-user form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreateTelefono('empleado').valid || (formGetDataCreateTelefono('empleado').pristine)">
+              El empleado es obligatorio
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tablePhone)">
+            <i class="fa-solid fa-person-chalkboard"></i>
+          </button>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            telefono *
+          </label>
+          <input type="text" formControlName="telefono" class="form-control form-input"
+            placeholder="Ingrese el telefono del cliente" [(ngModel)]="TelefonoEmpleado1.telefono"> <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-regular fa-envelope form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreateTelefono('telefono').valid || (formGetDataCreateTelefono('telefono').pristine)">
+            El telefono es obligatorio
+          </div>
+        </div>
+        <button class="btn btn-primary" #btnEnviar [disabled]="formCreateCorreo.invalid"
+          (click)="loadConfirmationDataCreateTelefono()">
+          Guardar
+        </button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #tablePhone>
+  <app-table-simple [data]="EmpleadoTelefonoList" [columns]="tableColumnsEmpleado"
+    (selectItemsCell)="resultTableDataTelefono($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+<ng-template #tableEmail>
+  <app-table-simple [data]="EmpleadoCorreoList" [columns]="tableColumnsEmpleado"
+    (selectItemsCell)="resultTableDataCorreo($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>

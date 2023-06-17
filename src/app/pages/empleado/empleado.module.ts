@@ -8,6 +8,7 @@ import { EmpleadoComponent } from './empleado.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { TableModule } from '../../modules/table/table.module';
 import { FormModule } from '../../modules/form/form.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { FormModule } from '../../modules/form/form.module';
     EmpleadoRoutingModule,
     MatSidenavModule,
     TableModule,
-    FormModule
+    FormModule,
+    ReactiveFormsModule
   ]
 })
 export class EmpleadoModule { }
