@@ -1,24 +1,50 @@
 <mat-sidenav-container class="example-container">
   <mat-sidenav-content>
 
-    <div class="home" >
+    <div class="home">
 
+
+      <img mat-card-image src="../../assets/images/logo.svg" alt="Central Optic logo"
+        style="width: 500px; height: 500px;">
+      <h1><strong>Bienvenido {{Nombre}}</strong></h1>
+      <h3> Este es un sistema de informacion web del control de inventario y facturacion.</h3>
+      <h3> En el navegador del costado izquierdo, se indica las opciones con las que se puede interactuar.</h3>
+      <h3> Para tener mas informacion de las opciones, de click en el icono del logo que aparece en el mismo navegador
+        del costado izquierdo.</h3>
       
-        <img mat-card-image src="../../assets/images/logo.svg" alt="Central Optic logo"  style="width: 500px; height: 500px;">
-        <h1><strong>Bienvenido {{Nombre}}</strong></h1>
-        <h3> Este es un sistema de informacion web del control de inventario y facturacion.</h3>
-        <h3> En el navegador del costado izquierdo, se indica las opciones con las que se puede interactuar.</h3>
-        <h3> Para tener mas informacion de las opciones, de click en el icono del logo que aparece en el mismo navegador del costado izquierdo.</h3>
-        <img src="../../assets/images/cheque.png">
-    </div> 
+
+    </div>
+
+    <div>
+
+      <app-bar-chart class="home"></app-bar-chart>
+
+    </div>
+    <div >
+
+      <app-line-chart class="home"></app-line-chart>
+
+    </div>
+    <div>
+
+    </div>
+    <div class="home">
+
+      <app-pie-chart ></app-pie-chart>
+
+    </div>
+
+    <div class="home">
+
+      <app-polar-area-chart class="home"></app-polar-area-chart >
+
+    </div>
+
+
 
     <!-- <app-dialog-alerta></app-dialog-alerta> -->
     <!-- <button (click)="showAlert()">tocar</button> -->
   </mat-sidenav-content>
 
 
-</mat-sidenav-container>  
-
-  
-
-
+</mat-sidenav-container>

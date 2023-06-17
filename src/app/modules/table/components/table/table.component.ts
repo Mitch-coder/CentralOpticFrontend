@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { HeaderData, HeaderSearch } from 'src/app/header/header-data';
 import { SelectionModel } from '@angular/cdk/collections';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-table',
@@ -13,16 +14,16 @@ import { SelectionModel } from '@angular/cdk/collections';
   styleUrls: ['./table.component.css'],
   providers: [HeaderSearch]
 })
-export class TableComponent implements OnInit, AfterViewInit  {
+export class TableComponent implements OnInit, AfterViewInit {
 
   dataSource = new MatTableDataSource<any>
-  tableDisplayColumns:String[]=[];
+  tableDisplayColumns: String[] = [];
   tableColumns: TableColumn[] = []
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  dataUpdate:any = {}
-  btnClickItemRow:boolean = true;
-  
+  dataUpdate: any = {}
+  btnClickItemRow: boolean = true;
+
   selection = new SelectionModel<any>(true, []);
 
   onSelect() {
@@ -32,16 +33,18 @@ export class TableComponent implements OnInit, AfterViewInit  {
 
   //Comentario de Jurgen: Pongan la columna de Idcliente tambien
 
-  @Input() set data(data:any){
+  @Input() set data(data: any) {
     data.pipe(
       tap((data: any[]) => {
-        this.dataSource.data = data; 
+        this.dataSource.data = data;
+
       })
     ).subscribe();
   }
-  
-  @Input() set columns(columns:TableColumn[]){
-    this.tableColumns= columns
+
+  @Input() set columns(columns: TableColumn[]) {
+    this.tableColumns = columns
+
     this.tableDisplayColumns = this.tableColumns.map(col => col.def)
   }
 
@@ -49,8 +52,7 @@ export class TableComponent implements OnInit, AfterViewInit  {
 
   @Output() selectItemsCell: EventEmitter<any>;
 
-  constructor(private headerSearch : HeaderSearch){
-
+  constructor(private headerSearch: HeaderSearch) {
 
     this.selectItemsCell = new EventEmitter();
   }
@@ -65,9 +67,9 @@ export class TableComponent implements OnInit, AfterViewInit  {
     this.dataSource.paginator = this.paginator;
   }
 
-  
-   
-  getTypeData(data:any):boolean{
+
+
+  getTypeData(data: any): boolean {
     if (typeof data === "object") {
       return true;
     }
@@ -119,31 +121,53 @@ export class TableComponent implements OnInit, AfterViewInit  {
   // HeaderData es una clase statica que contiene el hearderText que esa variable contiene 
   // lo que se escribe en el input :)
 
-  applyFilter(event:Event){
+  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   getActiveClass(active: any): string {
-    return active == this.dataUpdate? 'active' : ''; 
+    return active == this.dataUpdate ? 'active' : '';
   }
 
-  selectItem(item:any){
-    this.selectItemsCell.emit(undefined); 
-    if(item == this.dataUpdate){
+  selectItem(item: any) {
+    this.selectItemsCell.emit(undefined);
+    if (item == this.dataUpdate) {
       this.btnClickItemRow = true;
       this.dataUpdate = undefined
       this.selectItemsCell.emit(this.dataUpdate);
       return
     }
     this.btnClickItemRow = false;
-    this.dataUpdate=item
+    this.dataUpdate = item
     // this.selectItemsCell.emit(item);
   }
 
-  btnClickUpdate(){
+  btnClickUpdate() {
     // console.log(this.dataUpdate)
     this.selectItemsCell.emit(this.dataUpdate);
   }
-  
+
+  btnClickExport() {
+    console.log(this.dataSource.data);
+    console.log(this.tableColumns);
+    this.exportToExcel();
+  }
+
+  exportToExcel(): void {
+    /* Generate worksheet */
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataSource.data);
+
+    /* Add header row */
+
+    const header = this.tableColumns.map(objeto => objeto.label);
+    XLSX.utils.sheet_add_aoa(worksheet, [header], { origin: 0 });
+
+    /* Generate workbook and add the worksheet */
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    
+    /* Export to Excel */
+    XLSX.writeFile(workbook, 'data.xlsx');
+  }
+
 }
