@@ -8,6 +8,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { TableModule } from '../../modules/table/table.module';
 import { FormModule } from '../../modules/form/form.module';
 
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FormModule } from '../../modules/form/form.module';
     ProveedorRoutingModule,
     MatSidenavModule,
     TableModule,
-    FormModule
+    FormModule,
+    ReactiveFormsModule
   ]
 })
 export class ProveedorModule { }

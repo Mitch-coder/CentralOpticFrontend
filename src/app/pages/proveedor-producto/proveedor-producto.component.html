@@ -1,17 +1,21 @@
 <mat-sidenav-container class="example-container">
   <mat-sidenav-content>
     <div class="example-content">
-      <h1>Lista de Proveedor-Productos actuales</h1>
       <section *ngIf="getEventBtnClickHeader()">
-        <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
+        <section *ngIf="!dataUpdate">
+          <h1>Lista de Proveedor-Productos actuales</h1>
+          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="resultUpdateData($event)"></app-table>
+        </section>
         <section *ngIf="dataUpdate">
-          <ng-container *ngTemplateOutlet="form">
-          </ng-container>
+          <app-form [Title]="'Actualizar informacion'" [BtnName]="'Actualizar'"
+            [FormD]="formUpdate" (formData)="loadConfirmationDataUpdate($event)" [BtnCancel]="true"
+            (btnCancel)="cancelFormUpdate()"></app-form>
         </section>
       </section>
-      <section>
-        <ng-container *ngIf="getEventBtnClickHeader();else form">
-        </ng-container>
+      <section *ngIf="!getEventBtnClickHeader()">
+        <ng-container *ngTemplateOutlet="formCreate"></ng-container>
+        <!-- <ng-container *ngIf="getEventBtnClickHeader();else form">
+        </ng-container> -->
       </section>
     </div>
   </mat-sidenav-content>
@@ -19,147 +23,163 @@
 
 
 
+<ng-template #tableProveedor>
+  <app-table-simple [data]="proveedorList" [columns]="tableColumnsProveedor"
+    (selectItemsCell)="resultTableDataProveedor($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
 
-<ng-template #form>
+<ng-template #tableProducto>
+  <app-table-simple [data]="tableDataProducto" [columns]="tableColumnsProducto"
+    (selectItemsCell)="resultTableDataProducto($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+<ng-template #tableBodega>
+  <app-table-simple [data]="bodegaList" [columns]="formColumnsTableBodega"
+    (selectItemsCell)="getDataTableBodega($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+<ng-template #formCreate>
   <div class="card">
     <div class="card-body">
-      <!-- (ngSubmit)="procesar" -->
-      <form [formGroup]="formCreate">
-
+      <div class="container-header">
+        <h1 class="title">
+          Agregar informacion del nuevo producto
+        </h1>
+      </div>
+      <form [formGroup]="formCreateData">
         <div class="content-select">
           <div class="mb-2 container-select" #input>
-            <mat-label class="form-label">
-              Proveedor
-            </mat-label>
-            <mat-select formControlName="proveedor" class="form-control form-control-lg" [(ngModel)]="Proveedor">
-
-              <mat-select-trigger class="select-content">
-                <div class="select-content-id">
-                  <i class="fa-regular fa-id-badge select-icon select-email"></i>
-                </div>
-                {{Proveedor.propietario}}
-                <div class="select-content-name">
-                  <i class="fa-solid fa-shop select-icon select-user"></i>
-                  {{Proveedor.nombre}}
-                </div>
-
-              </mat-select-trigger>
-
-              <mat-option *ngFor="let option of proveedorList" [value]="option" class="select-content">
-                <i class="fa-regular fa-id-badge select-icon select-email"></i>
-                <!-- <i class=""></i>-->
-                {{option.propietario}}
-                <i class="fa-solid fa-shop select-icon select-user"></i>
-                {{option.nombre}}
-              </mat-option>
-            </mat-select>
+            <label class="form-label">
+              Seleccione El producto *
+            </label>
+            <input type="text" formControlName="producto" class="form-control form-input"
+              placeholder="Seleccione el producto" [(ngModel)]="Producto.descripcion">
+            <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-solid fa-address-card form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('producto').valid || (formGetDataCreate('producto').pristine)">
+              Seleccione un producto
+            </div>
           </div>
-          <!-- <button mat-fab extended class="btn-add btn-primary" >
-            <i class="fa-solid fa-user-plus"></i>
-          </button> -->
-        </div>
-
-
-        <div class="content-select">
-          <div class="mb-2 container-select" #input>
-            <mat-label class="form-label">
-              Productos
-            </mat-label>
-            <mat-select formControlName="producto" class="form-control form-control-lg" [(ngModel)]="ProductoV">
-
-              <mat-select-trigger class="select-content">
-                <div class="select-content-id">
-                  <i class="fa-solid fa-tag select-icon select-email"></i>
-                </div>
-                {{ProductoV.codProducto}}
-                <div class="select-content-name">
-                  <i class="fa-solid fa-box select-icon select-brow"></i>
-                  {{ProductoV.NombreProducto}}
-                  <i class="fa-solid fa-circle-dollar-to-slot select-user"></i>
-                  {{ProductoV.precioActual}}
-                </div>
-
-              </mat-select-trigger>
-
-              <mat-option *ngFor="let option of productoListV" [value]="option" class="select-content">
-                <i class="fa-solid fa-tag select-icon select-email"></i>
-                <!-- <i class=""></i>-->
-                {{option.codProducto}}
-                <i class="fa-solid fa-box select-icon select-brow"></i>
-                {{option.NombreProducto}}
-                <i class="fa-solid fa-circle-dollar-to-slot select-user"></i>
-                {{option.precioActual}}
-              </mat-option>
-            </mat-select>
-          </div>
-        </div>
-
-
-
-
-        <div class="container-picker" *ngIf="!inputFormDataPitcker">
-          <div class="mb-2 content-picker">
-            <mat-label>Fecha de creacion</mat-label>
-            <input type="text" [matDatepicker]="picker" class="form-control-picker" placeholder="Fecha de creacion"
-              formControlName="fechaObtencion" [max]="maxDate" [(ngModel)]="formattedDate" [readonly]="true">
-
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="false"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </div>
-          <!-- <mat-datepicker-toggle [for]="picker"  matIconSuffix class="btn-control-picker"></mat-datepicker-toggle> -->
-          <button mat-fab extended (click)="picker.open()" class="btn-control-picker">
-            <i class="fa-solid fa-calendar-day"></i>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableProducto)">
+            <i class="fa-solid fa-address-card"></i>
           </button>
         </div>
 
-
-        <div class="container-picker" *ngIf="inputFormDataPitcker">
-          <div class="mb-2 content-picker">
-            <mat-label>Fecha de creacion</mat-label>
-            <input type="text" class="form-control-picker"
-              placeholder="Fecha de creacion" formControlName="fechaObtencion" [(ngModel)]="formattedDate"
-              [readonly]="true">
-
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker" *ngIf="false"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione El proveedor *
+            </label>
+            <input type="text" formControlName="proveedor" class="form-control form-input"
+              placeholder="Seleccione el proveedor" [(ngModel)]="Proveedor.nombre">
+            <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-solid fa-address-card form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('proveedor').valid || (formGetDataCreate('proveedor').pristine)">
+              Seleccione un proveedor
+            </div>
           </div>
-          <!-- <mat-datepicker-toggle [for]="picker"  matIconSuffix class="btn-control-picker"></mat-datepicker-toggle> -->
-          <button mat-fab extended (click)="picker.open()" class="btn-control-picker" disabled="false">
-            <i class="fa-solid fa-calendar-day"></i>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableProveedor)">
+            <i class="fa-solid fa-address-card"></i>
           </button>
+        </div>
+
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Seleccione la bodega *
+            </label>
+            <input type="text" formControlName="bodega" class="form-control form-input"
+              placeholder="Seleccione la bodega" [(ngModel)]="Bodega.nombre"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-solid fa-store form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('bodega').valid || (formGetDataCreate('bodega').pristine)">
+              Seleccione una bodega
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableBodega)">
+            <!-- <i class="fa-regular fa-hand-pointer"></i> -->
+            <i class="fa-solid fa-store"></i>
+          </button>
+        </div>
+        
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Fecha de obtencion del producto
+          </label>
+          <input type="text" formControlName="fechaObtencion" class="form-control form-input"
+            placeholder="Fecha de obtencion" [(ngModel)]="FechaObtencion.fechaObtencion" readonly>
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-calendar-days form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('fechaObtencion').valid || (formGetDataCreate('fechaObtencion').pristine)">
+            Ingrese la Fecha del producto
+          </div>
         </div>
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Cantidad de productos
+            Cantidad de productos *
           </label>
           <input type="number" formControlName="cantidad" class="form-control form-input"
-            placeholder="Ingrese la cantidad de productos" [(ngModel)]="cantidad">
-          <i class="fa-solid fa-arrows-to-eye form-input-icon"></i>
-          <div class="alert 1alert-danger mt-1" [hidden]="formGet('cantidad').valid || (formGet('cantidad').pristine)">
-            Ingrese la cantidad de productos
+            placeholder="Ingrese la cantidad del producto" [(ngModel)]="ProveedorProducto.cantidad">
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-pencil form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('cantidad').valid || (formGetDataCreate('cantidad').pristine)">
+            Estado Producto
           </div>
         </div>
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Costo de los productos
+            Costo del producto *
           </label>
           <input type="number" formControlName="costo" class="form-control form-input"
-            placeholder="Ingrese el costo de los productos" [(ngModel)]="costo">
-          <!-- <i class="fa-solid fa-cubes"></i>-->
+            placeholder="Ingrese el costo del producto" [(ngModel)]="ProveedorProducto.costo">
+          <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-circle-dollar-to-slot form-input-icon"></i>
-          <div class="alert alert-danger mt-1" [hidden]="formGet('costo').valid || (formGet('costo').pristine)">
-            Ingrese el costo de los productos
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('costo').valid || (formGetDataCreate('costo').pristine)">
+            Ingrese el costo del producto
           </div>
         </div>
 
-        <button class="btn btn-primary" #btnEnviar [disabled]="formCreate.invalid">
-          Actualizar
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Precio del producto
+          </label>
+          <input type="number" formControlName="precio" class="form-control form-input"
+            placeholder="Ingrese el precio del producto" [(ngModel)]="Producto.precioActual">
+          <i class="fa-solid fa-circle-dollar-to-slot form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('precio').valid || (formGetDataCreate('precio').pristine)">
+            Ingrese el precio del producto
+          </div>
+        </div>
+        <button class="btn btn-primary" #btnEnviar [disabled]="formCreateData.invalid"
+          (click)="loadConfirmationDataCreate()">
+          Guardar
         </button>
       </form>
     </div>
   </div>
+
 </ng-template>
+
+<ng-template #formUpdate1>
+  <div class="card">
+    <div class="card-body">
+      <div class="container-header">
+        <h1 class="title">
+          Agregar informacion del nuevo producto
+        </h1>
+      </div>
+      <form [formGroup]="formCreateData">
+        
+      </form>
+    </div>
+  </div>
+</ng-template>
+

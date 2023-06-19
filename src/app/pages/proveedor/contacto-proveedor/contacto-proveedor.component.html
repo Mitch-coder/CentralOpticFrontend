@@ -2,19 +2,129 @@
     <mat-sidenav-content>
         <div class="example-content">
             <section *ngIf="getEventBtnClickHeader()">
+              <section *ngIf="!dataUpdate">
                 <h1>Lista de contactos de proveedor</h1>
                 <app-table [data]="myData$" [columns]="tableColumns"
                     (selectItemsCell)="setFormUpdate($event)"></app-table>
+              </section>
                 <section *ngIf="dataUpdate">
-                    <app-form [Title]="'Actualizar Contactos de proveedor'"  [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formClientUpdate"></app-form>
+                    <app-form [Title]="'Actualizar Contactos de proveedor'"  
+                    [BtnName]="'Actualizar'" 
+                    [FormD]="formClientUpdate"
+                    (formData)="loadConfirmationDataUpdate($event)"></app-form>
                 </section>
             </section>
             <section *ngIf="!getEventBtnClickHeader()">
+              <ng-container *ngTemplateOutlet="email"></ng-container>
+              <ng-container *ngTemplateOutlet="phone"></ng-container>
+            </section>
+            <!-- <section *ngIf="!getEventBtnClickHeader()">
                 <app-form [Title]="'Agregar telefono proveedor'"  [FormD]="formTelefonoCliente"></app-form>
             </section>
             <section *ngIf="!getEventBtnClickHeader()">
                 <app-form [Title]="'Agregar correo proveedor'"  [FormD]="formCorreoCliente"></app-form>
-            </section>
+            </section> -->
         </div>
     </mat-sidenav-content>
 </mat-sidenav-container>
+
+
+<ng-template #email>
+  <div class="card">
+    <div class="card-body">
+      <h1>Agregar correo del Proveedor</h1>
+      <form [formGroup]="formCreateCorreo">
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Proveedor *
+            </label>
+            <input type="text" formControlName="Proveedor" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="ProveedorCorreo.nombre"> 
+            <i class="fa-regular fa-circle-user form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreateCorreo('Proveedor').valid || (formGetDataCreateCorreo('Proveedor').pristine)">
+              Seleccione un cliente
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableEmail)">
+            <i class="fa-solid fa-person-chalkboard"></i>
+          </button>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Correo Electronico *
+          </label>
+          <input type="email" formControlName="correo" class="form-control form-input"
+            placeholder="Ingrese el telefono del cliente" [(ngModel)]="CorreoProveedor1.correo"> 
+          <i class="fa-regular fa-envelope form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreateCorreo('correo').valid || (formGetDataCreateCorreo('correo').pristine)">
+            Ingrese el correo del cliente
+          </div>
+        </div>
+        <button class="btn btn-primary" #btnEnviar [disabled]="formCreateCorreo.invalid"
+          (click)="loadConfirmationDataCreateCorreo()">
+          Guardar
+        </button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #phone>
+  <div class="card">
+    <div class="card-body">
+      <h1>Agregar telefono del Proveedor</h1>
+      <form [formGroup]="formCreateTelefono">
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Proveedor *
+            </label>
+            <input type="text" formControlName="Proveedor" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="ProveedorTelefono.nombre"> 
+            <i class="fa-regular fa-circle-user form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreateTelefono('Proveedor').valid || (formGetDataCreateTelefono('Proveedor').pristine)">
+              El Proveedor es obligatorio
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tablePhone)">
+            <i class="fa-solid fa-person-chalkboard"></i>
+          </button>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            telefono *
+          </label>
+          <input type="text" formControlName="telefono" class="form-control form-input"
+            placeholder="Ingrese el telefono del cliente" [(ngModel)]="TelefonoProveedor1.telefono"> 
+          <i class="fa-regular fa-envelope form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreateTelefono('telefono').valid || (formGetDataCreateTelefono('telefono').pristine)">
+            El telefono es obligatorio
+          </div>
+        </div>
+        <button class="btn btn-primary" #btnEnviar [disabled]="formCreateTelefono.invalid"
+          (click)="loadConfirmationDataCreateTelefono()">
+          Guardar
+        </button>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #tablePhone>
+  <app-table-simple [data]="ProveedorTelefonoList" [columns]="setTableColumnsProveedor"
+    (selectItemsCell)="resultTableDataTelefono($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+<ng-template #tableEmail>
+  <app-table-simple [data]="ProveedorCorreoList" [columns]="setTableColumnsProveedor"
+    (selectItemsCell)="resultTableDataCorreo($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>

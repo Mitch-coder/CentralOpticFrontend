@@ -72,6 +72,7 @@ import { PolarAreaChartComponent } from './modules/graph/components/polar-area-c
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 // import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -133,7 +134,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     DialogAlertaModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatSortModule
+    MatSortModule,
+    MatSlideToggleModule
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter },

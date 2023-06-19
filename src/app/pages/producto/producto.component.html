@@ -81,7 +81,6 @@
           </label>
           <input type="text" formControlName="fechaObtencion" class="form-control form-input"
             placeholder="Fecha de obtencion" [(ngModel)]="FechaObtencion.fechaObtencion" readonly>
-          <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-calendar-days form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('fechaObtencion').valid || (formGetDataCreate('fechaObtencion').pristine)">
@@ -139,54 +138,6 @@
             Ingrese la descripción del descripcion
           </div>
         </div>
-
-        <!-- <div class="content-select">
-          <div class="mb-2 container-select" #input>
-            <label class="form-label">
-              Seleccione el Laboratorio *
-            </label>
-            <input type="text" formControlName="laboratorio" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="Laboratorio.idLaboratorio">
-            <i class="fa-solid fa-flask-vial form-input-icon"></i>
-            <div class="alert 1alert-danger mt-1"
-              [hidden]="formGetDataCreate('laboratorio').valid || (formGetDataCreate('laboratorio').pristine)">
-              Seleccione un laboratorio
-            </div>
-          </div>
-          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableLaboratorio)">
-            <i class="fa-solid fa-flask"></i>
-          </button>
-        </div> -->
-
-        <!-- <div class="content-select">
-          <div class="mb-2 container-select" #input>
-            <label class="form-label">
-              Seleccione el Producto *
-            </label>
-            <input type="text" formControlName="producto" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="Producto.codProducto">
-            <i class="fa-solid fa-box-archive form-input-icon"></i>
-            <div class="alert 1alert-danger mt-1"
-              [hidden]="formGetDataCreate('producto').valid || (formGetDataCreate('producto').pristine)">
-              Seleccione un producto
-            </div>
-          </div>
-          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableProducto)">
-            <i class="fa-solid fa-box-open"></i>
-          </button>
-        </div> -->
-
-        <!-- <div class="mb-2">
-          <mat-label class="form-label">
-            Estado del pedido *
-          </mat-label>
-          <mat-select formControlName="estadoPedido" class="form-control form-control-lg" matNativeControl
-            [(ngModel)]="EstadoPedido" [(value)]="EstadoPedido">
-            <mat-option *ngFor="let option of estadoPedidoList" [value]="option">
-              {{option.estadoPedido}}
-            </mat-option>
-          </mat-select>
-        </div> -->
 
         <div class="mb-2" #input>
           <label class="form-label">

@@ -268,13 +268,14 @@ export class ProductoComponent {
         this.myData = this.productoList.map((element) => {
           let nombreProducto = this.nombreProductoList.find(e => e.idNombreProducto == e.idNombreProducto)
           let marca = this.marcaList.find(e => e.idMarca == element.idMarca)
+          // console.log(element)
           return {
             codProducto: element.codProducto,
             marca: marca?.marca,
             nombre: nombreProducto?.nombreProducto,
             descripcion: element.descripcion,
             precioActual: element.precioActual,
-            estadoProducto: element.estadoProducto ? 'Inactivo' : 'Activo'
+            estadoProducto: element.estadoProducto ? 'Activo' : 'Inactivo'
           }
         })
         return this.myData
@@ -786,5 +787,6 @@ export class ProductoComponent {
     }
   }
 
+  
 
 }

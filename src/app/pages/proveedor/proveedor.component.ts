@@ -3,8 +3,9 @@ import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
 import { FormData } from 'src/app/modules/form/components/form/form-data';
 import { tap } from 'rxjs';
-import { Validators } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { HeaderData } from 'src/app/header/header-data';
+import Swal from 'sweetalert2';
 
 interface Data {
   idProveedor: number;
@@ -121,4 +122,157 @@ export class ProveedorComponent {
       }]
     }
   }
+
+  loadConfirmationDataUpdate(form: FormGroup) {
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea actualizar la informacion?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Actualizar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.saveDataUpdate(form.value)
+        form.reset()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen asalvo:)',
+          'error'
+        )
+      }
+    });
+  }
+
+  saveDataUpdate(data:any){
+    let proveedor:Data = {
+      idProveedor: this.dataUpdate.idProveedor,
+      nombre: data.nombre,
+      propietario: data.propietario,
+      direccion: data.direccion
+    }
+
+    this.dataService.updateData('proveedor',proveedor,this.dataUpdate.idProveedor).then((success) => {
+      if (success) {
+        Swal.fire({
+          title: 'Exito!',
+          text: 'La informacion a sido guardada',
+          icon: 'success',
+          confirmButtonText: 'OK!',
+        })
+        this.resetData()
+
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Ups...',
+          text: 'Algo salió mal!',
+          footer: '<a href="">¿Por qué tengo este problema??</a>'
+        })
+      }
+    })
+  }
+
+  cancelFormUpdate() {
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea cerrar el formulario?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Cerrar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.dataUpdate = undefined
+        this.resetData()
+        // this.formUpdateData.reset()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen asalvo:)',
+          'error'
+        )
+      }
+    });
+  }
+
+  resetData() {
+    this.dataUpdate = undefined
+  }
+
+  loadConfirmationDataCreate(form: FormGroup) {
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea guardar la informacion?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.saveDataCreate(form.value)
+        // this.formUpdateData.reset()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen asalvo:)',
+          'error'
+        )
+      }
+    });
+  }
+
+  saveDataCreate(data: any) {
+    let proveedor = {
+      nombre: data.nombre,
+      propietario: data.propietario,
+      direccion: data.direccion
+    }
+
+    this.dataService.postData('proveedor', proveedor).then((success) => {
+      if (success) {
+        Swal.fire({
+          title: 'Exito!',
+          text: 'La informacion a sido guardada',
+          icon: 'success',
+          confirmButtonText: 'OK!',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.resetData()
+            Swal.fire({
+              title: 'Confirmar',
+              text: '¿Desea agregar un contacto al nuevo empleado?',
+              icon: 'question',
+              showCancelButton: true,
+              confirmButtonText: 'Agregar',
+              cancelButtonText: 'Despues',
+              reverseButtons: true
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // this.sendDataContactClient(this.dataUpdate)
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire(
+                  'Cancelado',
+                  'Todo bien :)',
+                  'error'
+                )
+              }
+            });
+          }
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Ups...',
+          text: 'Algo salió mal!',
+          footer: '<a href="">¿Por qué tengo este problema??</a>'
+        })
+      }
+    })
+  }
+
 }

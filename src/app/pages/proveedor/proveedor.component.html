@@ -1,16 +1,22 @@
 <mat-sidenav-container class="example-container">
-    <mat-sidenav-content>
-      <div class="example-content">
-        <h1>Lista de proveedores</h1>
-        <section *ngIf="getEventBtnClickHeader()">
+  <mat-sidenav-content>
+    <div class="example-content">
+      <section *ngIf="getEventBtnClickHeader()">
+        <section *ngIf="!dataUpdate">
+          <h1>Lista de proveedores</h1>
           <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
-          <section *ngIf="dataUpdate">
-            <app-form [Title]="'Actualia proveedor - '+ dataUpdate.idProveedor" [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formUpdate"></app-form>
-          </section>
         </section>
-        <section *ngIf="!getEventBtnClickHeader()">
-          <app-form [Title]="'Crear nuevo Proveedor'" [FormD]="formCreate"></app-form>
+        <section *ngIf="dataUpdate">
+          <app-form [Title]="'Actualia proveedor - '+ dataUpdate.idProveedor" [BtnName]="'Actualizar'"
+            [FormD]="formUpdate" (formData)="loadConfirmationDataUpdate($event)" [BtnCancel]="true"
+            (btnCancel)="cancelFormUpdate()"></app-form>
+
         </section>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>  
+      </section>
+      <section *ngIf="!getEventBtnClickHeader()">
+        <app-form [Title]="'Crear nuevo Proveedor'" [FormD]="formCreate"
+          (formData)="loadConfirmationDataCreate($event)"></app-form>
+      </section>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

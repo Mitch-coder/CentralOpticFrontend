@@ -1,10 +1,146 @@
 <mat-sidenav-container class="example-container">
-    <mat-sidenav-content>
-      <div class="example-content">
+  <mat-sidenav-content>
+    <div class="example-content">
+      <section *ngIf="!dataUpdate">
         <h1>Lista de registros en bodega actuales</h1>
-        <section>
-          <app-table [data]="myData$" [columns]="tableColumns"></app-table>
-        </section>
+        <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="loadDataUpdate($event)"></app-table>
+      </section>
+      <section *ngIf="dataUpdate">
+        <ng-container *ngTemplateOutlet="formUpdate"></ng-container>
+      </section>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+<ng-template #formUpdate>
+  <div class="card">
+    <div class="card-body">
+      <div class="container-header">
+        <h1 class="title">
+          Actualizar informacion del producto
+        </h1>
+        <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
+          Cerrar
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>  
+      <form [formGroup]="formUpdateData">
+
+        <div>
+          <div class="mb-2" #input>
+            <label class="form-label">
+              Bodega
+            </label>
+            <input type="text" formControlName="bodega" class="form-control form-input" placeholder="Bodega selccionada"
+              [(ngModel)]="Bodega.nombre" readonly>
+            <i class="fa-solid fa-store form-input-icon"></i>
+            <div class="alert alert-danger mt-1"
+              [hidden]="formGetDataUpdate('bodega').valid || (formGetDataUpdate('bodega').pristine)">
+
+            </div>
+          </div>
+
+          <div class="mb-2" #input>
+            <label class="form-label">
+              Producto
+            </label>
+            <input type="text" formControlName="producto" class="form-control form-input"
+              placeholder="Producto seleccionado" [(ngModel)]="Producto.descripcion" readonly>
+            <i class="fa-solid fa-box-open form-input-icon"></i>
+            <div class="alert alert-danger mt-1"
+              [hidden]="formGetDataUpdate('producto').valid || (formGetDataUpdate('producto').pristine)">
+
+            </div>
+          </div>
+
+          <div class="mb-2" #input>
+            <label class="form-label">
+              Cantidad de productos Actual
+            </label>
+            <input type="text" formControlName="cantidad" class="form-control form-input"
+              placeholder="Cantidad de productos" [(ngModel)]="RegistroBodega.cantidad">
+            <i class="fa-solid fa-arrow-up-short-wide form-input-icon"></i>
+            <div class="alert alert-danger mt-1"
+              [hidden]="formGetDataUpdate('cantidad').valid || (formGetDataUpdate('cantidad').pristine)">
+              La cantidad de producto no puede estar vacio
+            </div>
+          </div>
+        </div>
+
+        <div class="container-confirmation">
+          <span class="label-confirmation">Mover inventario</span>
+          <mat-slide-toggle #darkModeSwitch
+          [color]="'primary'"
+          (change)="toggleChanged($event)"></mat-slide-toggle>
+        </div> 
+
+        <div class="cont-move" *ngIf="Change">
+          <div class="container-move-bodega">
+            <div class="content-move-bodega-origin">
+              <h4 class="title-move-bodega">
+                Bodega origen
+              </h4>
+              <h1 class="label-move-bodega">
+                {{Bodega.nombre}} nombre
+              </h1>
+            </div>
+            <div class="content-move-animation">
+              <h4 class="title-move-bodega">
+                Mover a:
+              </h4>
+              <div class="animation-bodega-move" >
+                <i class="fa-solid fa-truck-arrow-right icon-move" #iconMove></i>
+              </div>
+            </div>
+            <div class="content-move-bodega-destination">
+              <h4 class="title-move-bodega">
+                Bodega Destino
+              </h4>
+
+              <h1 class="label-move-bodega" *ngIf="BodegaMove.idBodega === 0" (click)="openDialogWithTemplate(tableBodegaMove)" >
+                Seleccionar bodega
+                <i class="fa-regular fa-hand-pointer" ></i>
+              </h1>
+              <h1 class="label-move-bodega" (click)="openDialogWithTemplate(tableBodegaMove)">
+                {{BodegaMove.nombre}}
+              </h1>
+            </div>
+          </div>
+
+          <div class="mb-2" #input>
+            <label class="form-label">
+              Cantidad de producto a mover
+            </label>
+            <input type="text" formControlName="cantidadMove" class="form-control form-input"
+              placeholder="Cantidad de productos" [(ngModel)]="Cantidad">
+            <i class="fa-solid fa-calendar-days form-input-icon"></i>
+            <div class="alert alert-danger mt-1"
+              [hidden]="formGetDataUpdate('cantidadMove').valid || (formGetDataUpdate('cantidadMove').pristine)">
+              Ingrese la cantidad de producto
+            </div>
+          </div>
+
+          <span>Cantidad de producto en {{Bodega.nombre}} : {{RegistroBodega.cantidad}}</span>
+
+        </div>
+
+        <button class="btn btn-primary" #btnEnviar [disabled]="formUpdateData.invalid"
+          (click)="loadConfirmationDataUpdate()">
+          Guardar
+        </button>
+
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+
+
+
+
+<ng-template #tableBodegaMove>
+  <app-table-simple [data]="bodegaMoveList" [columns]="formColumnsTableBodega"
+    (selectItemsCell)="resulTableBodegaMove($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>

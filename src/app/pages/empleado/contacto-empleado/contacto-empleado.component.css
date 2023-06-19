@@ -179,3 +179,8 @@ mat-select:focus {
     transform: rotateZ(0deg);
   }
 }
+
+.btn-form{
+  float: right;   
+  margin-right: 0.2rem;
+}

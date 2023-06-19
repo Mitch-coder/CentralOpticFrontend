@@ -261,13 +261,6 @@ export class ContactoEmpleadoComponent {
     let empleado = this.empleadoList.find(e => this.Empleado.numEmpleado === e.numEmpleado)
     let telefono = this.telefonoEmpleadoList.filter(e => e.numEmpleado === empleado?.numEmpleado)
     let correo = this.correoEmpleadoList.filter(e => empleado?.numEmpleado == e.numEmpleado)
-
-    // console.log(empleado)
-    // console.log(correo)
-    // console.log(telefono)
-    // console.log(this.TelefonoEmpleado1[0])
-    // console.log(this.listCorreo)
-    // console.log(this.correoEmpleadoList)
     if (empleado &&
       (empleado.apellidos !== this.Empleado.apellidos || empleado.nombres !== this.Empleado.nombres)) {
       this.dataService.updateData('empleado', this.Empleado, this.Empleado.numEmpleado).then((success) => {
@@ -491,7 +484,7 @@ export class ContactoEmpleadoComponent {
   loadDataCreate() {
     this.EmpleadoCorreoList = this.empleadoList.filter(e => this.correoEmpleadoList.filter(f => f.numEmpleado === e.numEmpleado).length < 2)
     this.EmpleadoTelefonoList = this.empleadoList.filter(e => this.telefonoEmpleadoList.filter(f => f.numEmpleado === e.numEmpleado).length < 2)
-    this.dataTableValidators = false
+    // this.dataTableValidators = false
   }
 
 
@@ -589,7 +582,7 @@ export class ContactoEmpleadoComponent {
       correo: this.CorreoEmpleado1.correo
     }
 
-    console.log(data)
+    // console.log(data)
 
     this.dataService.postData('correoempleado', data).then((success) => {
       if (success) {
