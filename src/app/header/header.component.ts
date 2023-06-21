@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { HeaderData, HeaderSearch } from './header-data';
+import { EventBtnClick, HeaderData, HeaderSearch } from './header-data';
 import { CookieService } from 'ngx-cookie-service';
 import { FormBuilder,FormControl, FormGroup, Validators } from '@angular/forms';
 import { userItems } from './header-dummy-data';
@@ -46,7 +46,11 @@ export class HeaderComponent implements OnInit{
   
   ngOnInit(){
     this.checkCanShowSearchAsOverlay(window.innerWidth);
-    
+
+    EventBtnClick.observadores.push(
+      this.getBtnVal.bind(this)
+    )
+
   }
 
   // Cada ves que se da click se cambia el valor de eventBtnclick 
@@ -60,6 +64,10 @@ export class HeaderComponent implements OnInit{
     }
     // console.log(HeaderData.eventBtnClick)
     return HeaderData.eventBtnClick
+  }
+
+  getBtnVal(bool:boolean){
+    this.setBtnClick(bool?'left':'rigth')
   }
 
 
@@ -101,13 +109,7 @@ export class HeaderComponent implements OnInit{
   // se usa (keyup) por que eso muestra angular material 
   // te devuelve un evento por cada letra que se escribe :^
   getHeaderText(text:Event){
-    // console.log(text)
-    // this.headerSearch.setHeaderText(text)
-    // this.headerSearch.toggle(text)
-    // HeaderData.headerText =text
-
     HeaderSearch.setMiVariable(text)
-
   }
 
 
@@ -151,8 +153,7 @@ export class HeaderComponent implements OnInit{
   //Cerrar la sesion de la aplicacion
 
   OnclickLogout(){
-    this.cookieService.delete('token');
-    
+    this.cookieService.delete('token'); 
   }
 
 }

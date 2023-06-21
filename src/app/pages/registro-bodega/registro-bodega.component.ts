@@ -336,7 +336,7 @@ export class RegistroBodegaComponent {
         reverseButtons: true
       }).then((result) => {
         if (result.isConfirmed) {
-          this.updateBodegaMove()
+          this.saveDataCantidad()
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire(
             'Cancelado',

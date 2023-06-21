@@ -54,7 +54,6 @@
             </label>
             <input type="text" formControlName="examenVista" class="form-control form-input"
               placeholder="Seleccione el cliente" [(ngModel)]="ExamenVista.numExamen">
-            <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-solid fa-eye form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('examenVista').valid || (formGetDataCreate('examenVista').pristine)">
@@ -73,7 +72,6 @@
             </label>
             <input type="text" formControlName="laboratorio" class="form-control form-input"
               placeholder="Seleccione el cliente" [(ngModel)]="Laboratorio.idLaboratorio">
-            <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-solid fa-flask-vial form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('laboratorio').valid || (formGetDataCreate('laboratorio').pristine)">
@@ -103,25 +101,12 @@
           </button>
         </div>
 
-        <!-- <div class="mb-2">
-          <mat-label class="form-label">
-            Estado del pedido *
-          </mat-label>
-          <mat-select formControlName="estadoPedido" class="form-control form-control-lg" matNativeControl
-            [(ngModel)]="EstadoPedido" [(value)]="EstadoPedido">
-            <mat-option *ngFor="let option of estadoPedidoList" [value]="option">
-              {{option.estadoPedido}}
-            </mat-option>
-          </mat-select>
-        </div> -->
-
         <div class="mb-2" #input>
           <label class="form-label">
             Estado Producto
           </label>
           <input type="text" formControlName="estadoPedido" class="form-control form-input"
             placeholder="Fecha del pedido" [(ngModel)]="EstadoPedido.estadoPedido" readonly>
-          <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('estadoPedido').valid || (formGetDataCreate('estadoPedido').pristine)">
@@ -135,7 +120,6 @@
           </label>
           <input type="text" formControlName="fechaPedido" class="form-control form-input"
             placeholder="Fecha del pedido" [(ngModel)]="FechaPedido.fechaPedido" readonly>
-          <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-calendar-days form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('fechaPedido').valid || (formGetDataCreate('fechaPedido').pristine)">
@@ -149,7 +133,6 @@
           </label>
           <input type="number" formControlName="costo" class="form-control form-input"
             placeholder="Ingrese el costo del pedido" [(ngModel)]="OrdenPedido.costo">
-          <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-circle-dollar-to-slot form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('costo').valid || (formGetDataCreate('costo').pristine)">
@@ -163,7 +146,6 @@
           </label>
           <input type="text" formControlName="descripcion" class="form-control form-input"
             placeholder="Ingrese la descripcion del pedido" [(ngModel)]="OrdenPedido.costo">
-          <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('descripcion').valid || (formGetDataCreate('descripcion').pristine)">

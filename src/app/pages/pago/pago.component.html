@@ -1,10 +1,188 @@
 <mat-sidenav-container class="example-container">
-    <mat-sidenav-content>
-      <div class="example-content">
-        <h1>Lista de pagos actuales</h1>
-        <section>
-          <app-table [data]="myData$" [columns]="tableColumns"></app-table>
+  <mat-sidenav-content>
+    <div class="example-content">
+      <section *ngIf="getEventBtnClickHeader()">
+        <section *ngIf="!dataUpdate">
+          <h1>Lista de pagos actuales</h1>
+          <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="resultDataTableUpdate($event)"></app-table>
         </section>
+        <section *ngIf="dataUpdate">
+          <ng-container *ngTemplateOutlet="formUpdate"></ng-container>
+        </section>
+      </section>
+      <section *ngIf="!getEventBtnClickHeader()">
+        <ng-container *ngTemplateOutlet="formCreate"></ng-container>
+      </section>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+<ng-template #formCreate>
+  <div class="card">
+    <div class="card-body">
+      <div class="container-header">
+        <h1 class="title">
+          Actualizar informacion del producto
+        </h1>
+        <!-- <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
+          Cerrar
+          <i class="fa-solid fa-xmark"></i>
+        </button> -->
       </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>  
+      <form [formGroup]="formDataCreate">
+
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Factura *
+            </label>
+            <input type="text" formControlName="factura" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="Factura.numFactura"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-regular fa-circle-user form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('factura').valid || (formGetDataCreate('factura').pristine)">
+              El campo no puede estar vacio
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableFactura)">
+            <i class="fa-regular fa-hand-pointer"></i>
+          </button>
+        </div>
+
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Fecha pago
+          </label>
+          <input type="text" formControlName="fechaPago" class="form-control form-input"
+            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="FechaPago.fechaPago" readonly >
+          <i class="fa-solid fa-calendar-days form-input-icon"></i>
+          <div class="alert 1alert-danger mt-1"
+            [hidden]="formGetDataCreate('fechaPago').valid || (formGetDataCreate('fechaPago').pristine)">
+            La Fecha no puede estar vacia
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <mat-label class="form-label">
+            Tipo de pago *
+          </mat-label>
+          <mat-select formControlName="tipoPago" class="form-control form-control-lg" matNativeControl
+            [(ngModel)]="TipoPago">
+            <mat-option *ngFor="let option of tipoPago" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-select>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Monto a pagar
+          </label>
+          <input type="text" formControlName="monto" class="form-control form-input"
+            placeholder="Monto a pagar" [(ngModel)]="Pago.monto">
+          <i class="fa-solid fa-glasses form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('monto').valid || (formGetDataCreate('monto').pristine)">
+            El monto no puede estar vacio
+          </div>
+        </div>
+
+        <button class="btn btn-primary" #btnEnviar [disabled]="formDataCreate.invalid"
+          (click)="loadConfirmationDataCreate()">
+          Guardar
+        </button>
+
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #tableFactura>
+  <app-table-simple [data]="facturaFormat" [columns]="tableColumnsFactura"
+    (selectItemsCell)="resultDataTableFactura($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>
+
+
+<ng-template #formUpdate>
+  <div class="card">
+    <div class="card-body">
+      <div class="container-header">
+        <h1 class="title">
+          Actualizar informacion del producto
+        </h1>
+        <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
+          Cerrar
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <form [formGroup]="formDataUpdate">
+
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Factura *
+            </label>
+            <input type="text" formControlName="factura" class="form-control form-input"
+              placeholder="Seleccione el cliente" [(ngModel)]="Factura.numFactura"> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-regular fa-circle-user form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataUpdate('factura').valid || (formGetDataUpdate('factura').pristine)">
+              El campo no puede estar vacio
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableFactura)">
+            <i class="fa-regular fa-hand-pointer"></i>
+          </button>
+        </div>
+
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Fecha pago
+          </label>
+          <input type="text" formControlName="fechaPago" class="form-control form-input"
+            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="FechaPago.fechaPago" readonly >
+          <i class="fa-solid fa-calendar-days form-input-icon"></i>
+          <div class="alert 1alert-danger mt-1"
+            [hidden]="formGetDataUpdate('fechaPago').valid || (formGetDataUpdate('fechaPago').pristine)">
+            La Fecha no puede estar vacia
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <mat-label class="form-label">
+            Tipo de pago *
+          </mat-label>
+          <mat-select formControlName="tipoPago" class="form-control form-control-lg" matNativeControl
+            [(ngModel)]="TipoPago">
+            <mat-option *ngFor="let option of tipoPago" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-select>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Monto a pagar
+          </label>
+          <input type="text" formControlName="monto" class="form-control form-input"
+            placeholder="Monto a pagar" [(ngModel)]="Pago.monto">
+          <i class="fa-solid fa-glasses form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataUpdate('monto').valid || (formGetDataUpdate('monto').pristine)">
+            El monto no puede estar vacio
+          </div>
+        </div>
+
+        <button class="btn btn-primary" #btnEnviar [disabled]="formDataUpdate.invalid"
+          (click)="loadConfirmationDataUpdate()">
+          Actualizar
+        </button>
+
+      </form>
+    </div>
+  </div>
+</ng-template>

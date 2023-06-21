@@ -7,9 +7,7 @@
           <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="resultUpdateData($event)"></app-table>
         </section>
         <section *ngIf="dataUpdate">
-          <app-form [Title]="'Actualizar informacion'" [BtnName]="'Actualizar'"
-            [FormD]="formUpdate" (formData)="loadConfirmationDataUpdate($event)" [BtnCancel]="true"
-            (btnCancel)="cancelFormUpdate()"></app-form>
+          <ng-container *ngTemplateOutlet="formUpdate"></ng-container>
         </section>
       </section>
       <section *ngIf="!getEventBtnClickHeader()">
@@ -99,11 +97,10 @@
             </div>
           </div>
           <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableBodega)">
-            <!-- <i class="fa-regular fa-hand-pointer"></i> -->
             <i class="fa-solid fa-store"></i>
           </button>
         </div>
-        
+
         <div class="mb-2" #input>
           <label class="form-label">
             Fecha de obtencion del producto
@@ -128,7 +125,7 @@
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('cantidad').valid || (formGetDataCreate('cantidad').pristine)">
-            Estado Producto
+            El campo no puede estar vacio
           </div>
         </div>
 
@@ -138,7 +135,6 @@
           </label>
           <input type="number" formControlName="costo" class="form-control form-input"
             placeholder="Ingrese el costo del producto" [(ngModel)]="ProveedorProducto.costo">
-          <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-circle-dollar-to-slot form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('costo').valid || (formGetDataCreate('costo').pristine)">
@@ -168,18 +164,102 @@
 
 </ng-template>
 
-<ng-template #formUpdate1>
+<ng-template #formUpdate>
   <div class="card">
     <div class="card-body">
       <div class="container-header">
         <h1 class="title">
-          Agregar informacion del nuevo producto
+          Actualizar informacion del producto
         </h1>
+        <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
+          Cerrar
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
-      <form [formGroup]="formCreateData">
-        
+      <form [formGroup]="formUpdateData">
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Proveedor
+          </label>
+          <input type="text" formControlName="proveedor" class="form-control form-input"
+            placeholder="Ingrese el costo del producto" [(ngModel)]="Proveedor.nombre" readonly>
+          <i class="fa-solid fa-address-card form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('proveedor').valid || (formGetDataCreate('proveedor').pristine)">
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Producto
+          </label>
+          <input type="text" formControlName="producto" class="form-control form-input"
+            placeholder="Ingrese el costo del producto" [(ngModel)]="Producto.descripcion" readonly>
+          <i class="fa-solid fa-address-card form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('producto').valid || (formGetDataCreate('producto').pristine)">
+            El campo no puede estar vacio
+          </div>
+        </div>
+
+        <div class="content-select">
+          <div class="mb-2 container-select" #input>
+            <label class="form-label">
+              Bodega *
+            </label>
+            <input type="text" formControlName="bodega" class="form-control form-input"
+              placeholder="Seleccione la bodega" [(ngModel)]="Bodega.nombre" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-solid fa-store form-input-icon"></i>
+            <div class="alert 1alert-danger mt-1"
+              [hidden]="formGetDataCreate('bodega').valid || (formGetDataCreate('bodega').pristine)">
+              Seleccione una bodega
+            </div>
+          </div>
+          <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableBodegaR)">
+            <i class="fa-solid fa-store"></i>
+          </button>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Cantidad de productos *
+          </label>
+          <input type="number" formControlName="cantidad" class="form-control form-input"
+            placeholder="Ingrese la cantidad del producto" [(ngModel)]="ProveedorProducto.cantidad">
+          <!--[(ngModel)]="OjoIzquierdo">-->
+          <i class="fa-solid fa-pencil form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('cantidad').valid || (formGetDataCreate('cantidad').pristine)">
+            El campo no puede estar vacio
+          </div>
+        </div>
+
+        <div class="mb-2" #input>
+          <label class="form-label">
+            Costo del producto *
+          </label>
+          <input type="number" formControlName="costo" class="form-control form-input"
+            placeholder="Ingrese el costo del producto" [(ngModel)]="ProveedorProducto.costo">
+          <i class="fa-solid fa-circle-dollar-to-slot form-input-icon"></i>
+          <div class="alert alert-danger mt-1"
+            [hidden]="formGetDataCreate('costo').valid || (formGetDataCreate('costo').pristine)">
+            Ingrese el costo del producto
+          </div>
+        </div>
+
+        <button class="btn btn-primary" #btnEnviar [disabled]="formUpdateData.invalid"
+          (click)="loadConfirmationDataUpdate()">
+          Actualizar
+        </button>
+
       </form>
     </div>
   </div>
 </ng-template>
 
+
+<ng-template #tableBodegaR>
+  <app-table-simple [data]="bodegaRList" [columns]="formColumnsTableBodega"
+    (selectItemsCell)="getDataTableBodega($event)" (cancelTable)="cancelDialogResult()"></app-table-simple>
+</ng-template>

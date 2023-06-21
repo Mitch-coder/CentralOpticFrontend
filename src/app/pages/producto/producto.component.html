@@ -238,7 +238,6 @@
           </label>
           <input type="text" formControlName="marca" class="form-control form-input"
             placeholder="Ingrese la marca del producto" [(ngModel)]="Marca.marca" [matAutocomplete]="autoMarca">
-          <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <mat-autocomplete #autoMarca="matAutocomplete">
             <mat-option *ngFor="let option of filteredOptionsMarca | async" [value]="option.marca">

@@ -604,7 +604,171 @@ export class ExamenVistaComponent {
       let fechaExamen ={
         FechaExamen : fecha1
       }
-      this.dataService.postData('fechaexamen',fechaExamen)
+
+      console.log(fecha1.getDate())
+      this.dataService.postData('fechaexamen',fechaExamen).then((success)=>{
+        if(success){
+          if(cliente){
+
+            console.log('cliente viejo')
+            let examenVista = {
+              codCliente: this.Cliente.codCliente,
+              idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
+              ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+              ojoDerecho: this.ExamenVista.ojoDerecho,
+              descripLenteIzq: this.ExamenVista.descripLenteIzq,
+              descripLenteDer: this.ExamenVista.descripLenteDer
+            }
+      
+            this.dataService.postData('examenvista', examenVista).then((success)=>{
+              if(success){
+                Swal.fire(
+                  'Exito!',
+                  'La informacion a sido actualizado con exito',
+                  'success'
+                )
+                
+      
+                Swal.fire({
+                  title: 'Confirmar',
+                  text: '¿Desea agendar un peido?',
+                  icon: 'question',
+                  showCancelButton: true,
+                  confirmButtonText: 'Agendar',
+                  cancelButtonText: 'Despues',
+                  reverseButtons: true
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    // this.setDataUpdateDB(data.value)
+                    // let cliente = this.myData.filter(e => e.cedula === data.cedula)
+                    // console.log(cliente[0])
+                    // let parametro = {
+                    //   cliente: data,
+                    //   formCreate: false
+                    // }
+      
+                    const numeros = this.examenVistaList.map(objeto => objeto.numExamen);
+                    let dataV = Math.max(...numeros) + 1
+      
+                    let examenVista = {
+                      numExamen: dataV,
+                      codCliente: this.Cliente.codCliente,
+                      idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
+                      ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+                      ojoDerecho: this.ExamenVista.ojoDerecho,
+                      descripLenteIzq: this.ExamenVista.descripLenteIzq,
+                      descripLenteDer: this.ExamenVista.descripLenteDer
+                    }
+      
+                    this.sendDataOrdenPedido(examenVista)
+                  } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire(
+                      'Cancelado',
+                      'Todo bien :)',
+                      'error'
+                    )
+                  }
+                });
+      
+                this.setResetData()
+                this.formCreateData.reset()
+      
+              }else{
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Ups...',
+                  text: 'Algo salió mal!',
+                  footer: '<a href="">¿Por qué tengo este problema??</a>'
+                })
+              }
+            })
+          }else{
+            console.log('cliente nuevo')
+      
+            let c = {
+              cedula: this.Cliente.cedula,
+              nombres: this.Cliente.nombres,
+              apellidos: this.Cliente.apellidos,
+              direccion: this.Cliente.direccion
+            }
+            this.dataService.postData('cliente',c).then((success) => {
+              if(success){
+                const numeros = this.clienteList.map(objeto => objeto.codCliente);
+                let dataV = Math.max(...numeros) + 1
+                // let tamC = this.clienteList.length + 2
+                let examenVista = {
+                  codCliente: dataV,
+                  idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
+                  ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+                  ojoDerecho: this.ExamenVista.ojoDerecho,
+                  descripLenteIzq: this.ExamenVista.descripLenteIzq,
+                  descripLenteDer: this.ExamenVista.descripLenteDer
+                }
+                this.dataService.postData('examenvista',examenVista).then((success) => {
+                  if(success){
+                    Swal.fire(
+                      'Exito!',
+                      'La informacion a sido actualizado con exito',
+                      'success'
+                    )
+      
+                    Swal.fire({
+                      title: 'Confirmar',
+                      text: '¿Desea agendar un peido?',
+                      icon: 'question',
+                      showCancelButton: true,
+                      confirmButtonText: 'Agendar',
+                      cancelButtonText: 'Despues',
+                      reverseButtons: true
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        // this.setDataUpdateDB(data.value)
+                        // let cliente = this.myData.filter(e => e.cedula === data.cedula)
+                        // console.log(cliente[0])
+                        // let parametro = {
+                        //   cliente: data,
+                        //   formCreate: false
+                        // }
+          
+                        const numeros = this.examenVistaList.map(objeto => objeto.numExamen);
+                        let dataV = Math.max(...numeros) + 1
+          
+                        let examenVista = {
+                          numExamen: dataV,
+                          codCliente: this.Cliente.codCliente,
+                          idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
+                          ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+                          ojoDerecho: this.ExamenVista.ojoDerecho,
+                          descripLenteIzq: this.ExamenVista.descripLenteIzq,
+                          descripLenteDer: this.ExamenVista.descripLenteDer
+                        }
+          
+                        this.sendDataOrdenPedido(examenVista)
+                      } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire(
+                          'Cancelado',
+                          'Todo bien :)',
+                          'error'
+                        )
+                      }
+                    });
+      
+                    this.setResetData()
+                    this.formCreateData.reset()
+                  }else{
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Ups...',
+                      text: 'Algo salió mal!',
+                      footer: '<a href="">¿Por qué tengo este problema??</a>'
+                    })
+                  }
+                })
+              }
+            })
+          }
+        }
+      })
     }
 
 

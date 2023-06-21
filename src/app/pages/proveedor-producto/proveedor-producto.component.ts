@@ -412,7 +412,7 @@ export class ProveedorProductoComponent {
 
   loadConfirmationDataCreate() {
 
-    if (!this.Producto.estadoProducto) {
+    if (this.Producto.estadoProducto) {
       Swal.fire({
         title: 'Confirmar',
         text: '¿Está seguro que desea guardar la informacion?',
@@ -693,73 +693,104 @@ export class ProveedorProductoComponent {
 
   formDataUpdate: FormData[] = []
 
+  bodegaRList: Bodega[] = []
+
+  formUpdateData: FormGroup = this.formBuilder.group(
+    {
+      'proveedor': [this.Proveedor.nombre, Validators.required],
+      'producto': [this.NombreProducto.nombreProducto, Validators.required],
+      'bodega': [this.Bodega.nombre, Validators.required],
+      'cantidad': [this.ProveedorProducto.cantidad, Validators.required],
+      'costo': [this.ProveedorProducto.costo, Validators.required],
+    }
+  );
+
   resultUpdateData(data: any) {
     this.dataUpdate = data
     if (data) {
       let proveedorProducto = this.proveedorProductoList.find(e => e.idProveedor_Producto === data.idProveedor_Producto)
-      if (proveedorProducto) {
-        this.ProveedorProducto = proveedorProducto
-        this.formDataUpdate = [{
-          label: 'Cantidad de producto',
-          type: 'number',
-          placeholder: 'Nueva Cantidad de productos',
-          alert: 'La cantidad no puede estar vacia',
-          icon: 'fa-solid fa-arrow-up-short-wide',
-          formControlName: 'cantidad',
-          formValidators: { 'cantidad': [proveedorProducto.cantidad.toString(), [Validators.required]] },
-          value: proveedorProducto.cantidad.toString()
-        },
-        {
-          label: 'Costo del producto',
-          type: 'number',
-          placeholder: 'Nuevo costo de productos',
-          alert: 'El costo no puede estar vacio',
-          icon: 'fa-solid fa-circle-dollar-to-slot',
-          formControlName: 'costo',
-          formValidators: { 'costo': [proveedorProducto.costo.toString(), [Validators.required]] },
-          value: proveedorProducto.costo.toString()
-        }]
+      let registroBodega = this.registroBodegaList.filter(e => e.codProducto === proveedorProducto?.codProducto)
+      let bodega = this.bodegaList.filter(e => registroBodega.find(f => f.idBodega === e.idBodega))
+      let proveedor = this.proveedorList.find(e => e.idProveedor == proveedorProducto?.idProveedor)
+      let producto = this.productoList.find(e => e.codProducto === proveedorProducto?.codProducto)
+
+      console.log(bodega)
+      if (proveedorProducto && registroBodega && bodega && producto && bodega && proveedor) {
+        this.ProveedorProducto = { ...proveedorProducto }
+        // this.RegistroBodega = {...registroBodega}
+        this.bodegaRList = bodega
+        this.Bodega = this.bodegaRList[0]
+        this.Producto = { ...producto }
+        this.Proveedor = { ...proveedor }
       }
+
+
     }
   }
 
+  // getDataTableBodegaR(data: any) {
+  //   this.Bodega = data
+  //   this.cancelDialogResult()
+  // }
+
   cancelFormUpdate() {
-    this.dataUpdate = undefined
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea cerrar el formulario?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Cerrar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // this.dataUpdate = undefined
+        this.resetData()
+        // this.formUpdateData.reset()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen asalvo:)',
+          'error'
+        )
+      }
+    });
   }
 
-  loadConfirmationDataUpdate(form: FormGroup) {
-    let data = form.value
 
-    if (data.cantidad < 0) {
+
+  loadConfirmationDataUpdate() {
+
+    if (this.ProveedorProducto.cantidad < 0) {
       Swal.fire({
         icon: 'error',
         title: 'Ups...',
         text: 'La cantidad del producto no puede ser negativa!'
       })
-    } else if (data.costo < 0) {
+    } else if (this.ProveedorProducto.costo < 0) {
       Swal.fire({
         icon: 'error',
         title: 'Ups...',
         text: 'La cantidad del producto no puede ser negativa!'
       })
     } else {
-      let registroProducto = this.registroBodegaList
-        .find(e=>e.codProducto === this.ProveedorProducto.codProducto)
-      if(registroProducto){
-        
-      }
+      // let registroProducto = this.registroBodegaList
+      //   .find(e => e.codProducto === this.ProveedorProducto.codProducto)
+      // if (registroProducto) {
+
+      // }
       Swal.fire({
         title: 'Confirmar',
-        text: '¿Está seguro que desea guardar la informacion?',
+        text: '¿Está seguro que desea actualizar la informacion?',
         icon: 'question',
         showCancelButton: true,
-        confirmButtonText: 'Guardar',
+        confirmButtonText: 'Actualizar',
         cancelButtonText: 'Cancelar',
         reverseButtons: true
       }).then((result) => {
         if (result.isConfirmed) {
-          // this.saveDataUpdate(form.value)
-          // form.reset()
+          this.saveDataUpdate()
+          // form.reset() 
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire(
             'Cancelado',
@@ -769,5 +800,69 @@ export class ProveedorProductoComponent {
         }
       });
     }
+  }
+
+  saveDataUpdate() {
+    let productoProveedor = this.proveedorProductoList.find(e => e.idProveedor_Producto === this.ProveedorProducto.idProveedor_Producto)
+    if (productoProveedor) {
+      let result = productoProveedor?.cantidad - this.ProveedorProducto.cantidad
+
+      if (result !== 0) {
+        let registroBodega = this.registroBodegaList.find(e => e.idBodega === this.Bodega.idBodega && e.codProducto === this.Producto.codProducto)
+        if (registroBodega) {
+          let res = registroBodega.cantidad + result
+          if (res < 0){
+            Swal.fire(
+              'Cancelado',
+              'Los datos siguen asalvo:)',
+              'error'
+            )
+            return
+          }else{
+            registroBodega.cantidad = registroBodega.cantidad + res
+
+            this.dataService.updateData('registrobodega',registroBodega,registroBodega.idRegistro_Bodega).then((success)=>{
+              if(success){
+                Swal.fire({
+                  title: 'Exito!',
+                  text: 'La informacion a sido guardada',
+                  icon: 'success',
+                  confirmButtonText: 'OK!',
+                })
+                this.resetData()
+              }else{
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Ups...',
+                  text: 'Algo salió mal!',
+                  footer: '<a href="">¿Por qué tengo este problema??</a>'
+                })
+              }
+            })
+          }
+
+        }
+      }
+    }
+
+    this.dataService.updateData('proveedorproducto',this.ProveedorProducto, this.ProveedorProducto.idProveedor_Producto).then((success)=>{
+      if(success){
+        Swal.fire({
+          title: 'Exito!',
+          text: 'La informacion a sido guardada',
+          icon: 'success',
+          confirmButtonText: 'OK!',
+        })
+        this.resetData()
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Ups...',
+          text: 'Algo salió mal!',
+          footer: '<a href="">¿Por qué tengo este problema??</a>'
+        })
+      }
+    })
+
   }
 }
