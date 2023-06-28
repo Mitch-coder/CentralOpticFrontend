@@ -466,10 +466,11 @@ export class ProductoComponent {
       if (success) {
         const numeros = this.productoList.map(objeto => objeto.codProducto);
         P = Math.max(...numeros) + 1
+        
         let fecha1 = new Date();
         fecha1.setHours(0, 0, 0, 0)
         let fechaObtencion = this.fechaObtencionList.find(e => new Date(e.fechaObtencion).toString() == fecha1.toString())
-
+        
         let F = -1
         if (!fechaObtencion) {
           let fecha = {
@@ -486,7 +487,7 @@ export class ProductoComponent {
                 icon: 'error',
                 title: 'Ups...',
                 text: 'Algo salió mal!',
-                footer: '<a href="">¿Por qué tengo este problema??</a>'
+                // footer: '<a href="">¿Por qué tengo este problema??</a>'
               })
               return
             }
@@ -512,7 +513,7 @@ export class ProductoComponent {
               icon: 'error',
               title: 'Ups...',
               text: 'Algo salió mal!',
-              footer: '<a href="">¿Por qué tengo este problema??</a>'
+              // footer: '<a href="">¿Por qué tengo este problema??</a>'
             })
             return
           }
@@ -540,7 +541,7 @@ export class ProductoComponent {
               icon: 'error',
               title: 'Ups...',
               text: 'Algo salió mal!',
-              footer: '<a href="">¿Por qué tengo este problema??</a>'
+              // footer: '<a href="">¿Por qué tengo este problema??</a>'
             })
             return
           }
@@ -550,7 +551,7 @@ export class ProductoComponent {
           icon: 'error',
           title: 'Ups...',
           text: 'Algo salió mal!',
-          footer: '<a href="">¿Por qué tengo este problema??</a>'
+          // footer: '<a href="">¿Por qué tengo este problema??</a>'
         })
         return
       }
@@ -576,11 +577,11 @@ export class ProductoComponent {
   estado: any[] = [
     {
       valor: false,
-      label: 'Activo'
+      label: 'Inactivo'
     },
     {
       valor: true,
-      label: 'Inactivo'
+      label: 'Activo'
     }]
 
   cancelFormUpdate() {
@@ -669,7 +670,7 @@ export class ProductoComponent {
             icon: 'error',
             title: 'Ups...',
             text: 'Algo salió mal!',
-            footer: '<a href="">¿Por qué tengo este problema??</a>'
+            //footer: '<a href="">¿Por qué tengo este problema??</a>'
           })
           return
         }
@@ -690,7 +691,7 @@ export class ProductoComponent {
             icon: 'error',
             title: 'Ups...',
             text: 'Algo salió mal!',
-            footer: '<a href="">¿Por qué tengo este problema??</a>'
+            //footer: '<a href="">¿Por qué tengo este problema??</a>'
           })
           return
         }
@@ -721,7 +722,7 @@ export class ProductoComponent {
           icon: 'error',
           title: 'Ups...',
           text: 'Algo salió mal!',
-          footer: '<a href="">¿Por qué tengo este problema??</a>'
+          //footer: '<a href="">¿Por qué tengo este problema??</a>'
         })
       }
     })

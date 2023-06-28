@@ -209,14 +209,17 @@ export class ExamenVistaComponent {
         this.myData = []
 
         console.log(this.fechaExamenList)
-        let fec = new Date(this.fechaExamenList[20].fechaExamen)
-        console.log( fec.toString() == fecha.toString())
+        // let fec = new Date(this.fechaExamenList[20].fechaExamen)
+        // console.log( fec.toString() == fecha.toString())
 
         // console.log(this.cliente)
 
         this.examenVistaList.forEach(element => {
           let client = this.clienteList.filter(e => e.codCliente == element.codCliente)
+          
+          
           let fecha = this.fechaExamenList.filter(e => e.idFechaExamen == element.idFechaExamen)
+          
 
           let date: Date = new Date(fecha[0].fechaExamen)
           let formatoFecha: string = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
@@ -251,8 +254,8 @@ export class ExamenVistaComponent {
       { label: 'Fecha Examen', def: 'fechaExamen', dataKey: 'fechaExamen' },
       { label: 'Ojo Izquierdo', def: 'ojoIzquierdo', dataKey: 'ojoIzquierdo' },
       { label: 'Ojo Derecho', def: 'ojoDerecho', dataKey: 'ojoDerecho' },
-      { label: 'Descripción Lente Izq', def: 'descripLenteIzq', dataKey: 'descripLenteIzq' },
-      { label: 'Descripción Lente Der', def: 'descripLenteDer', dataKey: 'descripLenteDer' }
+      { label: 'Descripción Lente Izquierdo', def: 'descripLenteIzq', dataKey: 'descripLenteIzq' },
+      { label: 'Descripción Lente Derecho', def: 'descripLenteDer', dataKey: 'descripLenteDer' }
     ]
   }
 
@@ -411,29 +414,29 @@ export class ExamenVistaComponent {
   saveDataUpdate() {
     let fecha = this.fechaExamenList.find(e => e.idFechaExamen == this.FechaExamen.idFechaExamen)
 
-    // let id: number = 0
-    // if (fecha) {
-    //   id = fecha.idFechaExamen
-    // } else {
-    //   let f = {
-    //     fechaExamen: new Date()
-    //   }
+    let id: number = 0
+    if (fecha) {
+      id = fecha.idFechaExamen
+    } else {
+      let f = {
+        fechaExamen: new Date()
+      }
 
-    //   this.dataService.postData('fechaexamen', f).then((success) => {
-    //     if (success) {
-    //       id = this.fechaExamenList.length + 2
-    //     } else {
-    //       Swal.fire({
-    //         icon: 'error',
-    //         title: 'Ups...',
-    //         text: 'Algo salió mal!',
-    //         footer: '<a href="">¿Por qué tengo este problema??</a>'
-    //       })
+      this.dataService.postData('fechaexamen', f).then((success) => {
+        if (success) {
+          id = this.fechaExamenList.length + 2
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Algo salió mal!',
+            //footer: '<a href="">¿Por qué tengo este problema??</a>'
+          })
 
-    //       return
-    //     }
-    //   })
-    // }
+          return
+        }
+      })
+    }
 
 
     let data = {

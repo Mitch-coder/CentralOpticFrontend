@@ -190,6 +190,7 @@ export class PagoComponent {
     if (!HeaderData.eventBtnClick) {
       if (this.facturaFormat.length === 0) {
         this.loadDataCreate()
+        console.log(this.FacturaFormat)
       }
     }
     return HeaderData.eventBtnClick;
@@ -247,7 +248,7 @@ export class PagoComponent {
           + (result * element.impuestos)).toFixed(2)
       }
     })
-    // console.log(this.facturaFormat)
+    console.log(this.facturaFormat)
 
   }
 
@@ -570,6 +571,11 @@ export class PagoComponent {
   }
 
   loadConfirmationDataUpdate() {
+
+    //console.log(this.FacturaFormat.total)
+    //console.log(this.FacturaFormat.abono)
+    console.log(this.Pago.monto)
+
     Swal.fire({
       title: 'Confirmar',
       text: '¿Estás seguro que desea actualizar la informacion?',
@@ -596,7 +602,11 @@ export class PagoComponent {
     let detalleFactura = this.detalleFacturaList.filter(e => e.numFactura === this.Factura.numFactura)
     let result = detalleFactura.reduce((acumulador, objeto) => acumulador + (objeto.cantidad * objeto.precioUni), 0)
 
-    let total = ((this.FacturaFormat.total - this.FacturaFormat.abono) - this.Pago.monto)
+    //let total = ((this.FacturaFormat.total - this.FacturaFormat.abono) - this.Pago.monto)
+    let pago = this.pagoList.filter(e => e.numFactura === this.Pago.numFactura && e.idPago !== this.Pago.idPago)
+    let abono = pago.reduce((acumulador, objeto) => acumulador + objeto.monto, 0)
+
+    let total = ((result - abono) - this.Pago.monto)
 
     if (total < 0) {
       let p = {

@@ -21,9 +21,9 @@
         </section>
         <section *ngIf="!getEventBtnClickHeader()">
           <app-form 
-            [Title]="'Actualizar datos del empleado'"
+            [Title]="'Agregar datos del empleado'"
             (formData)="loadConfirmationDataCreate($event)"
-            [BtnName]="'Actualizar'"
+            [BtnName]="'Agregar'"
             [FormD]="form"></app-form>
         </section>
       </div>

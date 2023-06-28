@@ -1,9 +1,10 @@
-import { Component, ViewChild  } from '@angular/core';
+import { Component, Input, ViewChild  } from '@angular/core';
 
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-bar-chart',
@@ -11,6 +12,8 @@ import DataLabelsPlugin from 'chartjs-plugin-datalabels';
   styleUrls: ['./bar-chart.component.css']
 })
 export class BarChartComponent {
+
+  SourceData:any[] = []
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
@@ -20,7 +23,7 @@ export class BarChartComponent {
     scales: {
       x: {},
       y: {
-        min: 10
+        min: 5
       }
     },
     plugins: {
@@ -31,6 +34,13 @@ export class BarChartComponent {
         anchor: 'end',
         align: 'end'
       }
+    },
+    elements: {
+      bar: {
+        backgroundColor: [
+          'rgba(99, 107, 224, 0.5)', // Color personalizado para la primera barra
+        ]
+      }
     }
   };
   public barChartType: ChartType = 'bar';
@@ -39,10 +49,9 @@ export class BarChartComponent {
   ];
 
   public barChartData: ChartData<'bar'> = {
-    labels: [ '2006', '2007', '2008', '2009', '2010', '2011', '2012' ],
+    labels: [ '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2012' ],
     datasets: [
-      { data: [ 65, 59, 80, 81, 56, 55, 40 ], label: 'Series A' },
-      { data: [ 28, 48, 40, 19, 86, 27, 90 ], label: 'Series B' }
+      { data: [ 65, 59, 80, 81, 56, 55, 40, 65, 59, 80 ], label: 'Series A' }
     ]
   };
 
@@ -55,6 +64,19 @@ export class BarChartComponent {
     console.log(event, active);
   }
 
+  @Input() set data(data: any[]) {
+
+    if(data.length!==0){
+      console.log(data)
+      console.log("Barras")
+      this.barChartData.labels = data.map(codigo => "Codigo:" + codigo.codProducto);
+      this.barChartData.datasets[0].label = "Cantidad vendida";
+      this.barChartData.datasets[0].data = data.map(cantidad => cantidad.sumaCantidad);
+      this.chart?.update();
+    }
+
+  }
+
   public randomize(): void {
     // Only Change 3 values
     this.barChartData.datasets[0].data = [
@@ -65,6 +87,8 @@ export class BarChartComponent {
       56,
       Math.round(Math.random() * 100),
       40 ];
+
+    console.log(this.SourceData);
 
     this.chart?.update();
   }

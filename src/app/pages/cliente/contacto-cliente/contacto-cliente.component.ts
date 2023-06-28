@@ -470,7 +470,8 @@ export class ContactoClienteComponent implements OnInit {
     let cliente = this.cliente.filter(e => e.cedula == this.dataUpdate.cedula)
     let telefono = this.telefonoCliente.filter(e => e.codCliente == cliente[0].codCliente)
     let correo = this.correoCliente.filter(e => e.codCliente == cliente[0].codCliente)
-    console.log('')
+    console.log(cliente + ' ' + telefono + ' '+ correo)
+    
     if (data.nombre !== data.nombre.replace(' ' + data.apellido, '')
       || data.apellido !== data.apellido) {
 

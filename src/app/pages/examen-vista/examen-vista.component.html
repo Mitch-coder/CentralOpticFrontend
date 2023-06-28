@@ -142,7 +142,7 @@
     <div class="card-body">
       <div class="container-header">
         <h1 class="title">
-          Actualizar informacion de la entrega
+          Agregar examen de vista
         </h1>
       </div>
 
@@ -151,7 +151,7 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione la orden del pedido *
+              Seleccione la orden del pedido 
             </label>
             <input type="text" formControlName="cliente" class="form-control form-input"
               placeholder="Seleccione el cliente" [(ngModel)]="Cliente.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
@@ -236,7 +236,7 @@
 
 
         <button class="btn btn-primary" #btnEnviar [disabled]="formCreateData.invalid" (click)="loadConfirmationDataCreate()">
-          Actualizar
+          Agregar
         </button>
       </form>
     </div>
