@@ -7,10 +7,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TableSimpleComponent } from './components/table-simple/table-simple.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { TableInputComponent } from './components/table-input/table-input.component';
+import { MatIconModule} from '@angular/material/icon';
 @NgModule({
   declarations: [
     TableComponent,
-    TableSimpleComponent
+    TableSimpleComponent,
+    TableInputComponent
   ],
   imports: [
     CommonModule,
@@ -18,8 +21,9 @@ import { MatInputModule } from '@angular/material/input';
     MatPaginatorModule,
     MatCheckboxModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule
   ],
-  exports:[TableComponent,TableSimpleComponent]
+  exports:[TableComponent,TableSimpleComponent,TableInputComponent]
 })
 export class TableModule { }

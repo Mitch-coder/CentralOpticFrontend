@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
-import { catchError, map, mergeMap, tap } from 'rxjs';
+import { catchError, elementAt, map, mergeMap, tap } from 'rxjs';
 import { forkJoin } from 'rxjs';
-import { FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HeaderData } from 'src/app/header/header-data';
+import { DialogService } from 'src/app/services/dialog/dialog.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { DialogComponent } from 'src/app/modules/dialog/components/dialog/dialog.component';
+import Swal from 'sweetalert2';
+import { MatTableDataSource } from '@angular/material/table';
 
 interface Factura {
   numFactura: number;
@@ -23,7 +28,7 @@ interface EstadoFactura {
 
 interface FechaFactura {
   idFechaFactura: number;
-  fechaEmision: Date;
+  fechaEmision: string;
 }
 
 interface Empleado {
@@ -49,16 +54,86 @@ interface DetalleFactura {
   precioUni: number;
 }
 
-interface Data {
-  numFactuta: number;
-  estadoFactura: string;
-  fecha: Date;
-  empleado: string;
-  cliente: string;
-  subTotal: number;
-  impuesto: number;
-  descuento: number;
-  total: number;
+// interface Data {
+//   numFactuta: number;
+//   estadoFactura: string;
+//   fecha: Date;
+//   empleado: string;
+//   cliente: string;
+//   subTotal: number;
+//   impuesto: number;
+//   descuento: number;
+//   total: number;
+// }
+
+interface Producto {
+  codProducto: number;
+  idMarca: number;
+  idNombreProducto: number;
+  descripcion: string;
+  precioActual: number;
+  estadoProducto: boolean
+}
+
+interface Marca {
+  idMarca: number;
+  marca: string;
+}
+
+interface NombreProducto {
+  idNombreProducto: number;
+  nombreProducto: string;
+}
+
+interface Bodega {
+  idBodega: number;
+  nombre: string;
+  telefono: string;
+  direccion: string;
+  correo: string;
+}
+
+interface RegistroBodega {
+  idRegistro_Bodega: number;
+  idBodega: number;
+  codProducto: number;
+  cantidad: number;
+}
+
+interface OrdenPedido {
+  numOrden: number;
+  numExamen: number;
+  numEmpleado: number;
+  idLaboratorio: number;
+  codProducto: number;
+  idEstadoPedido: number;
+  idFechaPedido: number;
+  costo: number;
+  descripcion: string;
+}
+//Auxiliares
+
+// interface EstadoPedido {
+//   idEstadoPedido: number;
+//   estadoPedido: string;
+// }
+
+interface FechaPedido {
+  idFechaPedido: number;
+  fechaPedido: string;
+}
+
+interface Pago {
+  idPago: number;
+  numFactura: number;
+  idFechaPago: number;
+  monto: number;
+  tipoPago: boolean;
+}
+
+interface FechaPago {
+  idFechaPago: number;
+  fechaPago: string;
 }
 
 @Component({
@@ -79,12 +154,137 @@ export class FacturaComponent {
   empleadoList: Empleado[] = []
   clienteList: Cliente[] = []
   detalleFacturaList: DetalleFactura[] = []
+  productoList: Producto[] = []
+  nombreProductoList: NombreProducto[] = []
+  marcaList: Marca[] = []
+  bodegaList: Bodega[] = []
+  registroBodegaList: RegistroBodega[] = []
+  ordenPedidoList: OrdenPedido[] = []
+  // estadoPedidoList: EstadoPedido[] = []
+  fechaPedidoList: FechaPedido[] = []
+  pagoList: Pago[] = []
+  fechaPagoList: FechaPago[] = []
+
+  Factura: Factura = {
+    numFactura: 0,
+    idEstadoFactura: 0,
+    idFechaFactura: 0,
+    numEmpleado: 0,
+    codCliente: 0,
+    impuestos: 0,
+    descuento: 0
+  }
+
+  EstadoFactura: EstadoFactura = {
+    idEstadoFactura: 0,
+    estadoFactura: ''
+  }
+
+  FechaFactura: FechaFactura = {
+    idFechaFactura: 0,
+    fechaEmision: ''
+  }
+
+  Empleado: Empleado = {
+    numEmpleado: 0,
+    nombres: '',
+    apellidos: '',
+    direccion: ''
+  }
+
+  Cliente: Cliente = {
+    codCliente: 0,
+    cedula: '',
+    nombres: '',
+    apellidos: '',
+    direccion: ''
+  }
+
+  DetalleFactura: DetalleFactura = {
+    idDetalleFactura: 0,
+    numFactura: 0,
+    codProducto: 0,
+    cantidad: 0,
+    precioUni: 0
+  }
+
+  Producto: Producto = {
+    codProducto: 0,
+    idMarca: 0,
+    idNombreProducto: 0,
+    descripcion: '',
+    precioActual: 0,
+    estadoProducto: false
+  }
+
+  NombreProducto: NombreProducto = {
+    idNombreProducto: 0,
+    nombreProducto: ''
+  }
+
+  Marca: Marca = {
+    idMarca: 0,
+    marca: ''
+  }
+
+  Bodega: Bodega = {
+    idBodega: 0,
+    nombre: '',
+    telefono: '',
+    direccion: '',
+    correo: ''
+  }
+
+  RegistroProducto: RegistroBodega = {
+    idRegistro_Bodega: 0,
+    idBodega: 0,
+    codProducto: 0,
+    cantidad: 0
+  }
+
+  OrdenPedido: OrdenPedido = {
+    numOrden: 0,
+    numExamen: 0,
+    numEmpleado: 0,
+    idLaboratorio: 0,
+    codProducto: 0,
+    idEstadoPedido: 0,
+    idFechaPedido: 0,
+    costo: 0,
+    descripcion: ''
+  }
+
+  // EstadoPedido: EstadoPedido = {
+  //   idEstadoPedido: 0,
+  //   estadoPedido: ''
+  // }
+
+  FechaPedido: FechaPedido = {
+    idFechaPedido: 0,
+    fechaPedido: ''
+  }
+
+  Pago: Pago = {
+    idPago: 0,
+    numFactura: 0,
+    idFechaPago: 0,
+    monto: 0,
+    tipoPago: false
+  }
+
+  FechaPago: FechaPago = {
+    idFechaPago: 0,
+    fechaPago: ''
+  }
 
   form!: FormGroup;
   dataUpdate: any = undefined;
-  formBuilder: any;
+  // formBuilder: any;
+  private matDialogRef!: MatDialogRef<DialogComponent>;
 
-  constructor(private dataService: MyDataServices) { }
+  constructor(private dataService: MyDataServices,
+    private formBuilder: FormBuilder,
+    private dialogService: DialogService) { }
 
   ngOnInit(): void {
     //Buscar lo del forkjoin
@@ -96,6 +296,18 @@ export class FacturaComponent {
       this.dataService.getData('empleado'),
       this.dataService.getData('cliente'),
       this.dataService.getData('detallefactura'),
+
+      this.dataService.getData('producto'),
+      this.dataService.getData('nombreProducto'),
+      this.dataService.getData('marca'),
+      this.dataService.getData('bodega'),
+      this.dataService.getData('registrobodega'),
+
+      this.dataService.getData('ordenpedido'),
+      // this.dataService.getData('estadopedido'),
+      this.dataService.getData('fechapedido'),
+      this.dataService.getData('pago'),
+      this.dataService.getData('fechapago'),
     ).pipe(
       map((data: any[]) => {
         this.facturaList = data[0];
@@ -104,6 +316,16 @@ export class FacturaComponent {
         this.empleadoList = data[3];
         this.clienteList = data[4];
         this.detalleFacturaList = data[5];
+        this.productoList = data[6]
+        this.nombreProductoList = data[7]
+        this.marcaList = data[8]
+        this.bodegaList = data[9]
+        this.registroBodegaList = data[10]
+        this.ordenPedidoList = data[11];
+        // this.estadoPedidoList = data[1];
+        this.fechaPedidoList = data[12];
+        this.pagoList = data[13];
+        this.fechaPagoList = data[14];
 
         console.log(this.estadoFacturaList)
 
@@ -121,7 +343,7 @@ export class FacturaComponent {
             subTotal = 0
           }
 
-          let date: Date = new Date(fecha?.fechaEmision?fecha.fechaEmision:'')
+          let date: Date = new Date(fecha?.fechaEmision ? fecha.fechaEmision : '')
           const formatoFecha = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
 
           return {
@@ -159,21 +381,625 @@ export class FacturaComponent {
     ]
   }
 
+  valCreateData = true
   getEventBtnClickHeader() {
-    if (!HeaderData.eventBtnClick)
+    if (!HeaderData.eventBtnClick){
       this.dataUpdate = undefined
+      if(this.valCreateData){
+        this.loadDataCreate()
+      }
+    }
     return HeaderData.eventBtnClick;
   }
 
-  initCreate() {
-    this.form = this.formBuilder.group(
-      {
-        'Empleado': ['', Validators.required],
-        'Cliente': ['', Validators.required],
-        'precioActual': ['', Validators.required],
-        'estadoProducto': ['', Validators.required]
+  // --------------------------------------------------------------------------------- //
+  //               Aqui es donde se guardara la parte del detalle producto
+
+  detalleFacturaItems:any[] =  []
+
+  displayedColumns: string[] = [
+    'id',
+    'tipoItems',
+    'codProducto',
+    'descripcion',
+    'cantidad',
+    'precioUni',
+    'action'
+  ];
+
+  deleteEmployee(data: any) {
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea guardar la informacion?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (data.tipoItems === 'Pdt') {
+          let producto = this.productoList.find(e => e.codProducto === data.codProducto)
+          let nombreProducto = this.nombreProductoList.find(e => e.idNombreProducto === producto?.idNombreProducto)
+          let marca = this.marcaList.find(e => e.idMarca == producto?.idMarca)
+
+          this.tableDataProducto.push({
+            codProducto: producto?.codProducto,
+            marca: marca?.marca,
+            nombre: nombreProducto?.nombreProducto,
+            descripcion: producto?.descripcion,
+            precioActual: producto?.precioActual,
+            estadoProducto: producto?.estadoProducto ? 'Activo' : 'Inactivo'
+          })
+
+
+          this.detalleFacturaItems = this.detalleFacturaItems.filter(e => e.codProducto !== producto?.codProducto) 
+
+        } else {
+          let ordenPedido = this.ordenPedidoList.find(e => e.numOrden === data.numOrden)
+
+          let fecha = this.fechaPedidoList.find(e => e.idFechaPedido === ordenPedido?.idFechaPedido)
+          let date: Date = new Date(fecha?.fechaPedido ? fecha.fechaPedido : '')
+          const formatoFecha = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
+
+          this.tableDataOrdenPedido.push( {
+            numOrden: ordenPedido?.numOrden,
+            fechaPedido: formatoFecha,
+            codProducto: ordenPedido?.codProducto,
+            descripcion: ordenPedido?.descripcion,
+            costo: ordenPedido?.costo
+          })
+
+          this.detalleFacturaItems = this.detalleFacturaItems.filter(e=>e.numOrden !== ordenPedido?.numOrden)
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen a salvo:)',
+          'error'
+        )
       }
-    );
+    });
   }
 
+  openEditForm(data: any,template: TemplateRef<any>) {
+    this.detalleItems = data
+    this.openDialogWithTemplate(template)
+  }
+
+  loadConfirmationUpdateItem(){
+    let detalle = this.detalleFacturaItems.findIndex(e=> e.id === this.detalleItems.id)
+
+    if(detalle !== -1){
+      this.detalleFacturaItems[detalle] = this.detalleItems
+      this.cancelDialogResult()
+    }
+  }
+
+  // id: this.detalleFacturaItems.length + 1,
+  //   tipoItems: 'Pdt',
+  //     codProducto: producto.codProducto,
+  //       descripcion: producto.descripcion,
+  //         cantidad: 1,
+  //           precioUni: producto.precioActual
+
+  //   idDetalleFactura: 0,
+  //   numFactura: 0,
+  //   codProducto: 0,
+  //   cantidad: 0,
+  //   precioUni: 0
+
+  // producto
+  tableColumnsProducto = [
+    { label: 'Codigo Producto', def: 'codProducto', dataKey: 'codProducto' },
+    { label: 'Marca', def: 'marca', dataKey: 'marca' },
+    { label: 'Nombre', def: 'Nombre', dataKey: 'nombre' },
+    { label: 'Descripcion', def: 'Descripcion', dataKey: 'descripcion' },
+    { label: 'Precio Actual', def: 'precioActual', dataKey: 'precioActual' },
+    { label: 'Estado Producto', def: 'estadoProducto', dataKey: 'estadoProducto' }
+  ]
+
+  tableDataProducto: any[] = []
+
+  setDataProductoFormat() {
+    this.tableDataProducto = this.productoList.map(element => {
+      let nombreProducto = this.nombreProductoList.find(e => e.idNombreProducto == element.idNombreProducto)
+      let marca = this.marcaList.find(e => e.idMarca == element.idMarca)
+      return {
+        codProducto: element.codProducto,
+        marca: marca?.marca,
+        nombre: nombreProducto?.nombreProducto,
+        descripcion: element.descripcion,
+        precioActual: element.precioActual,
+        estadoProducto: element.estadoProducto ? 'Activo' : 'Inactivo'
+      }
+    })
+  }
+
+  productoAuxiliarList: any[] = []
+
+  resultDataTableProducto(data: any) {
+    if (data) {
+      let producto = this.productoList.find(e => e.codProducto === data.codProducto)
+      if (producto) {
+        this.detalleFacturaItems.push(
+          {
+            id: this.detalleFacturaItems.length + 1,
+            tipoItems: 'Pdt',
+            codProducto: producto.codProducto,
+            descripcion: producto.descripcion,
+            cantidad: 1,
+            precioUni: producto.precioActual,
+            numOrden: -1
+          }
+        )
+        console.log(this.detalleFacturaItems)
+
+        this.productoAuxiliarList = this.productoAuxiliarList.filter(e => e.codProducto !== producto?.codProducto)
+        this.cancelDialogResult()
+      }
+    }
+  }
+
+  // orden pedido
+
+  tableColumnsOrdenPedido = [
+    { label: 'Numero Orden', def: 'numOrden', dataKey: 'numOrden' },
+    { label: 'Fecha Pedido', def: 'fechaPedido', dataKey: 'fechaPedido' },
+    { label: 'Codigo Producto', def: 'codProducto', dataKey: 'codProducto' },
+    { label: 'Descripcion', def: 'descripcion', dataKey: 'descripcion' },
+    { label: 'Costo', def: 'costo', dataKey: 'costo' },
+  ]
+
+  tableDataOrdenPedido: any[] = []
+
+  setDataOrdenPedidoFormat() {
+    this.tableDataOrdenPedido = this.ordenPedidoList.map(element => {
+      let fecha = this.fechaPedidoList.find(e => e.idFechaPedido === element.idFechaPedido)
+      let date: Date = new Date(fecha?.fechaPedido ? fecha.fechaPedido : '')
+      const formatoFecha = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
+
+      return {
+        numOrden: element.numOrden,
+        fechaPedido: formatoFecha,
+        codProducto: element.codProducto,
+        descripcion: element.descripcion,
+        costo: element.costo,
+      }
+    })
+  }
+
+  ordenPedidoAuxiliarList: any[] = []
+
+  resultDataTableOrdenPedido(data: any) {
+    if (data) {
+      let ordenPedido = this.ordenPedidoList.find(e => e.numOrden === data.numOrden)
+      // let producto = this.productoList.find(e => e.codProducto === data.codProducto)
+      if (ordenPedido) {
+        // this.ordenPedidoAuxiliarList.push(ordenPedido)
+        this.detalleFacturaItems.push(
+          {
+            id: this.detalleFacturaItems.length + 1,
+            tipoItems: 'Opp',
+            codProducto: ordenPedido.codProducto,
+            descripcion: ordenPedido.descripcion,
+            cantidad: 1,
+            precioUni: ordenPedido.costo,
+            numOrden: ordenPedido.numOrden
+
+          }
+        )
+
+        console.log(this.detalleFacturaItems)
+        this.ordenPedidoAuxiliarList = this.ordenPedidoAuxiliarList.filter(e=>e.numOrden !== ordenPedido?.numOrden)
+        this.cancelDialogResult()
+      }
+    }
+  }
+
+  detalleItems:any = {
+    id: 0,
+    tipoItems: '',
+    codProducto: 0,
+    descripcion: '',
+    cantidad: 1,
+    precioUni: 0,
+    numOrden: 0
+  }
+
+  formUpdateItems: FormGroup = this.formBuilder.group(
+    {
+      'descripcion': [this.detalleItems.descripcion, Validators.required],
+      'cantidad': [this.detalleItems.cantidad, Validators.required],
+      'precioUni': [this.detalleItems.precioUni, Validators.required]
+    }
+  )
+
+  formGetDataUpdateItems(fr: string) {
+    return this.formUpdateItems.get(fr) as FormControl;
+  }
+
+  // aqui termina
+  // -------------------------------------------------------------------------------------- //
+
+  //   numEmpleado: 0,
+  //   codCliente: 0,
+
+  tableColumnsCliente = [
+    { label: 'Identificador', def: 'IdCliente', dataKey: 'codCliente' },
+    { label: 'Cedula', def: 'Cedula', dataKey: 'cedula' },
+    { label: 'Nombre', def: 'Nombre', dataKey: 'nombres' },
+    { label: 'Apellido', def: 'Apellido', dataKey: 'apellidos' },
+    { label: 'Direccion', def: 'Direccion', dataKey: 'direccion' }
+  ]
+
+  resultDataTableCliente(data: any) {
+    if (data) {
+      this.Cliente = data
+      this.cancelDialogResult()
+    }
+  }
+
+  tableColumnsEmpleado = [
+    { label: 'Identificador', def: 'NumEmpleado', dataKey: 'numEmpleado' },
+    { label: 'Nombre', def: 'nombres', dataKey: 'nombres' },
+    { label: 'Apellido', def: 'apellidos', dataKey: 'apellidos' },
+    { label: 'Direccion', def: 'direccion', dataKey: 'direccion' }
+  ]
+
+  resultDataTableEmpleado(data: any) {
+    if (data) {
+      this.Empleado = data
+      this.cancelDialogResult()
+    }
+  }
+
+  // -------------------------------------------------------------------------------------- //
+
+  formCreateData: FormGroup = this.formBuilder.group(
+    {
+      'empleado': [this.Empleado.nombres, Validators.required],
+      'cliente': [this.Cliente.nombres, Validators.required],
+      'fechaEmision': [this.FechaFactura.fechaEmision, Validators.required],
+      'descuento': [this.Factura.descuento, Validators.required],
+      'impuesto': [this.Factura.impuestos, Validators.required],
+      'monto': [this.Pago.monto, Validators.required]
+    }
+  )
+
+  formGetDataCreate(fr: string) {
+    return this.formCreateData.get(fr) as FormControl;
+  }
+  
+  loadDataCreate() {
+    this.valCreateData = false
+    let date: Date = new Date()
+    let formatoFecha: string = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
+    this.FechaFactura.fechaEmision = formatoFecha
+
+    this.Factura.descuento = 0.05
+    this.Factura.impuestos = 0.15
+
+    this.productoAuxiliarList = this.productoList.filter(e => e.estadoProducto )
+    this.ordenPedidoAuxiliarList = this.ordenPedidoList.filter(e=>e.idEstadoPedido === 1)
+
+    this.setDataProductoFormat()
+    this.setDataOrdenPedidoFormat()
+  }
+
+  loadConfirmationDataCreate() {
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea guardar la informacion?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.saveDataCreate()
+        // this.formUpdateData.reset()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen asalvo:)',
+          'error'
+        )
+      }
+    });
+  }
+
+  saveDataCreate() {
+    let fecha1 = new Date();
+    fecha1.setHours(0, 0, 0, 0)
+
+    let fecha = this.fechaFacturaList.find(e => new Date(e.fechaEmision).toString() === fecha1.toString())
+
+    let F = -1
+    if (!fecha) {
+      const numeros = this.fechaFacturaList.map(objeto => objeto.idFechaFactura);
+      F = Math.max(...numeros) + 1
+
+      let fechaFactura = {
+        fechaEmision: fecha1
+      }
+
+      this.dataService.postData('fechafactura', fechaFactura).then((success) => {
+        if (success) {
+          let total = this.detalleFacturaItems.reduce((acumulador, objeto) => acumulador + (objeto.cantidad * objeto.precioUni), 0)
+          let pagado = total - this.Pago.monto
+
+          let estadoFactura = 1
+          if (pagado <= 0) {
+            estadoFactura = 3
+          } else if (pagado === total) {
+            estadoFactura = 1
+          } else {
+            estadoFactura = 2
+          }
+
+
+          let factura = {
+            idEstadoFactura: estadoFactura,
+            idFechaFactura: F,
+            numEmpleado: this.Empleado.numEmpleado,
+            codCliente: this.Cliente.codCliente,
+            impuestos: this.Factura.impuestos,
+            descuento: this.Factura.descuento
+          }
+
+          const numeros = this.facturaList.map(objeto => objeto.numFactura);
+          let FT = Math.max(...numeros) + 1
+
+          this.dataService.postData('factura', factura).then((success) => {
+            if (success) {
+
+              let fechaPago = this.fechaPagoList.find(e => new Date(e.fechaPago).toString() === fecha1.toString())
+
+              if (!fechaPago) {
+                const numeros = this.fechaPagoList.map(objeto => objeto.idFechaPago);
+                let FP = Math.max(...numeros) + 1
+
+                let fechaPago = {
+                  fechaPago: fecha1
+                }
+
+                this.dataService.postData('fechapago', fechaPago).then((success) => {
+                  if (success) {
+                    if (estadoFactura === 2) {
+                      let pago = {
+                        numFactura: FT,
+                        idFechaPago: FP,
+                        monto: this.Pago.monto,
+                        tipoPago: true
+                      }
+                      this.dataService.postData('pago', pago).then((success) => {
+                        if (success) {
+                          Swal.fire({
+                            icon: 'success',
+                            title: 'Exito',
+                            text: 'La factura se realizo correctamente',
+                          })
+                        } else {
+                          Swal.fire({
+                            icon: 'error',
+                            title: 'Ups...',
+                            text: 'Algo salió mal!',
+                            footer: '<a href="">¿Por qué tengo este problema??</a>'
+                          })
+                        }
+                      })
+                    } else if (estadoFactura === 3) {
+                      let result = 0
+                      if (pagado < 0) {
+                        result = pagado * (-1)
+                      } else {
+                        result = 0
+                      }
+
+                      let pago = {
+                        numFactura: FT,
+                        idFechaPago: FP,
+                        monto: total,
+                        tipoPago: true
+                      }
+
+                      this.dataService.postData('pago', pago).then((success) => {
+                        if (success) {
+                          Swal.fire({
+                            icon: 'success',
+                            title: 'Exito',
+                            text: 'La factura se realizo correctamente',
+                            footer: 'El cambio es de $' + result
+                          })
+                        } else {
+                          Swal.fire({
+                            icon: 'error',
+                            title: 'Ups...',
+                            text: 'Algo salió mal!',
+                            footer: '<a href="">¿Por qué tengo este problema??</a>'
+                          })
+                        }
+                      })
+
+                    }// pago
+                  } else {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Ups...',
+                      text: 'Algo salió mal!',
+                      footer: '<a href="">¿Por qué tengo este problema??</a>'
+                    })
+                  }
+                })
+              } else {
+
+                if (estadoFactura === 2) {
+                  let pago = {
+                    numFactura: FT,
+                    idFechaPago: fechaPago.idFechaPago,
+                    monto: this.Pago.monto,
+                    tipoPago: true
+                  }
+                  this.dataService.postData('pago', pago).then((success) => {
+                    if (success) {
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Exito',
+                        text: 'La factura se realizo correctamente',
+                      })
+                    } else {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Ups...',
+                        text: 'Algo salió mal!',
+                        footer: '<a href="">¿Por qué tengo este problema??</a>'
+                      })
+                    }
+
+                  })//post Pago
+
+                } else {
+                  let result = 0
+                  if (pagado < 0) {
+                    result = pagado * (-1)
+                  } else {
+                    result = 0
+                  }
+
+                  let pago = {
+                    numFactura: FT,
+                    idFechaPago: fechaPago.idFechaPago,
+                    monto: total,
+                    tipoPago: true
+                  }
+
+                  this.dataService.postData('pago', pago).then((success) => {
+                    if (success) {
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Exito',
+                        text: 'La factura se realizo correctamente',
+                        footer: 'El cambio es de $' + result
+                      })
+                    } else {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Ups...',
+                        text: 'Algo salió mal!',
+                        footer: '<a href="">¿Por qué tengo este problema??</a>'
+                      })
+                    }
+
+                  })//post Pago
+                }
+              }
+
+              this.detalleFacturaItems.forEach(element => {
+                let registroBodega = this.registroBodegaList.find(e => e.codProducto === element.codProducto)
+
+                if (registroBodega) {
+                  let sub = registroBodega.cantidad - element.cantidad
+
+                  let RegistroBodega: RegistroBodega = {
+                    idRegistro_Bodega: registroBodega.idRegistro_Bodega,
+                    idBodega: registroBodega.idBodega,
+                    codProducto: registroBodega.codProducto,
+                    cantidad: sub
+                  }
+
+                  this.dataService.updateData('registrobodega', registroBodega, registroBodega.idRegistro_Bodega).then((success) => {
+                    if (success) {
+
+                    } else {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Ups...',
+                        text: 'Algo salió mal!',
+                        footer: '<a href="">¿Por qué tengo este problema??</a>'
+                      })
+                    }
+                  })
+                }
+
+                let detalleFatura = {
+                  numFactura: FT,
+                  codProducto: element.codProducto,
+                  cantidad: element.cantidad,
+                  precioUni: element.precioUni
+                }
+
+
+                this.dataService.postData('detallefactura', detalleFatura).then((success) => {
+                  if (success) {
+
+                  } else {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Ups...',
+                      text: 'Algo salió mal!',
+                      footer: '<a href="">¿Por qué tengo este problema??</a>'
+                    })
+                  }
+                })
+              })
+
+
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Ups...',
+                text: 'Algo salió mal!',
+                footer: '<a href="">¿Por qué tengo este problema??</a>'
+              })
+            }
+          })// post Factura
+
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Algo salió mal!',
+            footer: '<a href="">¿Por qué tengo este problema??</a>'
+          })
+        }
+      })
+
+    }
+
+
+
+  }
+
+
+
+
+
+
+  openDialogWithTemplate(template: TemplateRef<any>) {
+    this.matDialogRef = this.dialogService.openDialogWithTemplate({
+      template,
+    });
+
+    this.matDialogRef.afterClosed().subscribe((res) => {
+    });
+  }
+
+  cancelDialogResult() {
+    this.matDialogRef.close()
+  }
+
+  btnClick = 'left';
+
+  getBtnClick(name:string):string{
+    // this.getEventBtnClick()
+    if(name==this.btnClick)
+      return 'active'
+    return 'no-active'
+  }
+
+  setBtnClick(name:string):void{
+    this.btnClick= name;
+  }
 }

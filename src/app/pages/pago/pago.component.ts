@@ -599,21 +599,22 @@ export class PagoComponent {
   }
 
   saveDataUpdate() {
-    let detalleFactura = this.detalleFacturaList.filter(e => e.numFactura === this.Factura.numFactura)
+    let detalleFactura = this.detalleFacturaList.filter(e => e.numFactura === this.Factura.numFactura )
     let result = detalleFactura.reduce((acumulador, objeto) => acumulador + (objeto.cantidad * objeto.precioUni), 0)
 
-    //let total = ((this.FacturaFormat.total - this.FacturaFormat.abono) - this.Pago.monto)
+    // let total = ((this.FacturaFormat.total - this.FacturaFormat.abono) - this.Pago.monto)
+
     let pago = this.pagoList.filter(e => e.numFactura === this.Pago.numFactura && e.idPago !== this.Pago.idPago)
     let abono = pago.reduce((acumulador, objeto) => acumulador + objeto.monto, 0)
 
-    let total = ((result - abono) - this.Pago.monto)
+    let total = ((result - abono)- this.Pago.monto)
 
     if (total < 0) {
       let p = {
         idPago: this.Pago.idPago,
         numFactura: this.Factura.numFactura,
         idFechaPago: this.Pago.idFechaPago,
-        monto: (this.FacturaFormat.total - this.FacturaFormat.abono).toFixed(2),
+        monto: (result - abono).toFixed(2),
         tipoPago: this.TipoPago == 'Contado' ? false : true
       }
       // console.log(p)

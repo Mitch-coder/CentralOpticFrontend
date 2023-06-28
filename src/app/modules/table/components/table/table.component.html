@@ -1,95 +1,53 @@
 <table mat-table #table [dataSource]="dataSource">
-  <!-- <ng-container matColumnDef="select">
-    <th mat-header-cell *matHeaderCellDef>
-      <mat-checkbox
-        (change)="$event ? toggleAllRows() : null"
-        [checked]="selection.hasValue() && isAllSelected()"
-        [indeterminate]="selection.hasValue() && !isAllSelected()"
-        [aria-label]="checkboxLabel()"
-      >
-      </mat-checkbox>
-    </th>
-    <td mat-cell *matCellDef="let row">
-      <mat-checkbox
-        (click)="$event.stopPropagation()"
-        (change)="$event ? selection.toggle(row) : null; onSelect()"
-        [checked]="selection.isSelected(row)"
-        [aria-label]="checkboxLabel(row)"
-      >
-      </mat-checkbox>
-    </td>
-  </ng-container> -->
-
-
+  
   <ng-container *ngFor="let column of tableColumns" [matColumnDef]="column.def">
     <th mat-header-cell *matHeaderCellDef>
       {{ column.label }}
     </th>
-    
-      <td mat-cell *matCellDef="let row">
-        <div *ngIf="getTypeData(row[column.dataKey])">
-          <div  *ngFor="let r of row[column.dataKey]">
-            {{ r }}<br>
-          </div>
-        </div>
-        <div *ngIf="!getTypeData(row[column.dataKey])">
-            {{ row[column.dataKey] }}
 
+    <td mat-cell *matCellDef="let row">
+      <div *ngIf="getTypeData(row[column.dataKey])">
+        <div *ngFor="let r of row[column.dataKey]">
+          {{ r }}<br>
         </div>
-        
-      </td>
-   
-    
+      </div>
+      <div *ngIf="!getTypeData(row[column.dataKey])">
+        {{ row[column.dataKey] }}
+
+      </div>
+
+    </td>
+
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="tableDisplayColumns"></tr>
-  <tr mat-row 
-    *matRowDef="let row; 
-    columns: tableDisplayColumns"
-    [ngClass]="getActiveClass(row)"
-    (click)="selectItem(row)"></tr>
-    
-  </table>
-  
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Select page of periodic elements">
-  </mat-paginator>
+  <tr mat-row *matRowDef="let row; 
+    columns: tableDisplayColumns" [ngClass]="getActiveClass(row)" (click)="selectItem(row)"></tr>
 
-  <div class="class-btn-action">
-    <button 
-      mat-fab 
-      extended 
-      class="btnUpdate"
-      [ngClass]="btnClickItemRow?'btn-primary-disable':'btn-primary'"
-      [disabled]="btnClickItemRow"
-      (click)="btnClickUpdate()">
-      <i class="fa-solid fa-pen-to-square"></i>
-      Actualizar
-    </button>
+</table>
 
-    <!-- <button 
-      mat-fab 
-      extended 
-      [disabled]="btnClickItemRow"
-      class="btnUpdate"
-      [ngClass]="btnClickItemRow?'btn-danger-disable':'btn-danger'"
-      (click)="btnClickUpdate()">
-      <i class="fa-solid fa-trash-can"></i>
-      Eliminar
-    </button> -->
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+</mat-paginator>
 
-    <button 
-      mat-fab 
-      extended 
-      class="btnUpdate"
-      [ngClass]="'btn-success'"
-      (click)="btnClickExport()">
-      <i class="fa-solid fa-file-export"></i>
-      Exportar
-    </button>
+<div class="class-btn-action">
+  <button mat-fab extended class="btnUpdate" [ngClass]="btnClickItemRow?'btn-primary-disable':'btn-primary'"
+    [disabled]="btnClickItemRow" (click)="btnClickUpdate()">
+    <i class="fa-solid fa-pen-to-square"></i>
+    Actualizar
+  </button>
 
-  </div>
+  <button mat-fab extended [disabled]="btnClickItemRow" class="btnUpdate"
+    [ngClass]="btnClickItemRow?'btn-danger-disable':'btn-danger'" (click)="btnClickUpdate()">
+    <i class="fa-solid fa-trash-can"></i>
+    Eliminar
+  </button>
 
-  <!-- {{applyFilter()}} -->
-  <!-- {{dataSource.data | json}} -->
+  <button mat-fab extended class="btnUpdate" [ngClass]="'btn-success'" (click)="btnClickExport()">
+    <i class="fa-solid fa-file-export"></i>
+    Exportar
+  </button>
+
+</div>
+
+<!-- {{applyFilter()}} -->
+<!-- {{dataSource.data | json}} -->
