@@ -81,7 +81,7 @@ export class ClienteComponent {
     alert: 'La dirección es obligatorio',
     icon: 'fa-solid fa-map-location-dot',
     formControlName: 'direccion',
-    formValidators: { 'direccion': [this.cliente.direccion, []] }
+    formValidators: { 'direccion': [this.cliente.direccion, [Validators.nullValidator]] }
   }]
 
   constructor(private dataService: MyDataServices, private router: Router) {

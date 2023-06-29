@@ -444,7 +444,9 @@ export class ContactoClienteComponent implements OnInit {
     });
   }
 
-  loadDataConfirmationUpdate(data: any) {
+  loadDataConfirmationUpdate(data: FormGroup) {
+
+    console.log(data);
     this.swalWithBootstrapButtons.fire({
       title: 'Confirmar',
       text: '¿Estás seguro que deseas actualizar la informacion?',
@@ -455,7 +457,8 @@ export class ContactoClienteComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.dataUpdateDB(data)
+
+        this.dataUpdateDB(data.value)
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         this.swalWithBootstrapButtons.fire(
           'Cancelado',
@@ -467,10 +470,10 @@ export class ContactoClienteComponent implements OnInit {
   }
 
   dataUpdateDB(data: DataV) {
+
     let cliente = this.cliente.filter(e => e.cedula == this.dataUpdate.cedula)
     let telefono = this.telefonoCliente.filter(e => e.codCliente == cliente[0].codCliente)
     let correo = this.correoCliente.filter(e => e.codCliente == cliente[0].codCliente)
-    console.log(cliente + ' ' + telefono + ' '+ correo)
     
     if (data.nombre !== data.nombre.replace(' ' + data.apellido, '')
       || data.apellido !== data.apellido) {
@@ -641,7 +644,7 @@ export class ContactoClienteComponent implements OnInit {
     this.matDialogRef.close()
   }
 
-  loadDataConfirmationPhone(data: any) {
+  loadDataConfirmationPhone(data: FormGroup) {
     // console.log(this.cliente)
     this.valTable = false
     Swal.fire({
@@ -733,7 +736,7 @@ export class ContactoClienteComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.addDataPhone(data.value)
+        this.addDataEmail(data.value)
         data.reset()
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         this.swalWithBootstrapButtons.fire(
@@ -746,17 +749,17 @@ export class ContactoClienteComponent implements OnInit {
   }
 
   addDataEmail(data: any) {
-    let tel:Cliente[] = []
+    let co:Cliente[] = []
     if (!this.clienteEmail.codCliente) {
-      tel = this.cliente.filter(e => e.cedula === this.clienteEmail.cedula)
+      co = this.cliente.filter(e => e.cedula === this.clienteEmail.cedula)
       // this.clienteEmail = tel[0]
     }else{
-      tel.push( this.clienteEmail)
+      co.push( this.clienteEmail)
     }
 
     let contact = {
-      codCliente: tel[0].codCliente,
-      telefono: data.telefono
+      codCliente: co[0].codCliente,
+      correo: data.correo
     }
 
     this.dataService.postData('correocliente', contact)

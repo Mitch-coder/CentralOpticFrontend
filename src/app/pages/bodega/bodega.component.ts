@@ -84,7 +84,7 @@ export class BodegaComponent {
   
   setTableColumns(){
     this.tableColumns=[
-      {label:'IdBodega', def:'idBodega', dataKey:'idBodega'},
+      {label:'Identificador', def:'idBodega', dataKey:'idBodega'},
       {label:'Nombre', def:'nombre', dataKey:'nombre'},
       {label:'Direccion', def:'direccion', dataKey:'direccion'},
       {label:'Telefono', def:'telefono', dataKey:'telefono'},

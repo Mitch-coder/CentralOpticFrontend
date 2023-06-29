@@ -358,7 +358,9 @@ export class ProveedorProductoComponent {
   tableDataProducto: any[] = []
 
   setFormatDataProducto() {
+
     this.tableDataProducto = this.productoList.map((element) => {
+      
       let marca = this.marcaList.find(e => e.idMarca === element.idMarca)
       let nombre = this.nombreProductoList.find(e => e.idNombreProducto === element.idNombreProducto)
 
@@ -368,7 +370,7 @@ export class ProveedorProductoComponent {
         nombre: nombre?.nombreProducto,
         descripcion: element.descripcion,
         precioActual: element.precioActual,
-        estadoProducto: element.estadoProducto
+        estadoProducto: element.estadoProducto ? 'Activo' : 'Inactivo'
       }
     })
   }
@@ -423,7 +425,7 @@ export class ProveedorProductoComponent {
         reverseButtons: true
       }).then((result) => {
         if (result.isConfirmed) {
-          // this.saveDataUpdate(form.value)
+          this.saveDataCreate()
           // form.reset()
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire(

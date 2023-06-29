@@ -2,7 +2,7 @@
   <mat-sidenav-content>
     <div class="example-content">
       <section *ngIf="!dataUpdate">
-        <h1>Lista de registros en bodega actuales</h1>
+        <h1>Lista de productos en bodegas actuales</h1>
         <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="loadDataUpdate($event)"></app-table>
       </section>
       <section *ngIf="dataUpdate">
@@ -19,7 +19,7 @@
     <div class="card-body">
       <div class="container-header">
         <h1 class="title">
-          Actualizar informacion del producto
+          Actualizar productos en bodega
         </h1>
         <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
           Cerrar

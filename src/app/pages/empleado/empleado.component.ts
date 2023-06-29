@@ -102,7 +102,7 @@ export class EmpleadoComponent {
     {
       label: 'Nombre',
       type: 'text',
-      placeholder: 'Ingrese el nombre del cliente',
+      placeholder: 'Ingrese el nombre del empleado',
       alert: 'El nombre es obligatorio',
       icon: '',
       formControlName: 'nombres',
@@ -111,7 +111,7 @@ export class EmpleadoComponent {
     {
       label: 'Apellido',
       type: 'text',
-      placeholder: 'Ingrese el apellido del cliente',
+      placeholder: 'Ingrese el apellido del empleado',
       alert: 'El apellido es obligatorio',
       icon: '',
       formControlName: 'apellidos',
@@ -120,11 +120,11 @@ export class EmpleadoComponent {
     {
       label: 'Dirección',
       type: 'text',
-      placeholder: 'Ingrese la dirección del cliente',
+      placeholder: 'Ingrese la dirección del empleado',
       alert: 'La dirección es obligatorio',
       icon: 'fa-solid fa-map-location-dot',
       formControlName: 'direccion',
-      formValidators: { 'direccion': [this.Empleado.direccion,] }
+      formValidators: { 'direccion': [this.Empleado.direccion, [Validators.required]] }
     }]
 
   resultTableDataUpdate(data: Empleado) {
@@ -140,7 +140,7 @@ export class EmpleadoComponent {
         {
           label: 'Nombre',
           type: 'text',
-          placeholder: 'Ingrese el nombre del cliente',
+          placeholder: 'Ingrese el nombre del empleado',
           alert: 'El nombre es obligatorio',
           icon: '',
           formControlName: 'nombres',
@@ -150,7 +150,7 @@ export class EmpleadoComponent {
         {
           label: 'Apellido',
           type: 'text',
-          placeholder: 'Ingrese el apellido del cliente',
+          placeholder: 'Ingrese el apellido del empleado',
           alert: 'El apellido es obligatorio',
           icon: '',
           formControlName: 'apellidos',
@@ -160,11 +160,11 @@ export class EmpleadoComponent {
         {
           label: 'Dirección',
           type: 'text',
-          placeholder: 'Ingrese la dirección del cliente',
+          placeholder: 'Ingrese la dirección del empleado',
           alert: 'La dirección es obligatorio',
           icon: 'fa-solid fa-map-location-dot',
           formControlName: 'direccion',
-          formValidators: { 'direccion': [this.Empleado.direccion,] },
+          formValidators: { 'direccion': [this.Empleado.direccion, [Validators.required]] },
           value: this.Empleado.direccion
         }]
     }
@@ -216,7 +216,7 @@ export class EmpleadoComponent {
           icon: 'error',
           title: 'Ups...',
           text: 'Algo salió mal!',
-          footer: '<a href="">¿Por qué tengo este problema??</a>'
+          //footer: '<a href="">¿Por qué tengo este problema??</a>'
         })
       }
     })
@@ -258,7 +258,7 @@ export class EmpleadoComponent {
       {
         label: 'Nombre',
         type: 'text',
-        placeholder: 'Ingrese el nombre del cliente',
+        placeholder: 'Ingrese el nombre del empleado',
         alert: 'El nombre es obligatorio',
         icon: '',
         formControlName: 'nombres',
@@ -268,7 +268,7 @@ export class EmpleadoComponent {
       {
         label: 'Apellido',
         type: 'text',
-        placeholder: 'Ingrese el apellido del cliente',
+        placeholder: 'Ingrese el apellido del empleado',
         alert: 'El apellido es obligatorio',
         icon: '',
         formControlName: 'apellidos',
@@ -278,11 +278,11 @@ export class EmpleadoComponent {
       {
         label: 'Dirección',
         type: 'text',
-        placeholder: 'Ingrese la dirección del cliente',
+        placeholder: 'Ingrese la dirección del empleado',
         alert: 'La dirección es obligatorio',
         icon: 'fa-solid fa-map-location-dot',
         formControlName: 'direccion',
-        formValidators: { 'direccion': [this.Empleado.direccion,] },
+        formValidators: { 'direccion': [this.Empleado.direccion, [Validators.required]] },
         value: this.Empleado.direccion
       }]
   }

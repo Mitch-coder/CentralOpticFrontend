@@ -74,7 +74,7 @@ export class ProveedorComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'IdProveedor', def: 'idProveedor', dataKey: 'idProveedor' },
+      { label: 'Identificador', def: 'idProveedor', dataKey: 'idProveedor' },
       { label: 'Nombre', def: 'nombre', dataKey: 'nombre' },
       { label: 'Propietario', def: 'propietario', dataKey: 'propietario' },
       { label: 'Direccion', def: 'direccion', dataKey: 'direccion' }
@@ -245,7 +245,7 @@ export class ProveedorComponent {
             this.resetData()
             Swal.fire({
               title: 'Confirmar',
-              text: '¿Desea agregar un contacto al nuevo empleado?',
+              text: '¿Desea agregar un contacto al nuevo proveedor?',
               icon: 'question',
               showCancelButton: true,
               confirmButtonText: 'Agregar',

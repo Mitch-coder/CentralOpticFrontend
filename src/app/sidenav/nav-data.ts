@@ -40,43 +40,6 @@ export const navbarData:INavbarData[]=[
                 label: 'Contacto Empleado'
             }
         ]
-    },{
-        routeLink: 'producto',
-        icon: 'fa-solid fa-tags',
-        label: 'Producto'
-    },{
-        routeLink:'factura',
-        icon: 'fa-solid fa-file-invoice-dollar',
-        label:'Factura'
-    },{
-        routeLink:'examen-vista',
-        icon: 'fa-regular fa-eye',
-        label:'Examen Vista'
-    },{
-        routeLink:'pago',
-        icon: 'fa-solid fa-money-bill-1-wave',
-        label:'Pago'
-    },{
-        routeLink:'detalle-factura',
-        icon: 'fa-solid fa-receipt',
-        label:'Detalle Factura'
-    },{
-        routeLink:'registro-bodega',
-        icon: 'fa-solid fa-warehouse',
-        label:'Registro Bodega'
-    },{
-        routeLink:'orden-pedido-entrega',
-        icon: 'fa-solid fa-file-signature',
-        label:'Orden Pedido Entrega'
-    },{
-        routeLink:'proveedor-producto',
-        icon: 'fa-solid fa-truck-ramp-box',
-        label:'Proveedor Producto'
-    },
-    {
-        routeLink:'bodega',
-        icon: 'fa-solid fa-store',
-        label:'Bodega'
     },
     {
         routeLink:'provedor',
@@ -94,22 +57,63 @@ export const navbarData:INavbarData[]=[
                 label: 'Contacto Proveedor'
             }
         ]
+    },{
+        routeLink:'factura',
+        icon: 'fa-solid fa-file-invoice-dollar',
+        label:'Factura'
+    },{
+        routeLink:'detalle-factura',
+        icon: 'fa-solid fa-receipt',
+        label:'Detalle Factura'
+    },
+    {
+        routeLink: 'producto',
+        icon: 'fa-solid fa-tags',
+        label: 'Producto'
+    },
+    {
+        routeLink:'proveedor-producto',
+        icon: 'fa-solid fa-truck-ramp-box',
+        label:'Productos Proveidos'
+    },{
+        routeLink:'examen-vista',
+        icon: 'fa-regular fa-eye',
+        label:'Examenes de Vista'
+    },{
+        routeLink:'pago',
+        icon: 'fa-solid fa-money-bill-1-wave',
+        label:'Pagos'
+    },
+    {
+        routeLink:'bodega',
+        icon: 'fa-solid fa-store',
+        label:'Bodegas'
+    },{
+        routeLink:'registro-bodega',
+        icon: 'fa-solid fa-warehouse',
+        label:'Productos en Bodegas'
     },
     {
         routeLink:'laboratorio',
         icon: 'fa-solid fa-flask-vial',
-        label:'Laboratorio'
+        label:'Laboratorios'
     } ,
-    {
-        routeLink:'entrega',
-        icon: 'fa-solid fa-truck',
-        label:'Entrega'
-    },
     {
         routeLink:'orden-pedido',
         icon: 'fa-regular fa-paste',
         label:'Orden Pedido'
+    },
+    {
+        routeLink:'entrega',
+        icon: 'fa-solid fa-truck',
+        label:'Entrega'
     }
+     // {
+    //     routeLink:'orden-pedido-entrega',
+    //     icon: 'fa-solid fa-file-signature',
+    //     label:'Orden Pedido Entrega'
+    // },
+    
 ];
 
 // <i class="fa-regular fa-paste"></i>

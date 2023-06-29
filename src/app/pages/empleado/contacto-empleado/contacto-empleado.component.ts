@@ -17,6 +17,8 @@ interface Empleado {
   direccion: string;
 }
 
+
+
 interface TelefonoEmpleado {
   idTelefonoEmpleado: number;
   numEmpleado: number;
@@ -37,6 +39,14 @@ interface Data {
   correo: string[];
 }
 
+interface DataV {
+  nombre: string;
+  apellido: string;
+  telefono1: string;
+  correo1: string;
+  telefono2?: string;
+  correo2?: string;
+}
 
 @Component({
   selector: 'app-contacto-empleado',
@@ -56,10 +66,11 @@ export class ContactoEmpleadoComponent {
   formEmpleadoUpdate: FormData[] = []
 
   empleadoList: Empleado[] = []
+
   telefonoEmpleadoList: TelefonoEmpleado[] = []
   correoEmpleadoList: CorreoEmpleado[] = []
 
-
+  parametro: any;
 
   Empleado: Empleado = {
     numEmpleado: 0,
@@ -172,7 +183,7 @@ export class ContactoEmpleadoComponent {
       let empleado = this.empleadoList.find(e => data.numEmpleado === e.numEmpleado)
       let telefono = this.telefonoEmpleadoList.filter(e => empleado?.numEmpleado === e.numEmpleado)
       let correo = this.correoEmpleadoList.filter(e => empleado?.numEmpleado === e.numEmpleado)
-
+      console.log(correo)
       if (empleado) {
         this.Empleado = empleado
       }
@@ -224,8 +235,8 @@ export class ContactoEmpleadoComponent {
       'telefono2':
         [this.TelefonoEmpleado2.telefono, this.TelefonoEmpleado2.idTelefonoEmpleado !== 0 ? Validators.required : Validators.nullValidator],
       'correo1':
-        [this.CorreoEmpleado1.correo, this.CorreoEmpleado1.idCorreoEmpleado !== 0 ? Validators.required : Validators.nullValidator],
-      'correo2': [this.CorreoEmpleado2.correo, this.CorreoEmpleado2.idCorreoEmpleado !== 0 ? Validators.required : Validators.nullValidator]
+        [this.CorreoEmpleado1.correo, this.CorreoEmpleado1.idCorreoEmpleado !== 0 ? [Validators.required, Validators.email] : Validators.nullValidator],
+      'correo2': [this.CorreoEmpleado2.correo, this.CorreoEmpleado2.idCorreoEmpleado !== 0 ? [Validators.required,Validators.email] : Validators.nullValidator]
     }
   )
 
@@ -369,9 +380,14 @@ export class ContactoEmpleadoComponent {
         })
       }
     }
+    
+    Swal.fire(
+      'Exito!',
+      'El contacto a sido actualizado con exito',
+      'success'
+    )
+    this.resetData()
   }
-
-
 
   cancelFormUpdate() {
     Swal.fire({
@@ -462,7 +478,7 @@ export class ContactoEmpleadoComponent {
   formCreateCorreo: FormGroup = this.formBuilder.group(
     {
       'empleado': [this.EmpleadoCorreo, Validators.required],
-      'correo': [this.CorreoEmpleado1.correo, Validators.required],
+      'correo': [this.CorreoEmpleado1.correo, [Validators.required,Validators.email]],
     }
   )
 
@@ -541,7 +557,7 @@ export class ContactoEmpleadoComponent {
           'success'
         )
         this.formCreateTelefono.reset()
-        this.init()
+        //this.init()
       } else {
         Swal.fire({
           icon: 'error',
@@ -592,7 +608,7 @@ export class ContactoEmpleadoComponent {
           'success'
         )
         this.formCreateCorreo.reset()
-        this.init()
+        //this.init()
       } else {
         Swal.fire({
           icon: 'error',
@@ -609,8 +625,6 @@ export class ContactoEmpleadoComponent {
     this.loadDataCreate()
   }
 
-
-
   private matDialogRef!: MatDialogRef<DialogComponent>;
 
   openDialogWithTemplate(template: TemplateRef<any>) {
@@ -626,5 +640,105 @@ export class ContactoEmpleadoComponent {
   cancelDialogResult() {
     this.matDialogRef.close()
   }
+
+  // loadDataConfirmationUpdate(data: FormGroup) {
+
+  //   console.log(data);
+  //   this.swalWithBootstrapButtons.fire({
+  //     title: 'Confirmar',
+  //     text: '¿Estás seguro que deseas actualizar la informacion?',
+  //     icon: 'question',
+  //     showCancelButton: true,
+  //     confirmButtonText: 'actualizar',
+  //     cancelButtonText: 'Cancelar',
+  //     reverseButtons: true
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+
+  //       this.dataUpdateDB(data.value)
+  //     } else if (result.dismiss === Swal.DismissReason.cancel) {
+  //       this.swalWithBootstrapButtons.fire(
+  //         'Cancelado',
+  //         'Los datos siguen a salvo :)',
+  //         'error'
+  //       )
+  //     }
+  //   });
+  // }
+
+  // swalWithBootstrapButtons = Swal.mixin({
+  //   customClass: {
+  //     confirmButton: 'btn btn-success',
+  //     cancelButton: 'btn btn-danger'
+  //   },
+  //   buttonsStyling: false
+  // })
+
+  
+
+  // dataUpdateDB(data: DataV) {
+
+  //   let empleado = this.empleadoList.filter(e => e.numEmpleado == this.dataUpdate.numEmpleado)
+  //   let telefono = this.telefonoEmpleadoList.filter(e => e.numEmpleado == empleado[0].numEmpleado)
+  //   let correo = this.correoEmpleadoList.filter(e => e.numEmpleado == empleado[0].numEmpleado)
+    
+  //   if (data.nombre !== data.nombre.replace(' ' + data.apellido, '')
+  //     || data.apellido !== data.apellido) {
+
+  //       empleado[0].nombres = data.nombre;
+  //       empleado[0].apellidos = data.apellido
+
+  //     this.dataService.updateData('empleado', empleado[0], empleado[0].numEmpleado)
+  //   }
+
+  //   if (data.telefono1 !== telefono[0].telefono) {
+  //     let c = {
+  //       idTelefonoEmpleado: telefono[0].idTelefonoEmpleado,
+  //       numEmpleado: empleado[0].numEmpleado,
+  //       telefono: data.telefono1
+  //     }
+
+  //     this.dataService.updateData('telefonoempleado', c, c.idTelefonoEmpleado)
+  //   }
+
+  //   if (data.telefono2 && data.telefono2 !== telefono[1].telefono) {
+  //     let c = {
+  //       idTelefonoEmpleado: telefono[1].idTelefonoEmpleado,
+  //       numEmpleado: empleado[0].numEmpleado,
+  //       telefono: data.telefono2
+  //     }
+
+  //     this.dataService.updateData('telefonoempleado', c, c.idTelefonoEmpleado)
+  //   }
+
+  //   if (data.correo1 && data.correo1 !== correo[0].correo) {
+  //     let c = {
+  //       idCorreoEmpleado: correo[0].idCorreoEmpleado,
+  //       numEmpleado: empleado[0].numEmpleado,
+  //       correo: data.correo1
+  //     }
+
+  //     this.dataService.updateData('correoempleado', c, c.idCorreoEmpleado)
+  //   }
+
+  //   if (data.correo2 && data.correo2 !== correo[1].correo) {
+  //     let c = {
+  //       idCorreoEmpleado: correo[1].idCorreoEmpleado,
+  //       numEmpleado: empleado[0].numEmpleado,
+  //       correo: data.correo2
+  //     }
+
+  //     this.dataService.updateData('correoempleado', c, c.idCorreoEmpleado)
+  //   }
+
+
+  //   this.initial()
+
+  //   this.dataUpdate = undefined
+  //   // this.initial()
+
+  // }
+
+  
 
 }

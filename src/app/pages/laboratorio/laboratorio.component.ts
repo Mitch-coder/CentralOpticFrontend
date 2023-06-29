@@ -55,7 +55,7 @@ export class LaboratorioComponent {
     alert: 'El correo del Laboratorio es obligatorio',
     icon: 'fa-regular fa-envelope',
     formControlName: 'correo',
-    formValidators: { 'correo': ['', [Validators.required, Validators.email]] }
+    formValidators: { 'correo': ['', [Validators.nullValidator, Validators.email]] }
   },
   {
     label: 'Telefono',
@@ -64,7 +64,7 @@ export class LaboratorioComponent {
     alert: 'El telefono del Laboratorio es obligatorio',
     icon: 'fa-solid fa-mobile-screen',
     formControlName: 'telefono',
-    formValidators: { 'telefono': ['', [Validators.required]] }
+    formValidators: { 'telefono': ['', [Validators.nullValidator]] }
   }]
 
   formUpdate: FormData[] = []
@@ -84,7 +84,7 @@ export class LaboratorioComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'IdLaboratorio', def: 'idLaboratorio', dataKey: 'idLaboratorio' },
+      { label: 'Identificador', def: 'idLaboratorio', dataKey: 'idLaboratorio' },
       { label: 'Nombre', def: 'nombre', dataKey: 'nombre' },
       { label: 'Correo', def: 'correo', dataKey: 'correo' },
       { label: 'Telefono', def: 'telefono', dataKey: 'telefono' },
@@ -128,7 +128,7 @@ export class LaboratorioComponent {
         alert: 'El correo del Laboratorio es obligatorio',
         icon: 'fa-regular fa-envelope',
         formControlName: 'correo',
-        formValidators: { 'correo': [data.correo, [Validators.required, Validators.email]] },
+        formValidators: { 'correo': [data.correo, [Validators.nullValidator, Validators.email]] },
         value: data.correo
       },
       {
@@ -138,7 +138,7 @@ export class LaboratorioComponent {
         alert: 'El telefono del Laboratorio es obligatorio',
         icon: 'fa-solid fa-mobile-screen',
         formControlName: 'telefono',
-        formValidators: { 'telefono': [data.telefono, [Validators.required]] },
+        formValidators: { 'telefono': [data.telefono, [Validators.nullValidator]] },
         value: data.telefono
       }]
     }

@@ -466,11 +466,11 @@ export class ProductoComponent {
       if (success) {
         const numeros = this.productoList.map(objeto => objeto.codProducto);
         P = Math.max(...numeros) + 1
-        
+
         let fecha1 = new Date();
         fecha1.setHours(0, 0, 0, 0)
         let fechaObtencion = this.fechaObtencionList.find(e => new Date(e.fechaObtencion).toString() == fecha1.toString())
-        
+
         let F = -1
         if (!fechaObtencion) {
           let fecha = {
@@ -482,6 +482,63 @@ export class ProductoComponent {
             if (success) {
               const numeros = this.fechaObtencionList.map(objeto => objeto.idFechaObtencion);
               F = Math.max(...numeros) + 1
+              
+              console.log(F);
+              console.log(fechaObtencion);
+
+              let proveedorProducto = {
+                idProveedor: this.Proveedor.idProveedor,
+                codProducto: P,
+                idFechaObtencion: F == -1 ? fechaObtencion?.idFechaObtencion : F,
+                cantidad: this.ProveedorProducto.cantidad,
+                costo: this.ProveedorProducto.costo
+              }
+  
+              console.log(proveedorProducto)
+      
+              this.dataService.postData('proveedorproducto', proveedorProducto).then((success) => {
+                if (success) {
+                  // const numeros = this.fechaObtencionList.map(objeto => objeto.idFechaObtencion);
+                  // Math.max(...numeros) + 1
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Ups...',
+                    text: 'Algo salió mal!',
+                    // footer: '<a href="">¿Por qué tengo este problema??</a>'
+                  })
+                  return
+                }
+              })
+      
+              let registroBodega = {
+                idBodega: this.Bodega.idBodega,
+                codProducto: P,
+                cantidad: this.ProveedorProducto.cantidad
+              }
+      
+              console.log(registroBodega)
+      
+              this.dataService.postData('registrobodega', registroBodega).then((success) => {
+                if (success) {
+                  Swal.fire(
+                    'Exito!',
+                    'La informacion a sido actualizado con exito',
+                    'success'
+                  )
+                  this.resetData();
+                  HeaderData.eventBtnClick = true
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Ups...',
+                    text: 'Algo salió mal!',
+                    // footer: '<a href="">¿Por qué tengo este problema??</a>'
+                  })
+                  return
+                }
+              })
+              
             } else {
               Swal.fire({
                 icon: 'error',
@@ -492,60 +549,63 @@ export class ProductoComponent {
               return
             }
           })
-        }
+        } else {
 
-        let proveedorProducto = {
-          idProveedor: this.Proveedor.idProveedor,
-          codProducto: P,
-          idFechaObtencion: F == -1 ? fechaObtencion?.idFechaObtencion : F,
-          cantidad: this.ProveedorProducto.cantidad,
-          costo: this.ProveedorProducto.costo
-        }
-
-        console.log(proveedorProducto)
-
-        this.dataService.postData('proveedorproducto', proveedorProducto).then((success) => {
-          if (success) {
-            // const numeros = this.fechaObtencionList.map(objeto => objeto.idFechaObtencion);
-            // Math.max(...numeros) + 1
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Ups...',
-              text: 'Algo salió mal!',
-              // footer: '<a href="">¿Por qué tengo este problema??</a>'
-            })
-            return
+          let proveedorProducto = {
+            idProveedor: this.Proveedor.idProveedor,
+            codProducto: P,
+            idFechaObtencion: F == -1 ? fechaObtencion?.idFechaObtencion : F,
+            cantidad: this.ProveedorProducto.cantidad,
+            costo: this.ProveedorProducto.costo
           }
-        })
+  
+          console.log(proveedorProducto)
+  
+          this.dataService.postData('proveedorproducto', proveedorProducto).then((success) => {
+            if (success) {
+              // const numeros = this.fechaObtencionList.map(objeto => objeto.idFechaObtencion);
+              // Math.max(...numeros) + 1
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Ups...',
+                text: 'Algo salió mal!',
+                // footer: '<a href="">¿Por qué tengo este problema??</a>'
+              })
+              return
+            }
+          })
+  
+          let registroBodega = {
+            idBodega: this.Bodega.idBodega,
+            codProducto: P,
+            cantidad: this.ProveedorProducto.cantidad
+          }
+  
+          console.log(registroBodega)
+  
+          this.dataService.postData('registrobodega', registroBodega).then((success) => {
+            if (success) {
+              Swal.fire(
+                'Exito!',
+                'La informacion a sido actualizado con exito',
+                'success'
+              )
+              this.resetData();
+              HeaderData.eventBtnClick = true
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Ups...',
+                text: 'Algo salió mal!',
+                // footer: '<a href="">¿Por qué tengo este problema??</a>'
+              })
+              return
+            }
+          })
 
-        let registroBodega = {
-          idBodega: this.Bodega.idBodega,
-          codProducto: P,
-          cantidad: this.ProveedorProducto.cantidad
         }
 
-        console.log(registroBodega)
-
-        this.dataService.postData('registrobodega', registroBodega).then((success) => {
-          if (success) {
-            Swal.fire(
-              'Exito!',
-              'La informacion a sido actualizado con exito',
-              'success'
-            )
-            this.resetData();
-            HeaderData.eventBtnClick = true
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Ups...',
-              text: 'Algo salió mal!',
-              // footer: '<a href="">¿Por qué tengo este problema??</a>'
-            })
-            return
-          }
-        })
       } else {
         Swal.fire({
           icon: 'error',
@@ -788,6 +848,6 @@ export class ProductoComponent {
     }
   }
 
-  
+
 
 }

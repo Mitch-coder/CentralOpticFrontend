@@ -3,7 +3,7 @@
     <div class="example-content">
       <section *ngIf="getEventBtnClickHeader()">
         <section *ngIf="!dataUpdate">
-          <h1>Lista de Proveedor-Productos actuales</h1>
+          <h1>Lista de Productos Proveido</h1>
           <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="resultUpdateData($event)"></app-table>
         </section>
         <section *ngIf="dataUpdate">
@@ -41,7 +41,7 @@
     <div class="card-body">
       <div class="container-header">
         <h1 class="title">
-          Agregar informacion del nuevo producto
+          Agregar informacion del producto proveido
         </h1>
       </div>
       <form [formGroup]="formCreateData">
@@ -131,14 +131,14 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Costo del producto *
+            Costo por todo el producto *
           </label>
           <input type="number" formControlName="costo" class="form-control form-input"
             placeholder="Ingrese el costo del producto" [(ngModel)]="ProveedorProducto.costo">
           <i class="fa-solid fa-circle-dollar-to-slot form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('costo').valid || (formGetDataCreate('costo').pristine)">
-            Ingrese el costo del producto
+            Ingrese el costo por todo el producto
           </div>
         </div>
 
@@ -237,14 +237,14 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Costo del producto *
+            Costo por todo el producto *
           </label>
           <input type="number" formControlName="costo" class="form-control form-input"
             placeholder="Ingrese el costo del producto" [(ngModel)]="ProveedorProducto.costo">
           <i class="fa-solid fa-circle-dollar-to-slot form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('costo').valid || (formGetDataCreate('costo').pristine)">
-            Ingrese el costo del producto
+            Ingrese el costo por todo el producto
           </div>
         </div>
 

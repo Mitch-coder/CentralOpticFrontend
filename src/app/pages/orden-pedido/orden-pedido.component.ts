@@ -8,7 +8,7 @@ import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { ExamenVistaComponent } from '../examen-vista/examen-vista.component';
 import { DialogComponent } from 'src/app/modules/dialog/components/dialog/dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
-import { HeaderData } from 'src/app/header/header-data';
+import { EventBtnClick, HeaderData } from 'src/app/header/header-data';
 import Swal from 'sweetalert2';
 
 //Interfaz Principal
@@ -452,6 +452,7 @@ export class OrdenPedidoComponent {
 
   saveDataUpdate() {
     if (this.OrdenPedido.idEstadoPedido !== this.EstadoPedido.idEstadoPedido) {
+
       let ordenPedido = {
         numOrden: this.OrdenPedido.numOrden,
         numExamen: this.OrdenPedido.numExamen,
@@ -459,7 +460,7 @@ export class OrdenPedidoComponent {
         idLaboratorio: this.OrdenPedido.idLaboratorio,
         codProducto: this.OrdenPedido.codProducto,
         idEstadoPedido: this.EstadoPedido.idEstadoPedido,
-        idFechaPedido: this.OrdenPedido.idEstadoPedido,
+        idFechaPedido: this.OrdenPedido.idFechaPedido,
         costo: this.OrdenPedido.costo,
         descripcion: this.OrdenPedido.descripcion,
       }
@@ -634,8 +635,8 @@ export class OrdenPedidoComponent {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        // this.saveDataCreate()
-        // this.formUpdateData.reset()
+        this.saveDataCreate()
+        //this.formUpdateData.reset()
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelado',
@@ -647,52 +648,106 @@ export class OrdenPedidoComponent {
   }
 
   saveDataCreate() {
+    
     let fecha1 = new Date();
     fecha1.setHours(0, 0, 0, 0)
+    console.log(fecha1)
 
     let fecha = this.fechaPedidoList.find(e => new Date(e.fechaPedido).toString() == fecha1.toString())
 
     let idFecha = -1;
-    if (!fecha) {
-      const numeros = this.fechaExamenList.map(objeto => objeto.idFechaExamen);
-      let dataV = Math.max(...numeros) + 1
 
-      idFecha = dataV
+    if (!fecha) {
 
       let fech = {
         fechaPedido: fecha1
       }
-      this.dataService.postData('fechapedido', fech)
-    }
 
-    let ordenPedido = {
-      numExamen: this.ExamenVista.numExamen,
-      numEmpleado: this.Empleado.numEmpleado,
-      idLaboratorio: this.Laboratorio.idLaboratorio,
-      codProducto: this.Producto.codProducto,
-      idEstadoPedido: this.EstadoPedido.idEstadoPedido,
-      idFechaPedido: idFecha !== -1 ? this.FechaExamen.idFechaExamen : idFecha,
-      costo: this.OrdenPedido.costo,
-      descripcion: this.OrdenPedido.descripcion
-    }
+      this.dataService.postData('fechapedido', fech).then((success) => {
+        console.log(success);
+        if (success) {
+          
+          const numeros = this.fechaPedidoList.map(objeto => objeto.idFechaPedido);
+          idFecha = Math.max(...numeros) + 1 // se le suma 1 y se guarda
 
-    this.dataService.postData('ordenpedido', ordenPedido).then((success) => {
-      if (success) {
-        Swal.fire(
-          'Exito!',
-          'La informacion a sido actualizado con exito',
-          'success'
-        )
-        this.resetData()
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Ups...',
-          text: 'Algo salió mal!',
-          footer: '<a href="">¿Por qué tengo este problema??</a>'
-        })
+          let ordenPedido = {
+            numExamen: this.ExamenVista.numExamen,
+            numEmpleado: this.Empleado.numEmpleado,
+            idLaboratorio: this.Laboratorio.idLaboratorio,
+            codProducto: this.Producto.codProducto,
+            idEstadoPedido: this.EstadoPedido.idEstadoPedido,
+            idFechaPedido: idFecha !== -1 ? idFecha : this.FechaExamen.idFechaExamen,
+            costo: this.OrdenPedido.costo,
+            descripcion: this.OrdenPedido.descripcion
+          }
+
+          this.dataService.postData('ordenpedido', ordenPedido).then((success) => {
+            if (success) {
+              Swal.fire(
+                'Exito!',
+                'La informacion a sido actualizado con exito',
+                'success'
+              )
+              this.resetData()
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Ups...',
+                text: 'Algo salió mal!',
+                footer: '<a href="">¿Por qué tengo este problema??</a>'
+              })
+            }
+          })
+        }
+        else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Error al insertar datos de fecha',
+            footer: '<a href="">¿Por qué tengo este problema??</a>'
+          })
+        }
       }
-    })
+      )
+    } else {
+
+      console.log(this.fechaPedidoList);
+      console.log(fecha);
+
+      idFecha = fecha.idFechaPedido
+      console.log(idFecha);
+
+      let ordenPedido = {
+        numExamen: this.ExamenVista.numExamen,
+        numEmpleado: this.Empleado.numEmpleado,
+        idLaboratorio: this.Laboratorio.idLaboratorio,
+        codProducto: this.Producto.codProducto,
+        idEstadoPedido: this.EstadoPedido.idEstadoPedido,
+        idFechaPedido: idFecha === -1 ? this.FechaExamen.idFechaExamen : idFecha,
+        costo: this.OrdenPedido.costo,
+        descripcion: this.OrdenPedido.descripcion
+      }
+
+      console.log(ordenPedido)
+
+      this.dataService.postData('ordenpedido', ordenPedido).then((success) => {
+        if (success) {
+          Swal.fire(
+            'Exito!',
+            'La informacion a sido actualizado con exito',
+            'success'
+          )
+          this.resetData()
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Algo salió mal!',
+            footer: '<a href="">¿Por qué tengo este problema??</a>'
+          })
+        }
+      })
+    }
   }
 
 
@@ -780,7 +835,7 @@ export class OrdenPedidoComponent {
         reverseButtons: true
       }).then((result) => {
         if (result.isConfirmed) {
-          // this.saveDataCreate()
+          this.saveDataUpdateDialog()
           // this.formUpdateData.reset()
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire(
@@ -793,7 +848,7 @@ export class OrdenPedidoComponent {
     }
   }
 
-  saveDataUpdateDialog() { 
+  saveDataUpdateDialog() {
 
     this.OrdenPedido.idEstadoPedido = this.EstadoPedido.idEstadoPedido
 

@@ -15,17 +15,12 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-
-
-
-
-
 <ng-template #formCreate>
   <div class="card">
     <div class="card-body">
       <div class="container-header">
         <h1 class="title">
-          Agregar informacion de la entrega
+          Agregar informacion del Pedido
         </h1>
       </div>
       <form [formGroup]="formDataCreate">
@@ -145,7 +140,7 @@
             Ingrese la descripción del pedido *
           </label>
           <input type="text" formControlName="descripcion" class="form-control form-input"
-            placeholder="Ingrese la descripcion del pedido" [(ngModel)]="OrdenPedido.costo">
+            placeholder="Ingrese la descripcion del pedido" [(ngModel)]="OrdenPedido.descripcion">
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('descripcion').valid || (formGetDataCreate('descripcion').pristine)">
@@ -190,7 +185,7 @@
       <div class="card-body">
         <div class="container-header">
           <h1 class="title">
-            Agregar informacion de la entrega
+            Actualizar informacion del pedido
           </h1>
         </div>
         <form [formGroup]="formDataUpdateDialog">
@@ -208,7 +203,7 @@
           </div>
           <!-- </mat-form-field> -->
           <button class="btn btn-primary" #btnEnviar [disabled]="formDataUpdateDialog.invalid"
-            (click)="loadConfirmationDataCreate()">
+            (click)="loadConfirmationDataUpdate()">
             Guardar
           </button>
         </form>

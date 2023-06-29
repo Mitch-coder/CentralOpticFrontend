@@ -259,8 +259,8 @@ export class EntregaComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Numero pedido', def: 'numPedido', dataKey: 'numPedido' },
       { label: 'Codigo de entrega', def: 'codEntrega', dataKey: 'codEntrega' },
+      { label: 'Numero pedido', def: 'numPedido', dataKey: 'numPedido' },
       { label: 'Laboratorio', def: 'laboratorio', dataKey: 'laboratorio' },
       { label: 'Fecha de entrega', def: 'fechaEntrega', dataKey: 'fechaEntrega' },
       { label: 'EstadoEntrega', def: 'estadoEntrega', dataKey: 'estadoEntrega' },
