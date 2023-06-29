@@ -83,13 +83,17 @@
                     </button>
                 </div>
 
+                <!-- <ng-container *ngTemplateOutlet="pp2">
+
+                </ng-container> -->
+
                 <div class="mb-2" *ngIf="detalleFacturaItems.length>0">
-                    <app-table-input [data]="detalleFacturaItems">
+                    <!-- <app-table-input [data]="detalleFacturaItems">
 
-                    </app-table-input>
-                    <!-- <ng-container *ngTemplateOutlet="table">
+                    </app-table-input> -->
+                    <ng-container *ngTemplateOutlet="table">
 
-                    </ng-container> -->
+                    </ng-container>
                 </div>
 
                 <div class="mb-2" #input>
@@ -160,21 +164,21 @@
 <!-- la tabla que mostrara los datos -->
 <ng-template #table>
     <div class="table-container">
-        <table mat-table [dataSource]="detalleFacturaItems" matSort>
+        <table mat-table [dataSource]="detalleFacturaItemsList" matSort>
             <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                <td mat-cell *matCellDef="let row"> {{row.id}} </td>
             </ng-container>
-            <td mat-cell *matCellDef="let row"> {{row.id}} </td>
 
             <ng-container matColumnDef="tipoItems">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+                <td mat-cell *matCellDef="let row"> {{row.tipoItems}}</td>
             </ng-container>
-            <td mat-cell *matCellDef="let row"> {{row.tipoItems}}</td>
 
             <ng-container matColumnDef="codProducto">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
+                <td mat-cell *matCellDef="let row"> {{row.codProducto}}</td>
             </ng-container>
-            <td mat-cell *matCellDef="let row"> {{row.codProducto}}</td>
 
             <ng-container matColumnDef="descripcion">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
@@ -274,8 +278,48 @@
     </div>
 </ng-template>
 
+<!-- 
 
-<ng-template>
+    'id',
+    'tipoItems',
+    'codProducto',
+    'descripcion',
+    'cantidad',
+    'precioUni',
+    'action'
+
+ -->
+
+
+<ng-template #pp2>
+    <div class="container-products mb-2">
+        <div class="content-products">
+            <h2 class="items items-id">
+                ID
+            </h2>
+            <h2 class="items items-type">
+                Tipo
+            </h2>
+            <h2 class="items items-descripcion">
+                Descripcion
+            </h2>
+            <h2 class="items items-cantidad">
+                Cantidad
+            </h2>
+            <h2 class="items items-precio"> 
+                Precio
+            </h2>
+            <h2 class="items items-precio">
+                Accion
+            </h2>
+        </div>
+
+        <ng-container *ngFor="let element of detalleFacturaItems">
+            <div>
+
+            </div>
+        </ng-container>
+    </div>
 </ng-template>
 
 

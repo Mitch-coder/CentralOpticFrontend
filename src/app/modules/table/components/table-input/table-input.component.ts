@@ -11,7 +11,7 @@ import { TableColumn } from '../../models/table-column';
 export class TableInputComponent {
   tableDisplayColumns: String[] = [];
   tableColumns: TableColumn[] = [];
-  dataSource = new ExampleDataSource([]);
+  dataSource = new ExampleDataSource([...[]]);
 
   displayedColumns: string[] = [
     'id',
@@ -24,9 +24,11 @@ export class TableInputComponent {
   ];
 
   @Input() set data(data: any[]) {
-    console.log(data)
+    // console.log(data)
     if(data.length>0){
-      this.dataSource.setData(data)
+      let display = [...data]
+      this.dataSource.setData(display)
+      console.log(this.dataSource)
     }
   }
 
