@@ -1,7 +1,7 @@
 import { Component, TemplateRef } from '@angular/core';
 import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
-import { catchError, elementAt, map, mergeMap, tap } from 'rxjs';
+import { Observable, ReplaySubject, catchError, elementAt, map, mergeMap, tap } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HeaderData } from 'src/app/header/header-data';
@@ -10,6 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/modules/dialog/components/dialog/dialog.component';
 import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
+import { DataSource } from '@angular/cdk/collections';
 
 interface Factura {
   numFactura: number;
@@ -397,6 +398,8 @@ export class FacturaComponent {
 
   detalleFacturaItems:any[] =  []
 
+  detalleFacturaItemsList = new ExampleDataSource([...this.detalleFacturaItems]);
+
   displayedColumns: string[] = [
     'id',
     'tipoItems',
@@ -451,6 +454,7 @@ export class FacturaComponent {
           })
 
           this.detalleFacturaItems = this.detalleFacturaItems.filter(e=>e.numOrden !== ordenPedido?.numOrden)
+          this.detalleFacturaItemsList.setData([...this.detalleFacturaItems])
         }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -533,6 +537,8 @@ export class FacturaComponent {
             numOrden: -1
           }
         )
+
+        this.detalleFacturaItemsList.setData([...this.detalleFacturaItems])
         console.log(this.detalleFacturaItems)
 
         this.productoAuxiliarList = this.productoAuxiliarList.filter(e => e.codProducto !== producto?.codProducto)
@@ -589,6 +595,8 @@ export class FacturaComponent {
 
           }
         )
+
+        this.detalleFacturaItemsList.setData([...this.detalleFacturaItems])
 
         console.log(this.detalleFacturaItems)
         this.ordenPedidoAuxiliarList = this.ordenPedidoAuxiliarList.filter(e=>e.numOrden !== ordenPedido?.numOrden)
@@ -1001,5 +1009,27 @@ export class FacturaComponent {
 
   setBtnClick(name:string):void{
     this.btnClick= name;
+  }
+}
+
+
+
+
+class ExampleDataSource extends DataSource<any> {
+  private _dataStream = new ReplaySubject<any[]>();
+
+  constructor(initialData: any[]) {
+    super();
+    this.setData(initialData);
+  }
+
+  connect(): Observable<any[]> {
+    return this._dataStream;
+  }
+
+  disconnect() {}
+
+  setData(data: any[]) {
+    this._dataStream.next(data);
   }
 }

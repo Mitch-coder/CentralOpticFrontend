@@ -28,6 +28,7 @@ export class TableInputComponent {
     if(data.length>0){
       let display = [...data]
       this.dataSource.setData(display)
+      console.log(this.dataSource)
     }
   }
 
