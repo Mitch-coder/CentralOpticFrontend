@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { forkJoin, map, tap } from 'rxjs';
-import { HeaderData } from 'src/app/header/header-data';
+import { EventBtnClick, HeaderData } from 'src/app/header/header-data';
 import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
 import { FormData, FormDataVal } from 'src/app/modules/form/components/form/form-data';
@@ -230,9 +230,9 @@ export class ContactoClienteComponent implements OnInit {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Cedula', def: 'Cedula', dataKey: 'cedula' },
-      { label: 'Nombre', def: 'Nombre', dataKey: 'nombre' },
-      { label: 'Telefono', def: 'telefono', dataKey: 'telefono' },
+      { label: 'Cédula', def: 'Cedula', dataKey: 'cedula' },
+      { label: 'Nombres', def: 'Nombre', dataKey: 'nombre' },
+      { label: 'Teléfono', def: 'telefono', dataKey: 'telefono' },
       { label: 'Correo', def: 'correo', dataKey: 'correo' },
     ]
   }
@@ -313,24 +313,26 @@ export class ContactoClienteComponent implements OnInit {
     this.dataUpdate = data
     if (this.dataUpdate) {
       this.formClientUpdate = [{
-        label: 'Nombre',
+        label: 'Nombres',
         type: 'text',
         placeholder: 'Nuevo nombre del cliente',
-        alert: 'El Nombre no puede estar vacio',
+        alert: 'El Nombre no puede estar vacío',
         icon: '',
         formControlName: 'nombre',
         formValidators: { 'nombre': [data.nombre.replace(' ' + data.apellido, ''), [Validators.required]] },
-        value: data.nombre.replace(' ' + data.apellido, '')
+        value: data.nombre.replace(' ' + data.apellido, ''),
+        readonly: true
       },
       {
-        label: 'Apellido',
+        label: 'Apellidos',
         type: 'text',
         placeholder: 'Nuevo apellido del cliente',
-        alert: 'El apellido no puede estar vacio',
+        alert: 'El Apellido no puede estar vacio',
         icon: '',
         formControlName: 'apellido',
         formValidators: { 'apellido': [data.apellido, [Validators.required]] },
-        value: data.apellido
+        value: data.apellido,
+        readonly: true
       }]
 
       if (data.telefono.length !== 0) {
@@ -339,7 +341,7 @@ export class ContactoClienteComponent implements OnInit {
             label: 'Telefonos',
             type: 'text',
             placeholder: 'Telefono 1',
-            alert: 'El telefono no puede estar vacio',
+            alert: 'El teléfono no puede estar vacío',
             icon: 'fa-solid fa-mobile-screen',
             formControlName: 'telefono1',
             formValidators: { 'telefono1': [data.telefono[0], [Validators.required, Validators.minLength(8), Validators.maxLength(8)]] },
@@ -352,8 +354,8 @@ export class ContactoClienteComponent implements OnInit {
             {
               label: '',
               type: 'text',
-              placeholder: 'Telefono 2',
-              alert: 'El telefono no puede estar vacio',
+              placeholder: 'Teléfono 2',
+              alert: 'El teléfono no puede estar vacío',
               icon: 'fa-solid fa-mobile-screen',
               formControlName: 'telefono2',
               formValidators: { 'telefono2': [data.telefono[1], [Validators.required, Validators.minLength(8), Validators.maxLength(8)]] },
@@ -361,9 +363,7 @@ export class ContactoClienteComponent implements OnInit {
             }
           )
         }
-
       }
-
 
       if (data.correo.length !== 0) {
         this.formClientUpdate.push(
@@ -371,7 +371,7 @@ export class ContactoClienteComponent implements OnInit {
             label: 'Correos',
             type: 'email',
             placeholder: 'correo 1',
-            alert: 'El correo no puede estar vacio',
+            alert: 'El correo no puede estar vacío',
             icon: 'fa-regular fa-envelope',
             formControlName: 'correo1',
             formValidators: { 'correo1': [data.correo[0], [Validators.required, Validators.email]] },
@@ -385,7 +385,7 @@ export class ContactoClienteComponent implements OnInit {
               label: '',
               type: 'email',
               placeholder: 'correo 2',
-              alert: 'El correo no puede estar vacio',
+              alert: 'El correo no puede estar vacío',
               icon: 'fa-regular fa-envelope',
               formControlName: 'correo2',
               formValidators: { 'correo2': [data.correo[1], [Validators.required, Validators.email]] },
@@ -449,10 +449,10 @@ export class ContactoClienteComponent implements OnInit {
     console.log(data);
     this.swalWithBootstrapButtons.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que deseas actualizar la informacion?',
+      text: '¿Estás seguro que deseas actualizar la información?',
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: 'actualizar',
+      confirmButtonText: 'Actualizar',
       cancelButtonText: 'Cancelar',
       reverseButtons: true
     }).then((result) => {
@@ -474,59 +474,123 @@ export class ContactoClienteComponent implements OnInit {
     let cliente = this.cliente.filter(e => e.cedula == this.dataUpdate.cedula)
     let telefono = this.telefonoCliente.filter(e => e.codCliente == cliente[0].codCliente)
     let correo = this.correoCliente.filter(e => e.codCliente == cliente[0].codCliente)
-    
-    if (data.nombre !== data.nombre.replace(' ' + data.apellido, '')
-      || data.apellido !== data.apellido) {
 
-      cliente[0].nombres = data.nombre;
-      cliente[0].apellidos = data.apellido
+    // if (data.nombre !== data.nombre.replace(' ' + data.apellido, '')
+    //   || data.apellido !== data.apellido) {
 
-      this.dataService.updateData('cliente', cliente[0], cliente[0].codCliente)
-    }
+    //   cliente[0].nombres = data.nombre;
+    //   cliente[0].apellidos = data.apellido
 
-    if (data.telefono1 !== telefono[0].telefono) {
-      let c = {
-        idTelefonoCliente: telefono[0].idTelefonoCliente,
-        codCliente: cliente[0].codCliente,
-        telefono: data.telefono1
+    //   this.dataService.updateData('cliente', cliente[0], cliente[0].codCliente)
+    // }
+
+    if (data.telefono1) {
+      if (data.telefono1 !== telefono[0].telefono) {
+        let c = {
+          idTelefonoCliente: telefono[0].idTelefonoCliente,
+          codCliente: cliente[0].codCliente,
+          telefono: data.telefono1
+        }
+
+        this.dataService.updateData('telefonocliente', c, c.idTelefonoCliente).then((success) => {
+          if (success) {
+            Swal.fire(
+              'Exito!',
+              'El contacto ha sido actualizado con éxito',
+              'success'
+            )
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ups...',
+              text: 'Algo salió mal!',
+              footer: '<a href="">¿Por qué tengo este problema??</a>'
+            })
+          }
+        })
       }
-
-      this.dataService.updateData('telefonocliente', c, c.idTelefonoCliente)
     }
 
-    if (data.telefono2 && data.telefono2 !== telefono[1].telefono) {
-      let c = {
-        idTelefonoCliente: telefono[1].idTelefonoCliente,
-        codCliente: cliente[0].codCliente,
-        telefono: data.telefono2
+    if (data.telefono2) {
+      if (data.telefono2 && data.telefono2 !== telefono[1].telefono) {
+        let c = {
+          idTelefonoCliente: telefono[1].idTelefonoCliente,
+          codCliente: cliente[0].codCliente,
+          telefono: data.telefono2
+        }
+
+        this.dataService.updateData('telefonocliente', c, c.idTelefonoCliente).then((success) => {
+          if (success) {
+            Swal.fire(
+              'Exito!',
+              'El contacto ha sido actualizado con éxito',
+              'success'
+            )
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ups...',
+              text: 'Algo salió mal!',
+              footer: '<a href="">¿Por qué tengo este problema??</a>'
+            })
+          }
+        })
       }
-
-      this.dataService.updateData('telefonocliente', c, c.idTelefonoCliente)
     }
+    if (data.correo1) {
+      if (data.correo1 && data.correo1 !== correo[0].correo) {
+        let c = {
+          idCorreoCliente: correo[0].idCorreoCliente,
+          codCliente: cliente[0].codCliente,
+          correo: data.correo1
+        }
 
-    if (data.correo1 && data.correo1 !== correo[0].correo) {
-      let c = {
-        idCorreoCliente: correo[0].idCorreoCliente,
-        codCliente: cliente[0].codCliente,
-        correo: data.correo1
+        this.dataService.updateData('correocliente', c, c.idCorreoCliente).then((success) => {
+          if (success) {
+            Swal.fire(
+              'Exito!',
+              'El contacto ha sido actualizado con éxito',
+              'success'
+            )
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ups...',
+              text: 'Algo salió mal!',
+              footer: '<a href="">¿Por qué tengo este problema??</a>'
+            })
+          }
+        })
       }
-
-      this.dataService.updateData('correocliente', c, c.idCorreoCliente)
     }
+    if (data.correo2) {
+      if (data.correo2 && data.correo2 !== correo[1].correo) {
+        let c = {
+          idCorreoCliente: correo[1].idCorreoCliente,
+          codCliente: cliente[0].codCliente,
+          correo: data.correo2
+        }
 
-    if (data.correo2 && data.correo2 !== correo[1].correo) {
-      let c = {
-        idCorreoCliente: correo[1].idCorreoCliente,
-        codCliente: cliente[0].codCliente,
-        correo: data.correo2
+        this.dataService.updateData('correocliente', c, c.idCorreoCliente).then((success) => {
+          if (success) {
+            Swal.fire(
+              'Exito!',
+              'El contacto ha sido actualizado con éxito',
+              'success'
+            )
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ups...',
+              text: 'Algo salió mal!',
+              footer: '<a href="">¿Por qué tengo este problema??</a>'
+            })
+          }
+        })
       }
-
-      this.dataService.updateData('correocliente', c, c.idCorreoCliente)
     }
-
 
     this.initial()
-
     this.dataUpdate = undefined
     // this.initial()
 
@@ -560,23 +624,23 @@ export class ContactoClienteComponent implements OnInit {
 
   tableColumnsCliente = [
     // {label:'Identificador', def:'IdCliente', dataKey:'codCliente'},
-    { label: 'Cedula', def: 'Cedula', dataKey: 'cedula' },
-    { label: 'Nombre', def: 'Nombre', dataKey: 'nombres' },
-    { label: 'Apellido', def: 'Apellido', dataKey: 'apellidos' }
+    { label: 'Cédula', def: 'Cedula', dataKey: 'cedula' },
+    { label: 'Nombres', def: 'Nombre', dataKey: 'nombres' },
+    { label: 'Apellidos', def: 'Apellido', dataKey: 'apellidos' }
     // {label:'Direccion', def:'Direccion', dataKey:'direccion'}
   ]
 
   formCreatePhone: FormGroup = this.formBuilder.group(
     {
       'cliente': [this.clientePhone, Validators.required],
-      'telefono': [this.phone, Validators.required]
+      'telefono': [this.phone, [Validators.required, Validators.maxLength(8), Validators.minLength(8)]]
     }
   )
 
   formCreateEmail: FormGroup = this.formBuilder.group(
     {
       'cliente': [this.clienteEmail, Validators.required],
-      'correo': [this.email, Validators.required]
+      'correo': [this.email, [Validators.required, Validators.email]]
     }
   );
 
@@ -649,7 +713,7 @@ export class ContactoClienteComponent implements OnInit {
     this.valTable = false
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que deseas guardar el telefono del cliente?',
+      text: '¿Estás seguro que deseas guardar el teléfono del cliente?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Confirmar',
@@ -675,7 +739,7 @@ export class ContactoClienteComponent implements OnInit {
     if (!this.clientePhone.codCliente) {
       tel = this.cliente.filter(e => e.cedula === this.clientePhone.cedula)
       // this.clientePhone = tel[0]
-    }else{
+    } else {
       tel.push(this.clientePhone)
     }
 
@@ -688,40 +752,41 @@ export class ContactoClienteComponent implements OnInit {
 
 
     this.dataService.postData('telefonocliente', telefono)
-    .then( success => {
+      .then(success => {
 
-      if(success){
+        if (success) {
 
-        this.swalWithBootstrapButtons.fire(
-          'Exito!',
-          'La informacion a sido guardada',
-          'success'
-        )
-  
-        this.clientePhone = {
-          codCliente: 0,
-          cedula: '',
-          nombres: '',
-          apellidos: '',
-          direccion: ''
+          this.swalWithBootstrapButtons.fire(
+            'Exito!',
+            'La información a sido guardada',
+            'success'
+          )
+
+          this.clientePhone = {
+            codCliente: 0,
+            cedula: '',
+            nombres: '',
+            apellidos: '',
+            direccion: ''
+          }
+
+          this.phone = ''
+          this.valTable = true
+
+
+          this.initial();
+          EventBtnClick.setMiVariable(true);
         }
-  
-        this.phone = ''
-        this.valTable = true
-        this.initial()
+        else {
 
-
-      }
-      else{
-
-        this.swalWithBootstrapButtons.fire({
-          icon: 'error',
-          title: 'Ups...',
-          text: 'Algo salió mal!',
-          footer: '<a href="">¿Por qué tengo este problema??</a>'
-        })
-      }
-    })
+          this.swalWithBootstrapButtons.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Algo salió mal!',
+            footer: '<a href="">¿Por qué tengo este problema??</a>'
+          })
+        }
+      })
   }
 
   loadDataConfirmationEmail(data: FormGroup) {
@@ -749,12 +814,12 @@ export class ContactoClienteComponent implements OnInit {
   }
 
   addDataEmail(data: any) {
-    let co:Cliente[] = []
+    let co: Cliente[] = []
     if (!this.clienteEmail.codCliente) {
       co = this.cliente.filter(e => e.cedula === this.clienteEmail.cedula)
       // this.clienteEmail = tel[0]
-    }else{
-      co.push( this.clienteEmail)
+    } else {
+      co.push(this.clienteEmail)
     }
 
     let contact = {
@@ -763,40 +828,40 @@ export class ContactoClienteComponent implements OnInit {
     }
 
     this.dataService.postData('correocliente', contact)
-    .then( success => {
+      .then(success => {
 
-      if(success){
+        if (success) {
 
-        this.swalWithBootstrapButtons.fire(
-          'Exito!',
-          'La informacion a sido guardada',
-          'success'
-        )
-        this.clienteEmail = {
-          codCliente: 0,
-          cedula: '',
-          nombres: '',
-          apellidos: '',
-          direccion: ''
+          this.swalWithBootstrapButtons.fire(
+            'Exito!',
+            'La información a sido guardada',
+            'success'
+          )
+          this.clienteEmail = {
+            codCliente: 0,
+            cedula: '',
+            nombres: '',
+            apellidos: '',
+            direccion: ''
+          }
+
+          this.email = ''
+          this.valTable = true
+          this.initial();
+          EventBtnClick.setMiVariable(true);
         }
-  
-        this.email = ''
-        this.valTable = true
-        this.initial()
+        else {
 
-      }
-      else{
+          this.swalWithBootstrapButtons.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Algo salió mal!',
+            footer: '<a href="">¿Por qué tengo este problema??</a>'
+          })
 
-        this.swalWithBootstrapButtons.fire({
-          icon: 'error',
-          title: 'Ups...',
-          text: 'Algo salió mal!',
-          footer: '<a href="">¿Por qué tengo este problema??</a>'
-        })
+        }
 
-      }
-      
-    })
+      })
   }
 
 }

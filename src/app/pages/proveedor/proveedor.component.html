@@ -7,14 +7,14 @@
           <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
         </section>
         <section *ngIf="dataUpdate">
-          <app-form [Title]="'Actualizar Proveedor - '+ dataUpdate.idProveedor" [BtnName]="'Actualizar'"
+          <app-form [Title]="'Actualizar proveedor - '+ dataUpdate.idProveedor" [BtnName]="'Actualizar'"
             [FormD]="formUpdate" (formData)="loadConfirmationDataUpdate($event)" [BtnCancel]="true"
             (btnCancel)="cancelFormUpdate()"></app-form>
 
         </section>
       </section>
       <section *ngIf="!getEventBtnClickHeader()">
-        <app-form [Title]="'Agregar nuevo Proveedor'" [FormD]="formCreate"
+        <app-form [Title]="'Agregar un nuevo proveedor'" [FormD]="formCreate"
           (formData)="loadConfirmationDataCreate($event)"></app-form>
       </section>
     </div>

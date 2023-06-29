@@ -15,12 +15,12 @@ export const navbarData:INavbarData[]=[
             {
                 routeLink: 'cliente/info',
                 icon: 'fa-regular fa-address-card', 
-                label: 'Informacion Cliente'
+                label: 'Información del Cliente'
             },
             {
                 routeLink: 'cliente/contacto-cliente',
                 icon: 'fa-solid fa-mobile-screen-button',
-                label: 'Contacto Cliente'
+                label: 'Contactos del Cliente'
             }
         ]
     },
@@ -32,12 +32,12 @@ export const navbarData:INavbarData[]=[
             {
                 routeLink: 'empleado/info',
                 icon: 'fa-regular fa-address-card', 
-                label: 'Informacion Empleado'
+                label: 'Información del Empleado'
             },
             {
                 routeLink: 'empleado/contacto-empleado',
                 icon: 'fa-solid fa-mobile-screen-button',
-                label: 'Contacto Empleado'
+                label: 'Contactos del Empleado'
             }
         ]
     },
@@ -49,12 +49,12 @@ export const navbarData:INavbarData[]=[
             {
                 routeLink: 'provedor/info',
                 icon: 'fa-regular fa-address-card', 
-                label: 'Informacion Proveedor'
+                label: 'Información del Proveedor'
             },
             {
                 routeLink: 'provedor/contacto-proveedor',
                 icon: 'fa-solid fa-mobile-screen-button',
-                label: 'Contacto Proveedor'
+                label: 'Contactos del Proveedor'
             }
         ]
     },{
@@ -74,29 +74,29 @@ export const navbarData:INavbarData[]=[
     {
         routeLink:'proveedor-producto',
         icon: 'fa-solid fa-truck-ramp-box',
-        label:'Productos Proveidos'
+        label:'Producto Proveido'
     },{
         routeLink:'examen-vista',
         icon: 'fa-regular fa-eye',
-        label:'Examenes de Vista'
+        label:'Examen de Vista'
     },{
         routeLink:'pago',
         icon: 'fa-solid fa-money-bill-1-wave',
-        label:'Pagos'
+        label:'Pago'
     },
     {
         routeLink:'bodega',
         icon: 'fa-solid fa-store',
-        label:'Bodegas'
+        label:'Bodega'
     },{
         routeLink:'registro-bodega',
         icon: 'fa-solid fa-warehouse',
-        label:'Productos en Bodegas'
+        label:'Producto en Bodega'
     },
     {
         routeLink:'laboratorio',
         icon: 'fa-solid fa-flask-vial',
-        label:'Laboratorios'
+        label:'Laboratorio'
     } ,
     {
         routeLink:'orden-pedido',

@@ -4,8 +4,9 @@ import { MyDataServices } from 'src/app/services/mydata.services';
 import { FormData } from 'src/app/modules/form/components/form/form-data';
 import { tap } from 'rxjs';
 import { FormGroup, Validators } from '@angular/forms';
-import { HeaderData } from 'src/app/header/header-data';
+import { EventBtnClick, HeaderData } from 'src/app/header/header-data';
 import Swal from 'sweetalert2';
+import { NavigationExtras, Router } from '@angular/router';
 
 interface Data {
   idProveedor: number;
@@ -59,7 +60,7 @@ export class ProveedorComponent {
   }]
   // <i class=""></i>
 
-  constructor(private dataService: MyDataServices) { }
+  constructor(private dataService: MyDataServices, private router: Router) { }
   ngOnInit(): void {
 
     this.myData$ = this.dataService
@@ -77,7 +78,7 @@ export class ProveedorComponent {
       { label: 'Identificador', def: 'idProveedor', dataKey: 'idProveedor' },
       { label: 'Nombre', def: 'nombre', dataKey: 'nombre' },
       { label: 'Propietario', def: 'propietario', dataKey: 'propietario' },
-      { label: 'Direccion', def: 'direccion', dataKey: 'direccion' }
+      { label: 'Dirección', def: 'direccion', dataKey: 'direccion' }
     ]
   }
 
@@ -126,7 +127,7 @@ export class ProveedorComponent {
   loadConfirmationDataUpdate(form: FormGroup) {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea actualizar la informacion?',
+      text: '¿Estás seguro que desea actualizar la información?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Actualizar',
@@ -158,7 +159,7 @@ export class ProveedorComponent {
       if (success) {
         Swal.fire({
           title: 'Exito!',
-          text: 'La informacion a sido guardada',
+          text: 'La información a sido guardada',
           icon: 'success',
           confirmButtonText: 'OK!',
         })
@@ -206,7 +207,7 @@ export class ProveedorComponent {
   loadConfirmationDataCreate(form: FormGroup) {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea guardar la informacion?',
+      text: '¿Estás seguro que desea guardar la información?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
@@ -237,7 +238,7 @@ export class ProveedorComponent {
       if (success) {
         Swal.fire({
           title: 'Exito!',
-          text: 'La informacion a sido guardada',
+          text: 'La información a sido guardada',
           icon: 'success',
           confirmButtonText: 'OK!',
         }).then((result) => {
@@ -253,13 +254,14 @@ export class ProveedorComponent {
               reverseButtons: true
             }).then((result) => {
               if (result.isConfirmed) {
-                // this.sendDataContactClient(this.dataUpdate)
+                this.sendDataContactClient(proveedor)
               } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire(
                   'Cancelado',
                   'Todo bien :)',
                   'error'
                 )
+                EventBtnClick.setMiVariable(true);
               }
             });
           }
@@ -273,6 +275,16 @@ export class ProveedorComponent {
         })
       }
     })
+  }
+
+  sendDataContactClient(parametro: any) {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        objeto: parametro
+      }
+    };
+
+    this.router.navigate(['provedor/contacto-proveedor'], navigationExtras)
   }
 
 }

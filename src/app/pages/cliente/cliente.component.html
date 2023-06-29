@@ -3,12 +3,12 @@
       <div class="example-content">
         <section *ngIf="getEventBtnClickHeader()">
           <section *ngIf="!dataUpdate">
-            <h1>Lista de clientes actuales</h1>
+            <h1>Lista de Clientes</h1>
             <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
           </section>
           <section *ngIf="dataUpdate">
             <app-form 
-            [Title]="'Actualizar datos del Cliente'"
+            [Title]="'Actualizar Información del Cliente'"
             [BtnCancel]="true"
             (formData)="confirmeUpdateData($event)"
             [BtnName]="'Actualizar'"

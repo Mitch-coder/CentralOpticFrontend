@@ -62,7 +62,7 @@ export class DashboardComponent {
 
     this.dataService
     .getData('detallefactura').subscribe((data:any[]) =>{
-     console.log(data);
+     //console.log(data);
        
 
        const resultado = data.reduce((acumulador, objeto) => {
@@ -79,11 +79,11 @@ export class DashboardComponent {
          sumaCantidad: resultado[codProducto]
        }));
 
-       console.log('Resultado:', arregloSumaCantidad);
+       //console.log('Resultado:', arregloSumaCantidad);
 
        const top10 = arregloSumaCantidad.sort((a, b) => b.sumaCantidad - a.sumaCantidad).slice(0, 10);
 
-       console.log('Top 10:', top10);
+       //console.log('Top 10:', top10);
 
        this.ProductosMasVendidos=top10;
 

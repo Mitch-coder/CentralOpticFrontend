@@ -36,6 +36,15 @@ interface Data{
   correo:string[];
 }
 
+interface DataV{
+  propietario: string;
+  nombre: string;
+  telefono1:string;
+  correo1:string;
+  telefono2?:string;
+  correo2?:string;
+}
+
 
 @Component({
   selector: 'app-contacto-proveedor',
@@ -113,8 +122,8 @@ export class ContactoProveedorComponent {
           return{
             idProveedor: element.idProveedor,
             nombre: element.propietario + ' ' + element.nombre,
-            telefono : telefono.map(obj => obj.telefono).join(', '),
-            correo: correo.map(obj => obj.correo).join(', ')
+            telefono : telefono.map(obj => obj.telefono), //.join(', '),
+            correo: correo.map(obj => obj.correo),//.join(', ')
           }
         })
 
@@ -129,6 +138,40 @@ export class ContactoProveedorComponent {
    
 
     this.setTableColumns();
+  }
+
+  swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success',
+      cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+  })
+
+  eventCancelFormUpdate(data: any) {
+    this.swalWithBootstrapButtons.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea cerrar el formulario, se perderan todos los datos que haya actualizado?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Cerrar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.dataUpdate = undefined
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        this.swalWithBootstrapButtons.fire(
+          'Cancelado',
+          'Los datos siguen a salvo :)',
+          'error'
+        )
+      }
+    });
+  }
+
+  loadDataConfirmationUpdate(data:any){
+
   }
 
   setTableColumns(){
@@ -153,11 +196,15 @@ export class ContactoProveedorComponent {
 
   setFormUpdate(data:Data){
     this.dataUpdate = data
+    console.log(data);
     if(this.dataUpdate){
 
       let telefono = this.TelefonoProveedorList.filter(e=>e.idProveedor == data.idProveedor)
       let correo = this.CorreoProveedorList.filter(e=>e.idProveedor === data.idProveedor)
       
+      console.log(telefono);
+      console.log(correo);
+
       this.formClientUpdate = [{
         label:'Propietario',
         type:'text',
@@ -167,7 +214,8 @@ export class ContactoProveedorComponent {
         formControlName:'propietario',
         formValidators:{'propietario':[
           this.ProveedorList.find(e => e.idProveedor == data.idProveedor)?.propietario,[Validators.required]]},
-        value:this.ProveedorList.find(e => e.idProveedor == data.idProveedor)?.propietario
+        value:this.ProveedorList.find(e => e.idProveedor == data.idProveedor)?.propietario,
+        readonly:true
       },
       {
         label:'Nombre',
@@ -177,10 +225,11 @@ export class ContactoProveedorComponent {
         icon:'fa-solid fa-shop',
         formControlName:'nombre',
         formValidators:{'nombre':[this.ProveedorList.find(e => e.idProveedor == data.idProveedor)?.nombre,[Validators.required]]},
-        value:this.ProveedorList.find(e => e.idProveedor == data.idProveedor)?.nombre
+        value:this.ProveedorList.find(e => e.idProveedor == data.idProveedor)?.nombre,
+        readonly:true
       }]
       
-      if(telefono){
+      if(data.telefono.length !== 0){
         this.formClientUpdate.push(
           {
             label:'Telefonos',
@@ -189,12 +238,12 @@ export class ContactoProveedorComponent {
             alert:'El telefono no puede estar vacio',
             icon:'fa-solid fa-mobile-screen',
             formControlName:'telefono1',
-            formValidators:{'telefono1':[telefono[0].telefono,[Validators.required,Validators.minLength(8),Validators.maxLength(8)]]},
-            value:telefono[0].telefono
+            formValidators:{'telefono1':[data.telefono[0], [Validators.required, Validators.minLength(8), Validators.maxLength(8)]] },
+            value:data.telefono[0]
           }
         )
 
-        if(telefono.length>1){
+        if(data.telefono.length>1){
           this.formClientUpdate.push(
             {
               label:'',
@@ -203,14 +252,14 @@ export class ContactoProveedorComponent {
               alert:'El telefono no puede estar vacio',
               icon:'fa-solid fa-mobile-screen',
               formControlName:'telefono2',
-              formValidators:{'telefono2':[telefono[2].telefono,[Validators.required,Validators.minLength(8),Validators.maxLength(8)]]},
-              value:telefono[2].telefono
+              formValidators:{'telefono2':[data.telefono[1], [Validators.required, Validators.minLength(8), Validators.maxLength(8)]] },
+              value:data.telefono[1]
             }
           )
         }
       }
 
-      if(correo){
+      if(data.correo.length !== 0){
         this.formClientUpdate.push(
           {
             label:'Correos',
@@ -219,12 +268,12 @@ export class ContactoProveedorComponent {
             alert:'El correo no puede estar vacio',
             icon:'fa-regular fa-envelope',
             formControlName:'correo1',
-            formValidators:{'correo1':[correo[0].correo,[Validators.required,Validators.email]]},
+            formValidators:{'correo1':[data.correo[0], [Validators.required, Validators.email]]},
             value:correo[0].correo
           }
         )
 
-        if(correo.length>1){
+        if(data.correo.length>1){
           this.formClientUpdate.push(
             {
               label:'',
@@ -233,7 +282,7 @@ export class ContactoProveedorComponent {
               alert:'El correo no puede estar vacio',
               icon:'fa-regular fa-envelope',
               formControlName:'correo2',
-              formValidators:{'correo2':[correo[1].correo,[Validators.required,Validators.email]]},
+              formValidators:{'correo2': [data.correo[1], [Validators.required, Validators.email]] },
               value:correo[1].correo
             }
           )
@@ -272,31 +321,36 @@ export class ContactoProveedorComponent {
     });
   }
 
-  saveDataUpdate(data:any) {
+  saveDataUpdate(data:DataV) {
     // console.log(this.listCorreo)
 
-    let empleado = this.ProveedorList.find(e => this.dataUpdate.idProveedor === e.idProveedor)
-    let telefono = this.TelefonoProveedorList.filter(e => e.idProveedor === empleado?.idProveedor)
-    let correo = this.CorreoProveedorList.filter(e => empleado?.idProveedor == e.idProveedor)
+    console.log(data);
+    console.log(this.TelefonoProveedorList);
+
+    let empleado = this.ProveedorList.filter(e => this.dataUpdate.idProveedor === e.idProveedor)
+    let telefono = this.TelefonoProveedorList.filter(e => e.idProveedor === empleado[0].idProveedor)
+    let correo = this.CorreoProveedorList.filter(e => empleado[0].idProveedor === e.idProveedor)
 
     console.log(empleado)
     console.log(telefono[0])
     console.log(data.correo1)
     if (empleado &&
-      (empleado.propietario !== data.propietario || empleado.nombre !== data.nombre)) {
+      (empleado[0].propietario !== data.propietario || empleado[0].nombre !== data.nombre)) {
         let proveedor={
-          idProveedor: empleado.idProveedor,
+          idProveedor: empleado[0].idProveedor,
           nombre: data.nombre,
           propietario: data.propietario,
-          direccion: empleado.direccion
+          direccion: empleado[0].direccion
       }
-      this.dataService.updateData('empleado', proveedor, this.dataUpdate.numEmpleado).then((success) => {
+      this.dataService.updateData('proveedor', proveedor, empleado[0].idProveedor)
+      .then((success) => {
         if (success) {
           Swal.fire(
             'Exito!',
             'Los datos an sido actualizado con exito',
             'success'
           )
+          console.log(proveedor);
           this.resetData()
         } else {
           Swal.fire({
@@ -314,17 +368,18 @@ export class ContactoProveedorComponent {
       if (data.telefono1 !== telefono[0].telefono) {
         let tel:TelefonoProveedor ={
           idTelefonoProveedor: telefono[0].idTelefonoProveedor,
-          idProveedor: telefono[0].idProveedor,
+          idProveedor: empleado[0].idProveedor,
           telefono: data.telefono1
         }
-        this.dataService.updateData('telefonoempleado', tel , telefono[0].idTelefonoProveedor).then((success) => {
+        this.dataService.updateData('telefonoproveedor', tel , tel.idProveedor).then((success) => {
           if (success) {
             Swal.fire(
               'Exito!',
               'El contacto a sido actualizado con exito',
               'success'
             )
-            this.resetData()
+            console.log(data.telefono1);
+            
           } else {
             Swal.fire({
               icon: 'error',
@@ -342,7 +397,7 @@ export class ContactoProveedorComponent {
       if (data.telefono2 !== telefono[1].telefono) {
         let tel:TelefonoProveedor ={
           idTelefonoProveedor: telefono[1].idTelefonoProveedor,
-          idProveedor: telefono[1].idProveedor,
+          idProveedor: empleado[0].idProveedor,
           telefono: data.telefono2
         }
         this.dataService.updateData('telefonoproveedor', tel, telefono[1].idTelefonoProveedor).then((success) => {
@@ -352,7 +407,7 @@ export class ContactoProveedorComponent {
               'El contacto a sido actualizado con exito',
               'success'
             )
-            this.resetData()
+            console.log(data.telefono2);
           } else {
             Swal.fire({
               icon: 'error',
@@ -369,18 +424,17 @@ export class ContactoProveedorComponent {
       if (data.correo1!== correo[0].correo) {
         let cor:CorreoProveedor={
           idCorreoProveedor:correo[0].idCorreoProveedor,
-          idProveedor: correo[0].idProveedor,
+          idProveedor: empleado[0].idProveedor,
           correo: data.correo1
         }
         console.log(cor)
-        this.dataService.updateData('correoproveedor', cor, correo[0].idCorreoProveedor).then((success) => {
+        this.dataService.updateData('correoproveedor', cor, cor.idCorreoProveedor).then((success) => {
           if (success) {
             Swal.fire(
               'Exito!',
               'El contacto a sido actualizado con exito',
               'success'
             )
-            this.resetData()
           } else {
             Swal.fire({
               icon: 'error',
@@ -396,18 +450,18 @@ export class ContactoProveedorComponent {
     if (data.correo2) {
       if (data.correo2!== correo[1].correo) {
         let cor:CorreoProveedor={
-          idCorreoProveedor:correo[1].idCorreoProveedor,
-          idProveedor: correo[1].idProveedor,
+          idCorreoProveedor: correo[1].idCorreoProveedor,
+          idProveedor: empleado[0].idProveedor,
           correo: data.correo2
         }
-        this.dataService.updateData('correoempleado', cor, correo[1].idCorreoProveedor).then((success) => {
+        this.dataService.updateData('correoproveedor', cor, cor.idCorreoProveedor).then((success) => {
           if (success) {
             Swal.fire(
               'Exito!',
               'El contacto a sido actualizado con exito',
               'success'
             )
-            this.resetData()
+            console.log(data.correo2);
           } else {
             Swal.fire({
               icon: 'error',
@@ -419,6 +473,8 @@ export class ContactoProveedorComponent {
         })
       }
     }
+    this.initial()
+    this.resetData()
   }
 
   resetData(){
@@ -446,7 +502,7 @@ export class ContactoProveedorComponent {
   formCreateCorreo: FormGroup = this.formBuilder.group(
     {
       'Proveedor': [this.ProveedorCorreo, Validators.required],
-      'correo': [this.CorreoProveedor1.correo, Validators.required],
+      'correo': [this.CorreoProveedor1.correo, [Validators.required, Validators.email]],
     }
   )
 
@@ -483,8 +539,10 @@ export class ContactoProveedorComponent {
 
   loadDataCreate() {
     console.log(this.ProveedorCorreoList)
-    this.ProveedorCorreoList = this.ProveedorList.filter(e => this.TelefonoProveedorList.filter(f => f.idProveedor === e.idProveedor).length < 2)
-    this.ProveedorTelefonoList = this.ProveedorList.filter(e => this.CorreoProveedorList.filter(f => f.idProveedor === e.idProveedor).length < 2)
+    console.log(this.ProveedorTelefonoList)
+
+    this.ProveedorCorreoList = this.ProveedorList.filter(e => this.CorreoProveedorList.filter(f => f.idProveedor === e.idProveedor).length < 2)
+    this.ProveedorTelefonoList = this.ProveedorList.filter(e => this.TelefonoProveedorList.filter(f => f.idProveedor === e.idProveedor).length < 2)
   }
 
   loadConfirmationDataCreateTelefono() {
@@ -524,7 +582,7 @@ export class ContactoProveedorComponent {
           'success'
         )
         this.formCreateTelefono.reset()
-        // this.init()
+        this.initial()
       } else {
         Swal.fire({
           icon: 'error',
@@ -573,7 +631,7 @@ export class ContactoProveedorComponent {
           'success'
         )
         this.formCreateCorreo.reset()
-        // this.init()
+        this.initial()
       } else {
         Swal.fire({
           icon: 'error',
@@ -602,5 +660,36 @@ export class ContactoProveedorComponent {
   }
 
 
+  initial() {
+    this.myData$ = forkJoin(
+      this.dataService.getData('proveedor'),
+      this.dataService.getData('telefonoproveedor'),
+      this.dataService.getData('correoproveedor')
+    ).pipe(
+      map((data:any[])=>{
+        this.ProveedorList = data[0];
+        this.TelefonoProveedorList = data[1];
+        this.CorreoProveedorList = data[2];
+
+        this.myData = this.ProveedorList.map((element)=>{
+          let telefono = this.TelefonoProveedorList.filter(e=>e.idProveedor === element.idProveedor)
+          let correo = this.CorreoProveedorList.filter(e=>e.idProveedor === element.idProveedor)
+        
+          return{
+            idProveedor: element.idProveedor,
+            nombre: element.propietario + ' ' + element.nombre,
+            telefono : telefono.map(obj => obj.telefono), //.join(', '),
+            correo: correo.map(obj => obj.correo),//.join(', ')
+          }
+        })
+
+        // this.setFormTelefonoCliente(this.myData);
+        // this.setFormCorreoCliente(this.myData);
+        return this.myData
+      })
+
+
+    )
+  }
 
 }

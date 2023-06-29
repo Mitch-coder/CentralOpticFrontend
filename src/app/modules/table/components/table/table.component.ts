@@ -36,8 +36,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() set data(data: any) {
     data.pipe(
       tap((data: any[]) => {
-        this.dataSource.data = data;
-
+        this.dataSource.data = data.reverse();
       })
     ).subscribe();
   }
@@ -46,6 +45,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.tableColumns = columns
 
     this.tableDisplayColumns = this.tableColumns.map(col => col.def)
+    
   }
 
 
@@ -156,7 +156,20 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   exportToExcel(): void {
     /* Generate worksheet */
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataSource.data);
+    console.log(this.dataSource.data);
+    
+    const newData = this.dataSource.data.map(obj => {
+      const newObj = { ...obj }; // Crear una copia del objeto original
+      for (const key in newObj) {
+        if (Array.isArray(newObj[key])) {
+          newObj[key] = newObj[key].join(', '); // Convertir el campo en una cadena separada por comas
+        }
+      }
+      return newObj; // Devolver el objeto modificado
+    });
+
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(newData);
 
     /* Add header row */
 

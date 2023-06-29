@@ -9,6 +9,7 @@ import { FormData, FormDataVal } from './form-data';
 export class FormComponent implements AfterViewInit {
 
   btnDisable: boolean = true
+  readonly: boolean = false
   btnName: string = 'Enviar'
   formVal: FormData[] = [];
   form: FormGroup = this.formBuilder.group({});
@@ -23,6 +24,7 @@ export class FormComponent implements AfterViewInit {
   constructor(private formBuilder: FormBuilder) {
     this.formData = new EventEmitter();
     this.btnCancel = new EventEmitter();
+    
   }
 
   @ViewChild('btnEnviar') boton!: ElementRef;
