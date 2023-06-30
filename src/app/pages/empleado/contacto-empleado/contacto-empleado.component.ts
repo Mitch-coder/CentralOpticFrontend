@@ -145,11 +145,11 @@ export class ContactoEmpleadoComponent {
             numEmpleado: element.numEmpleado,
             nombre: (element.nombres + ' ' + element.apellidos),
             apellido: element.apellidos,
-            telefono: telefono.map(obj => obj.telefono).join(', '),
-            correo: correo.map(obj => obj.correo).join(', ')
+            telefono: telefono.map(obj => obj.telefono),
+            correo: correo.map(obj => obj.correo)
           }
         })
-        // console.log(this.myData)
+
         return this.myData
       })
     )
@@ -226,23 +226,23 @@ export class ContactoEmpleadoComponent {
     }
   }
 
-  formDataUpdate: FormGroup = this.formBuilder.group(
-    {
-      'nombres': [this.Empleado.nombres, Validators.required],
-      'apellidos': [this.Empleado.apellidos, Validators.required],
-      'telefono1':
-        [this.TelefonoEmpleado1.telefono, this.TelefonoEmpleado1.idTelefonoEmpleado !== 0 ? Validators.required : Validators.nullValidator],
-      'telefono2':
-        [this.TelefonoEmpleado2.telefono, this.TelefonoEmpleado2.idTelefonoEmpleado !== 0 ? Validators.required : Validators.nullValidator],
-      'correo1':
-        [this.CorreoEmpleado1.correo, this.CorreoEmpleado1.idCorreoEmpleado !== 0 ? [Validators.required, Validators.email] : Validators.nullValidator],
-      'correo2': [this.CorreoEmpleado2.correo, this.CorreoEmpleado2.idCorreoEmpleado !== 0 ? [Validators.required,Validators.email] : Validators.nullValidator]
-    }
-  )
+  // formDataUpdate: FormGroup = this.formBuilder.group(
+  //   {
+  //     'nombres': [this.Empleado.nombres, Validators.required],
+  //     'apellidos': [this.Empleado.apellidos, Validators.required],
+  //     'telefono1':
+  //       [this.TelefonoEmpleado1.telefono, this.TelefonoEmpleado1.idTelefonoEmpleado !== 0 ? Validators.required : Validators.nullValidator],
+  //     'telefono2':
+  //       [this.TelefonoEmpleado2.telefono, this.TelefonoEmpleado2.idTelefonoEmpleado !== 0 ? Validators.required : Validators.nullValidator],
+  //     'correo1':
+  //       [this.CorreoEmpleado1.correo, this.CorreoEmpleado1.idCorreoEmpleado !== 0 ? [Validators.required, Validators.email] : Validators.nullValidator],
+  //     'correo2': [this.CorreoEmpleado2.correo, this.CorreoEmpleado2.idCorreoEmpleado !== 0 ? [Validators.required,Validators.email] : Validators.nullValidator]
+  //   }
+  // )
 
-  formGetDataUpdate(fr: string) {
-    return this.formDataUpdate.get(fr) as FormControl;
-  }
+  // formGetDataUpdate(fr: string) {
+  //   return this.formDataUpdate.get(fr) as FormControl;
+  // }
 
   loadConfirmationDataUpdate() {
     Swal.fire({

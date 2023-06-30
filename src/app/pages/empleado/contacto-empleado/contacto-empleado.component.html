@@ -7,7 +7,7 @@
           <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="resultDataTable($event)"></app-table>
         </section>
         <section *ngIf="dataUpdate">
-          <ng-container *ngTemplateOutlet="formUpdate"></ng-container> 
+          <!-- <ng-container *ngTemplateOutlet="formUpdate"></ng-container>  -->
           <!-- <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formEmpleadoUpdate"></app-form> -->
          </section> 
       </section>
@@ -15,17 +15,11 @@
         <ng-container *ngTemplateOutlet="phone"></ng-container>
         <ng-container *ngTemplateOutlet="email"></ng-container>
       </section>
-      <!-- <section *ngIf="!getEventBtnClickHeader()">
-        <app-form [FormD]="formTelefonoEmpleado"></app-form>
-      </section>
-      <section *ngIf="!getEventBtnClickHeader()">
-        <app-form [FormD]="formCorreoEmpleado"></app-form>
-      </section> -->
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<ng-template #formUpdate>
+<!-- <ng-template #formUpdate>
   <div class="card">
     <div class="card-body">
       <div class="container-header">
@@ -43,7 +37,7 @@
             Nombre del empleado*
           </label>
           <input type="text" formControlName="nombres" class="form-control form-input"
-            placeholder="Ingrese el nombre del empleado" [(ngModel)]="Empleado.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+            placeholder="Ingrese el nombre del empleado" [(ngModel)]="Empleado.nombres"> 
             <i class="fa-regular fa-circle-user form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataUpdate('nombres').valid || (formGetDataUpdate('nombres').pristine)">
@@ -56,7 +50,7 @@
             Apellido del empleado *
           </label>
           <input type="text" formControlName="apellidos" class="form-control form-input"
-            placeholder="Ingrese los apellidos del empleado" [(ngModel)]="Empleado.apellidos"> <!--[(ngModel)]="OjoIzquierdo">-->
+            placeholder="Ingrese los apellidos del empleado" [(ngModel)]="Empleado.apellidos"> 
             <i class="fa-regular fa-circle-user form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataUpdate('apellidos').valid || (formGetDataUpdate('apellidos').pristine)">
@@ -69,7 +63,7 @@
             Telefono 1 del Empleado *
           </label>
           <input type="text" formControlName="telefono1" class="form-control form-input"
-            placeholder="Ingrese el telefono del empleado" [(ngModel)]="TelefonoEmpleado1.telefono"> <!--[(ngModel)]="OjoIzquierdo">-->
+            placeholder="Ingrese el telefono del empleado" [(ngModel)]="TelefonoEmpleado1.telefono"> 
           <i class="fa-solid fa-mobile-screen  form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataUpdate('telefono1').valid || (formGetDataUpdate('telefono1').pristine)">
@@ -82,7 +76,7 @@
             Telefono 2 del Empleado *
           </label>
           <input type="text" formControlName="telefono2" class="form-control form-input"
-            placeholder="Ingrese el telefono del empleado" [(ngModel)]="TelefonoEmpleado2.telefono"> <!--[(ngModel)]="OjoIzquierdo">-->
+            placeholder="Ingrese el telefono del empleado" [(ngModel)]="TelefonoEmpleado2.telefono"> 
           <i class="fa-solid fa-mobile-screen  form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataUpdate('telefono2').valid || (formGetDataUpdate('telefono2').pristine)">
@@ -95,7 +89,7 @@
             Correo 1 del empleado *
           </label>
           <input type="email" formControlName="correo1" class="form-control form-input"
-            placeholder="Ingrese el correo del empleado" [(ngModel)]="CorreoEmpleado1.correo"> <!--[(ngModel)]="OjoIzquierdo">-->
+            placeholder="Ingrese el correo del empleado" [(ngModel)]="CorreoEmpleado1.correo">
           <i class="fa-regular fa-envelope form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataUpdate('correo1').valid || (formGetDataUpdate('correo1').pristine)">
@@ -108,7 +102,7 @@
             Correo 2 del empleado *
           </label>
           <input type="email" formControlName="correo2" class="form-control form-input"
-            placeholder="Ingrese el correo del empleado" [(ngModel)]="CorreoEmpleado2.correo"> <!--[(ngModel)]="OjoIzquierdo">-->
+            placeholder="Ingrese el correo del empleado" [(ngModel)]="CorreoEmpleado2.correo"> 
           <i class="fa-regular fa-envelope form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataUpdate('correo2').valid || (formGetDataUpdate('correo2').pristine)">
@@ -122,7 +116,7 @@
       </form>
     </div>
   </div>
-</ng-template>
+</ng-template> -->
 
 <ng-template #phone>
   <div class="card">
