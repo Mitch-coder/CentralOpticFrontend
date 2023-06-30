@@ -69,7 +69,7 @@ export class BarChartComponent {
     if(data.length!==0){
       console.log(data)
       console.log("Barras")
-      this.barChartData.labels = data.map(codigo => "Codigo:" + codigo.codProducto);
+      this.barChartData.labels = data.map(codigo => "Código:" + codigo.codProducto);
       this.barChartData.datasets[0].label = "Cantidad vendida";
       this.barChartData.datasets[0].data = data.map(cantidad => cantidad.sumaCantidad);
       this.chart?.update();

@@ -20,7 +20,7 @@
                         {{fr.label}}
                     </label>
                     <input [type]="fr.type" [formControlName]="fr.formControlName" class="form-control form-input"
-                        [placeholder]="fr.placeholder" [(ngModel)]="fr.value">
+                        [placeholder]="fr.placeholder" [(ngModel)]="fr.value" [readonly]="fr.readonly"> 
                     <i class="form-input-icon" [ngClass]="fr.icon?fr.icon:'fa-solid fa-feather'"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGet(fr.formControlName).valid || (formGet(fr.formControlName).pristine)">

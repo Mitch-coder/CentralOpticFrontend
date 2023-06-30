@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
 import { tap } from 'rxjs';
-import { HeaderData, HeaderSearch } from 'src/app/header/header-data';
+import { EventBtnClick, HeaderData, HeaderSearch } from 'src/app/header/header-data';
 import { FormData } from 'src/app/modules/form/components/form/form-data';
 import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
@@ -48,16 +48,16 @@ export class ClienteComponent {
   }
 
   form: FormData[] = [{
-    label: 'Cedula',
+    label: 'Cédula',
     type: 'text',
-    placeholder: 'Ingrese la cedula del cliente',
-    alert: 'La cedula es obligatorio',
+    placeholder: 'Ingrese la cédula del cliente',
+    alert: 'La cédula es obligatorio',
     icon: 'fa-regular fa-address-card',
     formControlName: 'cedula',
     formValidators: { 'cedula': [this.cliente.cedula, [Validators.required]] }
   },
   {
-    label: 'Nombre',
+    label: 'Nombres',
     type: 'text',
     placeholder: 'Ingrese el nombre del cliente',
     alert: 'El nombre es obligatorio',
@@ -66,7 +66,7 @@ export class ClienteComponent {
     formValidators: { 'nombres': [this.cliente.nombres, [Validators.required]] }
   },
   {
-    label: 'Apellido',
+    label: 'Apellidos',
     type: 'text',
     placeholder: 'Ingrese el apellido del cliente',
     alert: 'El apellido es obligatorio',
@@ -106,10 +106,10 @@ export class ClienteComponent {
   setTableColumns() {
     this.tableColumns = [
       { label: 'Identificador', def: 'IdCliente', dataKey: 'codCliente' },
-      { label: 'Cedula', def: 'Cedula', dataKey: 'cedula' },
-      { label: 'Nombre', def: 'Nombre', dataKey: 'nombres' },
-      { label: 'Apellido', def: 'Apellido', dataKey: 'apellidos' },
-      { label: 'Direccion', def: 'Direccion', dataKey: 'direccion' }
+      { label: 'Cédula', def: 'Cedula', dataKey: 'cedula' },
+      { label: 'Nombres', def: 'Nombre', dataKey: 'nombres' },
+      { label: 'Apellidos', def: 'Apellido', dataKey: 'apellidos' },
+      { label: 'Dirección', def: 'Direccion', dataKey: 'direccion' }
     ]
   }
 
@@ -121,20 +121,20 @@ export class ClienteComponent {
     this.dataUpdate = data
     if (this.dataUpdate) {
       this.formClientUpdate = [{
-        label: 'Nombre',
+        label: 'Nombres',
         type: 'text',
         placeholder: 'Nuevo nombre del cliente',
-        alert: 'El Nombre no puede estar vacio',
+        alert: 'El nombre no puede estar vacío',
         icon: '',
         formControlName: 'nombres',
         formValidators: { 'nombres': [data.nombres, [Validators.required]] },
         value: data.nombres
       },
       {
-        label: 'Apellido',
+        label: 'Apellidos',
         type: 'text',
         placeholder: 'Nuevo apellido del cliente',
-        alert: 'El apellido no puede estar vacio',
+        alert: 'El apellido no puede estar vacío',
         icon: '',
         formControlName: 'apellidos',
         formValidators: { 'apellidos': [data.apellidos, [Validators.required]] },
@@ -159,10 +159,10 @@ export class ClienteComponent {
   loadDataConfirmationUpdate(data: Data) {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que deseas actualizar la informacion?',
+      text: '¿Estás seguro que deseas actualizar la información?',
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: 'actualizar',
+      confirmButtonText: 'Actualizar',
       cancelButtonText: 'Cancelar',
       reverseButtons: true
     }).then((result) => {
@@ -199,7 +199,7 @@ export class ClienteComponent {
 
             Swal.fire({
               title: 'Exito!',
-              text: 'La informacion a sido guardada',
+              text: 'La información a sido guardada',
               icon: 'success',
               confirmButtonText: 'OK!',
             }
@@ -254,7 +254,7 @@ export class ClienteComponent {
 
         Swal.fire({
           title: 'Exito!',
-          text: 'La informacion a sido guardada',
+          text: 'La información a sido guardada',
           icon: 'success',
           confirmButtonText: 'OK!',
         }
@@ -283,11 +283,7 @@ export class ClienteComponent {
   
                 this.sendDataContactClient(data)
               } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire(
-                  'Cancelado',
-                  'Todo bien :)',
-                  'error'
-                )
+                EventBtnClick.setMiVariable(true);
               }
             });
           }
@@ -312,10 +308,10 @@ export class ClienteComponent {
   confirmeUpdateData(data: FormGroup) {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que deseas actualizar la informacion del cliente?',
+      text: '¿Estás seguro que deseas actualizar la información del cliente?',
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: 'actualizar',
+      confirmButtonText: 'Actualizar',
       cancelButtonText: 'Cancelar',
       reverseButtons: true
     }).then((result) => {
@@ -335,7 +331,7 @@ export class ClienteComponent {
   confirmeCreateData(data: FormGroup) {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que deseas guardar la informacion del cliente?',
+      text: '¿Estás seguro que deseas guardar la información del cliente?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Confirmar',

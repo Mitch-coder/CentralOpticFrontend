@@ -31,7 +31,7 @@
 <ng-template #phone>
   <div class="card">
     <div class="card-body">
-      <h1>Agregar el telefono cliente</h1>
+      <h1>Agregar el teléfono cliente</h1>
       <form [formGroup]="formCreatePhone">
         <div class="content-select">
           <div class="mb-2 container-select" #input>
@@ -39,7 +39,7 @@
               Seleccione el cliente *
             </label>
             <input type="text" formControlName="cliente" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="clientePhone.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el cliente" [(ngModel)]="clientePhone.nombres" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <!-- <i class="fa-solid fa-arrows-to-eye "></i> -->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
@@ -55,14 +55,14 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Ingrese el telefono del cliente *
+            Ingrese el teléfono del cliente *
           </label>
-          <input type="number" formControlName="telefono" class="form-control form-input"
-            placeholder="Ingrese el telefono del cliente"> <!--[(ngModel)]="OjoIzquierdo">-->
+          <input type="text" formControlName="telefono" class="form-control form-input"
+            placeholder="Ingrese el teléfono del cliente"> <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-mobile-screen  form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetPhone('telefono').valid || (formGetPhone('telefono').pristine)">
-            Ingrese el telefono del cliente
+            Ingrese el teléfono del cliente
           </div>
         </div>
         <button class="btn btn-primary" #btnEnviar [disabled]="formCreatePhone.invalid"
@@ -86,7 +86,7 @@
               Seleccione el cliente *
             </label>
             <input type="text" formControlName="cliente" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="clienteEmail.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el cliente" [(ngModel)]="clienteEmail.nombres" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetEmail('cliente').valid || (formGetEmail('cliente').pristine)">
@@ -104,7 +104,7 @@
             Ingrese el correo del cliente *
           </label>
           <input type="email" formControlName="correo" class="form-control form-input"
-            placeholder="Ingrese el telefono del cliente"> <!--[(ngModel)]="OjoIzquierdo">-->
+            placeholder="Ingrese el correo del cliente"> <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-regular fa-envelope form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetEmail('correo').valid || (formGetEmail('correo').pristine)">

@@ -11,6 +11,7 @@ export interface FormData{
     class?:string;
     option?:string[];
     value?:string | FormDataVal;
+    readonly?:boolean;
 }
 
 export interface FormDataVal{
