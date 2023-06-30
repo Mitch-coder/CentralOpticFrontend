@@ -638,7 +638,7 @@ export class PagoComponent {
             icon: 'success',
             title: 'Exito',
             text: 'El pago se realizo correctamente',
-            footer: 'El cambio es de $' + ((this.FacturaFormat.total - this.FacturaFormat.abono) * (-1)).toFixed(2)
+            footer: 'El cambio es de $' + ((result - abono) * (-1)).toFixed(2)
           })
           this.resetData()
         } else {
@@ -714,5 +714,8 @@ export class PagoComponent {
     this.matDialogRef.afterClosed().subscribe((res) => {
     });
   }
+
+
+
 
 }

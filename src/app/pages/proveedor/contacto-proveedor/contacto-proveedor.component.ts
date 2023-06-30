@@ -195,6 +195,7 @@ export class ContactoProveedorComponent {
   }
 
   setFormUpdate(data:Data){
+    console.log(data)
     this.dataUpdate = data
     console.log(data);
     if(this.dataUpdate){

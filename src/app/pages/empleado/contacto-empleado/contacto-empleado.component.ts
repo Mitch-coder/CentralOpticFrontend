@@ -145,11 +145,11 @@ export class ContactoEmpleadoComponent {
             numEmpleado: element.numEmpleado,
             nombre: (element.nombres + ' ' + element.apellidos),
             apellido: element.apellidos,
-            telefono: telefono.map(obj => obj.telefono).join(', '),
-            correo: correo.map(obj => obj.correo).join(', ')
+            telefono: telefono.map(obj => obj.telefono),
+            correo: correo.map(obj => obj.correo)
           }
         })
-        // console.log(this.myData)
+
         return this.myData
       })
     )
@@ -177,74 +177,122 @@ export class ContactoEmpleadoComponent {
     return HeaderData.eventBtnClick;
   }
 
+  formClientUpdate: FormData[] = []
+
   resultDataTable(data: any) {
     this.dataUpdate = data
-    if (data) {
-      let empleado = this.empleadoList.find(e => data.numEmpleado === e.numEmpleado)
-      let telefono = this.telefonoEmpleadoList.filter(e => empleado?.numEmpleado === e.numEmpleado)
-      let correo = this.correoEmpleadoList.filter(e => empleado?.numEmpleado === e.numEmpleado)
-      console.log(correo)
-      if (empleado) {
-        this.Empleado = empleado
+    if (this.dataUpdate) {
+      this.formClientUpdate = [{
+        label: 'Nombres',
+        type: 'text',
+        placeholder: 'Nuevo nombre del empleado',
+        alert: 'El Nombre no puede estar vacío',
+        icon: '',
+        formControlName: 'nombre',
+        formValidators: { 'nombre': [data.nombre.replace(' ' + data.apellido, ''), [Validators.required]] },
+        value: data.nombre.replace(' ' + data.apellido, ''),
+        readonly: true
+      },
+      {
+        label: 'Apellidos',
+        type: 'text',
+        placeholder: 'Nuevo apellido del empleado',
+        alert: 'El Apellido no puede estar vacio',
+        icon: '',
+        formControlName: 'apellido',
+        formValidators: { 'apellido': [data.apellido, [Validators.required]] },
+        value: data.apellido,
+        readonly: true
+      }]
+
+      if (data.telefono.length !== 0) {
+        this.formClientUpdate.push(
+          {
+            label: 'Telefonos',
+            type: 'text',
+            placeholder: 'Telefono 1',
+            alert: 'El teléfono no puede estar vacío',
+            icon: 'fa-solid fa-mobile-screen',
+            formControlName: 'telefono1',
+            formValidators: { 'telefono1': [data.telefono[0], [Validators.required, Validators.minLength(8), Validators.maxLength(8)]] },
+            value: data.telefono[0]
+          }
+        )
+
+        if (data.telefono.length > 1) {
+          this.formClientUpdate.push(
+            {
+              label: '',
+              type: 'text',
+              placeholder: 'Teléfono 2',
+              alert: 'El teléfono no puede estar vacío',
+              icon: 'fa-solid fa-mobile-screen',
+              formControlName: 'telefono2',
+              formValidators: { 'telefono2': [data.telefono[1], [Validators.required, Validators.minLength(8), Validators.maxLength(8)]] },
+              value: data.telefono[1]
+            }
+          )
+        }
       }
 
-      if (telefono) {
-        let t: TelefonoEmpleado = {
-          idTelefonoEmpleado: telefono[0].idTelefonoEmpleado,
-          numEmpleado: telefono[0].numEmpleado,
-          telefono: telefono[0].telefono
-        }
-        this.TelefonoEmpleado1 = t
-        if (telefono.length > 1) {
-          let tl: TelefonoEmpleado = {
-            idTelefonoEmpleado: telefono[1].idTelefonoEmpleado,
-            numEmpleado: telefono[1].numEmpleado,
-            telefono: telefono[1].telefono
+      if (data.correo.length !== 0) {
+        this.formClientUpdate.push(
+          {
+            label: 'Correos',
+            type: 'email',
+            placeholder: 'correo 1',
+            alert: 'El correo no puede estar vacío',
+            icon: 'fa-regular fa-envelope',
+            formControlName: 'correo1',
+            formValidators: { 'correo1': [data.correo[0], [Validators.required, Validators.email]] },
+            value: data.correo[0]
           }
-          this.TelefonoEmpleado2 = tl
-        }
-      }
+        )
 
-      if (correo) {
-        let c: CorreoEmpleado = {
-          idCorreoEmpleado: correo[0].idCorreoEmpleado,
-          numEmpleado: correo[0].numEmpleado,
-          correo: correo[0].correo
-        }
-        this.CorreoEmpleado1 = c
-
-
-        if (correo.length > 1) {
-          let cl: CorreoEmpleado = {
-            idCorreoEmpleado: correo[1].idCorreoEmpleado,
-            numEmpleado: correo[1].numEmpleado,
-            correo: correo[1].correo
-          }
-          this.CorreoEmpleado2 = cl
+        if (data.correo.length > 1) {
+          this.formClientUpdate.push(
+            {
+              label: '',
+              type: 'email',
+              placeholder: 'correo 2',
+              alert: 'El correo no puede estar vacío',
+              icon: 'fa-regular fa-envelope',
+              formControlName: 'correo2',
+              formValidators: { 'correo2': [data.correo[1], [Validators.required, Validators.email]] },
+              value: data.correo[1]
+            }
+          )
         }
       }
     }
   }
 
-  formDataUpdate: FormGroup = this.formBuilder.group(
-    {
-      'nombres': [this.Empleado.nombres, Validators.required],
-      'apellidos': [this.Empleado.apellidos, Validators.required],
-      'telefono1':
-        [this.TelefonoEmpleado1.telefono, this.TelefonoEmpleado1.idTelefonoEmpleado !== 0 ? Validators.required : Validators.nullValidator],
-      'telefono2':
-        [this.TelefonoEmpleado2.telefono, this.TelefonoEmpleado2.idTelefonoEmpleado !== 0 ? Validators.required : Validators.nullValidator],
-      'correo1':
-        [this.CorreoEmpleado1.correo, this.CorreoEmpleado1.idCorreoEmpleado !== 0 ? [Validators.required, Validators.email] : Validators.nullValidator],
-      'correo2': [this.CorreoEmpleado2.correo, this.CorreoEmpleado2.idCorreoEmpleado !== 0 ? [Validators.required,Validators.email] : Validators.nullValidator]
-    }
-  )
 
-  formGetDataUpdate(fr: string) {
-    return this.formDataUpdate.get(fr) as FormControl;
+  loadDataConfirmationUpdate(data: FormGroup) {
+    console.log(data);
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que deseas actualizar la información?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Actualizar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        // this.dataUpdateDB(data.value)
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen a salvo :)',
+          'error'
+        )
+      }
+    });
   }
 
-  loadConfirmationDataUpdate() {
+  loadConfirmationDataUpdate(data: FormGroup) {
     Swal.fire({
       title: 'Confirmar',
       text: '¿Estás seguro que desea actualizar la informacion?',
@@ -255,7 +303,7 @@ export class ContactoEmpleadoComponent {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.saveDataUpdate()
+        this.dataUpdateDB(data.value)
         // this.formDataUpdate.reset()
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -267,126 +315,124 @@ export class ContactoEmpleadoComponent {
     });
   }
 
-  saveDataUpdate() {
-    // console.log(this.listCorreo)
-    let empleado = this.empleadoList.find(e => this.Empleado.numEmpleado === e.numEmpleado)
-    let telefono = this.telefonoEmpleadoList.filter(e => e.numEmpleado === empleado?.numEmpleado)
-    let correo = this.correoEmpleadoList.filter(e => empleado?.numEmpleado == e.numEmpleado)
-    if (empleado &&
-      (empleado.apellidos !== this.Empleado.apellidos || empleado.nombres !== this.Empleado.nombres)) {
-      this.dataService.updateData('empleado', this.Empleado, this.Empleado.numEmpleado).then((success) => {
-        if (success) {
-          Swal.fire(
-            'Exito!',
-            'Los datos an sido actualizado con exito',
-            'success'
-          )
-          this.resetData()
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Ups...',
-            text: 'Algo salió mal!',
-            footer: '<a href="">¿Por qué tengo este problema??</a>'
-          })
-        }
-      })
-    }
+  dataUpdateDB(data: DataV) {
 
-    if (this.TelefonoEmpleado1.idTelefonoEmpleado !== 0) {
-      if (this.TelefonoEmpleado1.telefono !== telefono[0].telefono) {
-        this.dataService.updateData('telefonoempleado', this.TelefonoEmpleado1, this.TelefonoEmpleado1.idTelefonoEmpleado).then((success) => {
-          if (success) {
-            Swal.fire(
-              'Exito!',
-              'El contacto a sido actualizado con exito',
-              'success'
-            )
-            this.resetData()
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Ups...',
-              text: 'Algo salió mal!',
-              footer: '<a href="">¿Por qué tengo este problema??</a>'
-            })
-          }
-        })
-      }
-    }
+    let empleado = this.empleadoList.find(e => e.numEmpleado == this.dataUpdate.numEmpleado)
+    let telefono = this.telefonoEmpleadoList.filter(e => e.numEmpleado== empleado?.numEmpleado)
+    let correo = this.correoEmpleadoList.filter(e => e.numEmpleado == empleado?.numEmpleado)
 
-    if (this.TelefonoEmpleado2.idTelefonoEmpleado !== 0) {
-      if (this.TelefonoEmpleado2.telefono !== telefono[1].telefono) {
-        this.dataService.updateData('telefonoempleado', this.TelefonoEmpleado2, this.TelefonoEmpleado2.idTelefonoEmpleado).then((success) => {
-          if (success) {
-            Swal.fire(
-              'Exito!',
-              'El contacto a sido actualizado con exito',
-              'success'
-            )
-            this.resetData()
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Ups...',
-              text: 'Algo salió mal!',
-              footer: '<a href="">¿Por qué tengo este problema??</a>'
-            })
-          }
-        })
-      }
-    }
-
-    if (this.CorreoEmpleado1.idCorreoEmpleado !== 0) {
-      if (this.CorreoEmpleado1.correo !== correo[0].correo) {
-        this.dataService.updateData('correoempleado', this.CorreoEmpleado1, this.CorreoEmpleado1.idCorreoEmpleado).then((success) => {
-          if (success) {
-            Swal.fire(
-              'Exito!',
-              'El contacto a sido actualizado con exito',
-              'success'
-            )
-            this.resetData()
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Ups...',
-              text: 'Algo salió mal!',
-              footer: '<a href="">¿Por qué tengo este problema??</a>'
-            })
-          }
-        })
-      }
-    }
-
-    if (this.CorreoEmpleado2.idCorreoEmpleado !== 0) {
-      if (this.CorreoEmpleado2.correo !== correo[1].correo) {
-        this.dataService.updateData('correoempleado', this.CorreoEmpleado2, this.CorreoEmpleado2.idCorreoEmpleado).then((success) => {
-          if (success) {
-            Swal.fire(
-              'Exito!',
-              'El contacto a sido actualizado con exito',
-              'success'
-            )
-            this.resetData()
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Ups...',
-              text: 'Algo salió mal!',
-              footer: '<a href="">¿Por qué tengo este problema??</a>'
-            })
-          }
-        })
-      }
-    }
     
-    Swal.fire(
-      'Exito!',
-      'El contacto a sido actualizado con exito',
-      'success'
-    )
-    this.resetData()
+
+    if (data.telefono1) {
+      if (data.telefono1 !== telefono[0].telefono) {
+        let c = {
+          idTelefonoEmpleado: telefono[0].idTelefonoEmpleado,
+          numEmpleado: empleado?.numEmpleado,
+          telefono: data.telefono1
+        }
+
+        this.dataService.updateData('telefonoempleado', c, c.idTelefonoEmpleado).then((success) => {
+          if (success) {
+            Swal.fire(
+              'Exito!',
+              'El contacto ha sido actualizado con éxito',
+              'success'
+            )
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ups...',
+              text: 'Algo salió mal!',
+              footer: '<a href="">¿Por qué tengo este problema??</a>'
+            })
+          }
+        })
+      }
+    }
+
+    if (data.telefono2) {
+      if (data.telefono2 && data.telefono2 !== telefono[1].telefono) {
+        let c = {
+          idTelefonoEmpleado: telefono[1].idTelefonoEmpleado,
+          numEmpleado: empleado?.numEmpleado,
+          telefono: data.telefono2
+        }
+
+        this.dataService.updateData('telefonoempleado', c, c.idTelefonoEmpleado).then((success) => {
+          if (success) {
+            Swal.fire(
+              'Exito!',
+              'El contacto ha sido actualizado con éxito',
+              'success'
+            )
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ups...',
+              text: 'Algo salió mal!',
+              footer: '<a href="">¿Por qué tengo este problema??</a>'
+            })
+          }
+        })
+      }
+    }
+    if (data.correo1) {
+      if (data.correo1 && data.correo1 !== correo[0].correo) {
+        let c = {
+          idCorreoEmpleado: correo[0].idCorreoEmpleado,
+          numEmpleado: empleado?.numEmpleado,
+          correo: data.correo1
+        }
+
+        this.dataService.updateData('correoempleado', c, c.idCorreoEmpleado).then((success) => {
+          if (success) {
+            Swal.fire(
+              'Exito!',
+              'El contacto ha sido actualizado con éxito',
+              'success'
+            )
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ups...',
+              text: 'Algo salió mal!',
+              footer: '<a href="">¿Por qué tengo este problema??</a>'
+            })
+          }
+        })
+      }
+    }
+    if (data.correo2) {
+      if (data.correo2 && data.correo2 !== correo[1].correo) {
+        let c = {
+          idCorreoEmpleado: correo[1].idCorreoEmpleado,
+          numEmpleado: empleado?.numEmpleado,
+          correo: data.correo2
+        }
+
+        this.dataService.updateData('correoempleado', c, c.idCorreoEmpleado).then((success) => {
+          if (success) {
+            Swal.fire(
+              'Exito!',
+              'El contacto ha sido actualizado con éxito',
+              'success'
+            )
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ups...',
+              text: 'Algo salió mal!',
+              footer: '<a href="">¿Por qué tengo este problema??</a>'
+            })
+          }
+        })
+      }
+    }
+
+    // this.initial()
+    this.dataUpdate = undefined
+    // this.initial()
+
   }
 
   cancelFormUpdate() {

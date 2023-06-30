@@ -2,12 +2,13 @@
     <mat-sidenav-content>
         <div class="example-content">
             <section *ngIf="getEventBtnClickHeader()">
-                <section>
-                    <h1>Lista de facturas</h1>
-                    <app-table [data]="myData$" [columns]="tableColumns"></app-table>
+                <section *ngIf="!dataUpdate">
+                    <h1>Lista de factura actuales</h1>
+                    <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setDataUpdate($event)"></app-table>
                 </section>
-                <section>
-
+                <section *ngIf="dataUpdate">
+                    <ng-container *ngTemplateOutlet="formUpdate">
+                    </ng-container>
                 </section>
             </section>
             <section *ngIf="!getEventBtnClickHeader()">
@@ -101,7 +102,7 @@
                         Fecha Emisión
                     </label>
                     <input type="text" formControlName="fechaEmision" class="form-control form-input"
-                        placeholder="Fecha de emision" [(ngModel)]="FechaPago.fechaPago" readonly>
+                        placeholder="Fecha de emision" [(ngModel)]="FechaFactura.fechaEmision" readonly>
                     <i class="fa-solid fa-calendar-days form-input-icon"></i>
                     <div class="alert 1alert-danger mt-1"
                         [hidden]="formGetDataCreate('fechaEmision').valid || (formGetDataCreate('fechaEmision').pristine)">
@@ -154,6 +155,10 @@
                     </div> -->
                 </div>
 
+                <button class="btn btn-primary" #btnEnviar [disabled]="formCreateData.invalid"
+                    (click)="loadConfirmationDataCreate()">
+                    Agregar
+                </button>
 
             </form>
         </div>
@@ -306,7 +311,7 @@
             <h2 class="items items-cantidad">
                 Cantidad
             </h2>
-            <h2 class="items items-precio"> 
+            <h2 class="items items-precio">
                 Precio
             </h2>
             <h2 class="items items-precio">
@@ -339,7 +344,7 @@
 
 <!-- ordenPedido -->
 <ng-template #ordenPedido>
-    <app-table-simple [data]="tableDataOrdenPedido" [columns]="tableColumnsOrdenPedido"
+    <app-table-simple [data]="productoAuxiliarList" [columns]="tableColumnsOrdenPedido"
         (selectItemsCell)="resultDataTableOrdenPedido($event)" (cancelTable)="cancelDialogResult()">
     </app-table-simple>
 </ng-template>
@@ -374,5 +379,41 @@
 
             </ng-container>
         </section>
+    </div>
+</ng-template>
+
+
+<ng-template #formUpdate>
+    <div class="card">
+        <div class="card-body">
+            <div class="container-header">
+                <h1 class="title">
+                    Actualizar informacion de la factura
+                </h1>
+                <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
+                    Cerrar
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form [formGroup]="formDataUpdate">
+
+                <div class="mb-2">
+                    <mat-label class="form-label">
+                        Tipo de pago
+                    </mat-label>
+                    <mat-select formControlName="estadoFactura" class="form-control form-control-lg" matNativeControl
+                        [(ngModel)]="EstadoFactura">
+                        <mat-option *ngFor="let option of facturaEstadoList" [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+
+                <button class="btn btn-primary" #btnEnviar [disabled]="formDataUpdate.invalid"
+                    (click)="loadConfirmationDataUpdate()">
+                    Actualizar
+                </button>
+            </form>
+        </div>
     </div>
 </ng-template>

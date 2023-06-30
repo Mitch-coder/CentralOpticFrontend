@@ -310,6 +310,7 @@ export class ContactoClienteComponent implements OnInit {
   // }
 
   setFormUpdate(data: Data) {
+    console.log(data)
     this.dataUpdate = data
     if (this.dataUpdate) {
       this.formClientUpdate = [{
