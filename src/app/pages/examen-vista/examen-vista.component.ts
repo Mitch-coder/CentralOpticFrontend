@@ -208,7 +208,8 @@ export class ExamenVistaComponent {
         this.clienteList = data[2];
         this.myData = []
 
-        console.log(this.fechaExamenList)
+        // console.log()
+        // console.log(this.fechaExamenList)
         // let fec = new Date(this.fechaExamenList[20].fechaExamen)
         // console.log( fec.toString() == fecha.toString())
 

@@ -4,7 +4,7 @@ import { MyDataServices } from 'src/app/services/mydata.services';
 import { Observable, ReplaySubject, catchError, elementAt, map, mergeMap, tap } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { HeaderData } from 'src/app/header/header-data';
+import { EventBtnClick, HeaderData } from 'src/app/header/header-data';
 import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/modules/dialog/components/dialog/dialog.component';
@@ -384,9 +384,9 @@ export class FacturaComponent {
 
   valCreateData = true
   getEventBtnClickHeader() {
-    if (!HeaderData.eventBtnClick){
+    if (!HeaderData.eventBtnClick) {
       this.dataUpdate = undefined
-      if(this.valCreateData){
+      if (this.valCreateData) {
         this.loadDataCreate()
       }
     }
@@ -396,7 +396,7 @@ export class FacturaComponent {
   // --------------------------------------------------------------------------------- //
   //               Aqui es donde se guardara la parte del detalle producto
 
-  detalleFacturaItems:any[] =  []
+  detalleFacturaItems: any[] = []
 
   detalleFacturaItemsList = new ExampleDataSource([...this.detalleFacturaItems]);
 
@@ -413,10 +413,10 @@ export class FacturaComponent {
   deleteEmployee(data: any) {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea guardar la informacion?',
+      text: '¿Estás seguro de eliminar el producto?',
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: 'Guardar',
+      confirmButtonText: 'eliminar',
       cancelButtonText: 'Cancelar',
       reverseButtons: true
     }).then((result) => {
@@ -436,7 +436,7 @@ export class FacturaComponent {
           })
 
 
-          this.detalleFacturaItems = this.detalleFacturaItems.filter(e => e.codProducto !== producto?.codProducto) 
+          this.detalleFacturaItems = this.detalleFacturaItems.filter(e => e.codProducto !== producto?.codProducto)
 
         } else {
           let ordenPedido = this.ordenPedidoList.find(e => e.numOrden === data.numOrden)
@@ -445,7 +445,7 @@ export class FacturaComponent {
           let date: Date = new Date(fecha?.fechaPedido ? fecha.fechaPedido : '')
           const formatoFecha = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
 
-          this.tableDataOrdenPedido.push( {
+          this.tableDataOrdenPedido.push({
             numOrden: ordenPedido?.numOrden,
             fechaPedido: formatoFecha,
             codProducto: ordenPedido?.codProducto,
@@ -453,9 +453,9 @@ export class FacturaComponent {
             costo: ordenPedido?.costo
           })
 
-          this.detalleFacturaItems = this.detalleFacturaItems.filter(e=>e.numOrden !== ordenPedido?.numOrden)
-          this.detalleFacturaItemsList.setData([...this.detalleFacturaItems])
+          this.detalleFacturaItems = this.detalleFacturaItems.filter(e => e.numOrden !== ordenPedido?.numOrden)
         }
+        this.detalleFacturaItemsList.setData([...this.detalleFacturaItems])
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelado',
@@ -466,15 +466,15 @@ export class FacturaComponent {
     });
   }
 
-  openEditForm(data: any,template: TemplateRef<any>) {
+  openEditForm(data: any, template: TemplateRef<any>) {
     this.detalleItems = data
     this.openDialogWithTemplate(template)
   }
 
-  loadConfirmationUpdateItem(){
-    let detalle = this.detalleFacturaItems.findIndex(e=> e.id === this.detalleItems.id)
+  loadConfirmationUpdateItem() {
+    let detalle = this.detalleFacturaItems.findIndex(e => e.id === this.detalleItems.id)
 
-    if(detalle !== -1){
+    if (detalle !== -1) {
       this.detalleFacturaItems[detalle] = this.detalleItems
       this.cancelDialogResult()
     }
@@ -524,27 +524,41 @@ export class FacturaComponent {
 
   resultDataTableProducto(data: any) {
     if (data) {
+      
       let producto = this.productoList.find(e => e.codProducto === data.codProducto)
-      if (producto) {
-        this.detalleFacturaItems.push(
-          {
-            id: this.detalleFacturaItems.length + 1,
-            tipoItems: 'Pdt',
-            codProducto: producto.codProducto,
-            descripcion: producto.descripcion,
-            cantidad: 1,
-            precioUni: producto.precioActual,
-            numOrden: -1
-          }
+      let val = this.detalleFacturaItems.find(e => e.codProducto === data.codProducto)
+
+      console.log(val)
+      if (!val) {
+        if (producto) {
+          this.detalleFacturaItems.push(
+            {
+              id: this.detalleFacturaItems.length + 1,
+              tipoItems: 'Pdt',
+              codProducto: producto.codProducto,
+              descripcion: producto.descripcion,
+              cantidad: 1,
+              precioUni: producto.precioActual,
+              numOrden: -1
+            }
+          )
+
+          this.detalleFacturaItemsList.setData([...this.detalleFacturaItems])
+          // console.log(this.detalleFacturaItems)
+
+          this.productoAuxiliarList = this.productoAuxiliarList.filter(e => e.codProducto !== producto?.codProducto)
+          this.cancelDialogResult()
+        }
+      }else{
+        Swal.fire(
+          'El producto ya fue ingresado',
+          '',
+          'error'
         )
-
-        this.detalleFacturaItemsList.setData([...this.detalleFacturaItems])
-        console.log(this.detalleFacturaItems)
-
-        this.productoAuxiliarList = this.productoAuxiliarList.filter(e => e.codProducto !== producto?.codProducto)
-        this.cancelDialogResult()
       }
+
     }
+
   }
 
   // orden pedido
@@ -581,31 +595,40 @@ export class FacturaComponent {
     if (data) {
       let ordenPedido = this.ordenPedidoList.find(e => e.numOrden === data.numOrden)
       // let producto = this.productoList.find(e => e.codProducto === data.codProducto)
-      if (ordenPedido) {
-        // this.ordenPedidoAuxiliarList.push(ordenPedido)
-        this.detalleFacturaItems.push(
-          {
-            id: this.detalleFacturaItems.length + 1,
-            tipoItems: 'Opp',
-            codProducto: ordenPedido.codProducto,
-            descripcion: ordenPedido.descripcion,
-            cantidad: 1,
-            precioUni: ordenPedido.costo,
-            numOrden: ordenPedido.numOrden
+      let val = this.ordenPedidoAuxiliarList.filter(e => e.numOrden === ordenPedido?.numOrden)
+      if (!val) {
+        if (ordenPedido) {
+          // this.ordenPedidoAuxiliarList.push(ordenPedido)
+          this.detalleFacturaItems.push(
+            {
+              id: this.detalleFacturaItems.length + 1,
+              tipoItems: 'Opp',
+              codProducto: ordenPedido.codProducto,
+              descripcion: ordenPedido.descripcion,
+              cantidad: 1,
+              precioUni: ordenPedido.costo,
+              numOrden: ordenPedido.numOrden
 
-          }
+            }
+          )
+
+          this.detalleFacturaItemsList.setData([...this.detalleFacturaItems])
+
+          console.log(this.detalleFacturaItems)
+          this.ordenPedidoAuxiliarList = this.ordenPedidoAuxiliarList.filter(e => e.numOrden !== ordenPedido?.numOrden)
+          this.cancelDialogResult()
+        }
+      } else {
+        Swal.fire(
+          'El producto ya fue ingresado',
+          '',
+          'error'
         )
-
-        this.detalleFacturaItemsList.setData([...this.detalleFacturaItems])
-
-        console.log(this.detalleFacturaItems)
-        this.ordenPedidoAuxiliarList = this.ordenPedidoAuxiliarList.filter(e=>e.numOrden !== ordenPedido?.numOrden)
-        this.cancelDialogResult()
       }
     }
   }
 
-  detalleItems:any = {
+  detalleItems: any = {
     id: 0,
     tipoItems: '',
     codProducto: 0,
@@ -678,7 +701,7 @@ export class FacturaComponent {
   formGetDataCreate(fr: string) {
     return this.formCreateData.get(fr) as FormControl;
   }
-  
+
   loadDataCreate() {
     this.valCreateData = false
     let date: Date = new Date()
@@ -688,8 +711,8 @@ export class FacturaComponent {
     this.Factura.descuento = 0.05
     this.Factura.impuestos = 0.15
 
-    this.productoAuxiliarList = this.productoList.filter(e => e.estadoProducto )
-    this.ordenPedidoAuxiliarList = this.ordenPedidoList.filter(e=>e.idEstadoPedido === 1)
+    this.productoAuxiliarList = this.productoList.filter(e => e.estadoProducto)
+    this.ordenPedidoAuxiliarList = this.ordenPedidoList.filter(e => e.idEstadoPedido === 1)
 
     this.setDataProductoFormat()
     this.setDataOrdenPedidoFormat()
@@ -724,6 +747,7 @@ export class FacturaComponent {
 
     let fecha = this.fechaFacturaList.find(e => new Date(e.fechaEmision).toString() === fecha1.toString())
 
+    console.log(fecha)
     let F = -1
     if (!fecha) {
       const numeros = this.fechaFacturaList.map(objeto => objeto.idFechaFactura);
@@ -735,6 +759,7 @@ export class FacturaComponent {
 
       this.dataService.postData('fechafactura', fechaFactura).then((success) => {
         if (success) {
+          console.log('entro a la fecha nueva')
           let total = this.detalleFacturaItems.reduce((acumulador, objeto) => acumulador + (objeto.cantidad * objeto.precioUni), 0)
           let pagado = total - this.Pago.monto
 
@@ -757,106 +782,87 @@ export class FacturaComponent {
             descuento: this.Factura.descuento
           }
 
+          console.log(factura)
+
+          /////////////////////////////
+
           const numeros = this.facturaList.map(objeto => objeto.numFactura);
           let FT = Math.max(...numeros) + 1
 
           this.dataService.postData('factura', factura).then((success) => {
             if (success) {
 
-              let fechaPago = this.fechaPagoList.find(e => new Date(e.fechaPago).toString() === fecha1.toString())
+              if (this.Pago.monto !== 0) {
 
-              if (!fechaPago) {
-                const numeros = this.fechaPagoList.map(objeto => objeto.idFechaPago);
-                let FP = Math.max(...numeros) + 1
+                let fechaPago = this.fechaPagoList.find(e => new Date(e.fechaPago).toString() === fecha1.toString())
 
-                let fechaPago = {
-                  fechaPago: fecha1
-                }
+                if (!fechaPago) {
+                  const numeros = this.fechaPagoList.map(objeto => objeto.idFechaPago);
+                  let FP = Math.max(...numeros) + 1
 
-                this.dataService.postData('fechapago', fechaPago).then((success) => {
-                  if (success) {
-                    if (estadoFactura === 2) {
-                      let pago = {
-                        numFactura: FT,
-                        idFechaPago: FP,
-                        monto: this.Pago.monto,
-                        tipoPago: true
-                      }
-                      this.dataService.postData('pago', pago).then((success) => {
-                        if (success) {
-                          Swal.fire({
-                            icon: 'success',
-                            title: 'Exito',
-                            text: 'La factura se realizo correctamente',
-                          })
-                        } else {
-                          Swal.fire({
-                            icon: 'error',
-                            title: 'Ups...',
-                            text: 'Algo salió mal!',
-                            footer: '<a href="">¿Por qué tengo este problema??</a>'
-                          })
-                        }
-                      })
-                    } else if (estadoFactura === 3) {
-                      let result = 0
-                      if (pagado < 0) {
-                        result = pagado * (-1)
-                      } else {
-                        result = 0
-                      }
-
-                      let pago = {
-                        numFactura: FT,
-                        idFechaPago: FP,
-                        monto: total,
-                        tipoPago: true
-                      }
-
-                      this.dataService.postData('pago', pago).then((success) => {
-                        if (success) {
-                          Swal.fire({
-                            icon: 'success',
-                            title: 'Exito',
-                            text: 'La factura se realizo correctamente',
-                            footer: 'El cambio es de $' + result
-                          })
-                        } else {
-                          Swal.fire({
-                            icon: 'error',
-                            title: 'Ups...',
-                            text: 'Algo salió mal!',
-                            footer: '<a href="">¿Por qué tengo este problema??</a>'
-                          })
-                        }
-                      })
-
-                    }// pago
-                  } else {
-                    Swal.fire({
-                      icon: 'error',
-                      title: 'Ups...',
-                      text: 'Algo salió mal!',
-                      footer: '<a href="">¿Por qué tengo este problema??</a>'
-                    })
+                  let fechaPago = {
+                    fechaPago: fecha1
                   }
-                })
-              } else {
 
-                if (estadoFactura === 2) {
-                  let pago = {
-                    numFactura: FT,
-                    idFechaPago: fechaPago.idFechaPago,
-                    monto: this.Pago.monto,
-                    tipoPago: true
-                  }
-                  this.dataService.postData('pago', pago).then((success) => {
+                  this.dataService.postData('fechapago', fechaPago).then((success) => {
                     if (success) {
-                      Swal.fire({
-                        icon: 'success',
-                        title: 'Exito',
-                        text: 'La factura se realizo correctamente',
-                      })
+                      if (estadoFactura === 2) {
+                        let pago = {
+                          numFactura: FT,
+                          idFechaPago: FP,
+                          monto: this.Pago.monto,
+                          tipoPago: true
+                        }
+                        this.dataService.postData('pago', pago).then((success) => {
+                          if (success) {
+                            Swal.fire({
+                              icon: 'success',
+                              title: 'Exito',
+                              text: 'La factura se realizo correctamente',
+                            })
+                          } else {
+                            Swal.fire({
+                              icon: 'error',
+                              title: 'Ups...',
+                              text: 'Algo salió mal!',
+                              footer: '<a href="">¿Por qué tengo este problema??</a>'
+                            })
+                          }
+                        })
+                      } else if (estadoFactura === 3) {
+                        let result = 0
+                        if (pagado < 0) {
+                          result = pagado * (-1)
+                        } else {
+                          result = 0
+                        }
+
+                        let pago = {
+                          numFactura: FT,
+                          idFechaPago: FP,
+                          monto: total,
+                          tipoPago: true
+                        }
+
+                        this.dataService.postData('pago', pago).then((success) => {
+                          if (success) {
+                            Swal.fire({
+                              icon: 'success',
+                              title: 'Exito',
+                              text: 'La factura se realizo correctamente',
+                              footer: 'El cambio es de $' + result
+                            })
+                          } else {
+                            Swal.fire({
+                              icon: 'error',
+                              title: 'Ups...',
+                              text: 'Algo salió mal!',
+                              footer: '<a href="">¿Por qué tengo este problema??</a>'
+                            })
+                          }
+                        })
+
+                      }// pago
                     } else {
                       Swal.fire({
                         icon: 'error',
@@ -865,59 +871,153 @@ export class FacturaComponent {
                         footer: '<a href="">¿Por qué tengo este problema??</a>'
                       })
                     }
-
-                  })//post Pago
-
+                  })
                 } else {
-                  let result = 0
-                  if (pagado < 0) {
-                    result = pagado * (-1)
+
+                  if (estadoFactura === 2) {
+                    let pago = {
+                      numFactura: FT,
+                      idFechaPago: fechaPago.idFechaPago,
+                      monto: this.Pago.monto,
+                      tipoPago: true
+                    }
+                    this.dataService.postData('pago', pago).then((success) => {
+                      if (success) {
+                        Swal.fire({
+                          icon: 'success',
+                          title: 'Exito',
+                          text: 'La factura se realizo correctamente',
+                        })
+                      } else {
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Ups...',
+                          text: 'Algo salió mal!',
+                          footer: '<a href="">¿Por qué tengo este problema??</a>'
+                        })
+                      }
+
+                    })//post Pago
+
                   } else {
-                    result = 0
-                  }
-
-                  let pago = {
-                    numFactura: FT,
-                    idFechaPago: fechaPago.idFechaPago,
-                    monto: total,
-                    tipoPago: true
-                  }
-
-                  this.dataService.postData('pago', pago).then((success) => {
-                    if (success) {
-                      Swal.fire({
-                        icon: 'success',
-                        title: 'Exito',
-                        text: 'La factura se realizo correctamente',
-                        footer: 'El cambio es de $' + result
-                      })
+                    let result = 0
+                    if (pagado < 0) {
+                      result = pagado * (-1)
                     } else {
-                      Swal.fire({
-                        icon: 'error',
-                        title: 'Ups...',
-                        text: 'Algo salió mal!',
-                        footer: '<a href="">¿Por qué tengo este problema??</a>'
-                      })
+                      result = 0
                     }
 
-                  })//post Pago
+                    let pago = {
+                      numFactura: FT,
+                      idFechaPago: fechaPago.idFechaPago,
+                      monto: total,
+                      tipoPago: true
+                    }
+
+                    this.dataService.postData('pago', pago).then((success) => {
+                      if (success) {
+                        Swal.fire({
+                          icon: 'success',
+                          title: 'Exito',
+                          text: 'La factura se realizo correctamente',
+                          footer: 'El cambio es de $' + result
+                        })
+                      } else {
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Ups...',
+                          text: 'Algo salió mal!',
+                          footer: '<a href="">¿Por qué tengo este problema??</a>'
+                        })
+                      }
+
+                    })//post Pago
+                  }
                 }
               }
 
               this.detalleFacturaItems.forEach(element => {
-                let registroBodega = this.registroBodegaList.find(e => e.codProducto === element.codProducto)
 
-                if (registroBodega) {
-                  let sub = registroBodega.cantidad - element.cantidad
+                // tipoItems: 'Opp'
+                if (element.tipoItems === 'Opp') {
+                  let pedido = this.ordenPedidoList.find(e => e.numOrden === element.numOrden)
+                  if (pedido) {
+                    pedido.idEstadoPedido = 4
 
-                  let RegistroBodega: RegistroBodega = {
-                    idRegistro_Bodega: registroBodega.idRegistro_Bodega,
-                    idBodega: registroBodega.idBodega,
-                    codProducto: registroBodega.codProducto,
-                    cantidad: sub
+                    this.dataService.updateData('ordenpedido', pedido, pedido.numOrden).then((success) => {
+                      if (success) {
+
+                      } else {
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Ups...',
+                          text: 'Algo salió mal!',
+                          footer: '<a href="">¿Por qué tengo este problema??</a>'
+                        })
+                      }
+                    })
                   }
 
-                  this.dataService.updateData('registrobodega', registroBodega, registroBodega.idRegistro_Bodega).then((success) => {
+                  let detalleFatura = {
+                    numFactura: FT,
+                    codProducto: element.codProducto,
+                    cantidad: element.cantidad,
+                    precioUni: element.precioUni
+                  }
+
+                  console.log(detalleFatura)
+
+                  this.dataService.postData('detallefactura', detalleFatura).then((success) => {
+                    if (success) {
+
+                    } else {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Ups...',
+                        text: 'Algo salió mal!',
+                        footer: '<a href="">¿Por qué tengo este problema??</a>'
+                      })
+                    }
+                  })
+
+                } else {
+                  let registroBodega = this.registroBodegaList.find(e => e.codProducto === element.codProducto)
+
+                  if (registroBodega) {
+                    let sub = registroBodega.cantidad - element.cantidad
+
+                    let RegistroBodega: RegistroBodega = {
+                      idRegistro_Bodega: registroBodega.idRegistro_Bodega,
+                      idBodega: registroBodega.idBodega,
+                      codProducto: registroBodega.codProducto,
+                      cantidad: sub
+                    }
+
+                    this.dataService.updateData('registrobodega', registroBodega, registroBodega.idRegistro_Bodega).then((success) => {
+                      if (success) {
+
+                      } else {
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Ups...',
+                          text: 'Algo salió mal!',
+                          footer: '<a href="">¿Por qué tengo este problema??</a>'
+                        })
+                      }
+                    })
+                  }
+
+
+                  let detalleFatura = {
+                    numFactura: FT,
+                    codProducto: element.codProducto,
+                    cantidad: element.cantidad,
+                    precioUni: element.precioUni
+                  }
+
+                  console.log(detalleFatura)
+
+                  this.dataService.postData('detallefactura', detalleFatura).then((success) => {
                     if (success) {
 
                     } else {
@@ -930,27 +1030,6 @@ export class FacturaComponent {
                     }
                   })
                 }
-
-                let detalleFatura = {
-                  numFactura: FT,
-                  codProducto: element.codProducto,
-                  cantidad: element.cantidad,
-                  precioUni: element.precioUni
-                }
-
-
-                this.dataService.postData('detallefactura', detalleFatura).then((success) => {
-                  if (success) {
-
-                  } else {
-                    Swal.fire({
-                      icon: 'error',
-                      title: 'Ups...',
-                      text: 'Algo salió mal!',
-                      footer: '<a href="">¿Por qué tengo este problema??</a>'
-                    })
-                  }
-                })
               })
 
 
@@ -974,12 +1053,496 @@ export class FacturaComponent {
         }
       })
 
+    } else {
+      console.log('vieja fecha')
+      let total = this.detalleFacturaItems.reduce((acumulador, objeto) => acumulador + (objeto.cantidad * objeto.precioUni), 0)
+      let pagado = total - this.Pago.monto
+
+      let estadoFactura = 1
+      if (pagado <= 0) {
+        estadoFactura = 3
+      } else if (pagado === total) {
+        estadoFactura = 1
+      } else {
+        estadoFactura = 2
+      }
+
+
+      let factura = {
+        idEstadoFactura: estadoFactura,
+        idFechaFactura: fecha.idFechaFactura,
+        numEmpleado: this.Empleado.numEmpleado,
+        codCliente: this.Cliente.codCliente,
+        impuestos: this.Factura.impuestos,
+        descuento: this.Factura.descuento
+      }
+
+      console.log(factura)
+
+      const numeros = this.facturaList.map(objeto => objeto.numFactura);
+      let FT = Math.max(...numeros) + 1
+
+      this.dataService.postData('factura', factura).then((success) => {
+        if (success) {
+
+          if (this.Pago.monto !== 0) {
+
+            let fechaPago = this.fechaPagoList.find(e => new Date(e.fechaPago).toString() === fecha1.toString())
+
+            if (!fechaPago) {
+              const numeros = this.fechaPagoList.map(objeto => objeto.idFechaPago);
+              let FP = Math.max(...numeros) + 1
+
+              let fechaPago = {
+                fechaPago: fecha1
+              }
+
+              this.dataService.postData('fechapago', fechaPago).then((success) => {
+                if (success) {
+                  if (estadoFactura === 2) {
+                    let pago = {
+                      numFactura: FT,
+                      idFechaPago: FP,
+                      monto: this.Pago.monto,
+                      tipoPago: true
+                    }
+                    this.dataService.postData('pago', pago).then((success) => {
+                      if (success) {
+                        Swal.fire({
+                          icon: 'success',
+                          title: 'Exito',
+                          text: 'La factura se realizo correctamente',
+                        })
+                      } else {
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Ups...',
+                          text: 'Algo salió mal!',
+                          footer: '<a href="">¿Por qué tengo este problema??</a>'
+                        })
+                      }
+                    })
+                  } else if (estadoFactura === 3) {
+                    let result = 0
+                    if (pagado < 0) {
+                      result = pagado * (-1)
+                    } else {
+                      result = 0
+                    }
+
+                    let pago = {
+                      numFactura: FT,
+                      idFechaPago: FP,
+                      monto: total,
+                      tipoPago: true
+                    }
+
+                    this.dataService.postData('pago', pago).then((success) => {
+                      if (success) {
+                        Swal.fire({
+                          icon: 'success',
+                          title: 'Exito',
+                          text: 'La factura se realizo correctamente',
+                          footer: 'El cambio es de $' + result
+                        })
+                      } else {
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Ups...',
+                          text: 'Algo salió mal!',
+                          footer: '<a href="">¿Por qué tengo este problema??</a>'
+                        })
+                      }
+                    })
+
+                  }// pago
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Ups...',
+                    text: 'Algo salió mal!',
+                    footer: '<a href="">¿Por qué tengo este problema??</a>'
+                  })
+                }
+              })
+            } else {
+
+              if (estadoFactura === 2) {
+                let pago = {
+                  numFactura: FT,
+                  idFechaPago: fechaPago.idFechaPago,
+                  monto: this.Pago.monto,
+                  tipoPago: true
+                }
+                this.dataService.postData('pago', pago).then((success) => {
+                  if (success) {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Exito',
+                      text: 'La factura se realizo correctamente',
+                    })
+                  } else {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Ups...',
+                      text: 'Algo salió mal!',
+                      footer: '<a href="">¿Por qué tengo este problema??</a>'
+                    })
+                  }
+
+                })//post Pago
+
+              } else {
+                let result = 0
+                if (pagado < 0) {
+                  result = pagado * (-1)
+                } else {
+                  result = 0
+                }
+
+                let pago = {
+                  numFactura: FT,
+                  idFechaPago: fechaPago.idFechaPago,
+                  monto: total,
+                  tipoPago: true
+                }
+
+                this.dataService.postData('pago', pago).then((success) => {
+                  if (success) {
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Exito',
+                      text: 'La factura se realizo correctamente',
+                      footer: 'El cambio es de $' + result
+                    })
+                  } else {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Ups...',
+                      text: 'Algo salió mal!',
+                      footer: '<a href="">¿Por qué tengo este problema??</a>'
+                    })
+                  }
+
+                })//post Pago
+              }
+            }
+          }
+
+          this.detalleFacturaItems.forEach(element => {
+
+            // tipoItems: 'Opp'
+            if (element.tipoItems === 'Opp') {
+              let pedido = this.ordenPedidoList.find(e => e.numOrden === element.numOrden)
+              if (pedido) {
+                pedido.idEstadoPedido = 4
+
+                this.dataService.updateData('ordenpedido', pedido, pedido.numOrden).then((success) => {
+                  if (success) {
+
+                  } else {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Ups...',
+                      text: 'Algo salió mal!',
+                      footer: '<a href="">¿Por qué tengo este problema??</a>'
+                    })
+                  }
+                })
+              }
+
+              let detalleFatura = {
+                numFactura: FT,
+                codProducto: element.codProducto,
+                cantidad: element.cantidad,
+                precioUni: element.precioUni
+              }
+
+              console.log(detalleFatura)
+
+              this.dataService.postData('detallefactura', detalleFatura).then((success) => {
+                if (success) {
+
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Ups...',
+                    text: 'Algo salió mal!',
+                    footer: '<a href="">¿Por qué tengo este problema??</a>'
+                  })
+                }
+              })
+
+            } else {
+              let registroBodega = this.registroBodegaList.find(e => e.codProducto === element.codProducto)
+
+              if (registroBodega) {
+                let sub = registroBodega.cantidad - element.cantidad
+
+                let RegistroBodega: RegistroBodega = {
+                  idRegistro_Bodega: registroBodega.idRegistro_Bodega,
+                  idBodega: registroBodega.idBodega,
+                  codProducto: registroBodega.codProducto,
+                  cantidad: sub
+                }
+
+                this.dataService.updateData('registrobodega', registroBodega, registroBodega.idRegistro_Bodega).then((success) => {
+                  if (success) {
+
+                  } else {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Ups...',
+                      text: 'Algo salió mal!',
+                      footer: '<a href="">¿Por qué tengo este problema??</a>'
+                    })
+                  }
+                })
+              }
+
+
+              let detalleFatura = {
+                numFactura: FT,
+                codProducto: element.codProducto,
+                cantidad: element.cantidad,
+                precioUni: element.precioUni
+              }
+
+              console.log(detalleFatura)
+
+              this.dataService.postData('detallefactura', detalleFatura).then((success) => {
+                if (success) {
+
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Ups...',
+                    text: 'Algo salió mal!',
+                    footer: '<a href="">¿Por qué tengo este problema??</a>'
+                  })
+                }
+              })
+            }
+          })
+
+
+
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Ups...',
+            text: 'Algo salió mal!',
+            footer: '<a href="">¿Por qué tengo este problema??</a>'
+          })
+        }
+      })// post Factura
     }
-
-
-
   }
 
+
+  facturaEstadoList: EstadoFactura[] = []
+
+  setDataUpdate(data: any) {
+    if (data) {
+      let factura = this.facturaList.find(e => e.numFactura === data.numFactura)
+      let estadoFactura = this.estadoFacturaList.find(e => e.idEstadoFactura === factura?.idEstadoFactura)
+
+      if (factura?.idEstadoFactura !== 4) {
+        this.dataUpdate = data
+        if (factura && estadoFactura) {
+          this.Factura = { ...factura }
+          this.EstadoFactura = { ...estadoFactura }
+        }
+
+        if (factura?.numFactura === 3) {
+          this.facturaEstadoList = this.estadoFacturaList.filter(e => e.idEstadoFactura > 3)
+        } else {
+          this.facturaEstadoList = this.estadoFacturaList.filter(e => e.idEstadoFactura !== 4)
+        }
+
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Ups...',
+          text: 'No puede actualizar una factura anulada'
+        })
+      }
+    }
+  }
+
+  formDataUpdate: FormGroup = this.formBuilder.group(
+    {
+      'estadoFactura': [this.EstadoFactura.estadoFactura, Validators.required],
+    }
+  )
+
+  formGetDataUpdate(fr: string) {
+    return this.formDataUpdate.get(fr) as FormControl;
+  }
+
+  loadConfirmationDataUpdate() {
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea guardar la informacion?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.saveDataUpdate()
+        // this.formUpdateData.reset()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen asalvo:)',
+          'error'
+        )
+      }
+    });
+  }
+
+  saveDataUpdate() {
+    this.Factura.idEstadoFactura = this.EstadoFactura.idEstadoFactura
+
+    this.dataService.updateData('factura', this.Factura, this.Factura.numFactura).then((success) => {
+      if (success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Exito',
+          text: 'La factura se actualizo correctamente'
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Ups...',
+          text: 'Algo salió mal!',
+          footer: '<a href="">¿Por qué tengo este problema??</a>'
+        })
+      }
+    })
+  }
+
+  resetData(){
+    this.detalleFacturaItems = []
+    this.dataUpdate = undefined
+
+    EventBtnClick.setMiVariable(true)
+
+    this.Factura = {
+      numFactura: 0,
+      idEstadoFactura: 0,
+      idFechaFactura: 0,
+      numEmpleado: 0,
+      codCliente: 0,
+      impuestos: 0,
+      descuento: 0
+    }
+  
+    this.EstadoFactura= {
+      idEstadoFactura: 0,
+      estadoFactura: ''
+    }
+  
+    this.FechaFactura = {
+      idFechaFactura: 0,
+      fechaEmision: ''
+    }
+  
+    this.Empleado= {
+      numEmpleado: 0,
+      nombres: '',
+      apellidos: '',
+      direccion: ''
+    }
+  
+    this.Cliente= {
+      codCliente: 0,
+      cedula: '',
+      nombres: '',
+      apellidos: '',
+      direccion: ''
+    }
+  
+    this.DetalleFactura = {
+      idDetalleFactura: 0,
+      numFactura: 0,
+      codProducto: 0,
+      cantidad: 0,
+      precioUni: 0
+    }
+  
+    this.Producto = {
+      codProducto: 0,
+      idMarca: 0,
+      idNombreProducto: 0,
+      descripcion: '',
+      precioActual: 0,
+      estadoProducto: false
+    }
+  
+    this.NombreProducto = {
+      idNombreProducto: 0,
+      nombreProducto: ''
+    }
+  
+    this.Marca = {
+      idMarca: 0,
+      marca: ''
+    }
+  
+    this.Bodega= {
+      idBodega: 0,
+      nombre: '',
+      telefono: '',
+      direccion: '',
+      correo: ''
+    }
+  
+    this.RegistroProducto = {
+      idRegistro_Bodega: 0,
+      idBodega: 0,
+      codProducto: 0,
+      cantidad: 0
+    }
+  
+    this.OrdenPedido = {
+      numOrden: 0,
+      numExamen: 0,
+      numEmpleado: 0,
+      idLaboratorio: 0,
+      codProducto: 0,
+      idEstadoPedido: 0,
+      idFechaPedido: 0,
+      costo: 0,
+      descripcion: ''
+    }
+  
+    // EstadoPedido: EstadoPedido = {
+    //   idEstadoPedido: 0,
+    //   estadoPedido: ''
+    // }
+  
+    this.FechaPedido = {
+      idFechaPedido: 0,
+      fechaPedido: ''
+    }
+  
+    this.Pago= {
+      idPago: 0,
+      numFactura: 0,
+      idFechaPago: 0,
+      monto: 0,
+      tipoPago: false
+    }
+  
+    this.FechaPago = {
+      idFechaPago: 0,
+      fechaPago: ''
+    }
+  
+  }
 
 
 
@@ -1000,15 +1563,15 @@ export class FacturaComponent {
 
   btnClick = 'left';
 
-  getBtnClick(name:string):string{
+  getBtnClick(name: string): string {
     // this.getEventBtnClick()
-    if(name==this.btnClick)
+    if (name == this.btnClick)
       return 'active'
     return 'no-active'
   }
 
-  setBtnClick(name:string):void{
-    this.btnClick= name;
+  setBtnClick(name: string): void {
+    this.btnClick = name;
   }
 }
 
@@ -1027,7 +1590,7 @@ class ExampleDataSource extends DataSource<any> {
     return this._dataStream;
   }
 
-  disconnect() {}
+  disconnect() { }
 
   setData(data: any[]) {
     this._dataStream.next(data);

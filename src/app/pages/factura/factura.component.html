@@ -101,7 +101,7 @@
                         Fecha Emision
                     </label>
                     <input type="text" formControlName="fechaEmision" class="form-control form-input"
-                        placeholder="Fecha de emision" [(ngModel)]="FechaPago.fechaPago" readonly>
+                        placeholder="Fecha de emision" [(ngModel)]="FechaFactura.fechaEmision" readonly>
                     <i class="fa-solid fa-calendar-days form-input-icon"></i>
                     <div class="alert 1alert-danger mt-1"
                         [hidden]="formGetDataCreate('fechaEmision').valid || (formGetDataCreate('fechaEmision').pristine)">
@@ -154,6 +154,10 @@
                     </div> -->
                 </div>
 
+                <button class="btn btn-primary" #btnEnviar [disabled]="formCreateData.invalid"
+                    (click)="loadConfirmationDataCreate()">
+                    Agregar
+                </button>
 
             </form>
         </div>
@@ -306,7 +310,7 @@
             <h2 class="items items-cantidad">
                 Cantidad
             </h2>
-            <h2 class="items items-precio"> 
+            <h2 class="items items-precio">
                 Precio
             </h2>
             <h2 class="items items-precio">
@@ -339,7 +343,7 @@
 
 <!-- ordenPedido -->
 <ng-template #ordenPedido>
-    <app-table-simple [data]="tableDataOrdenPedido" [columns]="tableColumnsOrdenPedido"
+    <app-table-simple [data]="productoAuxiliarList" [columns]="tableColumnsOrdenPedido"
         (selectItemsCell)="resultDataTableOrdenPedido($event)" (cancelTable)="cancelDialogResult()">
     </app-table-simple>
 </ng-template>

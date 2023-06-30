@@ -36,7 +36,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() set data(data: any) {
     data.pipe(
       tap((data: any[]) => {
-        this.dataSource.data = data;
+        this.dataSource.data = data.reverse();
 
       })
     ).subscribe();

@@ -113,8 +113,8 @@ export class ContactoProveedorComponent {
           return{
             idProveedor: element.idProveedor,
             nombre: element.propietario + ' ' + element.nombre,
-            telefono : telefono.map(obj => obj.telefono).join(', '),
-            correo: correo.map(obj => obj.correo).join(', ')
+            telefono : telefono.map(obj => obj.telefono),
+            correo: correo.map(obj => obj.correo)
           }
         })
 
@@ -152,6 +152,7 @@ export class ContactoProveedorComponent {
   }
 
   setFormUpdate(data:Data){
+    console.log(data)
     this.dataUpdate = data
     if(this.dataUpdate){
 
@@ -273,8 +274,8 @@ export class ContactoProveedorComponent {
   }
 
   saveDataUpdate(data:any) {
-    // console.log(this.listCorreo)
-
+    console.log(data)
+    
     let empleado = this.ProveedorList.find(e => this.dataUpdate.idProveedor === e.idProveedor)
     let telefono = this.TelefonoProveedorList.filter(e => e.idProveedor === empleado?.idProveedor)
     let correo = this.CorreoProveedorList.filter(e => empleado?.idProveedor == e.idProveedor)
