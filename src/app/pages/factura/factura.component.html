@@ -2,12 +2,13 @@
     <mat-sidenav-content>
         <div class="example-content">
             <section *ngIf="getEventBtnClickHeader()">
-                <section>
+                <section *ngIf="!dataUpdate">
                     <h1>Lista de factura actuales</h1>
-                    <app-table [data]="myData$" [columns]="tableColumns"></app-table>
+                    <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setDataUpdate($event)"></app-table>
                 </section>
-                <section>
-
+                <section *ngIf="dataUpdate">
+                    <ng-container *ngTemplateOutlet="formUpdate">
+                    </ng-container>
                 </section>
             </section>
             <section *ngIf="!getEventBtnClickHeader()">
@@ -378,5 +379,41 @@
 
             </ng-container>
         </section>
+    </div>
+</ng-template>
+
+
+<ng-template #formUpdate>
+    <div class="card">
+        <div class="card-body">
+            <div class="container-header">
+                <h1 class="title">
+                    Actualizar informacion de la factura
+                </h1>
+                <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
+                    Cerrar
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form [formGroup]="formDataUpdate">
+
+                <div class="mb-2">
+                    <mat-label class="form-label">
+                        Tipo de pago
+                    </mat-label>
+                    <mat-select formControlName="estadoFactura" class="form-control form-control-lg" matNativeControl
+                        [(ngModel)]="EstadoFactura">
+                        <mat-option *ngFor="let option of facturaEstadoList" [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+
+                <button class="btn btn-primary" #btnEnviar [disabled]="formDataUpdate.invalid"
+                    (click)="loadConfirmationDataUpdate()">
+                    Actualizar
+                </button>
+            </form>
+        </div>
     </div>
 </ng-template>

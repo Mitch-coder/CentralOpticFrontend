@@ -7,6 +7,10 @@
           <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="resultDataTable($event)"></app-table>
         </section>
         <section *ngIf="dataUpdate">
+
+          <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formClientUpdate"
+            (formData)="loadDataConfirmationUpdate($event)" [Title]="'Actualizar informacion del empleado'"
+            (btnCancel)="cancelFormUpdate()" [BtnCancel]="true"></app-form>
           <!-- <ng-container *ngTemplateOutlet="formUpdate"></ng-container>  -->
           <!-- <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formEmpleadoUpdate"></app-form> -->
          </section> 

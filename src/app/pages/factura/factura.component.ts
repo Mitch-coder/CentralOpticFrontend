@@ -466,6 +466,29 @@ export class FacturaComponent {
     });
   }
 
+  cancelFormUpdate() {
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea cerrar el formulario?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Cerrar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.dataUpdate = undefined
+        this.resetData()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen asalvo:)',
+          'error'
+        )
+      }
+    });
+  }
+
   openEditForm(data: any, template: TemplateRef<any>) {
     this.detalleItems = data
     this.openDialogWithTemplate(template)
