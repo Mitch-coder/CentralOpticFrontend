@@ -3,7 +3,7 @@
     <div class="example-content">
       <section [ngClass]="!dataTableValidators?'':'val'" *ngIf="getEventBtnClickHeader() && !dataTableValidators">
         <section>
-          <h1>Lista de OrdenPedido</h1>
+          <h1>Lista de Ordenes Pedido</h1>
           <app-table [data]="myData$" [columns]="tableColumns"
             (selectItemsCell)="getDataUpdateDialog($event,formUpdate)"></app-table>
         </section>
@@ -20,7 +20,7 @@
     <div class="card-body">
       <div class="container-header">
         <h1 class="title">
-          Agregar informacion del Pedido
+          Agregar información del Pedido
         </h1>
       </div>
       <form [formGroup]="formDataCreate">
@@ -30,7 +30,7 @@
               Seleccione el empleado *
             </label>
             <input type="text" formControlName="empleado" class="form-control form-input"
-              placeholder="Seleccione el empleado" [(ngModel)]="Empleado.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el empleado" [(ngModel)]="Empleado.nombres" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('empleado').valid || (formGetDataCreate('empleado').pristine)">
@@ -48,7 +48,7 @@
               Seleccione el examen *
             </label>
             <input type="text" formControlName="examenVista" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="ExamenVista.numExamen">
+              placeholder="Seleccione el cliente" [(ngModel)]="ExamenVista.numExamen" readonly>
             <i class="fa-solid fa-eye form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('examenVista').valid || (formGetDataCreate('examenVista').pristine)">
@@ -63,10 +63,10 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione el Laboratorio *
+              Seleccione el laboratorio *
             </label>
             <input type="text" formControlName="laboratorio" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="Laboratorio.idLaboratorio">
+              placeholder="Seleccione el cliente" [(ngModel)]="Laboratorio.idLaboratorio" readonly>
             <i class="fa-solid fa-flask-vial form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('laboratorio').valid || (formGetDataCreate('laboratorio').pristine)">
@@ -81,10 +81,10 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione el Producto *
+              Seleccione el producto *
             </label>
             <input type="text" formControlName="producto" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="Producto.codProducto"> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el cliente" [(ngModel)]="Producto.codProducto" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-solid fa-box-archive form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('producto').valid || (formGetDataCreate('producto').pristine)">
@@ -98,27 +98,27 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Estado Producto
+            Estado del pedido
           </label>
           <input type="text" formControlName="estadoPedido" class="form-control form-input"
-            placeholder="Fecha del pedido" [(ngModel)]="EstadoPedido.estadoPedido" readonly>
+            placeholder="Estado del Pedido" [(ngModel)]="EstadoPedido.estadoPedido" readonly>
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('estadoPedido').valid || (formGetDataCreate('estadoPedido').pristine)">
-            Estado Producto
+            Estado del Pedido
           </div>
         </div>
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Fecha del Pedido
+            Fecha del pedido
           </label>
           <input type="text" formControlName="fechaPedido" class="form-control form-input"
             placeholder="Fecha del pedido" [(ngModel)]="FechaPedido.fechaPedido" readonly>
           <i class="fa-solid fa-calendar-days form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('fechaPedido').valid || (formGetDataCreate('fechaPedido').pristine)">
-            Ingrese la descripcion de la entrega
+            Ingrese la descripción de la entrega
           </div>
         </div>
 
@@ -140,7 +140,7 @@
             Ingrese la descripción del pedido *
           </label>
           <input type="text" formControlName="descripcion" class="form-control form-input"
-            placeholder="Ingrese la descripcion del pedido" [(ngModel)]="OrdenPedido.descripcion">
+            placeholder="Ingrese la descripción del pedido" [(ngModel)]="OrdenPedido.descripcion">
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('descripcion').valid || (formGetDataCreate('descripcion').pristine)">
@@ -185,7 +185,7 @@
       <div class="card-body">
         <div class="container-header">
           <h1 class="title">
-            Actualizar informacion del pedido
+            Actualizar información del pedido
           </h1>
         </div>
         <form [formGroup]="formDataUpdateDialog">

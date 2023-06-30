@@ -30,6 +30,7 @@ export class DashboardComponent {
     this.dataService
      .getData('acceso').subscribe((data:any) =>{
       this.Nombre = data.nombres + ' ' +  data.apellidos;
+      console.log(data)
       }
      );
      

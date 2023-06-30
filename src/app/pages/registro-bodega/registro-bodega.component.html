@@ -2,7 +2,7 @@
   <mat-sidenav-content>
     <div class="example-content">
       <section *ngIf="!dataUpdate">
-        <h1>Lista de productos en bodegas actuales</h1>
+        <h1>Lista de productos en bodegas</h1>
         <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="loadDataUpdate($event)"></app-table>
       </section>
       <section *ngIf="dataUpdate">

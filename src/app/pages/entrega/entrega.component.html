@@ -22,9 +22,9 @@
     <div class="container-header">
       <p class="content-text">
         Ayuda! <br>
-        Si se confundio guardando en que entrega pertenece a cada un pedido pulse el boton
-        Se le abrira un cuadrado de dialogo para que seleccione el pedido al que quiere cambiar
-        el estado de entrega
+        Si se confundió guardando en que entrega pertenece a cada un pedido pulse el boton.
+        Se le abrirá un recuadro para que seleccione el pedido al que quiere cambiar
+        el estado de entrega.
       </p>
       <button mat-fab extended class="btnAuxiliar btn-danger" (click)="openDialogWithTemplate(tableUpdate)">
         <!-- <i class="fa-solid fa-xmark"></i> -->
@@ -37,7 +37,7 @@
     <div class="card-body">
       <div class="container-header">
         <h1 class="title">
-          Actualizar informacion de la entrega
+          Actualizar información de la entrega
         </h1>
         <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
           Cerrar
@@ -51,7 +51,7 @@
               Seleccione la orden del pedido *
             </label>
             <input type="text" formControlName="ordenPedido" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden"> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataUpdate('ordenPedido').valid || (formGetDataUpdate('ordenPedido').pristine)">
@@ -86,7 +86,7 @@
           <!-- <i class="fa-regular fa-envelope form-input-icon"></i> -->
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataUpdate('descripcion').valid || (formGetDataUpdate('descripcion').pristine)">
-            Ingrese el correo del cliente
+            Ingrese la descripcion de la entrega
           </div>
         </div>
         <button class="btn btn-primary" #btnEnviar [disabled]="formUpdateData.invalid"
@@ -118,7 +118,7 @@
     <div class="card-body">
       <div class="container-header">
         <h1 class="title">
-          Agregar informacion de la entrega
+          Agregar información de la entrega
         </h1>
       </div>
       <form [formGroup]="formUpdateCreate">
@@ -128,11 +128,11 @@
               Seleccione la orden del pedido *
             </label>
             <input type="text" formControlName="ordenPedido" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden"> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('ordenPedido').valid || (formGetDataCreate('ordenPedido').pristine)">
-              Seleccione un cliente
+              Seleccione la orden del pedido
             </div>
           </div>
           <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableCreateAuxiliar)">
@@ -166,7 +166,7 @@
             <span class="data">
               <i class="fa-solid fa-pencil"></i>
               <p class="tilte-data">
-                Descripcion:
+                Descripción:
               </p>
               {{OrdenPedido.descripcion}}</span>
           </div>
@@ -186,7 +186,7 @@
 
         <div class="" #input>
           <label class="form-label">
-            Ingrese la descripcion de la entrega *
+            Ingrese la descripción de la entrega *
           </label>
           <input type="text" formControlName="descripcion" class="form-control form-input"
             placeholder="Ingrese la descripcion del producto" [(ngModel)]="Entrega.descripcion">
@@ -194,7 +194,7 @@
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('descripcion').valid || (formGetDataCreate('descripcion').pristine)">
-            Ingrese la descripcion de la entrega
+            Ingrese la descripción de la entrega
           </div>
         </div>
         <button class="btn btn-primary" #btnEnviar [disabled]="formUpdateCreate.invalid"

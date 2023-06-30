@@ -51,7 +51,7 @@ export class EmpleadoComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Identificador', def: 'NumEmpleado', dataKey: 'numEmpleado' },
+      { label: 'Número de Empleado', def: 'NumEmpleado', dataKey: 'numEmpleado' },
       { label: 'Nombre', def: 'nombres', dataKey: 'nombres' },
       { label: 'Apellido', def: 'apellidos', dataKey: 'apellidos' },
       { label: 'Direccion', def: 'direccion', dataKey: 'direccion' }

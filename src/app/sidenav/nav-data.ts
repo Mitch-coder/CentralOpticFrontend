@@ -74,7 +74,7 @@ export const navbarData:INavbarData[]=[
     {
         routeLink:'proveedor-producto',
         icon: 'fa-solid fa-truck-ramp-box',
-        label:'Producto Proveido'
+        label:'Producto Proveído'
     },{
         routeLink:'examen-vista',
         icon: 'fa-regular fa-eye',

@@ -3,8 +3,8 @@
       <div class="example-content">
         <section *ngIf="getEventBtnClickHeader()">
           <section *ngIf="!dataUpdate">
-            <h1>Lista de Clientes</h1>
-            <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
+            <h1>Lista de clientes</h1>
+            <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)" [buttonShowdelete]="true"></app-table>
           </section>
           <section *ngIf="dataUpdate">
             <app-form 
@@ -25,4 +25,7 @@
         </section>
       </div>
     </mat-sidenav-content>
-  </mat-sidenav-container>  
+  </mat-sidenav-container> 
+  <!-- <button (click)="Probardelete()">
+    Eliminar
+  </button> -->

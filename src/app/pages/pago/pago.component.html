@@ -3,7 +3,7 @@
     <div class="example-content">
       <section *ngIf="getEventBtnClickHeader()">
         <section *ngIf="!dataUpdate">
-          <h1>Lista de pagos actuales</h1>
+          <h1>Lista de pagos</h1>
           <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="resultDataTableUpdate($event)"></app-table>
         </section>
         <section *ngIf="dataUpdate">
@@ -23,7 +23,7 @@
     <div class="card-body">
       <div class="container-header">
         <h1 class="title">
-          Agregar informacion del pago
+          Agregar información del pago
         </h1>
         <!-- <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
           Cerrar
@@ -35,10 +35,10 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Factura *
+              Número de factura 
             </label>
             <input type="text" formControlName="factura" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="Factura.numFactura"> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el cliente" [(ngModel)]="Factura.numFactura" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('factura').valid || (formGetDataCreate('factura').pristine)">
@@ -111,7 +111,7 @@
     <div class="card-body">
       <div class="container-header">
         <h1 class="title">
-          Actualizar informacion del pago
+          Actualizar información del pago
         </h1>
         <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
           Cerrar
@@ -123,10 +123,10 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Factura 
+              Número de factura 
             </label>
             <input type="text" formControlName="factura" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="Factura.numFactura"> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el cliente" [(ngModel)]="Factura.numFactura" readonly>  <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataUpdate('factura').valid || (formGetDataUpdate('factura').pristine)">

@@ -370,7 +370,7 @@ export class FacturaComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Numero Factura', def: 'numFactura', dataKey: 'numFactura' },
+      { label: 'Número Factura', def: 'numFactura', dataKey: 'numFactura' },
       { label: 'Estado Factura', def: 'estadoFactura', dataKey: 'estadoFactura' },
       { label: 'Fecha Factura', def: 'fechaFactura', dataKey: 'fechaFactura' },
       { label: 'Empleado', def: 'empleado', dataKey: 'empleado' },

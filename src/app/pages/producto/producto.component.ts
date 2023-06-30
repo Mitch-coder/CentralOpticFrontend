@@ -3,7 +3,7 @@ import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
 import { Observable, elementAt, map, mergeMap, tap } from 'rxjs';
 import { forkJoin } from 'rxjs';
-import { HeaderData } from 'src/app/header/header-data';
+import { EventBtnClick, HeaderData } from 'src/app/header/header-data';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormData } from 'src/app/modules/form/components/form/form-data';
 import { DialogService } from 'src/app/services/dialog/dialog.service';
@@ -287,12 +287,12 @@ export class ProductoComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Codigo Producto', def: 'codProducto', dataKey: 'codProducto' },
+      { label: 'Código del Producto', def: 'codProducto', dataKey: 'codProducto' },
       { label: 'Marca', def: 'marca', dataKey: 'marca' },
       { label: 'Nombre', def: 'Nombre', dataKey: 'nombre' },
-      { label: 'Descripcion', def: 'Descripcion', dataKey: 'descripcion' },
+      { label: 'Descripción', def: 'Descripcion', dataKey: 'descripcion' },
       { label: 'Precio Actual', def: 'precioActual', dataKey: 'precioActual' },
-      { label: 'Estado Producto', def: 'estadoProducto', dataKey: 'estadoProducto' }
+      { label: 'Estado del Producto', def: 'estadoProducto', dataKey: 'estadoProducto' }
     ]
   }
 
@@ -347,10 +347,10 @@ export class ProductoComponent {
   }
 
   formColumnsTableBodega = [
-    { label: 'IdBodega', def: 'idBodega', dataKey: 'idBodega' },
+    { label: 'Número de Bodega', def: 'idBodega', dataKey: 'idBodega' },
     { label: 'Nombre', def: 'nombre', dataKey: 'nombre' },
-    { label: 'Direccion', def: 'direccion', dataKey: 'direccion' },
-    { label: 'Telefono', def: 'telefono', dataKey: 'telefono' },
+    { label: 'Dirección', def: 'direccion', dataKey: 'direccion' },
+    { label: 'Teléfono', def: 'telefono', dataKey: 'telefono' },
     { label: 'Correo', def: 'correo', dataKey: 'correo' }
   ]
 
@@ -360,10 +360,10 @@ export class ProductoComponent {
   }
 
   formColumnsTableProveedor = [
-    { label: 'ID', def: 'idProveedor', dataKey: 'idProveedor' },
+    { label: 'Código de Proovedor', def: 'idProveedor', dataKey: 'idProveedor' },
     { label: 'Nombre', def: 'Nombre', dataKey: 'nombre' },
     { label: 'Propietario', def: 'propietario', dataKey: 'propietario' },
-    { label: 'Direccion', def: 'direccion', dataKey: 'direccion' }
+    { label: 'Dirección', def: 'direccion', dataKey: 'direccion' }
   ]
 
   getDataTableProveedor(data: any) {
@@ -387,7 +387,7 @@ export class ProductoComponent {
   loadConfirmationDataCreate() {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea guardar la informacion?',
+      text: '¿Estás seguro que desea guardar la información?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
@@ -527,7 +527,7 @@ export class ProductoComponent {
                     'success'
                   )
                   this.resetData();
-                  HeaderData.eventBtnClick = true
+                  EventBtnClick.setMiVariable(true);
                 } else {
                   Swal.fire({
                     icon: 'error',

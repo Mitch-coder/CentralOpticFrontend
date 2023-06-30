@@ -31,16 +31,16 @@
 
 <div class="class-btn-action">
   <button mat-fab extended class="btnUpdate" [ngClass]="btnClickItemRow?'btn-primary-disable':'btn-primary'"
-    [disabled]="btnClickItemRow" (click)="btnClickUpdate()">
+    [disabled]="btnClickItemRow" (click)="btnClickUpdate()" >
     <i class="fa-solid fa-pen-to-square"></i>
     Actualizar
   </button>
 
-  <!-- <button mat-fab extended [disabled]="btnClickItemRow" class="btnUpdate"
-    [ngClass]="btnClickItemRow?'btn-danger-disable':'btn-danger'" (click)="btnClickUpdate()">
+  <button mat-fab extended [disabled]="btnClickItemRow" class="btnUpdate"
+    [ngClass]="btnClickItemRow?'btn-danger-disable':'btn-danger'" (click)="btnClickUpdate()" *ngIf="Showdelete">
     <i class="fa-solid fa-trash-can"></i>
     Eliminar
-  </button> -->
+  </button>
 
   <button mat-fab extended class="btnUpdate" [ngClass]="'btn-success'" (click)="btnClickExport()">
     <i class="fa-solid fa-file-export"></i>

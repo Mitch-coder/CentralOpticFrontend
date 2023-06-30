@@ -105,7 +105,7 @@ export class ClienteComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Identificador', def: 'IdCliente', dataKey: 'codCliente' },
+      { label: 'Número de Cliente', def: 'IdCliente', dataKey: 'codCliente' },
       { label: 'Cédula', def: 'Cedula', dataKey: 'cedula' },
       { label: 'Nombres', def: 'Nombre', dataKey: 'nombres' },
       { label: 'Apellidos', def: 'Apellido', dataKey: 'apellidos' },
@@ -116,6 +116,22 @@ export class ClienteComponent {
   getEventBtnClickHeader() {
     return HeaderData.eventBtnClick;
   }
+
+  // Probardelete(){
+
+  //   this.dataService.deleteData('cliente',1086).then( success =>{
+
+  //     if(success){
+
+  //       console.log('exito');
+  //     }else{
+
+  //       console.log('no exito');
+
+  //     }
+  //   })
+
+  // }
 
   setFormUpdate(data: Cliente) {
     this.dataUpdate = data

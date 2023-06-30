@@ -4,7 +4,7 @@ import { MyDataServices } from 'src/app/services/mydata.services';
 import { tap } from 'rxjs';
 import { FormData } from 'src/app/modules/form/components/form/form-data';
 import { FormGroup, Validators } from '@angular/forms';
-import { HeaderData } from 'src/app/header/header-data';
+import { EventBtnClick, HeaderData } from 'src/app/header/header-data';
 import Swal from 'sweetalert2';
 
 
@@ -51,19 +51,19 @@ export class BodegaComponent {
     label: 'Correo',
     type: 'email',
     placeholder: 'Ingrese el correo de la boodega',
-    alert: 'El correo de la bodega es obligatorio',
+    alert: 'El correo de la bodega no es válido',
     icon: 'fa-regular fa-envelope',
     formControlName: 'correo',
-    formValidators: { 'correo': ['', [Validators.required,Validators.email]] }
+    formValidators: { 'correo': ['', [Validators.nullValidator,Validators.email]] }
   },
   {
-    label: 'Telefono',
+    label: 'Teléfono',
     type: 'tel',
-    placeholder: 'Ingrese el telefono de la bodega',
-    alert: 'El telefono de la bodega es obligatorio',
+    placeholder: 'Ingrese el teléfono de la bodega',
+    alert: 'El teléfono de la bodega no es válido',
     icon: 'fa-solid fa-mobile-screen',
     formControlName: 'telefono',
-    formValidators: { 'telefono': ['', [Validators.required]] }
+    formValidators: { 'telefono': ['', [Validators.nullValidator,Validators.maxLength(8),Validators.minLength(8)]] }
   }]
 
   formUpdate: FormData[] = []
@@ -84,10 +84,10 @@ export class BodegaComponent {
   
   setTableColumns(){
     this.tableColumns=[
-      {label:'Identificador', def:'idBodega', dataKey:'idBodega'},
+      {label:'Número de Bodega', def:'idBodega', dataKey:'idBodega'},
       {label:'Nombre', def:'nombre', dataKey:'nombre'},
-      {label:'Direccion', def:'direccion', dataKey:'direccion'},
-      {label:'Telefono', def:'telefono', dataKey:'telefono'},
+      {label:'Dirección', def:'direccion', dataKey:'direccion'},
+      {label:'Teléfono', def:'telefono', dataKey:'telefono'},
       {label:'Correo', def:'correo', dataKey:'correo'}
     ]
   }
@@ -128,17 +128,17 @@ export class BodegaComponent {
         alert: 'El correo de la bodega es obligatorio',
         icon: 'fa-regular fa-envelope',
         formControlName: 'correo',
-        formValidators: { 'correo': [data.correo, [Validators.required,Validators.email]] },
+        formValidators: { 'correo': [data.correo, [Validators.nullValidator,Validators.email]] },
         value:data.correo
       },
       {
         label: 'Telefono',
-        type: 'tel',
+        type: 'text',
         placeholder: 'Ingrese el telefono de la bodega',
         alert: 'El telefono de la bodega es obligatorio',
         icon: 'fa-solid fa-mobile-screen',
         formControlName: 'telefono',
-        formValidators: { 'telefono': [data.telefono, [Validators.required]] },
+        formValidators: { 'telefono': [data.telefono, [Validators.nullValidator,Validators.maxLength(8),Validators.minLength(8)]] },
         value:data.telefono
       }]
     }
@@ -246,22 +246,14 @@ export class BodegaComponent {
     console.log(data)
     this.dataService.postData('bodega', data)
     .then(success => {
-
       if(success){
-
         Swal.fire({
           title: 'Exito!',
           text: 'La informacion a sido guardada',
           icon: 'success',
           confirmButtonText: 'OK!',
-        }
-        ).then((result) => {
-  
-          if (result.isConfirmed) {
-            // this.initDataTable()
-          }
         })
-
+        EventBtnClick.setMiVariable(true);
       }
       else{
 

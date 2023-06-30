@@ -68,11 +68,40 @@ export class MyDataServices {
     this.http.put('https://localhost:7210/centralopticapi/' + endpoint + '/' + Id, body, httpOptions)
       .subscribe(
         response => {
-          console.log('Insertado con éxito');
+          console.log('Actualizado con éxito');
           resolve(true);
         },
         error => {
           console.log('Error al insertar los datos:', error);
+          resolve(false);
+        }
+      );
+    });
+  }
+
+  //Te devuelvo exito o True si el registro como tal no existe, te devuelve false si tiene registros ya
+
+  deleteData(endpoint: string, Id: number): Promise<boolean> {
+
+    // const success = true
+    const bearerToken: string = this.cookieService.get('token');
+    localStorage.setItem('access_token', bearerToken);
+    //This is the authentication about
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+      })
+    };
+
+    return new Promise<boolean>((resolve, reject) => {
+    this.http.delete('https://localhost:7210/centralopticapi/' + endpoint + '/' + Id , httpOptions)
+      .subscribe(
+        response => {
+          console.log('Eliminado con éxito');
+          resolve(true);
+        },
+        error => {
+          console.log('Error al eliminar los datos:', error);
           resolve(false);
         }
       );

@@ -1,7 +1,7 @@
 <mat-sidenav-container class="example-container">
   <mat-sidenav-content>
     <div class="example-content">
-      <h1>Lista de Examenes de la vista actuales</h1>
+      <h1 *ngIf="getEventBtnClickHeader()">Lista de exámenes de la vista</h1>
       <section *ngIf="getEventBtnClickHeader()">
         <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="getTableDataUpdate($event)"></app-table>
         <section *ngIf="dataUpdate">
@@ -24,7 +24,7 @@
     <div class="card-body">
       <div class="container-header">
         <h1 class="title">
-          Actualizar informacion de la entrega
+          Actualizar información del examen
         </h1>
         <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
           Cerrar
@@ -36,14 +36,14 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione la orden del pedido *
+              Seleccione el cliente
             </label>
             <input type="text" formControlName="cliente" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="Cliente.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el cliente" [(ngModel)]="Cliente.nombres" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataUpdate('cliente').valid || (formGetDataUpdate('cliente').pristine)">
-              Seleccione un cliente
+              Seleccione el cliente
             </div>
           </div>
           <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableUpdateAuxiliar)">
@@ -56,7 +56,7 @@
             Fecha del Examen
           </label>
           <input type="text" formControlName="fechaExamen" class="form-control form-input"
-            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="FechaExamen.fechaExamen">
+            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="FechaExamen.fechaExamen" readonly>
           <i class="fa-solid fa-calendar-days form-input-icon"></i>
           <div class="alert 1alert-danger mt-1"
             [hidden]="formGetDataUpdate('fechaExamen').valid || (formGetDataUpdate('fechaExamen').pristine)">
@@ -66,27 +66,27 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Medida del ojo izquierdo
+            Medida del ojo izquierdo 0 - 1
           </label>
           <input type="number" formControlName="ojoIzq" class="form-control form-input"
-            placeholder="Ingrese la medida del ojo derecho" [(ngModel)]="ExamenVista.ojoIzquierdo">
+            placeholder="Ingrese la medida del ojo derecho 0 - 1" [(ngModel)]="ExamenVista.ojoIzquierdo">
           <i class="fa-solid fa-arrows-to-eye form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataUpdate('ojoIzq').valid || (formGetDataUpdate('ojoIzq').pristine)">
-            Ingrese la medida del ojo derecho
+            Ingrese la medida del ojo izquierdo 0 - 1
           </div>
         </div>
         
         <div class="mb-2" #input>
           <label class="form-label">
-            Medida del ojo derecho
+            Medida del ojo derecho 0 - 1
           </label>
           <input type="number" formControlName="ojoDer" class="form-control form-input"
-            placeholder="Ingrese la medida del ojo derecho" [(ngModel)]="ExamenVista.ojoDerecho">
+            placeholder="Ingrese la medida del ojo derecho 0 - 1" [(ngModel)]="ExamenVista.ojoDerecho">
           <i class="fa-solid fa-arrows-to-eye form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataUpdate('ojoDer').valid || (formGetDataUpdate('ojoDer').pristine)">
-            Ingrese la medida del ojo derecho
+            Ingrese la medida del ojo derecho 0 - 1
           </div>
         </div>
 
@@ -141,8 +141,8 @@
   <div class="card">
     <div class="card-body">
       <div class="container-header">
-        <h1 class="title">
-          Agregar examen de vista
+        <h1 class="title" >
+          Agregar examen de la vista
         </h1>
       </div>
 
@@ -151,22 +151,22 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione la orden del pedido 
+              Seleccione el cliente
             </label>
             <input type="text" formControlName="cliente" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="Cliente.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el cliente" [(ngModel)]="Cliente.nombres" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('cliente').valid || (formGetDataCreate('cliente').pristine)">
-              Seleccione un cliente
+              Seleccione el cliente
             </div>
           </div>
           <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableUpdateAuxiliar)">
             <i class="fa-regular fa-hand-pointer"></i>
           </button>
-          <button mat-fab extended class="btn-add btn-success" (click)="openDialogWithTemplate(formcliente)">
+          <!-- <button mat-fab extended class="btn-add btn-success" (click)="openDialogWithTemplate(formcliente)">
             <i class="fa-solid fa-person-circle-plus"></i>
-          </button>
+          </button> -->
         </div>
 
         <div class="mb-2" #input>
@@ -174,7 +174,7 @@
             Fecha del Examen
           </label>
           <input type="text" formControlName="fechaExamen" class="form-control form-input"
-            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="FechaExamen.fechaExamen">
+            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="FechaExamen.fechaExamen" readonly>
           <i class="fa-solid fa-calendar-days form-input-icon"></i>
           <div class="alert 1alert-danger mt-1"
             [hidden]="formGetDataCreate('fechaExamen').valid || (formGetDataCreate('fechaExamen').pristine)">
@@ -184,27 +184,27 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Medida del ojo izquierdo
+            Medida del ojo izquierdo 0 - 1
           </label>
           <input type="number" formControlName="ojoIzq" class="form-control form-input"
-            placeholder="Ingrese la medida del ojo derecho" [(ngModel)]="ExamenVista.ojoIzquierdo">
+            placeholder="Ingrese la medida del ojo izquierdo 0 - 1" [(ngModel)]="ExamenVista.ojoIzquierdo">
           <i class="fa-solid fa-arrows-to-eye form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('ojoIzq').valid || (formGetDataCreate('ojoIzq').pristine)">
-            Ingrese la medida del ojo derecho
+            Ingrese la medida del ojo izquierdo 0 - 1
           </div>
         </div>
         
         <div class="mb-2" #input>
           <label class="form-label">
-            Medida del ojo derecho
+            Medida del ojo derecho 0 - 1
           </label>
           <input type="number" formControlName="ojoDer" class="form-control form-input"
-            placeholder="Ingrese la medida del ojo derecho" [(ngModel)]="ExamenVista.ojoDerecho">
+            placeholder="Ingrese la medida del ojo derecho 0 - 1" [(ngModel)]="ExamenVista.ojoDerecho">
           <i class="fa-solid fa-arrows-to-eye form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('ojoDer').valid || (formGetDataCreate('ojoDer').pristine)">
-            Ingrese la medida del ojo derecho
+            Ingrese la medida del ojo derecho 0 - 1
           </div>
         </div>
 
@@ -217,7 +217,7 @@
           <i class="fa-solid fa-glasses form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('descLenteIzq').valid || (formGetDataCreate('descLenteIzq').pristine)">
-            Descripción del lente izquierdo
+            Ingrese la descripción del lente izquierdo
           </div>
         </div>
 
@@ -230,7 +230,7 @@
           <i class="fa-solid fa-glasses form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('descLenteDer').valid || (formGetDataCreate('descLenteDer').pristine)">
-            Descripción del lente derecho
+            Ingrese la descripción del lente derecho
           </div>
         </div>
 

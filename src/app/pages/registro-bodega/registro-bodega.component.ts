@@ -145,10 +145,10 @@ export class RegistroBodegaComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Identificador', def: 'idRegistroBodega', dataKey: 'idRegistroBodega' },
+      { label: 'Código de Registro', def: 'idRegistroBodega', dataKey: 'idRegistroBodega' },
       { label: 'Bodega', def: 'bodega', dataKey: 'bodega' },
-      { label: 'Nombre Producto', def: 'nombreProducto', dataKey: 'nombreProducto' },
-      { label: 'Descripcion Producto', def: 'descripcion', dataKey: 'descripcion' },
+      { label: 'Nombre del Producto', def: 'nombreProducto', dataKey: 'nombreProducto' },
+      { label: 'Descripción del Producto', def: 'descripcion', dataKey: 'descripcion' },
       { label: 'Cantidad', def: 'cantidad', dataKey: 'cantidad' }
     ]
   }
@@ -210,10 +210,10 @@ export class RegistroBodegaComponent {
   }
 
   formColumnsTableBodega = [
-    { label: 'IdBodega', def: 'idBodega', dataKey: 'idBodega' },
+    { label: 'Número de Bodega', def: 'idBodega', dataKey: 'idBodega' },
     { label: 'Nombre', def: 'nombre', dataKey: 'nombre' },
-    { label: 'Direccion', def: 'direccion', dataKey: 'direccion' },
-    { label: 'Telefono', def: 'telefono', dataKey: 'telefono' },
+    { label: 'Dirección', def: 'direccion', dataKey: 'direccion' },
+    { label: 'Teléfono', def: 'telefono', dataKey: 'telefono' },
     { label: 'Correo', def: 'correo', dataKey: 'correo' }
   ]
 
@@ -277,44 +277,86 @@ export class RegistroBodegaComponent {
   saveDataUpdate(){
     if(this.Change){
       let result = this.RegistroBodega.cantidad - this.Cantidad
-      if(result===0){
-        Swal.fire({
-          title: 'Confirmar',
-          text: 'La accion dejara sin productos la '+this.Bodega.nombre+'¿Desea proseguir con la accion?',
-          icon: 'question',
-          showCancelButton: true,
-          confirmButtonText: 'Aceptar',
-          cancelButtonText: 'Cancelar',
-          reverseButtons: true
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.updateBodegaMove()
-          } else if (result.dismiss === Swal.DismissReason.cancel) {
-            Swal.fire(
-              'Cancelado',
-              'Los datos siguen asalvo:)',
-              'error'
-            )
-          }
-        });
-      }else if(result<0){
+
+      if(this.RegistroBodega.cantidad <0 || this.Cantidad <0){
         Swal.fire(
           'Cancelado',
-          'Los datos que se intentan mover son mayores a los que posee la bodega '+this.Bodega.nombre,
+          'No se puede trabajar con estas cantidades',
+          'error'
+        )
+      }
+      else{
+
+        if(result==0){
+          Swal.fire({
+            title: 'Confirmar',
+            text: 'La accion dejara sin productos la '+this.Bodega.nombre+'¿Desea proseguir con la accion?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.updateBodegaMove()
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              Swal.fire(
+                'Cancelado',
+                'Los datos siguen asalvo:)',
+                'error'
+              )
+            }
+          });
+        }else if(result<0){
+          Swal.fire(
+            'Cancelado',
+            'Los datos que se intentan mover son mayores a los que posee la bodega '+this.Bodega.nombre,
+            'error'
+          )
+        }else{
+          Swal.fire({
+            title: 'Confirmar',
+            text: '¿Está seguro que desea mover productos a la bodega '+this.BodegaMove.nombre+'?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.updateBodegaMove()
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              Swal.fire(
+                'Cancelado',
+                'Los datos siguen asalvo:)',
+                'error'
+              )
+            }
+          }); 
+        }
+      }
+      
+    }else{
+
+      if(this.RegistroBodega.cantidad <0 || this.Cantidad <0){
+        Swal.fire(
+          'Cancelado',
+          'No se puede trabajar con estas cantidades',
           'error'
         )
       }else{
+
         Swal.fire({
           title: 'Confirmar',
-          text: '¿Está seguro que desea mover productos a la bodega '+this.BodegaMove.nombre+'?',
+          text: '¿Estás seguro que desea actualizar la cantidad de productos de la bodega '+this.Bodega.nombre+'?',
           icon: 'question',
           showCancelButton: true,
-          confirmButtonText: 'Aceptar',
+          confirmButtonText: 'Guardar',
           cancelButtonText: 'Cancelar',
           reverseButtons: true
         }).then((result) => {
           if (result.isConfirmed) {
-            this.updateBodegaMove()
+            this.saveDataCantidad()
           } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire(
               'Cancelado',
@@ -323,28 +365,7 @@ export class RegistroBodegaComponent {
             )
           }
         });
-        
       }
-    }else{
-      Swal.fire({
-        title: 'Confirmar',
-        text: '¿Estás seguro que desea actualizar la cantidad de productos de la bodega '+this.Bodega.nombre+'?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Guardar',
-        cancelButtonText: 'Cancelar',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.saveDataCantidad()
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            'Cancelado',
-            'Los datos siguen asalvo:)',
-            'error'
-          )
-        }
-      });
     }
   }
 

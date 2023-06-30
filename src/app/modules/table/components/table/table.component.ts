@@ -19,6 +19,8 @@ export class TableComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<any>
   tableDisplayColumns: String[] = [];
   tableColumns: TableColumn[] = []
+  Showdelete:boolean = false;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   dataUpdate: any = {}
@@ -48,11 +50,25 @@ export class TableComponent implements OnInit, AfterViewInit {
     
   }
 
+  @Input() set buttonShowdelete(Showdelete: boolean ) {
+    
+    if(Showdelete){
 
+      this.dataService
+     .getData('acceso').subscribe((data:any) =>{
+        if(data.rol == 'Administrador'){
+          
+          this.Showdelete = true;
+
+        }
+      }
+     );
+    }
+  }
 
   @Output() selectItemsCell: EventEmitter<any>;
 
-  constructor(private headerSearch: HeaderSearch) {
+  constructor(private headerSearch: HeaderSearch, private dataService:MyDataServices) {
 
     this.selectItemsCell = new EventEmitter();
   }

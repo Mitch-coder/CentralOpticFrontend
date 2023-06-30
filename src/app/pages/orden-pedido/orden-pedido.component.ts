@@ -280,13 +280,13 @@ export class OrdenPedidoComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Numero Orden', def: 'numOrden', dataKey: 'numOrden' },
-      { label: 'Numero Examen', def: 'numExamen', dataKey: 'numExamen' },
-      { label: 'Descripcion', def: 'descripcion', dataKey: 'descripcion' },
+      { label: 'Número de Orden', def: 'numOrden', dataKey: 'numOrden' },
+      { label: 'Número de Examen', def: 'numExamen', dataKey: 'numExamen' },
+      { label: 'Descripción', def: 'descripcion', dataKey: 'descripcion' },
       { label: 'Costo', def: 'costo', dataKey: 'costo' },
-      { label: 'Codigo Producto', def: 'codProducto', dataKey: 'codProducto' },
-      { label: 'Estado Pedido', def: 'estadoPedido', dataKey: 'estadoPedido' },
-      { label: 'Fecha Pedido', def: 'fechaPedido', dataKey: 'fechaPedido' },
+      { label: 'Código del Producto', def: 'codProducto', dataKey: 'codProducto' },
+      { label: 'Estado del Pedido', def: 'estadoPedido', dataKey: 'estadoPedido' },
+      { label: 'Fecha del Pedido', def: 'fechaPedido', dataKey: 'fechaPedido' },
       { label: 'Laboratorio', def: 'laboratorio', dataKey: 'laboratorio' },
       { label: 'Empleado', def: 'numEmpleado', dataKey: 'empleado' },
     ]
@@ -548,13 +548,13 @@ export class OrdenPedidoComponent {
   }
 
   tableColumnsExamenVista: TableColumn[] = [
-    { label: 'Numero Examen', def: 'numExamen', dataKey: 'numExamen' },
+    { label: 'Número Examen', def: 'numExamen', dataKey: 'numExamen' },
     { label: 'Cliente', def: 'cliente', dataKey: 'cliente' },
-    { label: 'Fecha Examen', def: 'fechaExamen', dataKey: 'fechaExamen' },
+    { label: 'Fecha del Examen', def: 'fechaExamen', dataKey: 'fechaExamen' },
     // { label: 'Ojo Izquierdo', def: 'ojoIzquierdo', dataKey: 'ojoIzquierdo' },
     // { label: 'Ojo Derecho', def: 'ojoDerecho', dataKey: 'ojoDerecho' },
-    { label: 'Descripción Lente Izq', def: 'descripLenteIzq', dataKey: 'descripLenteIzq' },
-    { label: 'Descripción Lente Der', def: 'descripLenteDer', dataKey: 'descripLenteDer' }
+    { label: 'Descripción Lente Izquierdo', def: 'descripLenteIzq', dataKey: 'descripLenteIzq' },
+    { label: 'Descripción Lente Derecho', def: 'descripLenteDer', dataKey: 'descripLenteDer' }
   ]
 
   tableDataExamenVista: any = undefined
@@ -569,10 +569,10 @@ export class OrdenPedidoComponent {
   }
 
   tableColumnsProducto: TableColumn[] = [
-    { label: 'Codigo Producto', def: 'codProducto', dataKey: 'codProducto' },
+    { label: 'Código del Producto', def: 'codProducto', dataKey: 'codProducto' },
     { label: 'Marca', def: 'marca', dataKey: 'marca' },
     { label: 'Nombre', def: 'Nombre', dataKey: 'nombre' },
-    { label: 'Descripcion', def: 'Descripcion', dataKey: 'descripcion' },
+    { label: 'Descripción', def: 'Descripcion', dataKey: 'descripcion' },
     { label: 'Precio Actual', def: 'precioActual', dataKey: 'precioActual' },
     // {label:'Estado Producto', def:'estadoProducto', dataKey:'estadoProducto'}
   ]
@@ -589,11 +589,11 @@ export class OrdenPedidoComponent {
   }
 
   tableColumnsLaboratorio = [
-    { label: 'Id Laboratorio', def: 'idLaboratorio', dataKey: 'idLaboratorio' },
+    { label: 'Código de Laboratorio', def: 'idLaboratorio', dataKey: 'idLaboratorio' },
     { label: 'Nombre', def: 'nombre', dataKey: 'nombre' },
     { label: 'Correo', def: 'correo', dataKey: 'correo' },
     { label: 'Telefono', def: 'telefono', dataKey: 'telefono' },
-    { label: 'Direccion', def: 'direccion', dataKey: 'direccion' }
+    { label: 'Dirección', def: 'direccion', dataKey: 'direccion' }
   ]
 
   // tableDataLaboratorio: any = []
@@ -607,10 +607,10 @@ export class OrdenPedidoComponent {
   }
 
   tableColumnsEmpleado = [
-    { label: 'Identificador', def: 'NumEmpleado', dataKey: 'numEmpleado' },
-    { label: 'Nombre', def: 'nombres', dataKey: 'nombres' },
-    { label: 'Apellido', def: 'apellidos', dataKey: 'apellidos' },
-    { label: 'Direccion', def: 'direccion', dataKey: 'direccion' }
+    { label: 'Número de Empleado', def: 'NumEmpleado', dataKey: 'numEmpleado' },
+    { label: 'Nombres', def: 'nombres', dataKey: 'nombres' },
+    { label: 'Apellidos', def: 'apellidos', dataKey: 'apellidos' },
+    { label: 'Dirección', def: 'direccion', dataKey: 'direccion' }
   ]
 
   // tableDataEmpleado: any = []
@@ -635,7 +635,23 @@ export class OrdenPedidoComponent {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.saveDataCreate()
+
+        if(
+          this.ExamenVista.numExamen == 0 ||
+          this.Laboratorio.idLaboratorio == 0 ||
+          this.Producto.codProducto  == 0 
+        ){
+
+          Swal.fire(
+            'Cancelado',
+            'Error al ingresar los datos',
+            'error'
+          )
+
+        }else{
+  
+          this.saveDataCreate();
+        }
         //this.formUpdateData.reset()
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -685,10 +701,11 @@ export class OrdenPedidoComponent {
             if (success) {
               Swal.fire(
                 'Exito!',
-                'La informacion a sido actualizado con exito',
+                'La informacion a sido agregada con exito',
                 'success'
               )
-              this.resetData()
+              this.resetData();
+              EventBtnClick.setMiVariable(true);
             } else {
               Swal.fire({
                 icon: 'error',
@@ -734,10 +751,11 @@ export class OrdenPedidoComponent {
         if (success) {
           Swal.fire(
             'Exito!',
-            'La informacion a sido actualizado con exito',
+            'La informacion a sido agregada con exito',
             'success'
           )
           this.resetData()
+          EventBtnClick.setMiVariable(true);
         } else {
           Swal.fire({
             icon: 'error',

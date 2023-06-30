@@ -160,7 +160,7 @@ export class ContactoEmpleadoComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Identificador', def: 'NumEmpleado', dataKey: 'numEmpleado' },
+      { label: 'Número de Empleado', def: 'NumEmpleado', dataKey: 'numEmpleado' },
       { label: 'Nombre', def: 'Nombre', dataKey: 'nombre' },
       { label: 'Telefono', def: 'telefono', dataKey: 'telefono' },
       { label: 'Correo', def: 'correo', dataKey: 'correo' },
@@ -451,10 +451,10 @@ export class ContactoEmpleadoComponent {
 
 
   tableColumnsEmpleado = [
-    { label: 'Identificador', def: 'NumEmpleado', dataKey: 'numEmpleado' },
+    { label: 'Número de Empleado', def: 'NumEmpleado', dataKey: 'numEmpleado' },
     { label: 'Nombre', def: 'nombres', dataKey: 'nombres' },
     { label: 'Apellido', def: 'apellidos', dataKey: 'apellidos' },
-    { label: 'Direccion', def: 'direccion', dataKey: 'direccion' }
+    { label: 'Dirección', def: 'direccion', dataKey: 'direccion' }
   ]
 
   EmpleadoCorreoList: Empleado[] = []

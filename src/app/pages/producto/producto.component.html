@@ -4,7 +4,7 @@
       <section *ngIf="getEventBtnClickHeader()">
 
         <section *ngIf="!dataUpdate">
-          <h1>Lista de productos actuales</h1>
+          <h1>Lista de productos</h1>
           <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="getDataUpdate($event)"></app-table>
         </section>
 
@@ -42,7 +42,7 @@
               Seleccione la bodega *
             </label>
             <input type="text" formControlName="bodega" class="form-control form-input"
-              placeholder="Seleccione la bodega" [(ngModel)]="Bodega.nombre"> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione la bodega" [(ngModel)]="Bodega.nombre" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-solid fa-store form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('bodega').valid || (formGetDataCreate('bodega').pristine)">
@@ -61,7 +61,7 @@
               Seleccione El proveedor *
             </label>
             <input type="text" formControlName="proveedor" class="form-control form-input"
-              placeholder="Seleccione el proveedor" [(ngModel)]="Proveedor.nombre">
+              placeholder="Seleccione el proveedor" [(ngModel)]="Proveedor.nombre" readonly>
             <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-solid fa-address-card form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
@@ -93,7 +93,7 @@
             Nombre del producto *
           </label>
           <input type="text" formControlName="nombreProducto" class="form-control form-input"
-            placeholder="ingrese el nombre del producto" [(ngModel)]="NombreProducto.nombreProducto" [matAutocomplete]="autoNombre">
+            placeholder="Ingrese el nombre del producto" [(ngModel)]="NombreProducto.nombreProducto" [matAutocomplete]="autoNombre">
           <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <mat-autocomplete #autoNombre="matAutocomplete">
@@ -158,12 +158,12 @@
             Ingrese el costo del producto *
           </label>
           <input type="number" formControlName="costo" class="form-control form-input"
-            placeholder="Ingrese el costo del producto" [(ngModel)]="ProveedorProducto.costo">
+            placeholder="Ingrese el costo por todo el producto" [(ngModel)]="ProveedorProducto.costo">
           <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-circle-dollar-to-slot form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('costo').valid || (formGetDataCreate('costo').pristine)">
-            Ingrese el costo del producto
+            Ingrese el costo por todo el producto
           </div>
         </div>
 
@@ -218,7 +218,7 @@
             Nombre del producto *
           </label>
           <input type="text" formControlName="nombreProducto" class="form-control form-input"
-            placeholder="ingrese el nombre del producto" [(ngModel)]="NombreProducto.nombreProducto" [matAutocomplete]="autoNombre">
+            placeholder="Ingrese el nombre del producto" [(ngModel)]="NombreProducto.nombreProducto" [matAutocomplete]="autoNombre">
           <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <mat-autocomplete #autoNombre="matAutocomplete">

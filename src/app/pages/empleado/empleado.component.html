@@ -3,10 +3,10 @@
       <div class="example-content">
         <section *ngIf="getEventBtnClickHeader()">
           <section *ngIf="!dataUpdate">
-            <h1>Lista de empleados actuales</h1>
+            <h1>Lista de empleados</h1>
             <app-table [data]="myData$" 
             [columns]="tableColumns"
-             (selectItemsCell)="resultTableDataUpdate($event)"></app-table>
+             (selectItemsCell)="resultTableDataUpdate($event)" [buttonShowdelete]="true"></app-table>
           </section>
           <section *ngIf="dataUpdate">
             <app-form 

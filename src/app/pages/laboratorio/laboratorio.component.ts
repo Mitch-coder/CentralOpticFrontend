@@ -4,7 +4,7 @@ import { MyDataServices } from 'src/app/services/mydata.services';
 import { tap } from 'rxjs';
 import { FormData } from 'src/app/modules/form/components/form/form-data';
 import { FormGroup, Validators } from '@angular/forms';
-import { HeaderData } from 'src/app/header/header-data';
+import { EventBtnClick, HeaderData } from 'src/app/header/header-data';
 import Swal from 'sweetalert2';
 
 
@@ -60,11 +60,11 @@ export class LaboratorioComponent {
   {
     label: 'Telefono',
     type: 'tel',
-    placeholder: 'Ingrese el telefono del Laboratorio',
-    alert: 'El telefono del Laboratorio es obligatorio',
+    placeholder: 'Ingrese el teléfono del Laboratorio',
+    alert: 'El teléfono del Laboratorio es obligatorio',
     icon: 'fa-solid fa-mobile-screen',
     formControlName: 'telefono',
-    formValidators: { 'telefono': ['', [Validators.nullValidator]] }
+    formValidators: { 'telefono': ['', [Validators.nullValidator, Validators.maxLength(8), Validators.minLength(8)]] }
   }]
 
   formUpdate: FormData[] = []
@@ -84,11 +84,12 @@ export class LaboratorioComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Identificador', def: 'idLaboratorio', dataKey: 'idLaboratorio' },
+      { label: 'Código de Laboratorio', def: 'idLaboratorio', dataKey: 'idLaboratorio' },
       { label: 'Nombre', def: 'nombre', dataKey: 'nombre' },
+      { label: 'Dirección', def: 'direccion', dataKey: 'direccion' },
       { label: 'Correo', def: 'correo', dataKey: 'correo' },
-      { label: 'Telefono', def: 'telefono', dataKey: 'telefono' },
-      { label: 'Direccion', def: 'direccion', dataKey: 'direccion' }
+      { label: 'Teléfono', def: 'telefono', dataKey: 'telefono' }
+      
     ]
   }
 
@@ -125,20 +126,20 @@ export class LaboratorioComponent {
         label: 'Correo',
         type: 'email',
         placeholder: 'Ingrese el correo del Laboratorio',
-        alert: 'El correo del Laboratorio es obligatorio',
+        alert: 'El correo del Laboratorio no es valido',
         icon: 'fa-regular fa-envelope',
         formControlName: 'correo',
         formValidators: { 'correo': [data.correo, [Validators.nullValidator, Validators.email]] },
         value: data.correo
       },
       {
-        label: 'Telefono',
+        label: 'Teléfono',
         type: 'tel',
         placeholder: 'Ingrese el telefono del Laboratorio',
-        alert: 'El telefono del Laboratorio es obligatorio',
+        alert: 'El telefono del Laboratorio no es valido',
         icon: 'fa-solid fa-mobile-screen',
         formControlName: 'telefono',
-        formValidators: { 'telefono': [data.telefono, [Validators.nullValidator]] },
+        formValidators: { 'telefono': [data.telefono, [Validators.nullValidator, Validators.maxLength(8), Validators.minLength(8)]] },
         value: data.telefono
       }]
     }
@@ -181,7 +182,7 @@ export class LaboratorioComponent {
       if(success){
         Swal.fire(
           'Exito!',
-          'La informacion a sido actualizado con exito',
+          'La información a sido actualizado con exito',
           'success'
         )
         this.dataUpdate = undefined
@@ -258,11 +259,12 @@ export class LaboratorioComponent {
       if(success){
         Swal.fire(
           'Exito!',
-          'La informacion a sido actualizado con exito',
+          'La información a sido actualizado con exito',
           'success'
         )
         // this.dataUpdate = undefined
         data.reset()
+        EventBtnClick.setMiVariable(true);
         // this.resetData()
       }else{
         Swal.fire({

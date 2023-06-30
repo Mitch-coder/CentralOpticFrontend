@@ -3,7 +3,7 @@
         <div class="example-content">
             <section *ngIf="getEventBtnClickHeader()">
               <section *ngIf="!dataUpdate">
-                <h1>Lista de contactos de proveedor</h1>
+                <h1>Lista de contactos de los proveedores</h1>
                 <app-table [data]="myData$" [columns]="tableColumns"
                     (selectItemsCell)="setFormUpdate($event)"></app-table>
               </section>

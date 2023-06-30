@@ -177,9 +177,9 @@ export class PagoComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Numero de factura', def: 'numFactura', dataKey: 'numFactura' },
-      { label: 'ID Pago', def: 'idPago', dataKey: 'idPago' },
-      { label: 'Fecha Pago', def: 'fechaPago', dataKey: 'fechaPago' },
+      { label: 'Número de Pago', def: 'idPago', dataKey: 'idPago' },
+      { label: 'Número de Factura', def: 'numFactura', dataKey: 'numFactura' },
+      { label: 'Fecha del Pago', def: 'fechaPago', dataKey: 'fechaPago' },
       { label: 'Monto', def: 'monto', dataKey: 'monto' },
       { label: 'Tipo de Pago', def: 'tipoPago', dataKey: 'tipoPago' }
     ]
@@ -213,8 +213,8 @@ export class PagoComponent {
   FacturaFormat: any
 
   tableColumnsFactura = [
-    { label: 'Numero de factura', def: 'numFactura', dataKey: 'numFactura' },
-    { label: 'Fecha factura', def: 'fechaFactura', dataKey: 'fechaFactura' },
+    { label: 'Número de Factura', def: 'numFactura', dataKey: 'numFactura' },
+    { label: 'Fecha defactura', def: 'fechaFactura', dataKey: 'fechaFactura' },
     { label: 'Empleado', def: 'empleado', dataKey: 'empleado' },
     { label: 'Cliente', def: 'cliente', dataKey: 'cliente' },
     { label: 'Abonado', def: 'abono', dataKey: 'abono' },
@@ -282,7 +282,17 @@ export class PagoComponent {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.saveDataCreate()
+
+        if(this.Factura.numFactura==0){
+          Swal.fire(
+            'Cancelado',
+            'Error al ingresar los datos',
+            'error'
+          )
+        }else{
+          this.saveDataCreate();
+        }
+        
         // this.formUpdateData.reset()
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(

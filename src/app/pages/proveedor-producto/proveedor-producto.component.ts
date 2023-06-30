@@ -4,7 +4,7 @@ import { MyDataServices } from 'src/app/services/mydata.services';
 import { Observable, elementAt, map, mergeMap, tap } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { HeaderData } from 'src/app/header/header-data';
+import { EventBtnClick, HeaderData } from 'src/app/header/header-data';
 import { FormData } from 'src/app/modules/form/components/form/form-data';
 import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -301,9 +301,9 @@ export class ProveedorProductoComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'ID', def: 'idProveedor_Producto', dataKey: 'idProveedor_Producto' },
+      { label: 'Número de registro', def: 'idProveedor_Producto', dataKey: 'idProveedor_Producto' },
       { label: 'Proveedor', def: 'proveedor', dataKey: 'proveedor' },
-      { label: 'Nombre Producto', def: 'nombreProducto', dataKey: 'nombreProducto' },
+      { label: 'Nombre del Producto', def: 'nombreProducto', dataKey: 'nombreProducto' },
       { label: 'Descripción del Producto', def: 'descripcion', dataKey: 'descripcion' },
       { label: 'Fecha Obtención', def: 'fechaObtencion', dataKey: 'fechaObtencion' },
       { label: 'Cantidad', def: 'cantidad', dataKey: 'cantidad' },
@@ -347,10 +347,10 @@ export class ProveedorProductoComponent {
   }
 
   tableColumnsProducto = [
-    { label: 'Codigo Producto', def: 'codProducto', dataKey: 'codProducto' },
+    { label: 'Código del Producto', def: 'codProducto', dataKey: 'codProducto' },
     { label: 'Marca', def: 'marca', dataKey: 'marca' },
     { label: 'Nombre', def: 'Nombre', dataKey: 'nombre' },
-    { label: 'Descripcion', def: 'Descripcion', dataKey: 'descripcion' },
+    { label: 'Descripción', def: 'Descripcion', dataKey: 'descripcion' },
     { label: 'Precio Actual', def: 'precioActual', dataKey: 'precioActual' },
     { label: 'Estado Producto', def: 'estadoProducto', dataKey: 'estadoProducto' }
   ]
@@ -386,7 +386,7 @@ export class ProveedorProductoComponent {
   }
 
   tableColumnsProveedor = [
-    { label: 'IdProveedor', def: 'idProveedor', dataKey: 'idProveedor' },
+    { label: 'Código de Proovedor', def: 'idProveedor', dataKey: 'idProveedor' },
     { label: 'Nombre', def: 'nombre', dataKey: 'nombre' },
     { label: 'Propietario', def: 'propietario', dataKey: 'propietario' },
     { label: 'Direccion', def: 'direccion', dataKey: 'direccion' }
@@ -400,7 +400,7 @@ export class ProveedorProductoComponent {
   }
 
   formColumnsTableBodega = [
-    { label: 'IdBodega', def: 'idBodega', dataKey: 'idBodega' },
+    { label: 'Número de Bodega', def: 'idBodega', dataKey: 'idBodega' },
     { label: 'Nombre', def: 'nombre', dataKey: 'nombre' },
     { label: 'Direccion', def: 'direccion', dataKey: 'direccion' },
     { label: 'Telefono', def: 'telefono', dataKey: 'telefono' },
@@ -494,6 +494,7 @@ export class ProveedorProductoComponent {
                 confirmButtonText: 'OK!',
               })
               this.resetData()
+              EventBtnClick.setMiVariable(true);
             } else {
               Swal.fire({
                 icon: 'error',
@@ -530,6 +531,7 @@ export class ProveedorProductoComponent {
             confirmButtonText: 'OK!',
           })
           this.resetData()
+          EventBtnClick.setMiVariable(true);
         } else {
           Swal.fire({
             icon: 'error',

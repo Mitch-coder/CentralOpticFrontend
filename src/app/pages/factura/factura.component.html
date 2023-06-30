@@ -3,7 +3,7 @@
         <div class="example-content">
             <section *ngIf="getEventBtnClickHeader()">
                 <section>
-                    <h1>Lista de factura actuales</h1>
+                    <h1>Lista de facturas</h1>
                     <app-table [data]="myData$" [columns]="tableColumns"></app-table>
                 </section>
                 <section>
@@ -28,7 +28,7 @@
         <div class="card-body">
             <div class="container-header">
                 <h1 class="title">
-                    Actualizar informacion del producto
+                    Agregar información de la Factura
                 </h1>
             </div>
             <form [formGroup]="formCreateData">
@@ -43,7 +43,7 @@
                         <i class="fa-solid fa-user-tie form-input-icon"></i>
                         <div class="alert 1alert-danger mt-1"
                             [hidden]="formGetDataCreate('empleado').valid || (formGetDataCreate('empleado').pristine)">
-                            El campo no puede estar vacio
+                            El campo no puede estar vacío
                         </div>
                     </div>
                     <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(empleado)">
@@ -63,7 +63,7 @@
                         <i class="fa-regular fa-circle-user form-input-icon"></i>
                         <div class="alert 1alert-danger mt-1"
                             [hidden]="formGetDataCreate('cliente').valid || (formGetDataCreate('cliente').pristine)">
-                            El campo no puede estar vacio
+                            El campo no puede estar vacío
                         </div>
                     </div>
                     <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(cliente)">
@@ -98,14 +98,14 @@
 
                 <div class="mb-2" #input>
                     <label class="form-label">
-                        Fecha Emision
+                        Fecha Emisión
                     </label>
                     <input type="text" formControlName="fechaEmision" class="form-control form-input"
                         placeholder="Fecha de emision" [(ngModel)]="FechaPago.fechaPago" readonly>
                     <i class="fa-solid fa-calendar-days form-input-icon"></i>
                     <div class="alert 1alert-danger mt-1"
                         [hidden]="formGetDataCreate('fechaEmision').valid || (formGetDataCreate('fechaEmision').pristine)">
-                        La Fecha no puede estar vacia
+                        La Fecha no puede estar vacía
                     </div>
                 </div>
 
@@ -121,7 +121,7 @@
                         <i class="fa-solid fa-coins form-input-icon"></i>
                         <div class="alert alert-danger mt-1"
                             [hidden]="formGetDataCreate('descuento').valid || (formGetDataCreate('descuento').pristine)">
-                            El descuento no puede estar vacio
+                            El descuento no puede estar vacío
                         </div>
                     </div>
                     <div class="mb-2 form-content-input" #input>
@@ -134,7 +134,7 @@
                         <i class="fa-solid fa-coins form-input-icon"></i>
                         <div class="alert alert-danger mt-1"
                             [hidden]="formGetDataCreate('impuesto').valid || (formGetDataCreate('impuesto').pristine)">
-                            El impuesto no puede estar vacio
+                            El impuesto no puede estar vacío
                         </div>
                     </div>
                 </div>
@@ -181,7 +181,7 @@
             </ng-container>
 
             <ng-container matColumnDef="descripcion">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
                 <td mat-cell *matCellDef="let row"> {{row.descripcion}}</td>
             </ng-container>
 
@@ -239,7 +239,7 @@
                     <i class="fa-solid fa-calendar-days form-input-icon"></i>
                     <div class="alert 1alert-danger mt-1"
                         [hidden]="formGetDataUpdateItems('descripcion').valid || (formGetDataUpdateItems('descripcion').pristine)">
-                        El producto no puede estar vacio
+                        El producto no puede estar vacío
                     </div>
                 </div>
 

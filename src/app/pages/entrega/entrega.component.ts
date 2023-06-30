@@ -3,7 +3,7 @@ import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
 import { forkJoin, map, tap } from 'rxjs';
 import Swal from 'sweetalert2';
-import { HeaderData } from 'src/app/header/header-data';
+import { EventBtnClick, HeaderData } from 'src/app/header/header-data';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { DialogComponent } from 'src/app/modules/dialog/components/dialog/dialog.component';
@@ -259,12 +259,12 @@ export class EntregaComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Codigo de entrega', def: 'codEntrega', dataKey: 'codEntrega' },
-      { label: 'Numero pedido', def: 'numPedido', dataKey: 'numPedido' },
+      { label: 'Código de Entrega', def: 'codEntrega', dataKey: 'codEntrega' },
+      { label: 'Número de pedido', def: 'numPedido', dataKey: 'numPedido' },
       { label: 'Laboratorio', def: 'laboratorio', dataKey: 'laboratorio' },
-      { label: 'Fecha de entrega', def: 'fechaEntrega', dataKey: 'fechaEntrega' },
-      { label: 'EstadoEntrega', def: 'estadoEntrega', dataKey: 'estadoEntrega' },
-      { label: 'Descripcion', def: 'descripcion', dataKey: 'descripcion' }
+      { label: 'Fecha de Entrega', def: 'fechaEntrega', dataKey: 'fechaEntrega' },
+      { label: 'Estado de Entrega', def: 'estadoEntrega', dataKey: 'estadoEntrega' },
+      { label: 'Descripción', def: 'descripcion', dataKey: 'descripcion' }
     ]
   }
 
@@ -306,11 +306,11 @@ export class EntregaComponent {
     })
 
     this.myColumnTableDialog = [
-      { label: 'Numero pedido', def: 'numOrden', dataKey: 'numOrden' },
+      { label: 'Número de Pedido', def: 'numOrden', dataKey: 'numOrden' },
       { label: 'Empleado', def: 'empleado', dataKey: 'empleado' },
       { label: 'Laboratorio', def: 'laboratorio', dataKey: 'laboratorio' },
-      { label: 'Fecha de pedido', def: 'fechaPedido', dataKey: 'fechaPedido' },
-      { label: 'Descripcion', def: 'descripcion', dataKey: 'descripcion' }
+      { label: 'Fecha del Pedido', def: 'fechaPedido', dataKey: 'fechaPedido' },
+      { label: 'Descripción', def: 'descripcion', dataKey: 'descripcion' }
     ]
   }
 
@@ -448,11 +448,11 @@ export class EntregaComponent {
 
   myDataTableAuxiliar: any[] = []
   myColumnTableAuxiliar: TableColumn[] = [
-    { label: 'Numero orden', def: 'numOrden', dataKey: 'numOrden' },
+    { label: 'Número de Pedido', def: 'numOrden', dataKey: 'numOrden' },
     { label: 'Empleado', def: 'empleado', dataKey: 'empleado' },
     { label: 'Laboratorio', def: 'laboratorio', dataKey: 'laboratorio' },
-    { label: 'Fecha de pedido', def: 'fechaPedido', dataKey: 'fechaPedido' },
-    { label: 'Descripcion', def: 'descripcion', dataKey: 'descripcion' }
+    { label: 'Fecha del Pedido', def: 'fechaPedido', dataKey: 'fechaPedido' },
+    { label: 'Descripción', def: 'descripcion', dataKey: 'descripcion' }
   ]
 
   setTableDataAuxiliar() {
@@ -552,11 +552,11 @@ export class EntregaComponent {
 
   myDataTableDialogCreate: any[] = [];
   myColumnTableDialogCreate: TableColumn[] = [
-    { label: 'Numero pedido', def: 'numOrden', dataKey: 'numOrden' },
+    { label: 'Número de Pedido', def: 'numOrden', dataKey: 'numOrden' },
     { label: 'Empleado', def: 'empleado', dataKey: 'empleado' },
     { label: 'Laboratorio', def: 'laboratorio', dataKey: 'laboratorio' },
-    { label: 'Fecha de pedido', def: 'fechaPedido', dataKey: 'fechaPedido' },
-    { label: 'Descripcion', def: 'descripcion', dataKey: 'descripcion' }
+    { label: 'Fecha del Pedido', def: 'fechaPedido', dataKey: 'fechaPedido' },
+    { label: 'Descripción', def: 'descripcion', dataKey: 'descripcion' }
   ];
 
   formUpdateCreate: FormGroup = this.formBuilder.group(
@@ -634,7 +634,20 @@ export class EntregaComponent {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.saveDataCreate()
+
+
+        if(this.OrdenPedido.numOrden == 0 || this.EstadoEntrega.idEstadoEntrega == 0 ){
+          Swal.fire(
+            'Cancelado',
+            'Error al ingresar los datos',
+            'error'
+          )
+        }
+        else{
+          this.saveDataCreate();
+        }
+
+        
         // this.formUpdateData.reset()
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -654,7 +667,7 @@ export class EntregaComponent {
       descripcion: this.Entrega.descripcion
     }
 
-    // console.log(entrega)
+    console.log(entrega)
 
     this.dataService.postData('entrega', entrega).then((success) => {
       if (success) {
@@ -674,7 +687,8 @@ export class EntregaComponent {
               'La informacion a sido actualizado con exito',
               'success'
             )
-            this.resetData()
+            this.resetData();
+            EventBtnClick.setMiVariable(true);
           }else{
             Swal.fire({
               icon: 'error',

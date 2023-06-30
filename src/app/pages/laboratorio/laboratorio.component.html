@@ -4,7 +4,7 @@
         <section *ngIf="getEventBtnClickHeader()">
           <section *ngIf="!dataUpdate">
             <h1>Lista de laboratorios</h1>
-            <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)"></app-table>
+            <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setFormUpdate($event)" [buttonShowdelete]="true"></app-table>
           </section>
           <section *ngIf="dataUpdate">
             <app-form [Title]="'Actualizar Laboratorio - '+ dataUpdate.nombre"

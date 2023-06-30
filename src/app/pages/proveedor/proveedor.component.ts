@@ -75,7 +75,7 @@ export class ProveedorComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Identificador', def: 'idProveedor', dataKey: 'idProveedor' },
+      { label: 'Código de Proovedor', def: 'idProveedor', dataKey: 'idProveedor' },
       { label: 'Nombre', def: 'nombre', dataKey: 'nombre' },
       { label: 'Propietario', def: 'propietario', dataKey: 'propietario' },
       { label: 'Dirección', def: 'direccion', dataKey: 'direccion' }

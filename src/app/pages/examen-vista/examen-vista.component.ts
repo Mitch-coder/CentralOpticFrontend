@@ -5,7 +5,7 @@ import { MyDataServices } from 'src/app/services/mydata.services';
 import { elementAt, map, mergeMap, tap } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { HeaderData } from 'src/app/header/header-data';
+import { EventBtnClick, HeaderData } from 'src/app/header/header-data';
 import { FormData } from 'src/app/modules/form/components/form/form-data';
 import { DialogService } from 'src/app/services/dialog/dialog.service';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -108,7 +108,7 @@ export class ExamenVistaComponent {
   //cliente
   private matDialogRef!: MatDialogRef<DialogComponent>;
 
-  
+
 
   constructor(private dataService: MyDataServices,
     private formBuilder: FormBuilder,
@@ -149,10 +149,10 @@ export class ExamenVistaComponent {
 
   formClient: FormData[] = [
     {
-      label: 'Cedula',
+      label: 'Cédula',
       type: 'text',
-      placeholder: 'Ingrese la cedula del cliente',
-      alert: 'La cedula es obligatorio',
+      placeholder: 'Ingrese la cédula del cliente',
+      alert: 'La cédula es obligatorio',
       icon: '',
       formControlName: 'cedula',
       formValidators: { 'cedula': [this.Cliente.cedula, [Validators.required]] }
@@ -188,7 +188,7 @@ export class ExamenVistaComponent {
 
   ngOnInit(): void {
     let fecha = new Date();
-    fecha.setHours(0,0,0,0)
+    fecha.setHours(0, 0, 0, 0)
     console.log(fecha)
 
     // let fechaExamen ={
@@ -216,10 +216,10 @@ export class ExamenVistaComponent {
 
         this.examenVistaList.forEach(element => {
           let client = this.clienteList.filter(e => e.codCliente == element.codCliente)
-          
-          
+
+
           let fecha = this.fechaExamenList.filter(e => e.idFechaExamen == element.idFechaExamen)
-          
+
 
           let date: Date = new Date(fecha[0].fechaExamen)
           let formatoFecha: string = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
@@ -249,9 +249,9 @@ export class ExamenVistaComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Numero Examen', def: 'numExamen', dataKey: 'numExamen' },
+      { label: 'Número de Examen', def: 'numExamen', dataKey: 'numExamen' },
       { label: 'Cliente', def: 'cliente', dataKey: 'cliente' },
-      { label: 'Fecha Examen', def: 'fechaExamen', dataKey: 'fechaExamen' },
+      { label: 'Fecha del Examen', def: 'fechaExamen', dataKey: 'fechaExamen' },
       { label: 'Ojo Izquierdo', def: 'ojoIzquierdo', dataKey: 'ojoIzquierdo' },
       { label: 'Ojo Derecho', def: 'ojoDerecho', dataKey: 'ojoDerecho' },
       { label: 'Descripción Lente Izquierdo', def: 'descripLenteIzq', dataKey: 'descripLenteIzq' },
@@ -288,13 +288,14 @@ export class ExamenVistaComponent {
 
     if (data) {
       let f = data.fechaExamen
+      let formatoFecha: string = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(data.fechaExamen);
       // console.log(moment(f))
       // let c = this.cliente.filter(f => data.cliente == f.nombres)
       // this.Cliente = c[0]
       // const fechaNormal = moment(data.fechaExamen, 'DD [de] MMMM [de] YYYY').toDate();
       // this.formatDate(fechaNormal)
       // console.log(data.fechaExamen)
-      this.formattedDate = data.fechaExamen.toString()
+      this.formattedDate = data.fechaExamen.toString();
       this.OjoIzquierdo = data.ojoIzquierdo;
       this.OjoDerecho = data.ojoDerecho;
       this.DescripLenteIzq = data.descripLenteIzq;
@@ -331,7 +332,7 @@ export class ExamenVistaComponent {
   onSave(client: FormGroup) {
     // this.cliente.push(client)
     // this.Cliente = client;
-    
+
 
     this.Cliente = client.value
 
@@ -354,11 +355,11 @@ export class ExamenVistaComponent {
   // data update
 
   tableColumnCliente = [
-    { label: 'Identificador', def: 'IdCliente', dataKey: 'codCliente' },
-    { label: 'Cedula', def: 'Cedula', dataKey: 'cedula' },
-    { label: 'Nombre', def: 'Nombre', dataKey: 'nombres' },
-    { label: 'Apellido', def: 'Apellido', dataKey: 'apellidos' },
-    { label: 'Direccion', def: 'Direccion', dataKey: 'direccion' }
+    { label: 'Número de Cliente', def: 'IdCliente', dataKey: 'codCliente' },
+    { label: 'Cédula', def: 'Cedula', dataKey: 'cedula' },
+    { label: 'Nombres', def: 'Nombre', dataKey: 'nombres' },
+    { label: 'Apellidos', def: 'Apellido', dataKey: 'apellidos' },
+    { label: 'Dirección', def: 'Direccion', dataKey: 'direccion' }
   ]
 
   formUpdateData: FormGroup = this.formBuilder.group(
@@ -527,18 +528,18 @@ export class ExamenVistaComponent {
     }
   )
 
-  setDataCreate(){
-    this.FechaExamen ={
+  setDataCreate() {
+    this.FechaExamen = {
       idFechaExamen: 0,
       fechaExamen: new Intl.DateTimeFormat('es', this.opcionesFormato).format(new Date())
     }
   }
-  
+
   formGetDataCreate(fr: string) {
     return this.formCreateData.get(fr) as FormControl;
   }
 
-  setResetData(){
+  setResetData() {
 
     this.dataUpdate = undefined
 
@@ -551,12 +552,12 @@ export class ExamenVistaComponent {
       descripLenteIzq: '',
       descripLenteDer: ''
     }
-  
+
     this.FechaExamen = {
       idFechaExamen: 0,
       fechaExamen: ''
     }
-  
+
     this.Cliente = {
       codCliente: 0,
       cedula: '',
@@ -589,94 +590,95 @@ export class ExamenVistaComponent {
     });
   }
 
-  saveDataCreate(){
+  saveDataCreate() {
     let cliente = this.clienteList.find(e => e.codCliente == this.Cliente.codCliente)
 
     let fecha1 = new Date();
-    fecha1.setHours(0,0,0,0)
+    fecha1.setHours(0, 0, 0, 0)
 
     let fecha = this.fechaExamenList.find(e => new Date(e.fechaExamen).toString() == fecha1.toString())
-
+    
     let tamano = -1
-    if(!fecha){
+    if (!fecha) {
       console.log('nueva fecha')
       const numeros = this.fechaExamenList.map(objeto => objeto.idFechaExamen);
-      let dataV = Math.max(...numeros) + 1
+      let tamano = Math.max(...numeros) + 1
       // tamano = this.fechaExamenList.length + 2
 
-      let fechaExamen ={
-        FechaExamen : fecha1
+      let fechaExamen = {
+        FechaExamen: fecha1
       }
 
-      console.log(fecha1.getDate())
-      this.dataService.postData('fechaexamen',fechaExamen).then((success)=>{
-        if(success){
-          if(cliente){
+      console.log(fecha1)
+      this.dataService.postData('fechaexamen', fechaExamen).then((success) => {
+        if (success) {
+          console.log('Fecha exitosa')
+          if (cliente) {
 
             console.log('cliente viejo')
             let examenVista = {
               codCliente: this.Cliente.codCliente,
-              idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
+              idFechaExamen: tamano === -1 ? fecha?.idFechaExamen : tamano,
               ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
               ojoDerecho: this.ExamenVista.ojoDerecho,
               descripLenteIzq: this.ExamenVista.descripLenteIzq,
               descripLenteDer: this.ExamenVista.descripLenteDer
             }
-      
-            this.dataService.postData('examenvista', examenVista).then((success)=>{
-              if(success){
+
+            this.dataService.postData('examenvista', examenVista).then((success) => {
+              if (success) {
                 Swal.fire(
                   'Exito!',
                   'La informacion a sido actualizado con exito',
                   'success'
                 )
-                
-      
-                Swal.fire({
-                  title: 'Confirmar',
-                  text: '¿Desea agendar un peido?',
-                  icon: 'question',
-                  showCancelButton: true,
-                  confirmButtonText: 'Agendar',
-                  cancelButtonText: 'Despues',
-                  reverseButtons: true
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    // this.setDataUpdateDB(data.value)
-                    // let cliente = this.myData.filter(e => e.cedula === data.cedula)
-                    // console.log(cliente[0])
-                    // let parametro = {
-                    //   cliente: data,
-                    //   formCreate: false
-                    // }
-      
-                    const numeros = this.examenVistaList.map(objeto => objeto.numExamen);
-                    let dataV = Math.max(...numeros) + 1
-      
-                    let examenVista = {
-                      numExamen: dataV,
-                      codCliente: this.Cliente.codCliente,
-                      idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
-                      ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
-                      ojoDerecho: this.ExamenVista.ojoDerecho,
-                      descripLenteIzq: this.ExamenVista.descripLenteIzq,
-                      descripLenteDer: this.ExamenVista.descripLenteDer
-                    }
-      
-                    this.sendDataOrdenPedido(examenVista)
-                  } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    Swal.fire(
-                      'Cancelado',
-                      'Todo bien :)',
-                      'error'
-                    )
-                  }
-                });
-      
+
+                // Swal.fire({
+                //   title: 'Confirmar',
+                //   text: '¿Desea agendar un peido?',
+                //   icon: 'question',
+                //   showCancelButton: true,
+                //   confirmButtonText: 'Agendar',
+                //   cancelButtonText: 'Despues',
+                //   reverseButtons: true
+                // }).then((result) => {
+                //   if (result.isConfirmed) {
+                //     // this.setDataUpdateDB(data.value)
+                //     // let cliente = this.myData.filter(e => e.cedula === data.cedula)
+                //     // console.log(cliente[0])
+                //     // let parametro = {
+                //     //   cliente: data,
+                //     //   formCreate: false
+                //     // }
+
+                //     const numeros = this.examenVistaList.map(objeto => objeto.numExamen);
+                //     let dataV = Math.max(...numeros) + 1
+
+                //     let examenVista = {
+                //       numExamen: dataV,
+                //       codCliente: this.Cliente.codCliente,
+                //       idFechaExamen: tamano === -1 ? fecha?.idFechaExamen : tamano,
+                //       ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+                //       ojoDerecho: this.ExamenVista.ojoDerecho,
+                //       descripLenteIzq: this.ExamenVista.descripLenteIzq,
+                //       descripLenteDer: this.ExamenVista.descripLenteDer
+                //     }
+
+                //     this.sendDataOrdenPedido(examenVista)
+                //   } else if (result.dismiss === Swal.DismissReason.cancel) {
+                //     Swal.fire(
+                //       'Cancelado',
+                //       'Todo bien :)',
+                //       'error'
+                //     )
+                //   }
+                // });
+
                 this.setResetData()
                 this.formCreateData.reset()
-      
-              }else{
+                EventBtnClick.setMiVariable(true);
+
+              } else {
                 Swal.fire({
                   icon: 'error',
                   title: 'Ups...',
@@ -685,80 +687,82 @@ export class ExamenVistaComponent {
                 })
               }
             })
-          }else{
+          } else {
             console.log('cliente nuevo')
-      
+
             let c = {
               cedula: this.Cliente.cedula,
               nombres: this.Cliente.nombres,
               apellidos: this.Cliente.apellidos,
               direccion: this.Cliente.direccion
             }
-            this.dataService.postData('cliente',c).then((success) => {
-              if(success){
+            this.dataService.postData('cliente', c).then((success) => {
+              if (success) {
                 const numeros = this.clienteList.map(objeto => objeto.codCliente);
                 let dataV = Math.max(...numeros) + 1
                 // let tamC = this.clienteList.length + 2
                 let examenVista = {
                   codCliente: dataV,
-                  idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
+                  idFechaExamen: tamano == -1 ? fecha?.idFechaExamen : tamano,
                   ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
                   ojoDerecho: this.ExamenVista.ojoDerecho,
                   descripLenteIzq: this.ExamenVista.descripLenteIzq,
                   descripLenteDer: this.ExamenVista.descripLenteDer
                 }
-                this.dataService.postData('examenvista',examenVista).then((success) => {
-                  if(success){
+                this.dataService.postData('examenvista', examenVista).then((success) => {
+                  if (success) {
                     Swal.fire(
                       'Exito!',
                       'La informacion a sido actualizado con exito',
                       'success'
                     )
-      
-                    Swal.fire({
-                      title: 'Confirmar',
-                      text: '¿Desea agendar un peido?',
-                      icon: 'question',
-                      showCancelButton: true,
-                      confirmButtonText: 'Agendar',
-                      cancelButtonText: 'Despues',
-                      reverseButtons: true
-                    }).then((result) => {
-                      if (result.isConfirmed) {
-                        // this.setDataUpdateDB(data.value)
-                        // let cliente = this.myData.filter(e => e.cedula === data.cedula)
-                        // console.log(cliente[0])
-                        // let parametro = {
-                        //   cliente: data,
-                        //   formCreate: false
-                        // }
-          
-                        const numeros = this.examenVistaList.map(objeto => objeto.numExamen);
-                        let dataV = Math.max(...numeros) + 1
-          
-                        let examenVista = {
-                          numExamen: dataV,
-                          codCliente: this.Cliente.codCliente,
-                          idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
-                          ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
-                          ojoDerecho: this.ExamenVista.ojoDerecho,
-                          descripLenteIzq: this.ExamenVista.descripLenteIzq,
-                          descripLenteDer: this.ExamenVista.descripLenteDer
-                        }
-          
-                        this.sendDataOrdenPedido(examenVista)
-                      } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        Swal.fire(
-                          'Cancelado',
-                          'Todo bien :)',
-                          'error'
-                        )
-                      }
-                    });
-      
+
+                    // Swal.fire({
+                    //   title: 'Confirmar',
+                    //   text: '¿Desea agendar un peido?',
+                    //   icon: 'question',
+                    //   showCancelButton: true,
+                    //   confirmButtonText: 'Agendar',
+                    //   cancelButtonText: 'Despues',
+                    //   reverseButtons: true
+                    // }).then((result) => {
+                    //   if (result.isConfirmed) {
+                    //     // this.setDataUpdateDB(data.value)
+                    //     // let cliente = this.myData.filter(e => e.cedula === data.cedula)
+                    //     // console.log(cliente[0])
+                    //     // let parametro = {
+                    //     //   cliente: data,
+                    //     //   formCreate: false
+                    //     // }
+
+                    //     const numeros = this.examenVistaList.map(objeto => objeto.numExamen);
+                    //     let dataV = Math.max(...numeros) + 1
+
+                    //     let examenVista = {
+                    //       numExamen: dataV,
+                    //       codCliente: this.Cliente.codCliente,
+                    //       idFechaExamen: tamano == -1 ? fecha?.idFechaExamen : tamano,
+                    //       ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+                    //       ojoDerecho: this.ExamenVista.ojoDerecho,
+                    //       descripLenteIzq: this.ExamenVista.descripLenteIzq,
+                    //       descripLenteDer: this.ExamenVista.descripLenteDer
+                    //     }
+
+                    //     this.sendDataOrdenPedido(examenVista)
+                    //   } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    //     Swal.fire(
+                    //       'Cancelado',
+                    //       'Todo bien :)',
+                    //       'error'
+                    //     )
+                    //     EventBtnClick.setMiVariable(true);
+                    //   }
+                    // });
+
                     this.setResetData()
                     this.formCreateData.reset()
-                  }else{
+                    EventBtnClick.setMiVariable(true);
+                  } else {
                     Swal.fire({
                       icon: 'error',
                       title: 'Ups...',
@@ -766,177 +770,186 @@ export class ExamenVistaComponent {
                       footer: '<a href="">¿Por qué tengo este problema??</a>'
                     })
                   }
-                })
+                }
+                )
               }
             })
           }
         }
       })
     }
+    else{
 
+      let F = fecha.idFechaExamen;
 
-    if(cliente){
+      console.log(fecha)
 
-      console.log('cliente viejo')
-      let examenVista = {
-        codCliente: this.Cliente.codCliente,
-        idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
-        ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
-        ojoDerecho: this.ExamenVista.ojoDerecho,
-        descripLenteIzq: this.ExamenVista.descripLenteIzq,
-        descripLenteDer: this.ExamenVista.descripLenteDer
-      }
+      if (cliente) {
 
-      this.dataService.postData('examenvista', examenVista).then((success)=>{
-        if(success){
-          Swal.fire(
-            'Exito!',
-            'La informacion a sido actualizado con exito',
-            'success'
-          )
-          
-
-          Swal.fire({
-            title: 'Confirmar',
-            text: '¿Desea agendar un peido?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Agendar',
-            cancelButtonText: 'Despues',
-            reverseButtons: true
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // this.setDataUpdateDB(data.value)
-              // let cliente = this.myData.filter(e => e.cedula === data.cedula)
-              // console.log(cliente[0])
-              // let parametro = {
-              //   cliente: data,
-              //   formCreate: false
-              // }
-
-              const numeros = this.examenVistaList.map(objeto => objeto.numExamen);
-              let dataV = Math.max(...numeros) + 1
-
-              let examenVista = {
-                numExamen: dataV,
-                codCliente: this.Cliente.codCliente,
-                idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
-                ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
-                ojoDerecho: this.ExamenVista.ojoDerecho,
-                descripLenteIzq: this.ExamenVista.descripLenteIzq,
-                descripLenteDer: this.ExamenVista.descripLenteDer
-              }
-
-              this.sendDataOrdenPedido(examenVista)
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-              Swal.fire(
-                'Cancelado',
-                'Todo bien :)',
-                'error'
-              )
-            }
-          });
-
-          this.setResetData()
-          this.formCreateData.reset()
-
-        }else{
-          Swal.fire({
-            icon: 'error',
-            title: 'Ups...',
-            text: 'Algo salió mal!',
-            footer: '<a href="">¿Por qué tengo este problema??</a>'
-          })
+        console.log('cliente viejo')
+        let examenVista = {
+          codCliente: this.Cliente.codCliente,
+          idFechaExamen: F,
+          ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+          ojoDerecho: this.ExamenVista.ojoDerecho,
+          descripLenteIzq: this.ExamenVista.descripLenteIzq,
+          descripLenteDer: this.ExamenVista.descripLenteDer
         }
-      })
-    }else{
-      console.log('cliente nuevo')
-
-      let c = {
-        cedula: this.Cliente.cedula,
-        nombres: this.Cliente.nombres,
-        apellidos: this.Cliente.apellidos,
-        direccion: this.Cliente.direccion
-      }
-      this.dataService.postData('cliente',c).then((success) => {
-        if(success){
-          const numeros = this.clienteList.map(objeto => objeto.codCliente);
-          let dataV = Math.max(...numeros) + 1
-          // let tamC = this.clienteList.length + 2
-          let examenVista = {
-            codCliente: dataV,
-            idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
-            ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
-            ojoDerecho: this.ExamenVista.ojoDerecho,
-            descripLenteIzq: this.ExamenVista.descripLenteIzq,
-            descripLenteDer: this.ExamenVista.descripLenteDer
+  
+        this.dataService.postData('examenvista', examenVista).then((success) => {
+          if (success) {
+            Swal.fire(
+              'Exito!',
+              'La informacion a sido actualizado con exito',
+              'success'
+            )
+  
+  
+            // Swal.fire({
+            //   title: 'Confirmar',
+            //   text: '¿Desea agendar un peido?',
+            //   icon: 'question',
+            //   showCancelButton: true,
+            //   confirmButtonText: 'Agendar',
+            //   cancelButtonText: 'Despues',
+            //   reverseButtons: true
+            // }).then((result) => {
+            //   if (result.isConfirmed) {
+            //     // this.setDataUpdateDB(data.value)
+            //     // let cliente = this.myData.filter(e => e.cedula === data.cedula)
+            //     // console.log(cliente[0])
+            //     // let parametro = {
+            //     //   cliente: data,
+            //     //   formCreate: false
+            //     // }
+  
+            //     const numeros = this.examenVistaList.map(objeto => objeto.numExamen);
+            //     let dataV = Math.max(...numeros) + 1
+  
+            //     let examenVista = {
+            //       numExamen: dataV,
+            //       codCliente: this.Cliente.codCliente,
+            //       idFechaExamen: F,
+            //       ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+            //       ojoDerecho: this.ExamenVista.ojoDerecho,
+            //       descripLenteIzq: this.ExamenVista.descripLenteIzq,
+            //       descripLenteDer: this.ExamenVista.descripLenteDer
+            //     }
+  
+            //     this.sendDataOrdenPedido(examenVista)
+            //   } else if (result.dismiss === Swal.DismissReason.cancel) {
+            //     Swal.fire(
+            //       'Cancelado',
+            //       'Todo bien :)',
+            //       'error'
+            //     )
+            //     EventBtnClick.setMiVariable(true);
+            //   }
+            // });
+            this.setResetData()
+            this.formCreateData.reset()
+            EventBtnClick.setMiVariable(true);
+  
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ups...',
+              text: 'Algo salió mal!',
+              footer: '<a href="">¿Por qué tengo este problema??</a>'
+            })
           }
-          this.dataService.postData('examenvista',examenVista).then((success) => {
-            if(success){
-              Swal.fire(
-                'Exito!',
-                'La informacion a sido actualizado con exito',
-                'success'
-              )
-
-              Swal.fire({
-                title: 'Confirmar',
-                text: '¿Desea agendar un peido?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Agendar',
-                cancelButtonText: 'Despues',
-                reverseButtons: true
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  // this.setDataUpdateDB(data.value)
-                  // let cliente = this.myData.filter(e => e.cedula === data.cedula)
-                  // console.log(cliente[0])
-                  // let parametro = {
-                  //   cliente: data,
-                  //   formCreate: false
-                  // }
-    
-                  const numeros = this.examenVistaList.map(objeto => objeto.numExamen);
-                  let dataV = Math.max(...numeros) + 1
-    
-                  let examenVista = {
-                    numExamen: dataV,
-                    codCliente: this.Cliente.codCliente,
-                    idFechaExamen: tamano == -1? fecha?.idFechaExamen : tamano,
-                    ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
-                    ojoDerecho: this.ExamenVista.ojoDerecho,
-                    descripLenteIzq: this.ExamenVista.descripLenteIzq,
-                    descripLenteDer: this.ExamenVista.descripLenteDer
-                  }
-    
-                  this.sendDataOrdenPedido(examenVista)
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                  Swal.fire(
-                    'Cancelado',
-                    'Todo bien :)',
-                    'error'
-                  )
-                }
-              });
-
-              this.setResetData()
-              this.formCreateData.reset()
-            }else{
-              Swal.fire({
-                icon: 'error',
-                title: 'Ups...',
-                text: 'Algo salió mal!',
-                footer: '<a href="">¿Por qué tengo este problema??</a>'
-              })
-            }
-          })
+        })
+      } else {
+        console.log('cliente nuevo')
+  
+        let c = {
+          cedula: this.Cliente.cedula,
+          nombres: this.Cliente.nombres,
+          apellidos: this.Cliente.apellidos,
+          direccion: this.Cliente.direccion
         }
-      })
+        this.dataService.postData('cliente', c).then((success) => {
+          if (success) {
+            const numeros = this.clienteList.map(objeto => objeto.codCliente);
+            let dataV = Math.max(...numeros) + 1
+            // let tamC = this.clienteList.length + 2
+            let examenVista = {
+              codCliente: dataV,
+              idFechaExamen: F,
+              ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+              ojoDerecho: this.ExamenVista.ojoDerecho,
+              descripLenteIzq: this.ExamenVista.descripLenteIzq,
+              descripLenteDer: this.ExamenVista.descripLenteDer
+            }
+            this.dataService.postData('examenvista', examenVista).then((success) => {
+              if (success) {
+                Swal.fire(
+                  'Exito!',
+                  'La informacion a sido actualizado con exito',
+                  'success'
+                )
+  
+                // Swal.fire({
+                //   title: 'Confirmar',
+                //   text: '¿Desea agendar un peido?',
+                //   icon: 'question',
+                //   showCancelButton: true,
+                //   confirmButtonText: 'Agendar',
+                //   cancelButtonText: 'Despues',
+                //   reverseButtons: true
+                // }).then((result) => {
+                //   if (result.isConfirmed) {
+                //     // this.setDataUpdateDB(data.value)
+                //     // let cliente = this.myData.filter(e => e.cedula === data.cedula)
+                //     // console.log(cliente[0])
+                //     // let parametro = {
+                //     //   cliente: data,
+                //     //   formCreate: false
+                //     // }
+  
+                //     const numeros = this.examenVistaList.map(objeto => objeto.numExamen);
+                //     let dataV = Math.max(...numeros) + 1
+  
+                //     let examenVista = {
+                //       numExamen: dataV,
+                //       codCliente: this.Cliente.codCliente,
+                //       idFechaExamen: tamano == -1 ? fecha?.idFechaExamen : tamano,
+                //       ojoIzquierdo: this.ExamenVista.ojoIzquierdo,
+                //       ojoDerecho: this.ExamenVista.ojoDerecho,
+                //       descripLenteIzq: this.ExamenVista.descripLenteIzq,
+                //       descripLenteDer: this.ExamenVista.descripLenteDer
+                //     }
+  
+                //     this.sendDataOrdenPedido(examenVista)
+                //   } else if (result.dismiss === Swal.DismissReason.cancel) {
+                //     Swal.fire(
+                //       'Cancelado',
+                //       'Todo bien :)',
+                //       'error'
+                //     )
+                //     EventBtnClick.setMiVariable(true);
+                //   }
+                // });
+  
+                this.setResetData()
+                this.formCreateData.reset()
+                EventBtnClick.setMiVariable(true);
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Ups...',
+                  text: 'Algo salió mal!',
+                  footer: '<a href="">¿Por qué tengo este problema??</a>'
+                })
+              }
+            })
+          }
+        })
+      }
     }
   }
 
-  
+
 
   sendDataOrdenPedido(parametro: any) {
     const navigationExtras: NavigationExtras = {
