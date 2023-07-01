@@ -344,7 +344,7 @@
 
 <!-- ordenPedido -->
 <ng-template #ordenPedido>
-    <app-table-simple [data]="productoAuxiliarList" [columns]="tableColumnsOrdenPedido"
+    <app-table-simple [data]="tableDataOrdenPedido" [columns]="tableColumnsOrdenPedido"
         (selectItemsCell)="resultDataTableOrdenPedido($event)" (cancelTable)="cancelDialogResult()">
     </app-table-simple>
 </ng-template>
@@ -402,9 +402,9 @@
                         Tipo de pago
                     </mat-label>
                     <mat-select formControlName="estadoFactura" class="form-control form-control-lg" matNativeControl
-                        [(ngModel)]="EstadoFactura">
-                        <mat-option *ngFor="let option of facturaEstadoList" [value]="option">
-                            {{option}}
+                        [(ngModel)]="EstadoFactura.idEstadoFactura">
+                        <mat-option *ngFor="let option of facturaEstadoList" [value]="option.idEstadoFactura">
+                            {{option.estadoFactura}}
                         </mat-option>
                     </mat-select>
                 </div>

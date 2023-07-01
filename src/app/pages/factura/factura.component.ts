@@ -618,7 +618,7 @@ export class FacturaComponent {
     if (data) {
       let ordenPedido = this.ordenPedidoList.find(e => e.numOrden === data.numOrden)
       // let producto = this.productoList.find(e => e.codProducto === data.codProducto)
-      let val = this.ordenPedidoAuxiliarList.filter(e => e.numOrden === ordenPedido?.numOrden)
+      let val = this.detalleFacturaItems.filter(e => e.numOrden === ordenPedido?.numOrden)
       if (!val) {
         if (ordenPedido) {
           // this.ordenPedidoAuxiliarList.push(ordenPedido)
