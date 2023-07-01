@@ -4,11 +4,11 @@
     <div class="container">
 
       <div class="row align-items-center">
-        
+
         <div class="col">
 
           <img mat-card-image src="../../assets/images/logo.svg" alt="Central Optic logo"
-        style="width: 500px; height: 600px;">
+            style="width: 500px; height: 600px;">
 
         </div>
 
@@ -25,20 +25,23 @@
 
       <div class="row">
 
-          <div class="col-1"></div>
+        <div class="col-1"></div>
 
-          <button type="button" class="btn btn-primary col a" routerLink="/ayuda"> <i class="fa-solid fa-circle-info"></i> Ayuda</button>
-        
-          <div class="col-1"></div>
+        <button type="button" class="btn btn-primary col a" routerLink="/ayuda"> <i class="fa-solid fa-circle-info"></i>
+          Ayuda</button>
 
-          <button type="button" class="btn btn-danger col a" routerLink="/login"  (click)="OnclickLogout()"> <i class="fa-solid fa-door-closed"></i> Cerrar sesión</button>
-        
-          <div class="col-1"></div>
+        <div class="col-1"></div>
 
-          <button type="button" class="btn btn-success col a" (click)="scrollToSection('Reportes')"> <i class="fa-solid fa-pen-to-square"></i> Reportes </button>
+        <button type="button" class="btn btn-danger col a" routerLink="/login" (click)="OnclickLogout()"> <i
+            class="fa-solid fa-door-closed"></i> Cerrar sesión</button>
 
-          <div class="col-1"></div>
-      
+        <div class="col-1"></div>
+
+        <button type="button" class="btn btn-success col a" (click)="scrollToSection('Reportes')"> <i
+            class="fa-solid fa-pen-to-square"></i> Reportes </button>
+
+        <div class="col-1"></div>
+
       </div>
 
 
@@ -62,7 +65,7 @@
         &nbsp;
       </div>
       <div class="row">
-        &nbsp;
+
       </div>
       <div class="row">
         &nbsp;
@@ -72,31 +75,66 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-              
-                <h3><strong >Productos más vendidos</strong></h3>
-              
-              <app-bar-chart [data]="ProductosMasVendidos"></app-bar-chart>
+
+              <h3><strong>Productos más vendidos</strong></h3>
+
+              <app-bar-chart [data]="ProductBarrasSelling.count" [labels]="ProductBarrasSelling.labels"
+                [title]="ProductBarrasSelling.title"></app-bar-chart>
 
             </div>
           </div>
         </div>
         <div class="col">
-           <div class="card">
+          <div class="card">
             <div class="card-body">
-              
-                <h3><strong >Productos más vendidos</strong></h3>
-              
-                <h5> 1 - Código: {{DescripcionProducto[0].codProducto}} &nbsp; Descripcion: {{DescripcionProducto[0].descripcion}} </h5>
-                <h5> 2 - Código: {{DescripcionProducto[1].codProducto}} &nbsp; Descripcion: {{DescripcionProducto[1].descripcion}} </h5>
-                <h5> 3 - Código: {{DescripcionProducto[2].codProducto}} &nbsp; Descripcion: {{DescripcionProducto[2].descripcion}} </h5>
-                <h5> 4 - Código: {{DescripcionProducto[3].codProducto}} &nbsp; Descripcion: {{DescripcionProducto[3].descripcion}} </h5>
-                <h5> 5 - Código: {{DescripcionProducto[4].codProducto}} &nbsp; Descripcion: {{DescripcionProducto[4].descripcion}} </h5>
-                <h5> 6 - Código: {{DescripcionProducto[5].codProducto}} &nbsp; Descripcion: {{DescripcionProducto[5].descripcion}} </h5>
-                <h5> 7 - Código: {{DescripcionProducto[6].codProducto}} &nbsp; Descripcion: {{DescripcionProducto[6].descripcion}} </h5>
-                <h5> 8 - Código: {{DescripcionProducto[7].codProducto}} &nbsp; Descripcion: {{DescripcionProducto[5].descripcion}} </h5>
-                <h5> 9 - Código: {{DescripcionProducto[8].codProducto}} &nbsp; Descripcion: {{DescripcionProducto[6].descripcion}} </h5>
-                <h5> 10 - Código: {{DescripcionProducto[9].codProducto}} &nbsp; Descripcion: {{DescripcionProducto[5].descripcion}} </h5>
-              
+
+              <h3><strong>Productos más vendidos</strong></h3>
+
+              <div class="row" *ngFor="let producto of DescripcionProductoVendidos; let i = index">
+                <div class="col-4 texto-pequeno">
+                  <p>{{ i + 1 }} - {{ producto.codProducto }}</p>
+                </div>
+                <div class="col texto-pequeno">
+                  <p>Descripción: {{ producto.descripcion }}</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        &nbsp;
+      </div>
+
+      <div class="row">
+        &nbsp;
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+
+              <h3><strong>Productos más adquiridos</strong></h3>
+
+              <div class="row" *ngFor="let producto of DescripcionProductoComprados; let i = index">
+                <div class="col-4 texto-pequeno">
+                  <h4>{{ i + 1 }} - {{ producto.codProducto }}</h4>
+                </div>
+                <div class="col texto-pequeno">
+                  <h4>Descripción: {{ producto.descripcion }}</h4>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h3><strong>Productos más adquiridos</strong></h3>
+              <app-bar-chart [data]="ProductBarrasBuying.count" [labels]="ProductBarrasBuying.labels"
+                [title]="ProductBarrasBuying.title"></app-bar-chart>
             </div>
           </div>
         </div>
@@ -109,12 +147,81 @@
       </div>
       <div class="row">
         <div class="col">
-          Column
+          <div class="card">
+            <div class="card-body">
+              <h3><strong>Clientes más facturados</strong></h3>
+              <app-pie-chart [data]="ClientePieMasCompra.count" [labels]="ClientePieMasCompra.labels"></app-pie-chart>
+            </div>
+          </div>
         </div>
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <app-line-chart class="home"></app-line-chart>
+
+              <h3><strong>Clientes más facturados</strong></h3>
+
+              <div class="row" *ngFor="let label of ClientePieMasCompra.labels; let i = index">
+                <div class="col texto-pequeno">
+                  <h3>{{ i + 1 }} - {{ label }}</h3>
+                </div>
+                <div class="col ttexto-pequeno">
+                  <h3>Cantidad de facturas a su nombre: {{ ClientePieMasCompra.count[i] }}</h3>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col texto-pequeno">
+                  <h3><strong>Promedio de facturas por cliente:</strong></h3>
+                </div>
+                <div class="col texto-pequeno">
+                  <h3><strong>{{ PromedioFacturaporCliente }} </strong></h3>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        &nbsp;
+      </div>
+      <div class="row">
+        &nbsp;
+      </div>
+      <div class="row">
+        
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+
+              <h3><strong>Clientes con más exámenes de vista</strong></h3>
+
+              <div class="row" *ngFor="let label of ClientePieMasObservado.labels; let i = index">
+                <div class="col texto-pequeno">
+                  <h3>{{ i + 1 }} - {{ label }}</h3>
+                </div>
+                <div class="col ttexto-pequeno">
+                  <h3>Cantidad de exámenes realizados: {{ ClientePieMasObservado.count[i] }}</h3>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col texto-pequeno">
+                  <h3><strong>Promedio de exámenes por cliente:</strong></h3>
+                </div>
+                <div class="col texto-pequeno">
+                  <h3><strong>{{ PromedioExamenporCliente }} </strong></h3>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h3><strong>Clientes con más exámenes de vista</strong></h3>
+              <app-pie-chart [data]="ClientePieMasObservado.count" [labels]="ClientePieMasObservado.labels" ></app-pie-chart>
             </div>
           </div>
         </div>
@@ -129,28 +236,27 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <app-pie-chart></app-pie-chart>
+
+              <h3><strong>Proveedores más frecuentes</strong></h3>
+
+              <div class="row" *ngFor="let label of ProveedorRadioMasFrecuente.labels; let i = index">
+                <div class="col-5 texto-pequeno">
+                  <h3>{{ i + 1 }} - {{ label }}</h3>
+                </div>
+                <div class="col ttexto-pequeno">
+                  <h3>Cantidad de veces frecuentadas: {{ ProveedorRadioMasFrecuente.count[i] }}</h3>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
         <div class="col">
-          Column
-        </div>
-      </div>
-      <div class="row">
-        &nbsp;
-      </div>
-      <div class="row">
-        &nbsp;
-      </div>
-      <div class="row">
-        <div class="col">
-          Column
-        </div>
-        <div class="col">
           <div class="card">
             <div class="card-body">
-              <app-polar-area-chart class="home"></app-polar-area-chart>
+              <h3><strong>Proveedores más frecuentes</strong></h3>
+              <app-polar-area-chart class="home" [data]="ProveedorRadioMasFrecuente.count" [labels]="ProveedorRadioMasFrecuente.labels" 
+              [title]="ProveedorRadioMasFrecuente.title"></app-polar-area-chart>
             </div>
           </div>
         </div>

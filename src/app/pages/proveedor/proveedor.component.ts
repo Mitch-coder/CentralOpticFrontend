@@ -47,7 +47,7 @@ export class ProveedorComponent {
     alert: 'El propietario es obligatorio',
     icon: 'fa-solid fa-user-lock',
     formControlName: 'propietario',
-    formValidators: { 'propietario': ['', [Validators.required]] }
+    formValidators: { 'propietario': ['', [Validators.nullValidator]] }
   },
   {
     label: 'Dirección',
@@ -101,7 +101,7 @@ export class ProveedorComponent {
     // console.log()
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea eliminar el cliente?',
+      text: '¿Estás seguro que desea eliminar el proveedor?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Eliminar',
@@ -127,7 +127,7 @@ export class ProveedorComponent {
       if(success){
         Swal.fire({
           title: 'Exito!',
-          text: 'El cliente fue eliminado',
+          text: 'El proveedor fue eliminado',
           icon: 'success',
           confirmButtonText: 'OK!',
         })
@@ -135,7 +135,7 @@ export class ProveedorComponent {
       }else{
         Swal.fire(
           'Eliminado!',
-          'El cliente no puede ser eliminado',
+          'El proveedor no puede ser eliminado, ya que tiene registro a su nombre',
           'error'
         )
       }
@@ -163,7 +163,7 @@ export class ProveedorComponent {
         alert: 'El propietario es obligatorio',
         icon: 'fa-solid fa-user-lock',
         formControlName: 'propietario',
-        formValidators: { 'propietario': [data.propietario, [Validators.required]] },
+        formValidators: { 'propietario': [data.propietario, [Validators.nullValidator]] },
         value: data.propietario
       },
       {

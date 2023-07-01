@@ -156,7 +156,7 @@ export class ClienteComponent {
       }else{
         Swal.fire(
           'Eliminado!',
-          'El cliente no puede ser eliminado',
+          'El cliente no puede ser eliminado, ya que tiene registro a su nombre',
           'error'
         )
       }

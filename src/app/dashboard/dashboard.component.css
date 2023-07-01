@@ -14,3 +14,14 @@
     text-align: center;
     max-height: 600px;
 }
+.texto-pequeno {
+  font-size: 14px;
+}
+
+.texto-grande {
+  font-size: 24px;
+}
+
+.texto-mediano {
+  font-size: 18px;
+}

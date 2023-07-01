@@ -81,7 +81,7 @@ export class EmpleadoComponent {
     // console.log()
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea eliminar el cliente?',
+      text: '¿Estás seguro que desea eliminar el empleado?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Eliminar',
@@ -106,7 +106,7 @@ export class EmpleadoComponent {
       if (success) {
         Swal.fire({
           title: 'Exito!',
-          text: 'El cliente fue eliminado',
+          text: 'El empleado fue eliminado',
           icon: 'success',
           confirmButtonText: 'OK!',
         })
@@ -114,7 +114,7 @@ export class EmpleadoComponent {
       } else {
         Swal.fire(
           'Eliminado!',
-          'El cliente no puede ser eliminado',
+          'El empleado no puede ser eliminado, ya que tiene registro a su nombre',
           'error'
         )
       }

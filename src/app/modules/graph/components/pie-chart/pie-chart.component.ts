@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import DatalabelsPlugin from 'chartjs-plugin-datalabels';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
@@ -30,13 +30,36 @@ export class PieChartComponent {
     }
   };
   public pieChartData: ChartData<'pie', number[], string | string[]> = {
-    labels: [ [ 'Download', 'Sales' ], [ 'In', 'Store', 'Sales' ], 'Mail Sales' ],
+    labels: [ 'Download Sales' , 'In Store Sales' , 'Mail Sales' , 'Mail Sales' , 'Mail Sales' , 'Mail Sales' , 'Mail Sales' ],
     datasets: [ {
-      data: [ 300, 500, 100 ]
+      data: [ 300, 500, 100,400,600, 100,400 ],
+      backgroundColor: ['#B6CBDE', '#BEDFE8', '#B6D1D0', '#ADDEC2', '#BCE8DB', '#CCE8B5', '#D1DEA6']
     } ]
   };
   public pieChartType: ChartType = 'pie';
   public pieChartPlugins = [ DatalabelsPlugin ];
+
+  @Input() set labels(labels:string[]) {
+
+    if(labels.length!==0){
+      //console.log(data)
+      console.log("Barras")
+      this.pieChartData.labels = labels;
+      this.chart?.update();
+    }
+
+  }
+
+  @Input() set data(count:number[]) {
+
+    if(count.length!==0){
+      //console.log(data)
+      console.log("Barras")
+      this.pieChartData.datasets[0].data = count;
+      this.chart?.update();
+    }
+
+  }
 
   // events
   public chartClicked({ event, active }: { event: ChartEvent, active: {}[] }): void {
