@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MyDataServices } from 'src/app/services/mydata.services';
 import { tap } from 'rxjs';
 import { TableColumn } from '../../models/table-column';
@@ -39,6 +39,10 @@ export class TableComponent implements OnInit, AfterViewInit {
     data.pipe(
       tap((data: any[]) => {
         this.dataSource.data = data.reverse();
+        this.cdr.detectChanges();
+        // this.dataUpdate = undefined
+        this.btnClickItemRow = true
+        // this.selectItem(undefined)
       })
     ).subscribe();
   }
@@ -67,10 +71,12 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   @Output() selectItemsCell: EventEmitter<any>;
+  @Output() selectItemsCellDelete: EventEmitter<any>;
 
-  constructor(private headerSearch: HeaderSearch, private dataService:MyDataServices) {
+  constructor(private headerSearch: HeaderSearch, private dataService:MyDataServices,private cdr: ChangeDetectorRef) {
 
     this.selectItemsCell = new EventEmitter();
+    this.selectItemsCellDelete = new EventEmitter();
   }
   ngOnInit(): void {
 
@@ -91,51 +97,6 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
     return false;
   }
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  // isAllSelected() {
-  //   const numSelected = this.selection.selected.length;
-  //   const numRows = this.dataSource.data.length;
-  //   return numSelected === numRows;
-  // }
-
-  // /** Selects all rows if they are not all selected; otherwise clear selection. */
-  // toggleAllRows() {
-  //   if (this.isAllSelected()) {
-  //     this.selection.clear();
-  //     this.onSelect();
-  //     return;
-  //   }
-
-  //   this.selection.select(...this.dataSource.data);
-  //   this.onSelect();
-  // }
-
-  // /** The label for the checkbox on the passed row */
-  // checkboxLabel(row?: any): string {
-  //   if (!row) {
-  //     return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-  //   }
-  //   return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-  //     row.position + 1
-  //   }`;
-  // }
-
-  // onEdit(row: any) {
-  //   this.action.emit({ action: TABLE_ACTION.EDIT, row });
-  // }
-
-  // onDelete(row: any) {
-  //   this.action.emit({ action: TABLE_ACTION.DELETE, row });
-  // }
-
-
-  // Este codigo funciona para filtrar por cualquiera de los campos de la tabla
-  // el problema es que no se como hacer para que se ejecute cuando se actualice el input 
-  // help!
-
-  // HeaderData es una clase statica que contiene el hearderText que esa variable contiene 
-  // lo que se escribe en el input :)
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -162,6 +123,10 @@ export class TableComponent implements OnInit, AfterViewInit {
   btnClickUpdate() {
     // console.log(this.dataUpdate)
     this.selectItemsCell.emit(this.dataUpdate);
+  }
+
+  btnClickDelete(){
+    this.selectItemsCellDelete.emit(this.dataUpdate);
   }
 
   btnClickExport() {

@@ -73,6 +73,15 @@ export class ProveedorComponent {
     this.setTableColumns();
   }
 
+  initDataTable(){
+    this.myData$ = this.dataService
+    .getData('proveedor')
+    .pipe(tap((data) => {
+      console.log(data)
+      this.myData = data
+    }))
+  }
+
   setTableColumns() {
     this.tableColumns = [
       { label: 'Código de Proovedor', def: 'idProveedor', dataKey: 'idProveedor' },
@@ -87,6 +96,52 @@ export class ProveedorComponent {
       this.dataUpdate = undefined
     return HeaderData.eventBtnClick;
   }
+
+  confirmeDeleteData(data: any) {
+    // console.log()
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea eliminar el cliente?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteData(data)
+        // data.reset()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen a salvo :)',
+          'error'
+        )
+      }
+    });
+  }
+
+  deleteData(data:any){
+    
+    this.dataService.deleteData('proveedor',data.idProveedor).then((success)=>{
+      if(success){
+        Swal.fire({
+          title: 'Exito!',
+          text: 'El cliente fue eliminado',
+          icon: 'success',
+          confirmButtonText: 'OK!',
+        })
+        this.initDataTable()
+      }else{
+        Swal.fire(
+          'Eliminado!',
+          'El cliente no puede ser eliminado',
+          'error'
+        )
+      }
+    })
+  }
+
 
   setFormUpdate(data: Data) {
     this.dataUpdate = data;

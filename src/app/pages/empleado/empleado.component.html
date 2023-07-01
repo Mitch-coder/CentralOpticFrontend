@@ -6,7 +6,10 @@
             <h1>Lista de empleados</h1>
             <app-table [data]="myData$" 
             [columns]="tableColumns"
-             (selectItemsCell)="resultTableDataUpdate($event)" [buttonShowdelete]="true"></app-table>
+             (selectItemsCell)="resultTableDataUpdate($event)" 
+             [buttonShowdelete]="true"
+             [buttonShowdelete]="true"
+            (selectItemsCellDelete)="confirmeDeleteData($event)"></app-table>
           </section>
           <section *ngIf="dataUpdate">
             <app-form 

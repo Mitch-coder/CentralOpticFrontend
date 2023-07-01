@@ -97,7 +97,7 @@ export class ClienteComponent {
   }
 
   initDataTable() {
-    console.log('')
+    // console.log('')
     this.myData$ = this.dataService
       .getData('cliente')
       .pipe(tap((data: Cliente[]) => (this.myData = data)))
@@ -105,7 +105,7 @@ export class ClienteComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Número de Cliente', def: 'IdCliente', dataKey: 'codCliente' },
+      { label: 'Número de Cliente', def: 'codCliente', dataKey: 'codCliente' },
       { label: 'Cédula', def: 'Cedula', dataKey: 'cedula' },
       { label: 'Nombres', def: 'Nombre', dataKey: 'nombres' },
       { label: 'Apellidos', def: 'Apellido', dataKey: 'apellidos' },
@@ -116,6 +116,53 @@ export class ClienteComponent {
   getEventBtnClickHeader() {
     return HeaderData.eventBtnClick;
   }
+
+  
+
+  confirmeDeleteData(data: any) {
+    // console.log()
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea eliminar el cliente?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteData(data)
+        // data.reset()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen a salvo :)',
+          'error'
+        )
+      }
+    });
+  }
+
+  deleteData(data:any){
+    this.dataService.deleteData('cliente',data.codCliente).then((success)=>{
+      if(success){
+        Swal.fire({
+          title: 'Exito!',
+          text: 'El cliente fue eliminado',
+          icon: 'success',
+          confirmButtonText: 'OK!',
+        })
+        this.initDataTable()
+      }else{
+        Swal.fire(
+          'Eliminado!',
+          'El cliente no puede ser eliminado',
+          'error'
+        )
+      }
+    })
+  }
+
 
   // Probardelete(){
 

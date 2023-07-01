@@ -37,7 +37,7 @@
   </button>
 
   <button mat-fab extended [disabled]="btnClickItemRow" class="btnUpdate"
-    [ngClass]="btnClickItemRow?'btn-danger-disable':'btn-danger'" (click)="btnClickUpdate()" *ngIf="Showdelete">
+    [ngClass]="btnClickItemRow?'btn-danger-disable':'btn-danger'" (click)="btnClickDelete()" *ngIf="Showdelete">
     <i class="fa-solid fa-trash-can"></i>
     Eliminar
   </button>

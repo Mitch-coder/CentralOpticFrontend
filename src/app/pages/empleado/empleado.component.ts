@@ -58,6 +58,14 @@ export class EmpleadoComponent {
     ]
   }
 
+  initDataTable() {
+    this.myData$ = this.dataService
+      .getData('empleado')
+      .pipe(tap((data) => {
+        this.myData = data
+      }))
+  }
+
   getEventBtnClickHeader() {
     if (!HeaderData.eventBtnClick) {
       if (this.dataUpdate || this.Empleado.numEmpleado !== 0) {
@@ -67,6 +75,55 @@ export class EmpleadoComponent {
 
     return HeaderData.eventBtnClick;
   }
+
+
+  confirmeDeleteData(data: any) {
+    // console.log()
+    Swal.fire({
+      title: 'Confirmar',
+      text: '¿Estás seguro que desea eliminar el cliente?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteData(data)
+        // data.reset()
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Los datos siguen a salvo :)',
+          'error'
+        )
+      }
+    });
+  }
+
+  deleteData(data: any) {
+    this.dataService.deleteData('empleado', data.numEmpleado).then((success) => {
+      if (success) {
+        Swal.fire({
+          title: 'Exito!',
+          text: 'El cliente fue eliminado',
+          icon: 'success',
+          confirmButtonText: 'OK!',
+        })
+        this.initDataTable()
+      } else {
+        Swal.fire(
+          'Eliminado!',
+          'El cliente no puede ser eliminado',
+          'error'
+        )
+      }
+    })
+  }
+
+
+
+
 
   formCreate: FormData[] = [
     {
