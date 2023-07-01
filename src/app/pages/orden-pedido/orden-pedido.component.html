@@ -3,7 +3,7 @@
     <div class="example-content">
       <section [ngClass]="!dataTableValidators?'':'val'" *ngIf="getEventBtnClickHeader() && !dataTableValidators">
         <section>
-          <h1>Lista de Ordenes Pedido</h1>
+          <h1>Lista de Pedidos</h1>
           <app-table [data]="myData$" [columns]="tableColumns"
             (selectItemsCell)="getDataUpdateDialog($event,formUpdate)"></app-table>
         </section>
@@ -101,7 +101,7 @@
             Estado del pedido
           </label>
           <input type="text" formControlName="estadoPedido" class="form-control form-input"
-            placeholder="Estado del Pedido" [(ngModel)]="EstadoPedido.estadoPedido" readonly>
+            placeholder="Estado del pedido" [(ngModel)]="EstadoPedido.estadoPedido" readonly>
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('estadoPedido').valid || (formGetDataCreate('estadoPedido').pristine)">

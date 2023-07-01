@@ -280,7 +280,7 @@ export class OrdenPedidoComponent {
 
   setTableColumns() {
     this.tableColumns = [
-      { label: 'Número de Orden', def: 'numOrden', dataKey: 'numOrden' },
+      { label: 'Número de Pedido', def: 'numOrden', dataKey: 'numOrden' },
       { label: 'Número de Examen', def: 'numExamen', dataKey: 'numExamen' },
       { label: 'Descripción', def: 'descripcion', dataKey: 'descripcion' },
       { label: 'Costo', def: 'costo', dataKey: 'costo' },
