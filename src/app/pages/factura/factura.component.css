@@ -181,14 +181,14 @@ mat-select:focus {
 .active {
     padding: 0 0.5rem;
     border-radius: 0.5rem;
-    background: #2e82ff;
+    background:#143f9c;
     color: #fff;
 }
 
 .no-active {
     padding: 0 0.5rem;
     border-radius: 0.5rem;
-    background: #0051ff;
+    background:#5096ff;
     color: #ffffff;
 }
 

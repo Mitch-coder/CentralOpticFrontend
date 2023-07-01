@@ -9,7 +9,7 @@
         <section *ngIf="dataUpdate">
 
           <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formClientUpdate"
-            (formData)="loadDataConfirmationUpdate($event)" [Title]="'Actualizar informacion del empleado'"
+            (formData)="loadDataConfirmationUpdate($event)" [Title]="'Actualizar información del empleado'"
             (btnCancel)="cancelFormUpdate()" [BtnCancel]="true"></app-form>
           <!-- <ng-container *ngTemplateOutlet="formUpdate"></ng-container>  -->
           <!-- <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formEmpleadoUpdate"></app-form> -->
@@ -125,7 +125,7 @@
 <ng-template #phone>
   <div class="card">
     <div class="card-body">
-      <h1>Agregar telefono del empleado</h1>
+      <h1>Agregar teléfono del empleado</h1>
       <form [formGroup]="formCreateTelefono">
         <div class="content-select">
           <div class="mb-2 container-select" #input>
@@ -133,7 +133,7 @@
               Empleado *
             </label>
             <input type="text" formControlName="empleado" class="form-control form-input"
-              placeholder="Seleccione el empleado" [(ngModel)]="EmpleadoTelefono.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el empleado" [(ngModel)]="EmpleadoTelefono.nombres" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreateTelefono('empleado').valid || (formGetDataCreateTelefono('empleado').pristine)">
@@ -147,14 +147,14 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Telefono *
+            Teléfono *
           </label>
           <input type="text" formControlName="telefono" class="form-control form-input"
-            placeholder="Ingrese el telefono del empleado" [(ngModel)]="TelefonoEmpleado1.telefono"> <!--[(ngModel)]="OjoIzquierdo">-->
-          <i class="fa-regular fa-envelope form-input-icon"></i>
+            placeholder="Ingrese el telefono del empleado" [(ngModel)]="TelefonoEmpleado1.telefono" > <!--[(ngModel)]="OjoIzquierdo">-->
+            <i class="fa-solid fa-mobile-screen  form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreateTelefono('telefono').valid || (formGetDataCreateTelefono('telefono').pristine)">
-            El telefono es obligatorio
+            El teléfono es obligatorio
           </div>
         </div>
         <button class="btn btn-primary" #btnEnviar [disabled]="formCreateTelefono.invalid"
@@ -178,7 +178,7 @@
               Empleado *
             </label>
             <input type="text" formControlName="empleado" class="form-control form-input"
-              placeholder="Seleccione el empleado" [(ngModel)]="EmpleadoCorreo.nombres"> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el empleado" [(ngModel)]="EmpleadoCorreo.nombres" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreateCorreo('empleado').valid || (formGetDataCreateCorreo('empleado').pristine)">
@@ -192,7 +192,7 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Correo Electronico *
+            Correo electronico *
           </label>
           <input type="email" formControlName="correo" class="form-control form-input"
             placeholder="Ingrese el correo del empleado" [(ngModel)]="CorreoEmpleado1.correo"> <!--[(ngModel)]="OjoIzquierdo">-->

@@ -7,7 +7,7 @@ import { FormData } from 'src/app/modules/form/components/form/form-data';
 import Swal from 'sweetalert2';
 import { FormGroup, Validators } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
-import { HeaderData } from 'src/app/header/header-data';
+import { EventBtnClick, HeaderData } from 'src/app/header/header-data';
 
 interface Empleado {
   numEmpleado: number;
@@ -52,9 +52,9 @@ export class EmpleadoComponent {
   setTableColumns() {
     this.tableColumns = [
       { label: 'Número de Empleado', def: 'NumEmpleado', dataKey: 'numEmpleado' },
-      { label: 'Nombre', def: 'nombres', dataKey: 'nombres' },
-      { label: 'Apellido', def: 'apellidos', dataKey: 'apellidos' },
-      { label: 'Direccion', def: 'direccion', dataKey: 'direccion' }
+      { label: 'Nombres', def: 'nombres', dataKey: 'nombres' },
+      { label: 'Apellidos', def: 'apellidos', dataKey: 'apellidos' },
+      { label: 'Dirección', def: 'direccion', dataKey: 'direccion' }
     ]
   }
 
@@ -354,6 +354,7 @@ export class EmpleadoComponent {
                   'Todo bien :)',
                   'error'
                 )
+                EventBtnClick.setMiVariable(true);
               }
             });
           }

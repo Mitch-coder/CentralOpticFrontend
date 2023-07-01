@@ -283,16 +283,16 @@ export class PagoComponent {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        if(this.Factura.numFactura==0){
+        if (this.Factura.numFactura == 0) {
           Swal.fire(
             'Cancelado',
             'Error al ingresar los datos',
             'error'
           )
-        }else{
+        } else {
           this.saveDataCreate();
         }
-        
+
         // this.formUpdateData.reset()
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -305,119 +305,86 @@ export class PagoComponent {
   }
 
   saveDataCreate() {
-    //aqui se obtiene la fecha actual
-    let fecha1 = new Date();
-    fecha1.setHours(0, 0, 0, 0) // se pone la hora en 00:00:00
 
-    // buscamos si existe una fecha que coincida con la fecha actual
-    let fecha = this.fechaPagoList.find(e => new Date(e.fechaPago).toString() == fecha1.toString())
-    //estaba variable se usa para comprobar despues si la fecha existe
-    let F = -1;
-    //se pone !fecha por que sino existe lanza undifine y poniendo ! lo lanza como true
-    if (!fecha) {
-      // se usa para obtener el ultimo id
-      const numeros = this.fechaPagoList.map(objeto => objeto.idFechaPago);
-      F = Math.max(...numeros) + 1 // se le suma 1 y se guarda
+    if (this.Pago.monto > 0) {
+
+      //aqui se obtiene la fecha actual
+      let fecha1 = new Date();
+      fecha1.setHours(0, 0, 0, 0) // se pone la hora en 00:00:00
+
+      // buscamos si existe una fecha que coincida con la fecha actual
+      let fecha = this.fechaPagoList.find(e => new Date(e.fechaPago).toString() == fecha1.toString())
+      //estaba variable se usa para comprobar despues si la fecha existe
+      let F = -1;
+      //se pone !fecha por que sino existe lanza undifine y poniendo ! lo lanza como true
+      if (!fecha) {
+        // se usa para obtener el ultimo id
+        const numeros = this.fechaPagoList.map(objeto => objeto.idFechaPago);
+        F = Math.max(...numeros) + 1 // se le suma 1 y se guarda
 
 
-      let FechaPago = {
-        fechaPago: fecha1
-      }
-
-      console.log(FechaPago.fechaPago.toString())
-      this.dataService.postData('fechapago', FechaPago).then((success) => {
-        if (success) {
-          let total = (this.FacturaFormat.total - this.FacturaFormat.abono) - this.Pago.monto
-
-          let pago = {
-            numFactura: this.Factura.numFactura,
-            idFechaPago: F !== -1 ? F : fecha?.idFechaPago,
-            monto: total <= 0 ? (this.FacturaFormat.total - this.FacturaFormat.abono) : this.Pago.monto,
-            tipoPago: this.TipoPago === 'Contado' ? false : true
-          }
-
-          // console.log(total)
-
-          this.dataService.postData('pago', pago)
-
-          if (total <= 0) {
-            this.Factura.idEstadoFactura = 3
-            this.dataService.updateData('factura', this.Factura, this.Factura.numFactura).then((success) => {
-              if (success) {
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Exito',
-                  text: 'El pago se realizo correctamente',
-                  footer: 'El cambio es de $' + total * (-1)
-                })
-                this.resetData()
-                this.formDataCreate.reset()
-              } else {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Ups...',
-                  text: 'Algo salió mal!',
-                  footer: '<a href="">¿Por qué tengo este problema??</a>'
-                })
-              }
-            })
-          } else {
-            this.Factura.idEstadoFactura = 2
-            this.dataService.updateData('factura', this.Factura, this.Factura.numFactura).then((success) => {
-              if (success) {
-                Swal.fire(
-                  'Exito!',
-                  'La informacion a sido actualizado con exito',
-                  'success'
-                )
-                this.resetData()
-                this.formDataCreate.reset()
-              } else {
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Ups...',
-                  text: 'Algo salió mal!',
-                  footer: '<a href="">¿Por qué tengo este problema??</a>'
-                })
-              }
-            })
-          }
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Ups...',
-            text: 'Algo salió mal!',
-            footer: '<a href="">¿Por qué tengo este problema??</a>'
-          })
+        let FechaPago = {
+          fechaPago: fecha1
         }
-      })
-    } else {
-      let subTotal = (this.FacturaFormat.total - this.FacturaFormat.abono)
-      let total = subTotal - this.Pago.monto
 
-      let pago = {
-        numFactura: this.Factura.numFactura,
-        idFechaPago: F !== -1 ? F : fecha?.idFechaPago,
-        monto: total <= 0 ? (subTotal < 0 ? subTotal * -1 : subTotal) : this.Pago.monto,
-        tipoPago: this.TipoPago === 'Contado' ? false : true
-      }
-
-      // console.log(pago)
-
-      this.dataService.postData('pago', pago)
-
-      if (total <= 0) {
-        this.Factura.idEstadoFactura = 3
-        this.dataService.updateData('factura', this.Factura, this.Factura.numFactura).then((success) => {
+        console.log(FechaPago.fechaPago.toString())
+        this.dataService.postData('fechapago', FechaPago).then((success) => {
           if (success) {
-            Swal.fire({
-              icon: 'success',
-              title: 'Exito',
-              text: 'El pago se realizo correctamente',
-              footer: 'El cambio es de $' + total * (-1)
-            })
-            this.resetData()
-            this.formDataCreate.reset()
+            let total = (this.FacturaFormat.total - this.FacturaFormat.abono) - this.Pago.monto
+
+            let pago = {
+              numFactura: this.Factura.numFactura,
+              idFechaPago: F !== -1 ? F : fecha?.idFechaPago,
+              monto: total <= 0 ? (this.FacturaFormat.total - this.FacturaFormat.abono) : this.Pago.monto,
+              tipoPago: this.TipoPago === 'Contado' ? false : true
+            }
+
+            // console.log(total)
+
+            this.dataService.postData('pago', pago)
+
+            if (total <= 0) {
+              this.Factura.idEstadoFactura = 3
+              this.dataService.updateData('factura', this.Factura, this.Factura.numFactura).then((success) => {
+                if (success) {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Exito',
+                    text: 'El pago se realizo correctamente',
+                    footer: 'El cambio es de $' + total * (-1)
+                  })
+                  this.resetData()
+                  this.formDataCreate.reset()
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Ups...',
+                    text: 'Algo salió mal!',
+                    footer: '<a href="">¿Por qué tengo este problema??</a>'
+                  })
+                }
+              })
+            } else {
+              this.Factura.idEstadoFactura = 2
+              this.dataService.updateData('factura', this.Factura, this.Factura.numFactura).then((success) => {
+                if (success) {
+                  Swal.fire(
+                    'Exito!',
+                    'La informacion a sido actualizado con exito',
+                    'success'
+                  )
+                  this.resetData()
+                  this.formDataCreate.reset()
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Ups...',
+                    text: 'Algo salió mal!',
+                    footer: '<a href="">¿Por qué tengo este problema??</a>'
+                  })
+                }
+              })
+            }
           } else {
             Swal.fire({
               icon: 'error',
@@ -428,28 +395,72 @@ export class PagoComponent {
           }
         })
       } else {
-        this.Factura.idEstadoFactura = 2
-        this.dataService.updateData('factura', this.Factura, this.Factura.numFactura).then((success) => {
-          if (success) {
-            Swal.fire(
-              'Exito!',
-              'La informacion a sido actualizado con exito',
-              'success'
-            )
-            this.resetData()
-            this.formDataCreate.reset()
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Ups...',
-              text: 'Algo salió mal!',
-              footer: '<a href="">¿Por qué tengo este problema??</a>'
-            })
-          }
-        })
+        let subTotal = (this.FacturaFormat.total - this.FacturaFormat.abono)
+        let total = subTotal - this.Pago.monto
+
+        let pago = {
+          numFactura: this.Factura.numFactura,
+          idFechaPago: F !== -1 ? F : fecha?.idFechaPago,
+          monto: total <= 0 ? (subTotal < 0 ? subTotal * -1 : subTotal) : this.Pago.monto,
+          tipoPago: this.TipoPago === 'Contado' ? false : true
+        }
+
+        // console.log(pago)
+
+        this.dataService.postData('pago', pago)
+
+        if (total <= 0) {
+          this.Factura.idEstadoFactura = 3
+          this.dataService.updateData('factura', this.Factura, this.Factura.numFactura).then((success) => {
+            if (success) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Exito',
+                text: 'El pago se realizo correctamente',
+                footer: 'El cambio es de $' + total * (-1)
+              })
+              this.resetData()
+              this.formDataCreate.reset()
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Ups...',
+                text: 'Algo salió mal!',
+                footer: '<a href="">¿Por qué tengo este problema??</a>'
+              })
+            }
+          })
+        } else {
+          this.Factura.idEstadoFactura = 2
+          this.dataService.updateData('factura', this.Factura, this.Factura.numFactura).then((success) => {
+            if (success) {
+              Swal.fire(
+                'Exito!',
+                'La informacion a sido actualizado con exito',
+                'success'
+              )
+              this.resetData()
+              this.formDataCreate.reset()
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Ups...',
+                text: 'Algo salió mal!',
+                footer: '<a href="">¿Por qué tengo este problema??</a>'
+              })
+            }
+          })
+        }
       }
     }
-
+    else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Ups...',
+        text: 'Algo salió mal!',
+        footer: '<a href="">¿Por qué tengo este problema??</a>'
+      })
+    }
   }
 
   resetData() {
@@ -609,72 +620,83 @@ export class PagoComponent {
   }
 
   saveDataUpdate() {
-    let detalleFactura = this.detalleFacturaList.filter(e => e.numFactura === this.Factura.numFactura )
-    let result = detalleFactura.reduce((acumulador, objeto) => acumulador + (objeto.cantidad * objeto.precioUni), 0)
 
-    // let total = ((this.FacturaFormat.total - this.FacturaFormat.abono) - this.Pago.monto)
+    if (this.Pago.monto > 0) {
 
-    let pago = this.pagoList.filter(e => e.numFactura === this.Pago.numFactura && e.idPago !== this.Pago.idPago)
-    let abono = pago.reduce((acumulador, objeto) => acumulador + objeto.monto, 0)
+      let detalleFactura = this.detalleFacturaList.filter(e => e.numFactura === this.Factura.numFactura)
+      let subresult = detalleFactura.reduce((acumulador, objeto) => acumulador + (objeto.cantidad * objeto.precioUni), 0)
+      let result = subresult + ( subresult * this.Factura.impuestos) -  (subresult * this.Factura.descuento )
+      // let total = ((this.FacturaFormat.total - this.FacturaFormat.abono) - this.Pago.monto)
 
-    let total = ((result - abono)- this.Pago.monto)
+      let pago = this.pagoList.filter(e => e.numFactura === this.Pago.numFactura && e.idPago !== this.Pago.idPago)
+      let abono = pago.reduce((acumulador, objeto) => acumulador + objeto.monto, 0)
 
-    if (total < 0) {
-      let p = {
-        idPago: this.Pago.idPago,
-        numFactura: this.Factura.numFactura,
-        idFechaPago: this.Pago.idFechaPago,
-        monto: (result - abono).toFixed(2),
-        tipoPago: this.TipoPago == 'Contado' ? false : true
-      }
-      // console.log(p)
-      this.dataService.updateData('pago', p, p.idPago)
+      let total = ((result - abono) - this.Pago.monto)
 
-      this.Factura.idEstadoFactura = 3
-
-      this.dataService.updateData('factura', this.Factura, this.Factura.numFactura).then((success) => {
-        if (success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Exito',
-            text: 'El pago se realizo correctamente',
-            footer: 'El cambio es de $' + ((result - abono) * (-1)).toFixed(2)
-          })
-          this.resetData()
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Ups...',
-            text: 'Algo salió mal!',
-            footer: '<a href="">¿Por qué tengo este problema??</a>'
-          })
+      if (total < 0) {
+        let p = {
+          idPago: this.Pago.idPago,
+          numFactura: this.Factura.numFactura,
+          idFechaPago: this.Pago.idFechaPago,
+          monto: (result - abono).toFixed(2),
+          tipoPago: this.TipoPago == 'Contado' ? false : true
         }
-      })
-    } else {
-      let p = {
-        idPago: this.Pago.idPago,
-        numFactura: this.Factura.numFactura,
-        idFechaPago: this.Pago.idFechaPago,
-        monto: this.Pago.monto,
-        tipoPago: this.TipoPago == 'Contado' ? false : true
-      }
+        // console.log(p)
+        this.dataService.updateData('pago', p, p.idPago)
 
-      this.dataService.updateData('pago', p, p.idPago).then((success) => {
-        if (success) {
-          Swal.fire(
-            'Exito!',
-            'La informacion a sido actualizado con exito',
-            'success'
-          )
-          this.resetData()
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Ups...',
-            text: 'Algo salió mal!',
-            footer: '<a href="">¿Por qué tengo este problema??</a>'
-          })
+        this.Factura.idEstadoFactura = 3
+
+        this.dataService.updateData('factura', this.Factura, this.Factura.numFactura).then((success) => {
+          if (success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Exito',
+              text: 'El pago se realizo correctamente',
+              footer: 'El cambio es de $' + ((result - abono) * (-1)).toFixed(2)
+            })
+            this.resetData()
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ups...',
+              text: 'Algo salió mal!',
+              footer: '<a href="">¿Por qué tengo este problema??</a>'
+            })
+          }
+        })
+      } else {
+        let p = {
+          idPago: this.Pago.idPago,
+          numFactura: this.Factura.numFactura,
+          idFechaPago: this.Pago.idFechaPago,
+          monto: this.Pago.monto,
+          tipoPago: this.TipoPago == 'Contado' ? false : true
         }
+
+        this.dataService.updateData('pago', p, p.idPago).then((success) => {
+          if (success) {
+            Swal.fire(
+              'Exito!',
+              'La informacion a sido actualizado con exito',
+              'success'
+            )
+            this.resetData()
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ups...',
+              text: 'Algo salió mal!',
+              footer: '<a href="">¿Por qué tengo este problema??</a>'
+            })
+          }
+        })
+      }
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Ups...',
+        text: 'Algo salió mal!',
+        footer: '<a href="">¿Por qué tengo este problema??</a>'
       })
     }
   }

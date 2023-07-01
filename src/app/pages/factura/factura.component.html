@@ -40,7 +40,7 @@
                             Empleado
                         </label>
                         <input type="text" formControlName="empleado" class="form-control form-input"
-                            placeholder="Seleccione el empleado" [(ngModel)]="Empleado.nombres">
+                            placeholder="Seleccione el empleado" [(ngModel)]="Empleado.nombres" readonly>
                         <i class="fa-solid fa-user-tie form-input-icon"></i>
                         <div class="alert 1alert-danger mt-1"
                             [hidden]="formGetDataCreate('empleado').valid || (formGetDataCreate('empleado').pristine)">
@@ -59,7 +59,7 @@
                             Cliente
                         </label>
                         <input type="text" formControlName="cliente" class="form-control form-input"
-                            placeholder="Seleccione el cliente" [(ngModel)]="Cliente.nombres">
+                            placeholder="Seleccione el cliente" [(ngModel)]="Cliente.nombres" readonly>
                         <!--[(ngModel)]="OjoIzquierdo">-->
                         <i class="fa-regular fa-circle-user form-input-icon"></i>
                         <div class="alert 1alert-danger mt-1"
@@ -117,7 +117,7 @@
                             Descuento *
                         </label>
                         <input type="number" formControlName="descuento" class="form-control form-input"
-                            placeholder="Digite el descuento" [(ngModel)]="Factura.descuento">
+                            placeholder="Digite el descuento" [(ngModel)]="Factura.descuento"  (ngModelChange)="Calcular()">
                         <!-- <i class="fa-solid fa-glasses form-input-icon"></i> -->
                         <i class="fa-solid fa-coins form-input-icon"></i>
                         <div class="alert alert-danger mt-1"
@@ -130,7 +130,7 @@
                             Impuesto*
                         </label>
                         <input type="number" formControlName="impuesto" class="form-control form-input"
-                            placeholder="Digite el Impuesto" [(ngModel)]="Factura.impuestos">
+                            placeholder="Digite el Impuesto" [(ngModel)]="Factura.impuestos" (ngModelChange)="Calcular()">
                         <!-- <i class="fa-solid fa-glasses "></i> -->
                         <i class="fa-solid fa-coins form-input-icon"></i>
                         <div class="alert alert-danger mt-1"
@@ -140,6 +140,33 @@
                     </div>
                 </div>
 
+                <div class="mb-2" #input>
+                    <label class="form-label">
+                        Subtotal
+                    </label>
+                    <input type="number" formControlName="subtotal" class="form-control form-input"
+                        placeholder="Subtotal" [(ngModel)]="Subtotal" readonly>
+                    <!-- <i class="fa-solid fa-glasses "></i> -->
+                    <i class="fa-solid fa-dollar-sign form-input-icon"></i>
+                    <!-- <div class="alert alert-danger mt-1"
+                        [hidden]="formGetDataCreate('monto').valid || (formGetDataCreate('monto').pristine)">
+                        El monto no puede estar vacio
+                    </div> -->
+                </div>
+
+                <div class="mb-2" #input>
+                    <label class="form-label">
+                        Total
+                    </label>
+                    <input type="number" formControlName="total" class="form-control form-input"
+                        placeholder="Total" [(ngModel)]="Total" readonly>
+                    <!-- <i class="fa-solid fa-glasses "></i> -->
+                    <i class="fa-solid fa-dollar-sign form-input-icon"></i>
+                    <!-- <div class="alert alert-danger mt-1"
+                        [hidden]="formGetDataCreate('monto').valid || (formGetDataCreate('monto').pristine)">
+                        El monto no puede estar vacio
+                    </div> -->
+                </div>
 
                 <div class="mb-2" #input>
                     <label class="form-label">
@@ -155,12 +182,15 @@
                     </div> -->
                 </div>
 
+                
+
                 <button class="btn btn-primary" #btnEnviar [disabled]="formCreateData.invalid"
                     (click)="loadConfirmationDataCreate()">
                     Agregar
                 </button>
 
             </form>
+            
         </div>
     </div>
 </ng-template>
@@ -226,7 +256,7 @@
         <div class="card-body">
             <div class="container-header">
                 <h1 class="title">
-                    Actualizar informacion del producto
+                    Actualizar información del producto
                 </h1>
                 <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelDialogResult()">
                     Cerrar
@@ -257,7 +287,7 @@
                     <i class="fa-solid fa-calendar-days form-input-icon"></i>
                     <div class="alert 1alert-danger mt-1"
                         [hidden]="formGetDataUpdateItems('cantidad').valid || (formGetDataUpdateItems('cantidad').pristine)">
-                        La cantidad no puede estar vacia
+                        La cantidad no puede estar vacía
                     </div>
                 </div>
 
@@ -270,7 +300,7 @@
                     <i class="fa-solid fa-glasses form-input-icon"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetDataUpdateItems('precioUni').valid || (formGetDataUpdateItems('precioUni').pristine)">
-                        El precio no puede estar vacio
+                        El precio no puede estar vacío
                     </div>
                 </div>
 
@@ -344,7 +374,7 @@
 
 <!-- ordenPedido -->
 <ng-template #ordenPedido>
-    <app-table-simple [data]="productoAuxiliarList" [columns]="tableColumnsOrdenPedido"
+    <app-table-simple [data]="tableDataOrdenPedido" [columns]="tableColumnsOrdenPedido"
         (selectItemsCell)="resultDataTableOrdenPedido($event)" (cancelTable)="cancelDialogResult()">
     </app-table-simple>
 </ng-template>
@@ -364,10 +394,21 @@
 
         <div class="container-header">
             <button class="btnType formInputType" [ngClass]="getBtnClick('left')"
-                (click)="setBtnClick('left')">Productos</button>
+                (click)="setBtnClick('left')" >
+                
+                   <strong *ngIf="getBtnClick('left') === 'active'">Productos</strong> 
+                    <div *ngIf="getBtnClick('rigth') === 'active'">Productos</div>
+                
+            
+            </button>
 
             <button class="btnType formInputType" [ngClass]="getBtnClick('rigth')"
-                (click)="setBtnClick('rigth')">Pedidos</button>
+                (click)="setBtnClick('rigth')" >
+               
+                <strong *ngIf="getBtnClick('rigth') === 'active'">Pedidos</strong> 
+                    <div *ngIf="getBtnClick('left') === 'active'">Pedidos</div>
+            
+            </button>
         </div>
         <section *ngIf="getBtnClick('left') === 'active'">
             <ng-container *ngTemplateOutlet="producto">
@@ -388,7 +429,7 @@
         <div class="card-body">
             <div class="container-header">
                 <h1 class="title">
-                    Actualizar informacion de la factura
+                    Actualizar información de la factura
                 </h1>
                 <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
                     Cerrar
@@ -399,12 +440,12 @@
 
                 <div class="mb-2">
                     <mat-label class="form-label">
-                        Tipo de pago
+                        Estado del producto
                     </mat-label>
                     <mat-select formControlName="estadoFactura" class="form-control form-control-lg" matNativeControl
-                        [(ngModel)]="EstadoFactura">
-                        <mat-option *ngFor="let option of facturaEstadoList" [value]="option">
-                            {{option}}
+                        [(ngModel)]="EstadoFactura.idEstadoFactura">
+                        <mat-option *ngFor="let option of facturaEstadoList" [value]="option.idEstadoFactura">
+                            {{option.estadoFactura}}
                         </mat-option>
                     </mat-select>
                 </div>

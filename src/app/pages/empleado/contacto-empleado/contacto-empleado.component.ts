@@ -3,7 +3,7 @@ import { TableColumn } from 'src/app/modules/table/models/table-column';
 import { MyDataServices } from 'src/app/services/mydata.services';
 import { forkJoin, map, tap } from 'rxjs';
 import { FormData, FormDataVal } from 'src/app/modules/form/components/form/form-data';
-import { HeaderData } from 'src/app/header/header-data';
+import { EventBtnClick, HeaderData } from 'src/app/header/header-data';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from 'src/app/services/dialog/dialog.service';
 import Swal from 'sweetalert2';
@@ -162,7 +162,7 @@ export class ContactoEmpleadoComponent {
     this.tableColumns = [
       { label: 'Número de Empleado', def: 'NumEmpleado', dataKey: 'numEmpleado' },
       { label: 'Nombre', def: 'Nombre', dataKey: 'nombre' },
-      { label: 'Telefono', def: 'telefono', dataKey: 'telefono' },
+      { label: 'Teléfono', def: 'telefono', dataKey: 'telefono' },
       { label: 'Correo', def: 'correo', dataKey: 'correo' },
     ]
   }
@@ -208,7 +208,7 @@ export class ContactoEmpleadoComponent {
       if (data.telefono.length !== 0) {
         this.formClientUpdate.push(
           {
-            label: 'Telefonos',
+            label: 'Teléfonos',
             type: 'text',
             placeholder: 'Telefono 1',
             alert: 'El teléfono no puede estar vacío',
@@ -281,7 +281,7 @@ export class ContactoEmpleadoComponent {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        // this.dataUpdateDB(data.value)
+        this.dataUpdateDB(data.value)
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelado',
@@ -535,7 +535,7 @@ export class ContactoEmpleadoComponent {
   formCreateTelefono: FormGroup = this.formBuilder.group(
     {
       'empleado': [this.EmpleadoTelefono, Validators.required],
-      'telefono': [this.TelefonoEmpleado1.telefono, Validators.required],
+      'telefono': [this.TelefonoEmpleado1.telefono, [Validators.required,Validators.maxLength(8),Validators.minLength(8)]],
     }
   )
 
@@ -602,7 +602,8 @@ export class ContactoEmpleadoComponent {
           'El contacto a sido agregado con exito',
           'success'
         )
-        this.formCreateTelefono.reset()
+        this.formCreateTelefono.reset();
+        EventBtnClick.setMiVariable(true);
         //this.init()
       } else {
         Swal.fire({
@@ -628,6 +629,7 @@ export class ContactoEmpleadoComponent {
       if (result.isConfirmed) {
         this.formDataCreateCorreo()
         // this.formDataUpdate.reset()
+
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelado',
@@ -653,7 +655,8 @@ export class ContactoEmpleadoComponent {
           'El contacto fue agregado con exito',
           'success'
         )
-        this.formCreateCorreo.reset()
+        this.formCreateCorreo.reset();
+        EventBtnClick.setMiVariable(true);
         //this.init()
       } else {
         Swal.fire({

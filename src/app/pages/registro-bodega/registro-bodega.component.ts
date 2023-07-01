@@ -277,16 +277,7 @@ export class RegistroBodegaComponent {
   saveDataUpdate(){
     if(this.Change){
       let result = this.RegistroBodega.cantidad - this.Cantidad
-
-      if(this.RegistroBodega.cantidad <0 || this.Cantidad <0){
-        Swal.fire(
-          'Cancelado',
-          'No se puede trabajar con estas cantidades',
-          'error'
-        )
-      }
-      else{
-
+      
         if(result==0){
           Swal.fire({
             title: 'Confirmar',
@@ -334,7 +325,7 @@ export class RegistroBodegaComponent {
             }
           }); 
         }
-      }
+      
       
     }else{
 

@@ -18,7 +18,7 @@
 </mat-sidenav-container>
 
 <ng-template #formUpdate>
-  <div class="container-auxiliar">
+  <!-- <div class="container-auxiliar">
     <div class="container-header">
       <p class="content-text">
         Ayuda! <br>
@@ -27,11 +27,11 @@
         el estado de entrega.
       </p>
       <button mat-fab extended class="btnAuxiliar btn-danger" (click)="openDialogWithTemplate(tableUpdate)">
-        <!-- <i class="fa-solid fa-xmark"></i> -->
+       
         <i class="fa-solid fa-sliders"></i>
       </button>
     </div>
-  </div>
+  </div> -->
 
   <div class="card">
     <div class="card-body">
@@ -51,7 +51,8 @@
               Seleccione la orden del pedido *
             </label>
             <input type="text" formControlName="ordenPedido" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden" readonly>
+            <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataUpdate('ordenPedido').valid || (formGetDataUpdate('ordenPedido').pristine)">
@@ -65,7 +66,7 @@
 
         <div class="mb-2">
           <mat-label class="form-label">
-            Ingrese el estado del producto *
+            Ingrese el estado de la entrega *
           </mat-label>
           <mat-select formControlName="estado" class="form-control form-control-lg" matNativeControl
             [(ngModel)]="EstadoEntrega">
@@ -128,7 +129,8 @@
               Seleccione la orden del pedido *
             </label>
             <input type="text" formControlName="ordenPedido" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden" readonly>
+            <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('ordenPedido').valid || (formGetDataCreate('ordenPedido').pristine)">
@@ -147,13 +149,15 @@
               <p class="tilte-data">
                 Empleado:
               </p>
-              {{Empleado.nombres}}</span>
+              {{Empleado.nombres}}
+            </span>
             <span class="data">
               <i class="fa-solid fa-shop"></i>
               <p class="tilte-data">
                 Laboratorio:
               </p>
-              {{Laboratio.nombre}}</span>
+              {{Laboratio.nombre}}
+            </span>
           </div>
 
           <div class="content-data">
@@ -162,13 +166,15 @@
               <p class="tilte-data">
                 Fecha del pedido:
               </p>
-              {{FechaPedido.fechaPedido}}</span>
+              {{FechaPedido.fechaPedido}}
+            </span>
             <span class="data">
               <i class="fa-solid fa-pencil"></i>
               <p class="tilte-data">
                 Descripción:
               </p>
-              {{OrdenPedido.descripcion}}</span>
+              {{OrdenPedido.descripcion}}
+            </span>
           </div>
         </div>
 
