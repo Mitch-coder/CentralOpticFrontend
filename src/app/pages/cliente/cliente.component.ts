@@ -183,28 +183,62 @@ export class ClienteComponent {
   setFormUpdate(data: Cliente) {
     this.dataUpdate = data
     if (this.dataUpdate) {
-      this.formClientUpdate = [{
-        label: 'Nombres',
-        type: 'text',
-        placeholder: 'Nuevo nombre del cliente',
-        alert: 'El nombre no puede estar vacío',
-        icon: '',
-        formControlName: 'nombres',
-        formValidators: { 'nombres': [data.nombres, [Validators.required]] },
-        value: data.nombres
-      },
-      {
-        label: 'Apellidos',
-        type: 'text',
-        placeholder: 'Nuevo apellido del cliente',
-        alert: 'El apellido no puede estar vacío',
-        icon: '',
-        formControlName: 'apellidos',
-        formValidators: { 'apellidos': [data.apellidos, [Validators.required]] },
-        value: data.apellidos
-      }]
+      if(data.cedula[0]==='T' && data.cedula[1]==='P'){
+        this.formClientUpdate = [{
+          label: 'Cédula',
+          type: 'text',
+          placeholder: 'Nueva cédula del cliente',
+          alert: 'La cédula no puede estar vacío',
+          icon: '',
+          formControlName: 'cedula',
+          formValidators: { 'cedula': [data.nombres, [Validators.required]] },
+          value: data.cedula
+        },{
+          label: 'Nombres',
+          type: 'text',
+          placeholder: 'Nuevo nombre del cliente',
+          alert: 'El nombre no puede estar vacío',
+          icon: '',
+          formControlName: 'nombres',
+          formValidators: { 'nombres': [data.nombres, [Validators.required]] },
+          value: data.nombres
+        },
+        {
+          label: 'Apellidos',
+          type: 'text',
+          placeholder: 'Nuevo apellido del cliente',
+          alert: 'El apellido no puede estar vacío',
+          icon: '',
+          formControlName: 'apellidos',
+          formValidators: { 'apellidos': [data.apellidos, [Validators.required]] },
+          value: data.apellidos
+        }]
+      }else{
+
+        this.formClientUpdate = [{
+          label: 'Nombres',
+          type: 'text',
+          placeholder: 'Nuevo nombre del cliente',
+          alert: 'El nombre no puede estar vacío',
+          icon: '',
+          formControlName: 'nombres',
+          formValidators: { 'nombres': [data.nombres, [Validators.required]] },
+          value: data.nombres
+        },
+        {
+          label: 'Apellidos',
+          type: 'text',
+          placeholder: 'Nuevo apellido del cliente',
+          alert: 'El apellido no puede estar vacío',
+          icon: '',
+          formControlName: 'apellidos',
+          formValidators: { 'apellidos': [data.apellidos, [Validators.required]] },
+          value: data.apellidos
+        }]
+      }
 
       this.formClientUpdate.push(
+        
         {
           label: 'Dirección',
           type: 'text',
@@ -212,7 +246,7 @@ export class ClienteComponent {
           alert: 'La dirección no puede estar vacio',
           icon: 'fa-solid fa-map-location-dot',
           formControlName: 'direccion',
-          formValidators: { 'direccion': [data.direccion, [data.direccion ? Validators.required : Validators.nullValidator]] },
+          formValidators: { 'direccion': [data.direccion, [Validators.nullValidator]] },
           value: data.direccion
         }
       )
@@ -244,17 +278,31 @@ export class ClienteComponent {
   setDataUpdateDB(data: Data) {
     // console.log('')
     this.initDataTable()
-    if (data.nombres !== this.dataUpdate.nombres
-      || data.apellidos !== this.dataUpdate.apellidos
-      || data.direccion !== this.dataUpdate.direccion) {
-      let dataDB = {
-        codCliente: this.dataUpdate.codCliente,
-        cedula: this.dataUpdate.cedula,
-        nombres: data.nombres,
-        apellidos: data.apellidos,
-        direccion: data.direccion
-      }
+    // if (data.nombres !== this.dataUpdate.nombres
+    //   || data.apellidos !== this.dataUpdate.apellidos
+    //   || data.direccion !== this.dataUpdate.direccion) {
+      let dataDB
 
+      if(this.dataUpdate.cedula[0]==='T' && this.dataUpdate.cedula[1]==='P'){
+
+        dataDB = {
+          codCliente: this.dataUpdate.codCliente,
+          cedula: data.cedula,
+          nombres: data.nombres,
+          apellidos: data.apellidos,
+          direccion: data.direccion
+        }
+
+      }else{
+        dataDB = {
+          codCliente: this.dataUpdate.codCliente,
+          cedula:  this.dataUpdate.cedula,
+          nombres: data.nombres,
+          apellidos: data.apellidos,
+          direccion: data.direccion
+        }
+      }
+     
       this.dataService.updateData('cliente', dataDB, this.dataUpdate.codCliente)
         .then(success => {
 
@@ -286,7 +334,7 @@ export class ClienteComponent {
 
           }
         })
-    }
+    //}
 
     this.dataUpdate = undefined
     this.initDataTable();

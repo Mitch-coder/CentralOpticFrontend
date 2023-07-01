@@ -101,7 +101,7 @@ export const navbarData:INavbarData[]=[
     {
         routeLink:'orden-pedido',
         icon: 'fa-regular fa-paste',
-        label:'Orden Pedido'
+        label:'Pedido'
     },
     {
         routeLink:'entrega',

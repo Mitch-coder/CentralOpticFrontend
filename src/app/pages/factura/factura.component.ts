@@ -333,6 +333,11 @@ export class FacturaComponent {
 
         console.log(this.estadoFacturaList)
 
+        this.clienteList = this.clienteList.filter( e => !(e.cedula[0]=='T' && e.cedula[1]=='P'));
+
+        //console.log(this.clienteList);
+        
+
         this.myData = this.facturaList.map(element => {
           let detalleFactura = this.detalleFacturaList.filter(e => e.numFactura === element.numFactura)
           let fecha = this.fechaFacturaList.find(e => e.idFechaFactura === element.idFechaFactura)
@@ -653,7 +658,6 @@ export class FacturaComponent {
               cantidad: 1,
               precioUni: ordenPedido.costo,
               numOrden: ordenPedido.numOrden
-
             }
           )
 
@@ -713,6 +717,7 @@ export class FacturaComponent {
   resultDataTableCliente(data: any) {
     if (data) {
       this.Cliente = data
+      console.log(data);
       this.cancelDialogResult()
     }
   }
@@ -747,6 +752,7 @@ export class FacturaComponent {
   )
 
   formGetDataCreate(fr: string) {
+
     return this.formCreateData.get(fr) as FormControl;
   }
 
@@ -1006,7 +1012,12 @@ export class FacturaComponent {
 
                       this.dataService.updateData('ordenpedido', pedido, pedido.numOrden).then((success) => {
                         if (success) {
-
+                          Swal.fire({
+                            icon: 'success',
+                            title: 'Exito',
+                            text: 'La factura se realizo correctamente',
+                          })
+                          EventBtnClick.setMiVariable(true);
                         } else {
                           Swal.fire({
                             icon: 'error',
@@ -1029,7 +1040,12 @@ export class FacturaComponent {
 
                     this.dataService.postData('detallefactura', detalleFatura).then((success) => {
                       if (success) {
-                       
+                        Swal.fire({
+                          icon: 'success',
+                          title: 'Exito',
+                          text: 'La factura se realizo correctamente',
+                        })
+                        EventBtnClick.setMiVariable(true);
                         
                       } else {
                         Swal.fire({
@@ -1313,7 +1329,12 @@ export class FacturaComponent {
 
                   this.dataService.updateData('ordenpedido', pedido, pedido.numOrden).then((success) => {
                     if (success) {
-                      
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Exito',
+                        text: 'La factura se realizo correctamente',
+                      })
+                      EventBtnClick.setMiVariable(true);
                     } else {
                       Swal.fire({
                         icon: 'error',
@@ -1337,6 +1358,12 @@ export class FacturaComponent {
                 this.dataService.postData('detallefactura', detalleFatura).then((success) => {
                   if (success) {
                     
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Exito',
+                        text: 'La factura se realizo correctamente',
+                      })
+                      EventBtnClick.setMiVariable(true);
                   } else {
                     Swal.fire({
                       icon: 'error',
@@ -1424,7 +1451,6 @@ export class FacturaComponent {
         footer: '<a href="">¿Por qué tengo este problema??</a>'
       })
     }
-    
   }
 
   facturaEstadoList: EstadoFactura[] = []

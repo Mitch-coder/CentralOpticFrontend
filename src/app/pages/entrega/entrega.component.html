@@ -48,7 +48,7 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione la orden del pedido *
+              Seleccione el pedido *
             </label>
             <input type="text" formControlName="ordenPedido" class="form-control form-input"
               placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden" readonly>
@@ -126,7 +126,7 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione la orden del pedido *
+              Seleccione el pedido *
             </label>
             <input type="text" formControlName="ordenPedido" class="form-control form-input"
               placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden" readonly>
@@ -134,7 +134,7 @@
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('ordenPedido').valid || (formGetDataCreate('ordenPedido').pristine)">
-              Seleccione la orden del pedido
+              Seleccione el pedido 
             </div>
           </div>
           <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableCreateAuxiliar)">
