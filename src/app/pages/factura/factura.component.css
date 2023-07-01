@@ -261,19 +261,41 @@ mat-select:focus {
             border: 0;
 
         }
-
-
-        
-
-
-
     }
-
-    /* .items{
-        height: 0.5rem;
-
-    } */
 }
+
+
+.container-info{
+    display: flex;
+    flex-direction: column;
+    margin: 0.2rem;
+
+    .span{
+        margin: 0.2rem;
+        font-size: 16px;
+        display: flex;
+        flex-direction: row;
+        .p{
+            font-size: 16px;
+            font-weight: bold;
+            margin-right: 0.2rem;
+            /* color: #000000; */
+        }
+    }
+    
+    .btn{
+        width: 5rem;
+        position: absolute;
+        /* align-items: end; */
+        right: 5px;
+        bottom: 5px;
+    }
+    
+}
+
+
+
+
 
 
 

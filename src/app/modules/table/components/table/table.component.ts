@@ -19,7 +19,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<any>
   tableDisplayColumns: String[] = [];
   tableColumns: TableColumn[] = []
-  Showdelete:boolean = false;
+  Showdelete: boolean = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -51,32 +51,42 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.tableColumns = columns
 
     this.tableDisplayColumns = this.tableColumns.map(col => col.def)
-    
+
   }
 
-  @Input() set buttonShowdelete(Showdelete: boolean ) {
-    
-    if(Showdelete){
+  @Input() set buttonShowdelete(Showdelete: boolean) {
+
+    if (Showdelete) {
 
       this.dataService
-     .getData('acceso').subscribe((data:any) =>{
-        if(data.rol == 'Administrador'){
-          
-          this.Showdelete = true;
+        .getData('acceso').subscribe((data: any) => {
+          if (data.rol == 'Administrador') {
 
+            this.Showdelete = true;
+
+          }
         }
-      }
-     );
+        );
+    }
+  }
+
+  showInfo = false
+
+  @Input() set buttonShowInfo(ShowInfo: boolean) {
+    if(ShowInfo){
+      this.showInfo = ShowInfo
     }
   }
 
   @Output() selectItemsCell: EventEmitter<any>;
   @Output() selectItemsCellDelete: EventEmitter<any>;
+  @Output() selectItemsCellInfo: EventEmitter<any>;
 
-  constructor(private headerSearch: HeaderSearch, private dataService:MyDataServices,private cdr: ChangeDetectorRef) {
+  constructor(private headerSearch: HeaderSearch, private dataService: MyDataServices, private cdr: ChangeDetectorRef) {
 
     this.selectItemsCell = new EventEmitter();
     this.selectItemsCellDelete = new EventEmitter();
+    this.selectItemsCellInfo = new EventEmitter();
   }
   ngOnInit(): void {
 
@@ -125,8 +135,12 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.selectItemsCell.emit(this.dataUpdate);
   }
 
-  btnClickDelete(){
+  btnClickDelete() {
     this.selectItemsCellDelete.emit(this.dataUpdate);
+  }
+
+  btnClickInfo() {
+    this.selectItemsCellInfo.emit(this.dataUpdate);
   }
 
   btnClickExport() {
@@ -138,7 +152,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   exportToExcel(): void {
     /* Generate worksheet */
     console.log(this.dataSource.data);
-    
+
     const newData = this.dataSource.data.map(obj => {
       const newObj = { ...obj }; // Crear una copia del objeto original
       for (const key in newObj) {
@@ -159,7 +173,7 @@ export class TableComponent implements OnInit, AfterViewInit {
 
     /* Generate workbook and add the worksheet */
     const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-    
+
     /* Export to Excel */
     XLSX.writeFile(workbook, 'data.xlsx');
   }

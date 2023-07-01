@@ -1638,6 +1638,39 @@ export class FacturaComponent {
   }
 
 
+  detalleFacturaInfo:DetalleFactura[] = []
+  displayColumnInfo:string[]=['codProducto','cantidad','precioUni']
+
+  setInfoData(data:any,template: TemplateRef<any>){
+    let factura = this.facturaList.find(e=>e.numFactura === data.numFactura)
+    let detalleFactura = this.detalleFacturaList.filter(e=>e.numFactura === factura?.numFactura)
+    let empleado = this.empleadoList.find(e=>e.numEmpleado === factura?.numEmpleado)
+    let cliente = this.clienteList.find(e=>e.codCliente === factura?.codCliente)
+    let pago = this.pagoList.filter(e=>e.numFactura === factura?.numFactura)
+    let estadoFactura = this.estadoFacturaList.find(e=>e.idEstadoFactura === factura?.idEstadoFactura)
+    let fecha = this.fechaFacturaList.find(e=>e.idFechaFactura === factura?.idFechaFactura)
+
+    // console.log(fecha)
+
+    if(factura && detalleFactura && empleado && cliente && pago && fecha && estadoFactura){
+      this.Factura = {...factura}
+      this.detalleFacturaInfo = detalleFactura
+      this.Empleado = empleado
+      this.Cliente = cliente
+      this.EstadoFactura = estadoFactura
+      this.FechaFactura = fecha
+
+      let date: Date = new Date(this.FechaFactura.fechaEmision)
+      let formatoFecha: string = new Intl.DateTimeFormat('es-ES', this.opcionesFormato).format(date);
+      this.FechaFactura.fechaEmision = formatoFecha
+      this.Pago.monto = pago.reduce((acumulador, objeto) => acumulador + objeto.monto, 0)
+      this.Subtotal = detalleFactura.reduce((a,o)=> a = (o.cantidad * o.precioUni),0)
+      this.Total = this.Subtotal + (this.Subtotal*this.Factura.impuestos) - (this.Subtotal*this.Factura.descuento);
+    }
+
+    this.openDialogWithTemplate(template)
+  }
+
 
 
 

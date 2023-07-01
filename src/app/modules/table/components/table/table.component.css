@@ -44,3 +44,15 @@
   color: #fff;
   background: rgb(11, 94, 215, 0.6);
 }
+
+.btn-info-disable{
+  color: #fff;
+  background: rgba(12, 141, 0, 0.6);;
+}
+
+.btn-info{
+  color: #fff;
+  background: rgb(12, 141, 0);
+  border-color: #23cf00;
+
+}

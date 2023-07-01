@@ -86,4 +86,8 @@ export class SidenavComponent implements OnInit {
     return '';
   }
 
+  navTooltipText(text:string){
+    return !this.collapsed?text:''
+  }
+
 }

@@ -18,8 +18,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
           <a class="sublevel-nav-link"
           (click)="handleClick(item)"
             *ngIf="item.items && item.items.length > 0"
-            [ngClass]="getActiveClass(item)"
-          >
+            [ngClass]="getActiveClass(item)">
             <i class="sublevel-link-icon fa fa-circle" [ngClass]="item.icon ? item.icon : 'fa-solid fa-circle'"]></i>
             <span class="sublevel-link-text" @fadeInOut 
                 *ngIf="collapsed">{{item.label}}</span>

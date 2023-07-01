@@ -47,6 +47,13 @@
     Exportar
   </button>
 
+  <button mat-fab extended [disabled]="btnClickItemRow" class="btnUpdate"
+    [ngClass]="btnClickItemRow?'btn-info-disable':'btn-info'" (click)="btnClickInfo()" *ngIf="showInfo">
+    <i class="fa-solid fa-info"></i>
+    Informacion
+  </button>
+
+
 </div>
 
 <!-- {{applyFilter()}} -->

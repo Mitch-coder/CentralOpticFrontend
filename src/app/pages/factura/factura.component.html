@@ -4,7 +4,8 @@
             <section *ngIf="getEventBtnClickHeader()">
                 <section *ngIf="!dataUpdate">
                     <h1>Lista de factura actuales</h1>
-                    <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setDataUpdate($event)"></app-table>
+                    <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setDataUpdate($event)"
+                        [buttonShowInfo]="true" (selectItemsCellInfo)="setInfoData($event,info)"></app-table>
                 </section>
                 <section *ngIf="dataUpdate">
                     <ng-container *ngTemplateOutlet="formUpdate">
@@ -117,7 +118,8 @@
                             Descuento *
                         </label>
                         <input type="number" formControlName="descuento" class="form-control form-input"
-                            placeholder="Digite el descuento" [(ngModel)]="Factura.descuento"  (ngModelChange)="Calcular()">
+                            placeholder="Digite el descuento" [(ngModel)]="Factura.descuento"
+                            (ngModelChange)="Calcular()">
                         <!-- <i class="fa-solid fa-glasses form-input-icon"></i> -->
                         <i class="fa-solid fa-coins form-input-icon"></i>
                         <div class="alert alert-danger mt-1"
@@ -130,7 +132,8 @@
                             Impuesto*
                         </label>
                         <input type="number" formControlName="impuesto" class="form-control form-input"
-                            placeholder="Digite el Impuesto" [(ngModel)]="Factura.impuestos" (ngModelChange)="Calcular()">
+                            placeholder="Digite el Impuesto" [(ngModel)]="Factura.impuestos"
+                            (ngModelChange)="Calcular()">
                         <!-- <i class="fa-solid fa-glasses "></i> -->
                         <i class="fa-solid fa-coins form-input-icon"></i>
                         <div class="alert alert-danger mt-1"
@@ -158,8 +161,8 @@
                     <label class="form-label">
                         Total
                     </label>
-                    <input type="number" formControlName="total" class="form-control form-input"
-                        placeholder="Total" [(ngModel)]="Total" readonly>
+                    <input type="number" formControlName="total" class="form-control form-input" placeholder="Total"
+                        [(ngModel)]="Total" readonly>
                     <!-- <i class="fa-solid fa-glasses "></i> -->
                     <i class="fa-solid fa-dollar-sign form-input-icon"></i>
                     <!-- <div class="alert alert-danger mt-1"
@@ -182,7 +185,7 @@
                     </div> -->
                 </div>
 
-                
+
 
                 <button class="btn btn-primary" #btnEnviar [disabled]="formCreateData.invalid"
                     (click)="loadConfirmationDataCreate()">
@@ -190,7 +193,7 @@
                 </button>
 
             </form>
-            
+
         </div>
     </div>
 </ng-template>
@@ -326,7 +329,7 @@
  -->
 
 
-<ng-template #pp2>
+<!-- <ng-template #pp2>
     <div class="container-products mb-2">
         <div class="content-products">
             <h2 class="items items-id">
@@ -355,7 +358,7 @@
             </div>
         </ng-container>
     </div>
-</ng-template>
+</ng-template> -->
 
 
 <!-- clientes -->
@@ -393,21 +396,19 @@
     <div class="">
 
         <div class="container-header">
-            <button class="btnType formInputType" [ngClass]="getBtnClick('left')"
-                (click)="setBtnClick('left')" >
-                
-                   <strong *ngIf="getBtnClick('left') === 'active'">Productos</strong> 
-                    <div *ngIf="getBtnClick('rigth') === 'active'">Productos</div>
-                
-            
+            <button class="btnType formInputType" [ngClass]="getBtnClick('left')" (click)="setBtnClick('left')">
+
+                <strong *ngIf="getBtnClick('left') === 'active'">Productos</strong>
+                <div *ngIf="getBtnClick('rigth') === 'active'">Productos</div>
+
+
             </button>
 
-            <button class="btnType formInputType" [ngClass]="getBtnClick('rigth')"
-                (click)="setBtnClick('rigth')" >
-               
-                <strong *ngIf="getBtnClick('rigth') === 'active'">Pedidos</strong> 
-                    <div *ngIf="getBtnClick('left') === 'active'">Pedidos</div>
-            
+            <button class="btnType formInputType" [ngClass]="getBtnClick('rigth')" (click)="setBtnClick('rigth')">
+
+                <strong *ngIf="getBtnClick('rigth') === 'active'">Pedidos</strong>
+                <div *ngIf="getBtnClick('left') === 'active'">Pedidos</div>
+
             </button>
         </div>
         <section *ngIf="getBtnClick('left') === 'active'">
@@ -457,4 +458,93 @@
             </form>
         </div>
     </div>
+</ng-template>
+
+<ng-template #info>
+    <div class="container-info">
+        <h1>Información de la factura</h1>
+        <span class="span">
+            <p class="p">Numero de Factura:</p> {{Factura.numFactura}}
+        </span>
+        <span class="span">
+            <p class="p">Empleado:</p> {{Empleado.nombres +' '+ Empleado.apellidos}}
+        </span>
+        <span class="span">
+            <p class="p">Cliente: </p>{{Cliente.nombres+' '+ Cliente.apellidos}}
+        </span>
+        <span class="span">
+            <p class="p">Fecha de creación:</p> {{FechaFactura.fechaEmision}}
+        </span>
+        <span class="span">
+            <p class="p">Estado de la factura:</p> {{EstadoFactura.estadoFactura}}
+        </span>
+        <span class="span">
+            <p class="p">Productos</p>
+        </span>
+        <ng-container *ngTemplateOutlet="tableInfo"></ng-container>
+        <span class="span">
+            <p class="p">Sub-Total:</p> {{Subtotal}}
+        </span>
+        <div class="container-header">
+            <span class="span">
+                <p class="p">Descuento:</p> {{Factura.descuento}}
+            </span>
+            <span class="span">
+                <p class="p">Impuesto:</p> {{Factura.impuestos}}
+            </span>
+        </div>
+        <span class="span">
+            <p class="p">Total:</p> {{Total}}
+        </span>
+        <span class="span">
+            <p class="p">Pagado:</p> {{Pago.monto}}
+        </span>
+        <button class="btn btn-primary" #btnEnviar (click)="cancelDialogResult()">
+            OK
+        </button>
+    </div>
+</ng-template>
+
+
+<!-- la tabla que mostrara los datos -->
+<ng-template #tableInfo>
+    <div class="table-container">
+        <table mat-table [dataSource]="detalleFacturaInfo" matSort>
+            <!-- <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="tipoItems">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+                <td mat-cell *matCellDef="let row"> {{row.tipoItems}}</td>
+            </ng-container> -->
+
+            <ng-container matColumnDef="codProducto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
+                <td mat-cell *matCellDef="let row"> {{row.codProducto}}</td>
+            </ng-container>
+
+            <!-- <ng-container matColumnDef="descripcion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+                <td mat-cell *matCellDef="let row"> {{row.descripcion}}</td>
+            </ng-container> -->
+
+            <ng-container matColumnDef="cantidad">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+                <td mat-cell *matCellDef="let row"> {{row.cantidad}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="precioUni">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
+                <td mat-cell *matCellDef="let row"> {{row.precioUni}}</td>
+                <td mat-footer-cell *matFooterCellDef> {{ 0 }} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayColumnInfo"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayColumnInfo;"></tr>
+            <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr> -->
+        </table>
+    </div>
+
 </ng-template>
