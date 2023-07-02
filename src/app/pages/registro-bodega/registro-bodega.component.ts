@@ -374,6 +374,7 @@ export class RegistroBodegaComponent {
             icon: 'success',
             confirmButtonText: 'OK!',
           })
+          this.resetData()
         } else {
           Swal.fire({
             icon: 'error',
@@ -444,6 +445,7 @@ export class RegistroBodegaComponent {
           icon: 'success',
           confirmButtonText: 'OK!',
         })
+        this.resetData()
       } else {
         Swal.fire({
           icon: 'error',

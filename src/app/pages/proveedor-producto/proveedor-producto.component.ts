@@ -792,6 +792,8 @@ export class ProveedorProductoComponent {
         cancelButtonText: 'Cancelar',
         reverseButtons: true
       }).then((result) => {
+        console.log(result)
+
         if (result.isConfirmed) {
           this.saveDataUpdate()
           // form.reset() 
@@ -810,20 +812,23 @@ export class ProveedorProductoComponent {
     let productoProveedor = this.proveedorProductoList.find(e => e.idProveedor_Producto === this.ProveedorProducto.idProveedor_Producto)
     if (productoProveedor) {
       let result = productoProveedor?.cantidad - this.ProveedorProducto.cantidad
-
+      // console.log(productoProveedor?.cantidad);
+      // console.log(this.ProveedorProducto.cantidad);
+      // console.log(result);
       if (result !== 0) {
         let registroBodega = this.registroBodegaList.find(e => e.idBodega === this.Bodega.idBodega && e.codProducto === this.Producto.codProducto)
         if (registroBodega) {
-          let res = registroBodega.cantidad + result
+          let res = registroBodega.cantidad - productoProveedor?.cantidad + this.ProveedorProducto.cantidad
+          
           if (res < 0){
             Swal.fire(
               'Cancelado',
-              'Los datos siguen asalvo:)',
+              'No habra suficiente producto en la bodega',
               'error'
             )
             return
           }else{
-            registroBodega.cantidad = registroBodega.cantidad + res
+            registroBodega.cantidad = res
 
             this.dataService.updateData('registrobodega',registroBodega,registroBodega.idRegistro_Bodega).then((success)=>{
               if(success){
