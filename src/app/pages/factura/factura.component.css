@@ -181,14 +181,14 @@ mat-select:focus {
 .active {
     padding: 0 0.5rem;
     border-radius: 0.5rem;
-    background:#143f9c;
+    background:#244a9b;
     color: #fff;
 }
 
 .no-active {
     padding: 0 0.5rem;
     border-radius: 0.5rem;
-    background:#5096ff;
+    background:#244372;
     color: #ffffff;
 }
 
@@ -290,6 +290,11 @@ mat-select:focus {
         right: 5px;
         bottom: 5px;
     }
+
+    .table-container {
+        height: 200px; /* Establece la altura deseada para el contenedor */
+        overflow-y: auto; /* Habilita el desplazamiento vertical */
+      }
     
 }
 

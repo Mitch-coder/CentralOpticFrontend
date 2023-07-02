@@ -61,11 +61,12 @@ export const navbarData:INavbarData[]=[
         routeLink:'factura',
         icon: 'fa-solid fa-file-invoice-dollar',
         label:'Factura'
-    },{
-        routeLink:'detalle-factura',
-        icon: 'fa-solid fa-receipt',
-        label:'Detalle Factura'
     },
+    // {
+    //     routeLink:'detalle-factura',
+    //     icon: 'fa-solid fa-receipt',
+    //     label:'Detalle Factura'
+    // },
     {
         routeLink: 'producto',
         icon: 'fa-solid fa-tags',

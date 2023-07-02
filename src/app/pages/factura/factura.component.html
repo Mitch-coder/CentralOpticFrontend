@@ -462,46 +462,105 @@
 
 <ng-template #info>
     <div class="container-info">
-        <h1>Información de la factura</h1>
-        <span class="span">
-            <p class="p">Numero de Factura:</p> {{Factura.numFactura}}
-        </span>
-        <span class="span">
-            <p class="p">Empleado:</p> {{Empleado.nombres +' '+ Empleado.apellidos}}
-        </span>
-        <span class="span">
-            <p class="p">Cliente: </p>{{Cliente.nombres+' '+ Cliente.apellidos}}
-        </span>
-        <span class="span">
-            <p class="p">Fecha de creación:</p> {{FechaFactura.fechaEmision}}
-        </span>
-        <span class="span">
-            <p class="p">Estado de la factura:</p> {{EstadoFactura.estadoFactura}}
-        </span>
-        <span class="span">
-            <p class="p">Productos</p>
-        </span>
-        <ng-container *ngTemplateOutlet="tableInfo"></ng-container>
-        <span class="span">
-            <p class="p">Sub-Total:</p> {{Subtotal}}
-        </span>
-        <div class="container-header">
-            <span class="span">
-                <p class="p">Descuento:</p> {{Factura.descuento}}
-            </span>
-            <span class="span">
-                <p class="p">Impuesto:</p> {{Factura.impuestos}}
-            </span>
+        <div class="row">
+            <div class="col">
+                <hr>
+                <br>
+                <h1> <strong>Información de la factura</strong></h1>
+                <hr>
+            </div>
         </div>
-        <span class="span">
-            <p class="p">Total:</p> {{Total}}
-        </span>
-        <span class="span">
+        <div class="row">
+            <div class="col">
+                <span class="span">
+                    <p class="p">Emisor: </p> {{Empleado.nombres +' '+ Empleado.apellidos}}
+                </span>
+            </div>
+            <div class="col">
+                <span class="span">
+                    <p class="p">Número de Factura: </p> {{Factura.numFactura}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <span class="span">
+                    <p class="p">Cliente: </p>{{Cliente.nombres+' '+ Cliente.apellidos}}
+                </span>
+            </div>
+            <div class="col">
+                <span class="span">
+                    <p class="p">Estado de la factura: </p> {{EstadoFactura.estadoFactura}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <span class="span">
+                    <p class="p">Fecha de emisión: </p> {{fechadetallefactura}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <span class="span">
+                    <p class="p">Productos:</p>
+                </span>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <ng-container *ngTemplateOutlet="tableInfo"></ng-container>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <span class="span">
+                    <p class="p">Impuesto:</p> {{Factura.impuestos}}
+
+                </span>
+            </div>
+            <div class="col">
+                <span class="span">
+                    <p class="p">Descuento:</p> {{Factura.descuento}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <span class="span">
+                    <p class="p">Sub-Total:</p> {{Subtotal}}
+                </span>
+            </div>
+            <div class="col">
+                <span class="span">
+                    <p class="p">Total:</p> {{Total}}
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <span class="span">
+                    <p class="p">Pagado:</p> {{Pago.monto}}
+                </span>
+            </div>
+            <div class="col">
+                <span class="span">
+                    <button class="btn btn-primary" #btnEnviar (click)="cancelDialogResult()">
+                        OK
+                    </button>
+                </span>
+            </div>
+        </div>
+
+        <!-- <span class="span">
             <p class="p">Pagado:</p> {{Pago.monto}}
         </span>
         <button class="btn btn-primary" #btnEnviar (click)="cancelDialogResult()">
             OK
-        </button>
+        </button> -->
     </div>
 </ng-template>
 
@@ -521,22 +580,22 @@
             </ng-container> -->
 
             <ng-container matColumnDef="codProducto">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
+                <th mat-header-cell *matHeaderCellDef> Código del Producto </th>
                 <td mat-cell *matCellDef="let row"> {{row.codProducto}}</td>
             </ng-container>
 
-            <!-- <ng-container matColumnDef="descripcion">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+            <ng-container matColumnDef="descripcion">
+                <th mat-header-cell *matHeaderCellDef> Descripción </th>
                 <td mat-cell *matCellDef="let row"> {{row.descripcion}}</td>
-            </ng-container> -->
+            </ng-container>
 
             <ng-container matColumnDef="cantidad">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+                <th mat-header-cell *matHeaderCellDef> Cantidad </th>
                 <td mat-cell *matCellDef="let row"> {{row.cantidad}}</td>
             </ng-container>
 
             <ng-container matColumnDef="precioUni">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
+                <th mat-header-cell *matHeaderCellDef> Precio </th>
                 <td mat-cell *matCellDef="let row"> {{row.precioUni}}</td>
                 <td mat-footer-cell *matFooterCellDef> {{ 0 }} </td>
             </ng-container>
