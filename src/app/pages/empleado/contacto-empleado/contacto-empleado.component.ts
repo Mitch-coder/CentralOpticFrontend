@@ -569,7 +569,7 @@ export class ContactoEmpleadoComponent {
   loadConfirmationDataCreateTelefono() {
     Swal.fire({
       title: 'Confirmar',
-      text: 'Desea agregar el contacto al empleado?',
+      text: '¿Desea agregar el contacto al empleado?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Guardar',

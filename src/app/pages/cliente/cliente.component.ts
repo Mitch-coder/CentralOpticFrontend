@@ -156,7 +156,7 @@ export class ClienteComponent {
       }else{
         Swal.fire(
           'Eliminado!',
-          'El cliente no puede ser eliminado, ya que tiene registro a su nombre',
+          'El cliente no puede ser eliminado, ya que tiene registros a su nombre',
           'error'
         )
       }
@@ -242,7 +242,7 @@ export class ClienteComponent {
         {
           label: 'Dirección',
           type: 'text',
-          placeholder: 'Nueva dirección del cliete',
+          placeholder: 'Nueva dirección del cliente',
           alert: 'La dirección no puede estar vacio',
           icon: 'fa-solid fa-map-location-dot',
           formControlName: 'direccion',
@@ -310,7 +310,7 @@ export class ClienteComponent {
 
             Swal.fire({
               title: 'Exito!',
-              text: 'La información a sido guardada',
+              text: 'La información ha sido guardada',
               icon: 'success',
               confirmButtonText: 'OK!',
             }
@@ -365,7 +365,7 @@ export class ClienteComponent {
 
         Swal.fire({
           title: 'Exito!',
-          text: 'La información a sido guardada',
+          text: 'La información ha sido guardada',
           icon: 'success',
           confirmButtonText: 'OK!',
         }
@@ -373,30 +373,30 @@ export class ClienteComponent {
   
           if (result.isConfirmed) {
             this.initDataTable()
+            EventBtnClick.setMiVariable(true);
+            // Swal.fire({
+            //   title: 'Confirmar',
+            //   text: '¿Desea agregar un contacto al nuevo cliente?',
+            //   icon: 'question',
+            //   showCancelButton: true,
+            //   confirmButtonText: 'Agregar',
+            //   cancelButtonText: 'Después',
+            //   reverseButtons: true
+            // }).then((result) => {
+            //   if (result.isConfirmed) {
+            //     // this.setDataUpdateDB(data.value)
+            //     // let cliente = this.myData.filter(e => e.cedula === data.cedula)
+            //     // console.log(cliente[0])
+            //     // let parametro = {
+            //     //   cliente: data,
+            //     //   formCreate: false
+            //     // }
   
-            Swal.fire({
-              title: 'Confirmar',
-              text: '¿Desea agregar un contacto al nuevo cliente?',
-              icon: 'question',
-              showCancelButton: true,
-              confirmButtonText: 'Agregar',
-              cancelButtonText: 'Despues',
-              reverseButtons: true
-            }).then((result) => {
-              if (result.isConfirmed) {
-                // this.setDataUpdateDB(data.value)
-                // let cliente = this.myData.filter(e => e.cedula === data.cedula)
-                // console.log(cliente[0])
-                // let parametro = {
-                //   cliente: data,
-                //   formCreate: false
-                // }
-  
-                this.sendDataContactClient(data)
-              } else if (result.dismiss === Swal.DismissReason.cancel) {
-                EventBtnClick.setMiVariable(true);
-              }
-            });
+            //     this.sendDataContactClient(data)
+            //   } else if (result.dismiss === Swal.DismissReason.cancel) {
+            //     EventBtnClick.setMiVariable(true);
+            //   }
+            // });
           }
         })
 

@@ -48,7 +48,7 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione El producto *
+              Seleccione El producto 
             </label>
             <input type="text" formControlName="producto" class="form-control form-input"
               placeholder="Seleccione el producto" [(ngModel)]="Producto.descripcion" readonly>
@@ -67,7 +67,7 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione El proveedor *
+              Seleccione El proveedor 
             </label>
             <input type="text" formControlName="proveedor" class="form-control form-input"
               placeholder="Seleccione el proveedor" [(ngModel)]="Proveedor.nombre" readonly>
@@ -86,7 +86,7 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione la bodega *
+              Seleccione la bodega 
             </label>
             <input type="text" formControlName="bodega" class="form-control form-input"
               placeholder="Seleccione la bodega" [(ngModel)]="Bodega.nombre" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
@@ -117,7 +117,7 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Cantidad de productos *
+            Cantidad de productos 
           </label>
           <input type="number" formControlName="cantidad" class="form-control form-input"
             placeholder="Ingrese la cantidad del producto" [(ngModel)]="ProveedorProducto.cantidad">
@@ -131,7 +131,7 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Costo por todo el producto *
+            Costo por todo el producto 
           </label>
           <input type="number" formControlName="costo" class="form-control form-input"
             placeholder="Ingrese el costo del producto" [(ngModel)]="ProveedorProducto.costo">
@@ -199,14 +199,14 @@
           <i class="fa-solid fa-address-card form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('producto').valid || (formGetDataCreate('producto').pristine)">
-            El campo no puede estar vacio
+            El campo no puede estar vacío
           </div>
         </div>
 
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Bodega *
+              Bodega 
             </label>
             <input type="text" formControlName="bodega" class="form-control form-input"
               placeholder="Seleccione la bodega" [(ngModel)]="Bodega.nombre" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
@@ -223,7 +223,7 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Cantidad de productos *
+            Cantidad de productos 
           </label>
           <input type="number" formControlName="cantidad" class="form-control form-input"
             placeholder="Ingrese la cantidad del producto" [(ngModel)]="ProveedorProducto.cantidad">
@@ -231,13 +231,13 @@
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('cantidad').valid || (formGetDataCreate('cantidad').pristine)">
-            El campo no puede estar vacio
+            El campo no puede estar vacío
           </div>
         </div>
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Costo por todo el producto *
+            Costo por todo el producto 
           </label>
           <input type="number" formControlName="costo" class="form-control form-input"
             placeholder="Ingrese el costo del producto" [(ngModel)]="ProveedorProducto.costo">

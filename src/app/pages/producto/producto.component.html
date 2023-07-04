@@ -32,14 +32,14 @@
     <div class="card-body">
       <div class="container-header">
         <h1 class="title">
-          Agregar informacion del nuevo producto
+          Agregar información del nuevo producto
         </h1>
       </div>
       <form [formGroup]="formCreateData">
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione la bodega *
+              Seleccione la bodega 
             </label>
             <input type="text" formControlName="bodega" class="form-control form-input"
               placeholder="Seleccione la bodega" [(ngModel)]="Bodega.nombre" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
@@ -58,7 +58,7 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione El proveedor *
+              Seleccione el proveedor 
             </label>
             <input type="text" formControlName="proveedor" class="form-control form-input"
               placeholder="Seleccione el proveedor" [(ngModel)]="Proveedor.nombre" readonly>
@@ -77,10 +77,10 @@
         
         <div class="mb-2" #input>
           <label class="form-label">
-            Fecha de obtencion del producto
+            Fecha de obtención del producto
           </label>
           <input type="text" formControlName="fechaObtencion" class="form-control form-input"
-            placeholder="Fecha de obtencion" [(ngModel)]="FechaObtencion.fechaObtencion" readonly>
+            placeholder="Fecha de obtención" [(ngModel)]="FechaObtencion.fechaObtencion" readonly>
           <i class="fa-solid fa-calendar-days form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('fechaObtencion').valid || (formGetDataCreate('fechaObtencion').pristine)">
@@ -90,7 +90,7 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Nombre del producto *
+            Nombre del producto 
           </label>
           <input type="text" formControlName="nombreProducto" class="form-control form-input"
             placeholder="Ingrese el nombre del producto" [(ngModel)]="NombreProducto.nombreProducto" [matAutocomplete]="autoNombre">
@@ -109,7 +109,7 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Marca del producto *
+            Marca del producto 
           </label>
           <input type="text" formControlName="marca" class="form-control form-input"
             placeholder="Ingrese la marca del producto" [(ngModel)]="Marca.marca" [matAutocomplete]="autoMarca">
@@ -128,14 +128,14 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Ingrese la descripción del producto *
+            Ingrese la descripción del producto 
           </label>
           <input type="text" formControlName="descripcion" class="form-control form-input"
             placeholder="Ingrese la descripcion del producto" [(ngModel)]="Producto.descripcion">
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('descripcion').valid || (formGetDataCreate('descripcion').pristine)">
-            Ingrese la descripción del descripcion
+            Ingrese la descripción del producto
           </div>
         </div>
 
@@ -149,13 +149,13 @@
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('cantidad').valid || (formGetDataCreate('cantidad').pristine)">
-            Estado Producto
+            Estado del producto
           </div>
         </div>
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Ingrese el costo del producto *
+            Ingrese el costo del producto 
           </label>
           <input type="number" formControlName="costo" class="form-control form-input"
             placeholder="Ingrese el costo por todo el producto" [(ngModel)]="ProveedorProducto.costo">
@@ -169,7 +169,7 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Ingrese el precio del producto *
+            Ingrese el precio del producto 
           </label>
           <input type="number" formControlName="precio" class="form-control form-input"
             placeholder="Ingrese el precio del producto" [(ngModel)]="Producto.precioActual">
@@ -205,7 +205,7 @@
     <div class="card-body">
       <div class="container-header">
         <h1 class="title">
-          Actualizar informacion del producto
+          Actualizar información del producto
         </h1>
         <button mat-fab extended class="btnUpdate btn-danger" (click)="cancelFormUpdate()">
           Cerrar
@@ -215,7 +215,7 @@
       <form [formGroup]="formUpdateData">
         <div class="mb-2" #input>
           <label class="form-label">
-            Nombre del producto *
+            Nombre del producto 
           </label>
           <input type="text" formControlName="nombreProducto" class="form-control form-input"
             placeholder="Ingrese el nombre del producto" [(ngModel)]="NombreProducto.nombreProducto" [matAutocomplete]="autoNombre">
@@ -234,7 +234,7 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Marca del producto *
+            Marca del producto 
           </label>
           <input type="text" formControlName="marca" class="form-control form-input"
             placeholder="Ingrese la marca del producto" [(ngModel)]="Marca.marca" [matAutocomplete]="autoMarca">
@@ -252,20 +252,20 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Ingrese la descripción del producto *
+            Ingrese la descripción del producto 
           </label>
           <input type="text" formControlName="descripcion" class="form-control form-input"
-            placeholder="Ingrese la descripcion del producto" [(ngModel)]="Producto.descripcion">
+            placeholder="Ingrese la descripción del producto" [(ngModel)]="Producto.descripcion">
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('descripcion').valid || (formGetDataCreate('descripcion').pristine)">
-            Ingrese la descripción del descripcion
+            Ingrese la descripción del producto
           </div>
         </div>
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Ingrese el precio del producto *
+            Ingrese el precio del producto 
           </label>
           <input type="number" formControlName="precio" class="form-control form-input"
             placeholder="Ingrese el precio del producto" [(ngModel)]="Producto.precioActual">
@@ -278,7 +278,7 @@
 
         <div class="mb-2">
           <mat-label class="form-label">
-            Ingrese el estado del producto *
+            Ingrese el estado del producto 
           </mat-label>
           <mat-select formControlName="estado" class="form-control form-control-lg" matNativeControl
             [(ngModel)]="Producto.estadoProducto">

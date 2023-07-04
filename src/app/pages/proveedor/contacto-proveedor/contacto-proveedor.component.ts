@@ -236,7 +236,7 @@ export class ContactoProveedorComponent {
             label:'Telefonos',
             type:'text',
             placeholder:'Teléfono 1',
-            alert:'El telefono no puede estar vacío',
+            alert:'El teléfono no puede estar vacío',
             icon:'fa-solid fa-mobile-screen',
             formControlName:'telefono1',
             formValidators:{'telefono1':[data.telefono[0], [Validators.required, Validators.minLength(8), Validators.maxLength(8)]] },
@@ -250,7 +250,7 @@ export class ContactoProveedorComponent {
               label:'',
               type:'text',
               placeholder:'Teléfono 2',
-              alert:'El telefono no puede estar vacío',
+              alert:'El teléfono no puede estar vacío',
               icon:'fa-solid fa-mobile-screen',
               formControlName:'telefono2',
               formValidators:{'telefono2':[data.telefono[1], [Validators.required, Validators.minLength(8), Validators.maxLength(8)]] },
@@ -265,7 +265,7 @@ export class ContactoProveedorComponent {
           {
             label:'Correos',
             type:'email',
-            placeholder:'correo 1',
+            placeholder:'Correo 1',
             alert:'El correo no puede estar vacío',
             icon:'fa-regular fa-envelope',
             formControlName:'correo1',
@@ -279,7 +279,7 @@ export class ContactoProveedorComponent {
             {
               label:'',
               type:'email',
-              placeholder:'correo 2',
+              placeholder:'Correo 2',
               alert:'El correo no puede estar vacío',
               icon:'fa-regular fa-envelope',
               formControlName:'correo2',
@@ -348,7 +348,7 @@ export class ContactoProveedorComponent {
         if (success) {
           Swal.fire(
             'Exito!',
-            'Los datos an sido actualizado con éxito',
+            'Los datos han sido actualizado con éxito',
             'success'
           )
           console.log(proveedor);
@@ -376,7 +376,7 @@ export class ContactoProveedorComponent {
           if (success) {
             Swal.fire(
               'Exito!',
-              'El contacto a sido actualizado con éxito',
+              'El contacto ha sido actualizado con éxito',
               'success'
             )
             console.log(data.telefono1);
@@ -405,7 +405,7 @@ export class ContactoProveedorComponent {
           if (success) {
             Swal.fire(
               'Exito!',
-              'El contacto a sido actualizado con éxito',
+              'El contacto ha sido actualizado con éxito',
               'success'
             )
             console.log(data.telefono2);
@@ -433,7 +433,7 @@ export class ContactoProveedorComponent {
           if (success) {
             Swal.fire(
               'Exito!',
-              'El contacto a sido actualizado con éxito',
+              'El contacto ha sido actualizado con éxito',
               'success'
             )
           } else {
@@ -459,7 +459,7 @@ export class ContactoProveedorComponent {
           if (success) {
             Swal.fire(
               'Exito!',
-              'El contacto a sido actualizado con éxito',
+              'El contacto ha sido actualizado con éxito',
               'success'
             )
             console.log(data.correo2);
@@ -546,7 +546,7 @@ export class ContactoProveedorComponent {
   loadConfirmationDataCreateTelefono() {
     Swal.fire({
       title: 'Confirmar',
-      text: 'Desea agregar el contacto al empleado?',
+      text: '¿Desea agregar el contacto al proveedor?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
@@ -576,7 +576,7 @@ export class ContactoProveedorComponent {
       if (success) {
         Swal.fire(
           'Exito!',
-          'El contacto a sido agregado con éxito',
+          'El contacto ha sido agregado con éxito',
           'success'
         )
         this.formCreateTelefono.reset()
@@ -596,7 +596,7 @@ export class ContactoProveedorComponent {
   loadConfirmationDataCreateCorreo() {
     Swal.fire({
       title: 'Confirmar',
-      text: 'Desea agregar el contacto al empleado?',
+      text: '¿Desea agregar el contacto al proveedor?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
@@ -626,7 +626,7 @@ export class ContactoProveedorComponent {
       if (success) {
         Swal.fire(
           'Exito!',
-          'El contacto a sido agregado con éxito',
+          'El contacto ha sido agregado con éxito',
           'success'
         )
         this.formCreateCorreo.reset()

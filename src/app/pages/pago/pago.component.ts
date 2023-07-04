@@ -274,7 +274,7 @@ export class PagoComponent {
   loadConfirmationDataCreate() {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea guardar la informacion?',
+      text: '¿Estás seguro que desea guardar la información?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
@@ -370,7 +370,7 @@ export class PagoComponent {
                 if (success) {
                   Swal.fire(
                     'Exito!',
-                    'La informacion a sido actualizado con exito',
+                    'La información ha sido actualizado con exito',
                     'success'
                   )
                   this.resetData()
@@ -436,7 +436,7 @@ export class PagoComponent {
             if (success) {
               Swal.fire(
                 'Exito!',
-                'La informacion a sido actualizado con exito',
+                'La información ha sido actualizado con exito',
                 'success'
               )
               this.resetData()
@@ -533,7 +533,7 @@ export class PagoComponent {
           Swal.fire({
             icon: 'error',
             title: 'Ups...',
-            text: 'Lo siento, ya no se puede actualizar el pago ya paso mas de un dia!',
+            text: 'Lo siento, ya no se puede actualizar el pago ya paso más de un día!',
           })
         } else {
           this.Factura = { ...factura }
@@ -599,7 +599,7 @@ export class PagoComponent {
 
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea actualizar la informacion?',
+      text: '¿Estás seguro que desea actualizar la información?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Actualizar',
@@ -677,7 +677,7 @@ export class PagoComponent {
           if (success) {
             Swal.fire(
               'Exito!',
-              'La informacion a sido actualizado con exito',
+              'La información ha sido actualizado con exito',
               'success'
             )
             this.resetData()
@@ -736,8 +736,4 @@ export class PagoComponent {
     this.matDialogRef.afterClosed().subscribe((res) => {
     });
   }
-
-
-
-
 }

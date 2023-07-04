@@ -393,7 +393,7 @@ export class ExamenVistaComponent {
   loadConfirmationDataUpdate() {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea guardar la informacion?',
+      text: '¿Estás seguro que desea guardar la información?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
@@ -455,7 +455,7 @@ export class ExamenVistaComponent {
       if (success) {
         Swal.fire(
           'Exito!',
-          'La informacion a sido actualizado con exito',
+          'La información ha sido actualizado con exito',
           'success'
         )
         this.setResetData()
@@ -571,7 +571,7 @@ export class ExamenVistaComponent {
   loadConfirmationDataCreate() {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea guardar la informacion?',
+      text: '¿Estás seguro que desea guardar la información?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
@@ -630,7 +630,7 @@ export class ExamenVistaComponent {
               if (success) {
                 Swal.fire(
                   'Exito!',
-                  'La informacion a sido actualizado con exito',
+                  'La información ha sido actualizado con exito',
                   'success'
                 )
 
@@ -714,7 +714,7 @@ export class ExamenVistaComponent {
                   if (success) {
                     Swal.fire(
                       'Exito!',
-                      'La informacion a sido actualizado con exito',
+                      'La información ha sido actualizado con exito',
                       'success'
                     )
 
@@ -801,7 +801,7 @@ export class ExamenVistaComponent {
           if (success) {
             Swal.fire(
               'Exito!',
-              'La informacion a sido actualizado con exito',
+              'La información ha sido actualizado con exito',
               'success'
             )
   
@@ -886,7 +886,7 @@ export class ExamenVistaComponent {
               if (success) {
                 Swal.fire(
                   'Exito!',
-                  'La informacion a sido actualizado con exito',
+                  'La información ha sido actualizado con exito',
                   'success'
                 )
   

@@ -33,7 +33,7 @@
             <label class="form-label">
               Bodega
             </label>
-            <input type="text" formControlName="bodega" class="form-control form-input" placeholder="Bodega selccionada"
+            <input type="text" formControlName="bodega" class="form-control form-input" placeholder="Bodega seleccionada"
               [(ngModel)]="Bodega.nombre" readonly>
             <i class="fa-solid fa-store form-input-icon"></i>
             <div class="alert alert-danger mt-1"
@@ -64,7 +64,7 @@
             <i class="fa-solid fa-arrow-up-short-wide form-input-icon"></i>
             <div class="alert alert-danger mt-1"
               [hidden]="formGetDataUpdate('cantidad').valid || (formGetDataUpdate('cantidad').pristine)">
-              La cantidad de producto no puede estar vacio
+              La cantidad de producto no puede estar vacío
             </div>
           </div>
         </div>

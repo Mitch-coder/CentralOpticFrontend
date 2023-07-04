@@ -281,7 +281,7 @@ export class RegistroBodegaComponent {
         if(result==0){
           Swal.fire({
             title: 'Confirmar',
-            text: 'La accion dejara sin productos la '+this.Bodega.nombre+'¿Desea proseguir con la accion?',
+            text: 'La acción dejara sin productos la '+this.Bodega.nombre+'¿Desea proseguir con la acción?',
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Aceptar',
@@ -293,7 +293,7 @@ export class RegistroBodegaComponent {
             } else if (result.dismiss === Swal.DismissReason.cancel) {
               Swal.fire(
                 'Cancelado',
-                'Los datos siguen asalvo:)',
+                'Los datos siguen a salvo:)',
                 'error'
               )
             }
@@ -319,7 +319,7 @@ export class RegistroBodegaComponent {
             } else if (result.dismiss === Swal.DismissReason.cancel) {
               Swal.fire(
                 'Cancelado',
-                'Los datos siguen asalvo:)',
+                'Los datos siguen a salvo:)',
                 'error'
               )
             }
@@ -351,7 +351,7 @@ export class RegistroBodegaComponent {
           } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire(
               'Cancelado',
-              'Los datos siguen asalvo:)',
+              'Los datos siguen a salvo:)',
               'error'
             )
           }
@@ -370,7 +370,7 @@ export class RegistroBodegaComponent {
         if (success) {
           Swal.fire({
             title: 'Exito!',
-            text: 'La informacion a sido guardada',
+            text: 'La información ha sido guardada',
             icon: 'success',
             confirmButtonText: 'OK!',
           })
@@ -395,7 +395,7 @@ export class RegistroBodegaComponent {
         if (success) {
           Swal.fire({
             title: 'Exito!',
-            text: 'La informacion a sido guardada',
+            text: 'La información ha sido guardada',
             icon: 'success',
             confirmButtonText: 'OK!',
           })
@@ -416,7 +416,7 @@ export class RegistroBodegaComponent {
       if (success) {
         Swal.fire({
           title: 'Exito!',
-          text: 'La informacion a sido guardada',
+          text: 'La información ha sido guardada',
           icon: 'success',
           confirmButtonText: 'OK!',
         })
@@ -441,7 +441,7 @@ export class RegistroBodegaComponent {
       if (success) {
         Swal.fire({
           title: 'Exito!',
-          text: 'La informacion a sido guardada',
+          text: 'La información ha sido guardada',
           icon: 'success',
           confirmButtonText: 'OK!',
         })

@@ -9,6 +9,7 @@ import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import { CookieService } from 'ngx-cookie-service';
+import { NavigationExtras, Router } from '@angular/router';
 
 interface ProductBarras {
   title: string;
@@ -78,7 +79,7 @@ export class DashboardComponent {
 
   Nombre: string = "";
 
-  constructor(private dataService: MyDataServices, private cookieService: CookieService) { }
+  constructor(private dataService: MyDataServices, private cookieService: CookieService, private router:Router) { }
 
   ngOnInit(): void {
     this.dataService
@@ -105,7 +106,13 @@ export class DashboardComponent {
   }
 
   OnclickLogout() {
-    this.cookieService.delete('token');
+    //console.log(this.cookieService.get('token'));
+    const navigationExtras: NavigationExtras = {
+      state: {
+        objeto: true
+      }
+    };
+    this.router.navigate(['login'],navigationExtras);
   }
 
   scrollToSection(sectionId: string) {

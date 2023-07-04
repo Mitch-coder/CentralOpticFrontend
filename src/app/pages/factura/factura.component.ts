@@ -372,11 +372,11 @@ export class FacturaComponent {
             fechaFactura: formatoFecha,
             empleado: empleado?.nombres + ' ' + empleado?.apellidos,
             cliente: cliente?.nombres + ' ' + cliente?.apellidos,
-            subTotal: subTotal,
-            impuesto: element.impuestos,
-            descuento: element.descuento,
-            total: (subTotal - (element.descuento * subTotal))
-              + (subTotal * element.impuestos)
+            subTotal: subTotal.toFixed(2),
+            impuesto: element.impuestos.toFixed(2),
+            descuento: element.descuento.toFixed(2),
+            total: ((subTotal - (element.descuento * subTotal))
+              + (subTotal * element.impuestos)).toFixed(2)
           }
 
         })
@@ -450,7 +450,7 @@ export class FacturaComponent {
             marca: marca?.marca,
             nombre: nombreProducto?.nombreProducto,
             descripcion: producto?.descripcion,
-            precioActual: producto?.precioActual,
+            precioActual: producto?.precioActual.toFixed(2),
             estadoProducto: producto?.estadoProducto ? 'Activo' : 'Inactivo'
           })
 
@@ -469,7 +469,7 @@ export class FacturaComponent {
             fechaPedido: formatoFecha,
             codProducto: ordenPedido?.codProducto,
             descripcion: ordenPedido?.descripcion,
-            costo: ordenPedido?.costo
+            costo: ordenPedido?.costo.toFixed(2)
           })
 
           this.detalleFacturaItems = this.detalleFacturaItems.filter(e => e.numOrden !== ordenPedido?.numOrden)
@@ -562,7 +562,7 @@ export class FacturaComponent {
         marca: marca?.marca,
         nombre: nombreProducto?.nombreProducto,
         descripcion: element.descripcion,
-        precioActual: element.precioActual,
+        precioActual: element.precioActual.toFixed(2),
         estadoProducto: element.estadoProducto ? 'Activo' : 'Inactivo'
       }
     })
@@ -586,7 +586,7 @@ export class FacturaComponent {
               codProducto: producto.codProducto,
               descripcion: producto.descripcion,
               cantidad: 1,
-              precioUni: producto.precioActual,
+              precioUni: producto.precioActual.toFixed(2),
               numOrden: -1
             }
           )
@@ -615,10 +615,10 @@ export class FacturaComponent {
 
   Calcular(){
 
-    this.Subtotal = this.detalleFacturaItems.reduce((acumulador, objeto) => acumulador + (objeto.cantidad * objeto.precioUni), 0)
+    this.Subtotal = (this.detalleFacturaItems.reduce((acumulador, objeto) => acumulador + (objeto.cantidad * objeto.precioUni), 0))
 
     this.Total = this.Subtotal + (this.Subtotal * this.Factura.impuestos) - (this.Subtotal * this.Factura.descuento) 
-  
+    this.Total
   }
   // orden pedido
 

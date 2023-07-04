@@ -53,10 +53,10 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Fecha del Examen
+            Fecha del examen
           </label>
           <input type="text" formControlName="fechaExamen" class="form-control form-input"
-            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="FechaExamen.fechaExamen" readonly>
+            placeholder="Ingrese la fecha del examen" [(ngModel)]="FechaExamen.fechaExamen" readonly>
           <i class="fa-solid fa-calendar-days form-input-icon"></i>
           <div class="alert 1alert-danger mt-1"
             [hidden]="formGetDataUpdate('fechaExamen').valid || (formGetDataUpdate('fechaExamen').pristine)">
@@ -95,7 +95,7 @@
             Descripción del lente izquierdo
           </label>
           <input type="text" formControlName="descLenteIzq" class="form-control form-input"
-            placeholder="Ingrese la descripcion del lente izquierdo" [(ngModel)]="ExamenVista.descripLenteIzq">
+            placeholder="Ingrese la descripción del lente izquierdo" [(ngModel)]="ExamenVista.descripLenteIzq">
           <i class="fa-solid fa-glasses form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataUpdate('descLenteIzq').valid || (formGetDataUpdate('descLenteIzq').pristine)">
@@ -108,7 +108,7 @@
             Descripción del lente derecho
           </label>
           <input type="text" formControlName="descLenteDer" class="form-control form-input"
-            placeholder="Ingrese la descripcion del lente derecho" [(ngModel)]="ExamenVista.descripLenteDer">
+            placeholder="Ingrese la descripción del lente derecho" [(ngModel)]="ExamenVista.descripLenteDer">
           <i class="fa-solid fa-glasses form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataUpdate('descLenteDer').valid || (formGetDataUpdate('descLenteDer').pristine)">
@@ -171,10 +171,10 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Fecha del Examen
+            Fecha del examen
           </label>
           <input type="text" formControlName="fechaExamen" class="form-control form-input"
-            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="FechaExamen.fechaExamen" readonly>
+            placeholder="Ingrese la fecha del examen" [(ngModel)]="FechaExamen.fechaExamen" readonly>
           <i class="fa-solid fa-calendar-days form-input-icon"></i>
           <div class="alert 1alert-danger mt-1"
             [hidden]="formGetDataCreate('fechaExamen').valid || (formGetDataCreate('fechaExamen').pristine)">
@@ -213,7 +213,7 @@
             Descripción del lente izquierdo
           </label>
           <input type="text" formControlName="descLenteIzq" class="form-control form-input"
-            placeholder="Ingrese la descripcion del lente izquierdo" [(ngModel)]="ExamenVista.descripLenteIzq">
+            placeholder="Ingrese la descripción del lente izquierdo" [(ngModel)]="ExamenVista.descripLenteIzq">
           <i class="fa-solid fa-glasses form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('descLenteIzq').valid || (formGetDataCreate('descLenteIzq').pristine)">
@@ -226,7 +226,7 @@
             Descripción del lente derecho
           </label>
           <input type="text" formControlName="descLenteDer" class="form-control form-input"
-            placeholder="Ingrese la descripcion del lente derecho" [(ngModel)]="ExamenVista.descripLenteDer">
+            placeholder="Ingrese la descripción del lente derecho" [(ngModel)]="ExamenVista.descripLenteDer">
           <i class="fa-solid fa-glasses form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('descLenteDer').valid || (formGetDataCreate('descLenteDer').pristine)">

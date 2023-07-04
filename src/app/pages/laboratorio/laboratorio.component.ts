@@ -33,8 +33,8 @@ export class LaboratorioComponent {
   formCreate: FormData[] = [{
     label: 'Nombre',
     type: 'text',
-    placeholder: 'Ingrese el nombre del Laboratorio',
-    alert: 'El nombre del Laboratorio es obligatorio',
+    placeholder: 'Ingrese el nombre del laboratorio',
+    alert: 'El nombre del laboratorio es obligatorio',
     icon: '',
     formControlName: 'nombre',
     formValidators: { 'nombre': ['', [Validators.required]] }
@@ -42,8 +42,8 @@ export class LaboratorioComponent {
   {
     label: 'Dirección',
     type: 'text',
-    placeholder: 'Ingrese la dirección del Laboratorio',
-    alert: 'La dirección del Laboratorio es obligatorio',
+    placeholder: 'Ingrese la dirección del laboratorio',
+    alert: 'La dirección del laboratorio es obligatorio',
     icon: 'fa-solid fa-map-location-dot',
     formControlName: 'direccion',
     formValidators: { 'direccion': ['', [Validators.required]] }
@@ -51,8 +51,8 @@ export class LaboratorioComponent {
   {
     label: 'Correo',
     type: 'email',
-    placeholder: 'Ingrese el correo del Laboratorio',
-    alert: 'El correo del Laboratorio es obligatorio',
+    placeholder: 'Ingrese el correo del laboratorio',
+    alert: 'El correo del laboratorio es obligatorio',
     icon: 'fa-regular fa-envelope',
     formControlName: 'correo',
     formValidators: { 'correo': ['', [Validators.nullValidator, Validators.email]] }
@@ -60,8 +60,8 @@ export class LaboratorioComponent {
   {
     label: 'Telefono',
     type: 'tel',
-    placeholder: 'Ingrese el teléfono del Laboratorio',
-    alert: 'El teléfono del Laboratorio es obligatorio',
+    placeholder: 'Ingrese el teléfono del laboratorio',
+    alert: 'El teléfono del laboratorio es obligatorio',
     icon: 'fa-solid fa-mobile-screen',
     formControlName: 'telefono',
     formValidators: { 'telefono': ['', [Validators.nullValidator, Validators.maxLength(8), Validators.minLength(8)]] }
@@ -113,7 +113,7 @@ export class LaboratorioComponent {
     // console.log()
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea eliminar el cliente?',
+      text: '¿Estás seguro que desea eliminar el laboratorio?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Eliminar',
@@ -138,7 +138,7 @@ export class LaboratorioComponent {
       if(success){
         Swal.fire({
           title: 'Exito!',
-          text: 'El cliente fue eliminado',
+          text: 'El laboratorio fue eliminado',
           icon: 'success',
           confirmButtonText: 'OK!',
         })
@@ -146,7 +146,7 @@ export class LaboratorioComponent {
       }else{
         Swal.fire(
           'Eliminado!',
-          'El cliente no puede ser eliminado',
+          'El laboratorio no puede ser eliminado, ya que tiene registro a su nombre',
           'error'
         )
       }
@@ -161,8 +161,8 @@ export class LaboratorioComponent {
       this.formUpdate = [{
         label: 'Nombre',
         type: 'text',
-        placeholder: 'Ingrese el nombre del Laboratorio',
-        alert: 'El nombre del Laboratorio es obligatorio',
+        placeholder: 'Ingrese el nombre del laboratorio',
+        alert: 'El nombre del laboratorio es obligatorio',
         icon: '',
         formControlName: 'nombre',
         formValidators: { 'nombre': [data.nombre, [Validators.required]] },
@@ -171,8 +171,8 @@ export class LaboratorioComponent {
       {
         label: 'Dirección',
         type: 'text',
-        placeholder: 'Ingrese la dirección del Laboratorio ',
-        alert: 'La dirección del Laboratorio es obligatorio',
+        placeholder: 'Ingrese la dirección del laboratorio ',
+        alert: 'La dirección del laboratorio es obligatorio',
         icon: 'fa-solid fa-map-location-dot',
         formControlName: 'direccion',
         formValidators: { 'direccion': [data.direccion, [Validators.required]] },
@@ -181,8 +181,8 @@ export class LaboratorioComponent {
       {
         label: 'Correo',
         type: 'email',
-        placeholder: 'Ingrese el correo del Laboratorio',
-        alert: 'El correo del Laboratorio no es valido',
+        placeholder: 'Ingrese el correo del laboratorio',
+        alert: 'El correo del laboratorio no es valido',
         icon: 'fa-regular fa-envelope',
         formControlName: 'correo',
         formValidators: { 'correo': [data.correo, [Validators.nullValidator, Validators.email]] },
@@ -191,8 +191,8 @@ export class LaboratorioComponent {
       {
         label: 'Teléfono',
         type: 'tel',
-        placeholder: 'Ingrese el telefono del Laboratorio',
-        alert: 'El telefono del Laboratorio no es valido',
+        placeholder: 'Ingrese el teléfono del laboratorio',
+        alert: 'El teléfono del laboratorio no es valido',
         icon: 'fa-solid fa-mobile-screen',
         formControlName: 'telefono',
         formValidators: { 'telefono': [data.telefono, [Validators.nullValidator, Validators.maxLength(8), Validators.minLength(8)]] },
@@ -238,7 +238,7 @@ export class LaboratorioComponent {
       if(success){
         Swal.fire(
           'Exito!',
-          'La información a sido actualizado con exito',
+          'La información ha sido actualizado con exito',
           'success'
         )
         this.dataUpdate = undefined
@@ -315,7 +315,7 @@ export class LaboratorioComponent {
       if(success){
         Swal.fire(
           'Exito!',
-          'La información a sido actualizado con exito',
+          'La información ha sido actualizado con exito',
           'success'
         )
         // this.dataUpdate = undefined

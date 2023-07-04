@@ -3,7 +3,7 @@
         <div class="example-content">
             <section *ngIf="getEventBtnClickHeader()">
                 <section *ngIf="!dataUpdate">
-                    <h1>Lista de factura actuales</h1>
+                    <h1>Lista de factura</h1>
                     <app-table [data]="myData$" [columns]="tableColumns" (selectItemsCell)="setDataUpdate($event)"
                         [buttonShowInfo]="true" (selectItemsCellInfo)="setInfoData($event,info)"></app-table>
                 </section>
@@ -173,10 +173,10 @@
 
                 <div class="mb-2" #input>
                     <label class="form-label">
-                        Monto a pagar
+                        Monto pagado
                     </label>
                     <input type="number" formControlName="monto" class="form-control form-input"
-                        placeholder="Monto a pagar" [(ngModel)]="Pago.monto">
+                        placeholder="Monto pagado" [(ngModel)]="Pago.monto">
                     <!-- <i class="fa-solid fa-glasses "></i> -->
                     <i class="fa-solid fa-dollar-sign form-input-icon"></i>
                     <!-- <div class="alert alert-danger mt-1"

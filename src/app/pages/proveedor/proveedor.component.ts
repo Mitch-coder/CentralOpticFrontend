@@ -214,7 +214,7 @@ export class ProveedorComponent {
       if (success) {
         Swal.fire({
           title: 'Exito!',
-          text: 'La información a sido guardada',
+          text: 'La información ha sido guardada',
           icon: 'success',
           confirmButtonText: 'OK!',
         })
@@ -293,32 +293,33 @@ export class ProveedorComponent {
       if (success) {
         Swal.fire({
           title: 'Exito!',
-          text: 'La información a sido guardada',
+          text: 'La información ha sido guardada',
           icon: 'success',
           confirmButtonText: 'OK!',
         }).then((result) => {
           if (result.isConfirmed) {
-            this.resetData()
-            Swal.fire({
-              title: 'Confirmar',
-              text: '¿Desea agregar un contacto al nuevo proveedor?',
-              icon: 'question',
-              showCancelButton: true,
-              confirmButtonText: 'Agregar',
-              cancelButtonText: 'Despues',
-              reverseButtons: true
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.sendDataContactClient(proveedor)
-              } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire(
-                  'Cancelado',
-                  'Todo bien :)',
-                  'error'
-                )
-                EventBtnClick.setMiVariable(true);
-              }
-            });
+            this.resetData();
+            EventBtnClick.setMiVariable(true);
+            // Swal.fire({
+            //   title: 'Confirmar',
+            //   text: '¿Desea agregar un contacto al nuevo proveedor?',
+            //   icon: 'question',
+            //   showCancelButton: true,
+            //   confirmButtonText: 'Agregar',
+            //   cancelButtonText: 'Despues',
+            //   reverseButtons: true
+            // }).then((result) => {
+            //   if (result.isConfirmed) {
+            //     this.sendDataContactClient(proveedor)
+            //   } else if (result.dismiss === Swal.DismissReason.cancel) {
+            //     Swal.fire(
+            //       'Cancelado',
+            //       'Todo bien :)',
+            //       'error'
+            //     )
+            //     EventBtnClick.setMiVariable(true);
+            //   }
+            // });
           }
         })
       } else {

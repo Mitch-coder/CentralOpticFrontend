@@ -8,7 +8,7 @@
         </section>
         <section *ngIf="dataUpdate">
           <app-form [BtnName]="'Actualizar'" *ngIf="dataUpdate" [FormD]="formClientUpdate"
-            (formData)="loadDataConfirmationUpdate($event)" [Title]="'Actualizar informacion del cliente'"
+            (formData)="loadDataConfirmationUpdate($event)" [Title]="'Actualizar información del cliente'"
             (btnCancel)="eventCancelFormUpdate($event)" [BtnCancel]="true"></app-form>
         </section>
       </section>

@@ -48,15 +48,15 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione el pedido *
+              Seleccione el pedido 
             </label>
             <input type="text" formControlName="ordenPedido" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden" readonly>
+              placeholder="Seleccione el pedido" [(ngModel)]="OrdenPedido.numOrden" readonly>
             <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataUpdate('ordenPedido').valid || (formGetDataUpdate('ordenPedido').pristine)">
-              Seleccione un cliente
+              Seleccione el pedido
             </div>
           </div>
           <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableUpdateAuxiliar)">
@@ -66,7 +66,7 @@
 
         <div class="mb-2">
           <mat-label class="form-label">
-            Ingrese el estado de la entrega *
+            Ingrese el estado de la entrega 
           </mat-label>
           <mat-select formControlName="estado" class="form-control form-control-lg" matNativeControl
             [(ngModel)]="EstadoEntrega">
@@ -78,10 +78,10 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Ingrese la descripcion de la entrega *
+            Ingrese la descripción de la entrega 
           </label>
           <input type="text" formControlName="descripcion" class="form-control form-input"
-            placeholder="Ingrese la descripcion del producto" [(ngModel)]="Entrega.descripcion">
+            placeholder="Ingrese la descripcion de la entrega " [(ngModel)]="Entrega.descripcion">
           <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <!-- <i class="fa-regular fa-envelope form-input-icon"></i> -->
@@ -126,10 +126,10 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione el pedido *
+              Seleccione el pedido 
             </label>
             <input type="text" formControlName="ordenPedido" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="OrdenPedido.numOrden" readonly>
+              placeholder="Seleccione el pedido " [(ngModel)]="OrdenPedido.numOrden" readonly>
             <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
@@ -180,7 +180,7 @@
 
         <div class="mb-2">
           <mat-label class="form-label">
-            Ingrese el estado del producto *
+            Ingrese el estado de la entrega 
           </mat-label>
           <mat-select formControlName="estado" class="form-control form-control-lg" matNativeControl
             [(ngModel)]="EstadoEntrega">
@@ -192,10 +192,10 @@
 
         <div class="" #input>
           <label class="form-label">
-            Ingrese la descripción de la entrega *
+            Ingrese la descripción de la entrega
           </label>
           <input type="text" formControlName="descripcion" class="form-control form-input"
-            placeholder="Ingrese la descripcion del producto" [(ngModel)]="Entrega.descripcion">
+            placeholder="Ingrese la descripción de la entrega" [(ngModel)]="Entrega.descripcion">
           <!--[(ngModel)]="OjoIzquierdo">-->
           <i class="fa-solid fa-pencil form-input-icon"></i>
           <div class="alert alert-danger mt-1"

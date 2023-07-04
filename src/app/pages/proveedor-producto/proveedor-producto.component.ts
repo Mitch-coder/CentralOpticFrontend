@@ -264,7 +264,7 @@ export class ProveedorProductoComponent {
             descripcion: producto?.descripcion,
             fechaObtencion: formatoFecha,
             cantidad: element.cantidad,
-            costo: element.costo
+            costo: element.costo.toFixed(2)
           }
         })
 
@@ -305,7 +305,7 @@ export class ProveedorProductoComponent {
       { label: 'Proveedor', def: 'proveedor', dataKey: 'proveedor' },
       { label: 'Nombre del Producto', def: 'nombreProducto', dataKey: 'nombreProducto' },
       { label: 'Descripción del Producto', def: 'descripcion', dataKey: 'descripcion' },
-      { label: 'Fecha Obtención', def: 'fechaObtencion', dataKey: 'fechaObtencion' },
+      { label: 'Fecha de Obtención', def: 'fechaObtencion', dataKey: 'fechaObtencion' },
       { label: 'Cantidad', def: 'cantidad', dataKey: 'cantidad' },
       { label: 'Costo', def: 'costo', dataKey: 'costo' }
     ]
@@ -417,7 +417,7 @@ export class ProveedorProductoComponent {
     if (this.Producto.estadoProducto) {
       Swal.fire({
         title: 'Confirmar',
-        text: '¿Está seguro que desea guardar la informacion?',
+        text: '¿Está seguro que desea guardar la información?',
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: 'Guardar',
@@ -489,7 +489,7 @@ export class ProveedorProductoComponent {
             if (success) {
               Swal.fire({
                 title: 'Exito!',
-                text: 'La informacion a sido guardada',
+                text: 'La información ha sido guardada',
                 icon: 'success',
                 confirmButtonText: 'OK!',
               })
@@ -526,7 +526,7 @@ export class ProveedorProductoComponent {
         if (success) {
           Swal.fire({
             title: 'Exito!',
-            text: 'La informacion a sido guardada',
+            text: 'La información ha sido guardada',
             icon: 'success',
             confirmButtonText: 'OK!',
           })
@@ -555,7 +555,7 @@ export class ProveedorProductoComponent {
         if (success) {
           Swal.fire({
             title: 'Exito!',
-            text: 'La informacion a sido guardada',
+            text: 'La información ha sido guardada',
             icon: 'success',
             confirmButtonText: 'OK!',
           })
@@ -579,7 +579,7 @@ export class ProveedorProductoComponent {
         if (success) {
           Swal.fire({
             title: 'Exito!',
-            text: 'La informacion a sido guardada',
+            text: 'La información ha sido guardada',
             icon: 'success',
             confirmButtonText: 'OK!',
           })
@@ -603,7 +603,7 @@ export class ProveedorProductoComponent {
           if (success) {
             Swal.fire({
               title: 'Exito!',
-              text: 'La informacion a sido guardada',
+              text: 'La información ha sido guardada',
               icon: 'success',
               confirmButtonText: 'OK!',
             })
@@ -785,7 +785,7 @@ export class ProveedorProductoComponent {
       // }
       Swal.fire({
         title: 'Confirmar',
-        text: '¿Está seguro que desea actualizar la informacion?',
+        text: '¿Está seguro que desea actualizar la información?',
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: 'Actualizar',
@@ -834,7 +834,7 @@ export class ProveedorProductoComponent {
               if(success){
                 Swal.fire({
                   title: 'Exito!',
-                  text: 'La informacion a sido guardada',
+                  text: 'La información ha sido guardada',
                   icon: 'success',
                   confirmButtonText: 'OK!',
                 })
@@ -858,7 +858,7 @@ export class ProveedorProductoComponent {
       if(success){
         Swal.fire({
           title: 'Exito!',
-          text: 'La informacion a sido guardada',
+          text: 'La información ha sido guardada',
           icon: 'success',
           confirmButtonText: 'OK!',
         })

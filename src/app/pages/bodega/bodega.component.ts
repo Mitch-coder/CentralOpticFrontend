@@ -50,7 +50,7 @@ export class BodegaComponent {
   {
     label: 'Correo',
     type: 'email',
-    placeholder: 'Ingrese el correo de la boodega',
+    placeholder: 'Ingrese el correo de la bodega',
     alert: 'El correo de la bodega no es válido',
     icon: 'fa-regular fa-envelope',
     formControlName: 'correo',
@@ -112,7 +112,7 @@ export class BodegaComponent {
     // console.log()
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea eliminar el cliente?',
+      text: '¿Estás seguro que desea eliminar la bodega?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Eliminar',
@@ -137,7 +137,7 @@ export class BodegaComponent {
       if(success){
         Swal.fire({
           title: 'Exito!',
-          text: 'El cliente fue eliminado',
+          text: 'La bodega fue eliminado',
           icon: 'success',
           confirmButtonText: 'OK!',
         })
@@ -145,7 +145,7 @@ export class BodegaComponent {
       }else{
         Swal.fire(
           'Eliminado!',
-          'El cliente no puede ser eliminado',
+          'La bodega no puede ser eliminado, ya que tiene registro a su nombre',
           'error'
         )
       }
@@ -189,10 +189,10 @@ export class BodegaComponent {
         value:data.correo
       },
       {
-        label: 'Telefono',
+        label: 'Teléfono',
         type: 'text',
-        placeholder: 'Ingrese el telefono de la bodega',
-        alert: 'El telefono de la bodega es obligatorio',
+        placeholder: 'Ingrese el teléfono de la bodega',
+        alert: 'El teléfono de la bodega es obligatorio',
         icon: 'fa-solid fa-mobile-screen',
         formControlName: 'telefono',
         formValidators: { 'telefono': [data.telefono, [Validators.nullValidator,Validators.maxLength(8),Validators.minLength(8)]] },
@@ -204,7 +204,7 @@ export class BodegaComponent {
   loadDataConfirmationUpdate(data: FormGroup){
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que deseas actualizar la informacion de la bodega?',
+      text: '¿Estás seguro que deseas actualizar la información de la bodega?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'actualizar',
@@ -246,7 +246,7 @@ export class BodegaComponent {
 
           Swal.fire({
             title: 'Exito!',
-            text: 'La informacion a sido guardada',
+            text: 'La información a sido guardada',
             icon: 'success',
             confirmButtonText: 'OK!',
           }
@@ -306,7 +306,7 @@ export class BodegaComponent {
       if(success){
         Swal.fire({
           title: 'Exito!',
-          text: 'La informacion a sido guardada',
+          text: 'La información a sido guardada',
           icon: 'success',
           confirmButtonText: 'OK!',
         })

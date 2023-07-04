@@ -91,7 +91,7 @@ export class ContactoClienteComponent implements OnInit {
     if (objeto) {
       this.clienteEmail = objeto
       this.clientePhone = objeto
-
+      
       // console.log(this.clienteEmail)
       // console.log(this.clientePhone)
     }
@@ -339,9 +339,9 @@ export class ContactoClienteComponent implements OnInit {
       if (data.telefono.length !== 0) {
         this.formClientUpdate.push(
           {
-            label: 'Telefonos',
+            label: 'Teléfonos',
             type: 'text',
-            placeholder: 'Telefono 1',
+            placeholder: 'Teléfono 1',
             alert: 'El teléfono no puede estar vacío',
             icon: 'fa-solid fa-mobile-screen',
             formControlName: 'telefono1',
@@ -371,7 +371,7 @@ export class ContactoClienteComponent implements OnInit {
           {
             label: 'Correos',
             type: 'email',
-            placeholder: 'correo 1',
+            placeholder: 'Correo 1',
             alert: 'El correo no puede estar vacío',
             icon: 'fa-regular fa-envelope',
             formControlName: 'correo1',
@@ -385,7 +385,7 @@ export class ContactoClienteComponent implements OnInit {
             {
               label: '',
               type: 'email',
-              placeholder: 'correo 2',
+              placeholder: 'Correo 2',
               alert: 'El correo no puede estar vacío',
               icon: 'fa-regular fa-envelope',
               formControlName: 'correo2',
@@ -759,7 +759,7 @@ export class ContactoClienteComponent implements OnInit {
 
           this.swalWithBootstrapButtons.fire(
             'Exito!',
-            'La información a sido guardada',
+            'La información ha sido guardada',
             'success'
           )
 
@@ -794,7 +794,7 @@ export class ContactoClienteComponent implements OnInit {
     this.valTable = false
     this.swalWithBootstrapButtons.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que deseas guardar el Correo del cliente?',
+      text: '¿Estás seguro que deseas guardar el correo del cliente?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Confirmar',
@@ -835,7 +835,7 @@ export class ContactoClienteComponent implements OnInit {
 
           this.swalWithBootstrapButtons.fire(
             'Exito!',
-            'La información a sido guardada',
+            'La información ha sido guardada',
             'success'
           )
           this.clienteEmail = {
@@ -859,9 +859,7 @@ export class ContactoClienteComponent implements OnInit {
             text: 'Algo salió mal!',
             footer: '<a href="">¿Por qué tengo este problema??</a>'
           })
-
         }
-
       })
   }
 

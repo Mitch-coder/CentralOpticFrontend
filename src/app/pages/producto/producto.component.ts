@@ -523,7 +523,7 @@ export class ProductoComponent {
                 if (success) {
                   Swal.fire(
                     'Exito!',
-                    'La informacion a sido actualizado con exito',
+                    'La información a sido actualizado con exito',
                     'success'
                   )
                   this.resetData();
@@ -588,7 +588,7 @@ export class ProductoComponent {
             if (success) {
               Swal.fire(
                 'Exito!',
-                'La informacion a sido actualizado con exito',
+                'La información a sido actualizado con exito',
                 'success'
               )
               this.resetData();
@@ -690,7 +690,7 @@ export class ProductoComponent {
   loadConfirmationDataUpdate() {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea guardar la informacion?',
+      text: '¿Estás seguro que desea guardar la información?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
@@ -773,7 +773,7 @@ export class ProductoComponent {
       if (success) {
         Swal.fire(
           'Exito!',
-          'La informacion a sido actualizado con exito',
+          'La información a sido actualizado con exito',
           'success'
         )
         this.resetData()

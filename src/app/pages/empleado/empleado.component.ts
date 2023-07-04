@@ -127,7 +127,7 @@ export class EmpleadoComponent {
 
   formCreate: FormData[] = [
     {
-      label: 'Nombre',
+      label: 'Nombres',
       type: 'text',
       placeholder: 'Ingrese el nombre del cliente',
       alert: 'El nombre es obligatorio',
@@ -136,7 +136,7 @@ export class EmpleadoComponent {
       formValidators: { 'nombres': [this.Empleado.nombres, [Validators.required]] }
     },
     {
-      label: 'Apellido',
+      label: 'Apellidos',
       type: 'text',
       placeholder: 'Ingrese el apellido del cliente',
       alert: 'El apellido es obligatorio',
@@ -151,13 +151,13 @@ export class EmpleadoComponent {
       alert: 'La dirección es obligatorio',
       icon: 'fa-solid fa-map-location-dot',
       formControlName: 'direccion',
-      formValidators: { 'direccion': [this.Empleado.direccion,] }
+      formValidators: { 'direccion': [this.Empleado.direccion,[Validators.required]] }
     }]
 
 
   form: FormData[] = [
     {
-      label: 'Nombre',
+      label: 'Nombres',
       type: 'text',
       placeholder: 'Ingrese el nombre del empleado',
       alert: 'El nombre es obligatorio',
@@ -166,7 +166,7 @@ export class EmpleadoComponent {
       formValidators: { 'nombres': [this.Empleado.nombres, [Validators.required]] }
     },
     {
-      label: 'Apellido',
+      label: 'Apellidos',
       type: 'text',
       placeholder: 'Ingrese el apellido del empleado',
       alert: 'El apellido es obligatorio',
@@ -195,7 +195,7 @@ export class EmpleadoComponent {
       }
       this.form = [
         {
-          label: 'Nombre',
+          label: 'Nombres',
           type: 'text',
           placeholder: 'Ingrese el nombre del empleado',
           alert: 'El nombre es obligatorio',
@@ -205,7 +205,7 @@ export class EmpleadoComponent {
           value: this.Empleado.nombres
         },
         {
-          label: 'Apellido',
+          label: 'Apellidos',
           type: 'text',
           placeholder: 'Ingrese el apellido del empleado',
           alert: 'El apellido es obligatorio',
@@ -230,7 +230,7 @@ export class EmpleadoComponent {
   loadConfirmationDataUpdate(form: FormGroup) {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea actualizar la informacion?',
+      text: '¿Estás seguro que desea actualizar la información?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Actualizar',
@@ -262,7 +262,7 @@ export class EmpleadoComponent {
       if (success) {
         Swal.fire({
           title: 'Exito!',
-          text: 'La informacion a sido guardada',
+          text: 'La información ha sido guardada',
           icon: 'success',
           confirmButtonText: 'OK!',
         })
@@ -313,7 +313,7 @@ export class EmpleadoComponent {
     }
     this.form = [
       {
-        label: 'Nombre',
+        label: 'Nombres',
         type: 'text',
         placeholder: 'Ingrese el nombre del empleado',
         alert: 'El nombre es obligatorio',
@@ -323,7 +323,7 @@ export class EmpleadoComponent {
         value: this.Empleado.nombres
       },
       {
-        label: 'Apellido',
+        label: 'Apellidos',
         type: 'text',
         placeholder: 'Ingrese el apellido del empleado',
         alert: 'El apellido es obligatorio',
@@ -357,7 +357,7 @@ export class EmpleadoComponent {
   loadConfirmationDataCreate(form: FormGroup) {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea guardar la informacion?',
+      text: '¿Estás seguro que desea guardar la información?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
@@ -388,32 +388,33 @@ export class EmpleadoComponent {
       if (success) {
         Swal.fire({
           title: 'Exito!',
-          text: 'La informacion a sido guardada',
+          text: 'La información ha sido guardada',
           icon: 'success',
           confirmButtonText: 'OK!',
         }).then((result) => {
           if (result.isConfirmed) {
-            this.resetData()
-            Swal.fire({
-              title: 'Confirmar',
-              text: '¿Desea agregar un contacto al nuevo empleado?',
-              icon: 'question',
-              showCancelButton: true,
-              confirmButtonText: 'Agregar',
-              cancelButtonText: 'Despues',
-              reverseButtons: true
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.sendDataContactClient(this.dataUpdate)
-              } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire(
-                  'Cancelado',
-                  'Todo bien :)',
-                  'error'
-                )
-                EventBtnClick.setMiVariable(true);
-              }
-            });
+            this.resetData();
+            EventBtnClick.setMiVariable(true);
+            // Swal.fire({
+            //   title: 'Confirmar',
+            //   text: '¿Desea agregar un contacto al nuevo empleado?',
+            //   icon: 'question',
+            //   showCancelButton: true,
+            //   confirmButtonText: 'Agregar',
+            //   cancelButtonText: 'Después',
+            //   reverseButtons: true
+            // }).then((result) => {
+            //   if (result.isConfirmed) {
+            //     this.sendDataContactClient(this.dataUpdate)
+            //   } else if (result.dismiss === Swal.DismissReason.cancel) {
+            //     Swal.fire(
+            //       'Cancelado',
+            //       'Todo bien :)',
+            //       'error'
+            //     )
+            //     EventBtnClick.setMiVariable(true);
+            //   }
+            // });
           }
         })
       } else {
@@ -426,7 +427,4 @@ export class EmpleadoComponent {
       }
     })
   }
-
-
-
 }

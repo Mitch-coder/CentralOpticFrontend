@@ -261,7 +261,7 @@ export class OrdenPedidoComponent {
             numOrden: element.numOrden,
             numExamen: element.numExamen,
             descripcion: element.descripcion,
-            costo: element.costo,
+            costo: element.costo.toFixed(2),
             codProducto: element.codProducto,
             // estadopedido:estadopedidoF[0].estadoPedido,
             estadoPedido: estadoPedido,
@@ -469,7 +469,7 @@ export class OrdenPedidoComponent {
         if (success) {
           Swal.fire(
             'Exito!',
-            'El estado del pedido a sido actualizado con exito',
+            'El estado del pedido ha sido actualizado con exito',
             'success'
           )
           this.resetData()
@@ -627,7 +627,7 @@ export class OrdenPedidoComponent {
   loadConfirmationDataCreate() {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea guardar la informacion?',
+      text: '¿Estás seguro que desea guardar la información?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
@@ -701,7 +701,7 @@ export class OrdenPedidoComponent {
             if (success) {
               Swal.fire(
                 'Exito!',
-                'La informacion a sido agregada con exito',
+                'La información ha sido agregada con exito',
                 'success'
               )
               this.resetData();
@@ -751,7 +751,7 @@ export class OrdenPedidoComponent {
         if (success) {
           Swal.fire(
             'Exito!',
-            'La informacion a sido agregada con exito',
+            'La información ha sido agregada con exito',
             'success'
           )
           this.resetData()
@@ -874,7 +874,7 @@ export class OrdenPedidoComponent {
       if (success) {
         Swal.fire(
           'Exito!',
-          'La informacion a sido actualizado con exito',
+          'La información ha sido actualizado con exito',
           'success'
         )
         this.resetData()

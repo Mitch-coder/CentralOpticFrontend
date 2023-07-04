@@ -3,7 +3,7 @@
     <div class="example-content">
       <section [ngClass]="!dataTableValidators?'':'val'" *ngIf="getEventBtnClickHeader() && !dataTableValidators">
         <section>
-          <h1>Lista de Pedidos</h1>
+          <h1>Lista de pedidos</h1>
           <app-table [data]="myData$" [columns]="tableColumns"
             (selectItemsCell)="getDataUpdateDialog($event,formUpdate)"></app-table>
         </section>
@@ -27,7 +27,7 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione el empleado *
+              Seleccione el empleado 
             </label>
             <input type="text" formControlName="empleado" class="form-control form-input"
               placeholder="Seleccione el empleado" [(ngModel)]="Empleado.nombres" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
@@ -45,10 +45,10 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione el examen *
+              Seleccione el examen 
             </label>
             <input type="text" formControlName="examenVista" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="ExamenVista.numExamen" readonly>
+              placeholder="Seleccione el el examen de la vista" [(ngModel)]="ExamenVista.numExamen" readonly>
             <i class="fa-solid fa-eye form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('examenVista').valid || (formGetDataCreate('examenVista').pristine)">
@@ -63,10 +63,10 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione el laboratorio *
+              Seleccione el laboratorio 
             </label>
             <input type="text" formControlName="laboratorio" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="Laboratorio.idLaboratorio" readonly>
+              placeholder="Seleccione el laboratorio" [(ngModel)]="Laboratorio.idLaboratorio" readonly>
             <i class="fa-solid fa-flask-vial form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('laboratorio').valid || (formGetDataCreate('laboratorio').pristine)">
@@ -81,10 +81,10 @@
         <div class="content-select">
           <div class="mb-2 container-select" #input>
             <label class="form-label">
-              Seleccione el producto *
+              Seleccione el producto 
             </label>
             <input type="text" formControlName="producto" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="Producto.codProducto" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione el producto" [(ngModel)]="Producto.codProducto" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-solid fa-box-archive form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('producto').valid || (formGetDataCreate('producto').pristine)">
@@ -124,7 +124,7 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Ingrese el costo del pedido *
+            Ingrese el costo del pedido 
           </label>
           <input type="number" formControlName="costo" class="form-control form-input"
             placeholder="Ingrese el costo del pedido" [(ngModel)]="OrdenPedido.costo">
@@ -137,7 +137,7 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Ingrese la descripción del pedido *
+            Ingrese la descripción del pedido 
           </label>
           <input type="text" formControlName="descripcion" class="form-control form-input"
             placeholder="Ingrese la descripción del pedido" [(ngModel)]="OrdenPedido.descripcion">

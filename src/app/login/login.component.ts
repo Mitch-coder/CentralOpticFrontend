@@ -35,6 +35,16 @@ export class LoginComponent implements OnInit{
 
   ngOnInit() {
     //this.authService.setLoggedIn(false);
+    //console.log(this.cookieService.get('token'));
+    let objeto = history.state.objeto;
+    if(objeto){
+      //while(this.cookieService.get('token')){
+        this.cookieService.deleteAll();
+        //console.log(this.cookieService.get('token'));
+      //}
+      
+    }
+
   }
 
   loginForm: FormGroup = this.fb.group({

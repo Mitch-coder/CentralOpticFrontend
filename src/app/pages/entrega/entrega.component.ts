@@ -437,7 +437,7 @@ export class EntregaComponent {
 
     Swal.fire(
       'Exito!',
-      'La informacion a sido actualizado con exito',
+      'La información ha sido actualizado con exito',
       'success'
     )
     this.init()
@@ -495,7 +495,7 @@ export class EntregaComponent {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelado',
-          'Ninguna accion de aplico sobre los datos :)',
+          'Ninguna acción de aplico sobre los datos :)',
           'error'
         )
       }
@@ -652,7 +652,7 @@ export class EntregaComponent {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelado',
-          'Los datos siguen asalvo:)',
+          'Los datos siguen a salvo:)',
           'error'
         )
       }
@@ -684,7 +684,7 @@ export class EntregaComponent {
           if(success){
             Swal.fire(
               'Exito!',
-              'La informacion a sido actualizado con exito',
+              'La información ha sido actualizado con exito',
               'success'
             )
             this.resetData();

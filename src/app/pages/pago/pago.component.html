@@ -38,11 +38,11 @@
               Número de factura 
             </label>
             <input type="text" formControlName="factura" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="Factura.numFactura" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione la factura" [(ngModel)]="Factura.numFactura" readonly> <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataCreate('factura').valid || (formGetDataCreate('factura').pristine)">
-              El campo no puede estar vacio
+              El campo no puede estar vacío
             </div>
           </div>
           <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableFactura)">
@@ -53,20 +53,20 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Fecha pago
+            Fecha del pago
           </label>
           <input type="text" formControlName="fechaPago" class="form-control form-input"
-            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="FechaPago.fechaPago" readonly >
+            placeholder="Ingrese la fecha del pago" [(ngModel)]="FechaPago.fechaPago" readonly >
           <i class="fa-solid fa-calendar-days form-input-icon"></i>
           <div class="alert 1alert-danger mt-1"
             [hidden]="formGetDataCreate('fechaPago').valid || (formGetDataCreate('fechaPago').pristine)">
-            La Fecha no puede estar vacia
+            La Fecha no puede estar vacía
           </div>
         </div>
 
         <div class="mb-2">
           <mat-label class="form-label">
-            Tipo de pago *
+            Tipo de pago 
           </mat-label>
           <mat-select formControlName="tipoPago" class="form-control form-control-lg" matNativeControl
             [(ngModel)]="TipoPago">
@@ -78,14 +78,14 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Monto a pagar
+            Monto pagado
           </label>
           <input type="text" formControlName="monto" class="form-control form-input"
-            placeholder="Monto a pagar" [(ngModel)]="Pago.monto">
+            placeholder="Monto pagado" [(ngModel)]="Pago.monto">
           <i class="fa-solid fa-glasses form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataCreate('monto').valid || (formGetDataCreate('monto').pristine)">
-            El monto no puede estar vacio
+            El monto no puede estar vacío
           </div>
         </div>
 
@@ -126,11 +126,11 @@
               Número de factura 
             </label>
             <input type="text" formControlName="factura" class="form-control form-input"
-              placeholder="Seleccione el cliente" [(ngModel)]="Factura.numFactura" readonly>  <!--[(ngModel)]="OjoIzquierdo">-->
+              placeholder="Seleccione la factura" [(ngModel)]="Factura.numFactura" readonly>  <!--[(ngModel)]="OjoIzquierdo">-->
             <i class="fa-regular fa-circle-user form-input-icon"></i>
             <div class="alert 1alert-danger mt-1"
               [hidden]="formGetDataUpdate('factura').valid || (formGetDataUpdate('factura').pristine)">
-              El campo no puede estar vacio
+              El campo no puede estar vacío
             </div>
           </div>
           <button mat-fab extended class="btn-add btn-primary" (click)="openDialogWithTemplate(tableFactura)">
@@ -141,14 +141,14 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Fecha pago
+            Fecha del pago
           </label>
           <input type="text" formControlName="fechaPago" class="form-control form-input"
-            placeholder="Ingrese la medida del ojo izquierdo" [(ngModel)]="FechaPago.fechaPago" readonly >
+            placeholder="Ingrese la fecha del pago" [(ngModel)]="FechaPago.fechaPago" readonly >
           <i class="fa-solid fa-calendar-days form-input-icon"></i>
           <div class="alert 1alert-danger mt-1"
             [hidden]="formGetDataUpdate('fechaPago').valid || (formGetDataUpdate('fechaPago').pristine)">
-            La Fecha no puede estar vacia
+            La fecha no puede estar vacía
           </div>
         </div>
 
@@ -166,14 +166,14 @@
 
         <div class="mb-2" #input>
           <label class="form-label">
-            Monto a pagar
+            Monto pagado
           </label>
           <input type="text" formControlName="monto" class="form-control form-input"
-            placeholder="Monto a pagar" [(ngModel)]="Pago.monto">
+            placeholder="Monto pagado" [(ngModel)]="Pago.monto">
           <i class="fa-solid fa-glasses form-input-icon"></i>
           <div class="alert alert-danger mt-1"
             [hidden]="formGetDataUpdate('monto').valid || (formGetDataUpdate('monto').pristine)">
-            El monto no puede estar vacio
+            El monto no puede estar vacío
           </div>
         </div>
 

@@ -7,6 +7,7 @@ import { userItems } from './header-dummy-data';
 import { MatMenuTrigger } from '@angular/material/menu';
 
 import { CdkMenuTrigger } from '@angular/cdk/menu';
+import { NavigationExtras, Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -40,7 +41,7 @@ export class HeaderComponent implements OnInit{
   }
 
 
-  constructor(private headerSearch : HeaderSearch, private cookieService: CookieService){
+  constructor(private headerSearch : HeaderSearch, private cookieService: CookieService, private router: Router){
     
   }
   
@@ -153,7 +154,32 @@ export class HeaderComponent implements OnInit{
   //Cerrar la sesion de la aplicacion
 
   OnclickLogout(){
-    this.cookieService.delete('token'); 
+   
+    //this.cookieService.delete('token');
+    // if(this.cookieService.get('token')){
+    //   console.log(this.cookieService.get('token'));
+    //   this.cookieService.delete('token');
+    //   this.router.navigate(['login']);
+    //   console.log(this.cookieService.get('token'));
+    // }else{
+    //   console.log(this.cookieService.get('token'));
+    //   this.router.navigate(['login']);
+    //   console.log(this.cookieService.get('token'));
+    // }
+    // console.log(this.cookieService.get('token'));
+    // while(this.cookieService.get('token')){
+    //   this.cookieService.delete('token');
+    //   console.log(this.cookieService.get('token'));
+    // }
+
+    const navigationExtras: NavigationExtras = {
+      state: {
+        objeto: true
+      }
+    };
+    
+    this.router.navigate(['login'],navigationExtras);
+     
   }
 
 }
