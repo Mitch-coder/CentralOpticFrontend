@@ -274,7 +274,7 @@ export class ProductoComponent {
             marca: marca?.marca,
             nombre: nombreProducto?.nombreProducto,
             descripcion: element.descripcion,
-            precioActual: element.precioActual,
+            precioActual: element.precioActual.toFixed(2),
             estadoProducto: element.estadoProducto ? 'Activo' : 'Inactivo'
           }
         })

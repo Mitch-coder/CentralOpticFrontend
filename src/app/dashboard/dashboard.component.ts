@@ -40,9 +40,9 @@ export class DashboardComponent {
   NombreClienteMasCompras: any[] = [];
   ClienteMasCompra: any[] = [];
 
-  PromedioFacturaporCliente:number=0;
-  PromedioExamenporCliente:number=0;
-  PromedioProductoporProveedor:number=0;
+  PromedioFacturaporCliente:(number|string)=0;
+  PromedioExamenporCliente:(number|string)=0;
+  PromedioProductoporProveedor:(number|string)=0;
 
   ProductBarrasSelling: ProductBarras = {
     title: "",
@@ -257,7 +257,7 @@ export class DashboardComponent {
         //console.log(Repeticiones);
 
         const sumaRepeticiones = Repeticiones.reduce((acumulador: any, objeto: { repeticiones: any; }) => acumulador + objeto.repeticiones, 0);
-        this.PromedioFacturaporCliente = sumaRepeticiones / Repeticiones.length;
+        this.PromedioFacturaporCliente = (sumaRepeticiones / Repeticiones.length).toFixed(2);
 
         //PromedioFacturaporCliente
         
@@ -321,7 +321,7 @@ export class DashboardComponent {
         //console.log(Repeticiones);
 
         const sumaRepeticiones = Repeticiones.reduce((acumulador: any, objeto: { repeticiones: any; }) => acumulador + objeto.repeticiones, 0);
-        this.PromedioExamenporCliente = sumaRepeticiones / Repeticiones.length;
+        this.PromedioExamenporCliente = (sumaRepeticiones / Repeticiones.length).toFixed(2);
 
         //console.log(this.PromedioExamenporCliente);
 

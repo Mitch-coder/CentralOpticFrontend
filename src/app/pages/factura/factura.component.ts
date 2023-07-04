@@ -788,7 +788,7 @@ export class FacturaComponent {
   loadConfirmationDataCreate() {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea guardar la informacion?',
+      text: '¿Estás seguro que desea guardar la información?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
@@ -801,7 +801,7 @@ export class FacturaComponent {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelado',
-          'Los datos siguen asalvo:)',
+          'Los datos siguen a salvo:)',
           'error'
         )
       }
@@ -1511,7 +1511,7 @@ export class FacturaComponent {
   loadConfirmationDataUpdate() {
     Swal.fire({
       title: 'Confirmar',
-      text: '¿Estás seguro que desea guardar la informacion?',
+      text: '¿Estás seguro que desea guardar la información?',
       icon: 'question',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
@@ -1524,7 +1524,7 @@ export class FacturaComponent {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelado',
-          'Los datos siguen asalvo:)',
+          'Los datos siguen a salvo:)',
           'error'
         )
       }
